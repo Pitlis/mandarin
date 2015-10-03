@@ -1,0 +1,22 @@
+﻿<Window x:Class="ESProject.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ESProject"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="216,243,0,0" VerticalAlignment="Top" Width="75" Click="button_Click">
+            <Button.LayoutTransform>
+                <TransformGroup>
+                    <ScaleTransform CenterX="10"/>
+                    <SkewTransform CenterX="10"/>
+                    <RotateTransform CenterX="10"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.LayoutTransform>
+        </Button>
+
+    </Grid>
+</Window>
