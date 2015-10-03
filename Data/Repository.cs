@@ -15,9 +15,9 @@ namespace Data
             return new List<ClassRoom>();
         }
 
-        public IEnumerable<Couple> GetCouples()
+        public IEnumerable<StudentsClass> GetStudentsClasses()
         {
-            return new List<Couple>();
+            return new List<StudentsClass>();
         }
     }
 }

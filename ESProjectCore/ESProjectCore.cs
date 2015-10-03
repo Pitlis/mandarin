@@ -10,7 +10,7 @@ namespace ESCore
 {
     public class ESProjectCore
     {
-        List<Couple> Couples;
+        List<StudentsClass> Classes;
         List<ClassRoom> ClassRooms;
         List<IFactor> Factors;
 
@@ -21,9 +21,9 @@ namespace ESCore
 
         #endregion
 
-        public ESProjectCore(List<Couple> couples, List<ClassRoom> classRooms, List<IFactor> factors)
+        public ESProjectCore(List<StudentsClass> classes, List<ClassRoom> classRooms, List<IFactor> factors)
         {
-            Couples = couples;
+            Classes = classes;
             ClassRooms = classRooms;
             Factors = factors;
         }

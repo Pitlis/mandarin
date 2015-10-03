@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Model
 {
-    public class Couple
+    public class StudentsClass
     {
     }
 }

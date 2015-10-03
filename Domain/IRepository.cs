@@ -9,7 +9,7 @@ namespace Domain
 {
     public interface IRepository
     {
-        IEnumerable<Couple> GetCouples();
+        IEnumerable<StudentsClass> GetStudentsClasses();
         IEnumerable<ClassRoom> GetClassRooms();
     }
 }

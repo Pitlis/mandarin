@@ -41,7 +41,7 @@ namespace Presentation.Code
 
         public void Start()
         {
-            ESProjectCore core = new ESProjectCore(Repo.GetCouples().ToList(), Repo.GetClassRooms().ToList(), Factors);
+            ESProjectCore core = new ESProjectCore(Repo.GetStudentsClasses().ToList(), Repo.GetClassRooms().ToList(), Factors);
             core.Run();
         }
 

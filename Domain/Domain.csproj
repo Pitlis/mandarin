@@ -44,7 +44,7 @@
     <Compile Include="IRepository.cs" />
     <Compile Include="ISchedule.cs" />
     <Compile Include="Model\ClassRoom.cs" />
-    <Compile Include="Model\Couple.cs" />
+    <Compile Include="Model\StudentsClass.cs" />
     <Compile Include="Model\FullSchedule.cs" />
     <Compile Include="Model\StudentGroup.cs" />
     <Compile Include="Model\Teacher.cs" />
