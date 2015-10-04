@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Services;
 
 namespace FactorsWindows
 {
@@ -11,8 +12,13 @@ namespace FactorsWindows
     {
         int fine;
         bool isBlock;
-        
-        public int GetFine(ISchedule schedule)
+
+        public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
+        {
+            return 0;
+        }
+
+        public int GetFineOfFullSchedule(ISchedule schedule, EntityStorage eStorage)
         {
             return 0;
         }
