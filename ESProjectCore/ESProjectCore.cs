@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain;
 using Domain.Model;
+using Domain.Services;
 
 namespace ESCore
 {
@@ -13,6 +14,7 @@ namespace ESCore
         List<StudentsClass> Classes;
         List<ClassRoom> ClassRooms;
         List<IFactor> Factors;
+        public static EntityStorage EStorage { get; private set; }
 
         #region Options
 
@@ -21,11 +23,12 @@ namespace ESCore
 
         #endregion
 
-        public ESProjectCore(List<StudentsClass> classes, List<ClassRoom> classRooms, List<IFactor> factors)
+        public ESProjectCore(List<StudentsClass> classes, List<ClassRoom> classRooms, EntityStorage storage, List<IFactor> factors)
         {
             Classes = classes;
             ClassRooms = classRooms;
             Factors = factors;
+            EStorage = storage;
         }
 
         public IEnumerable<ISchedule> Run()
