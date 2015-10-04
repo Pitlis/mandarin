@@ -16,6 +16,5 @@ namespace Domain
         //взятые из объекта EntityStorage
         //Новые объекты типов, включенных в EntityStorage, создаваться не должны!
         IEnumerable<StudentsClass> GetStudentsClasses(EntityStorage storage);
-        IEnumerable<ClassRoom> GetClassRooms(EntityStorage storage);
     }
 }

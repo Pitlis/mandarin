@@ -13,12 +13,7 @@ namespace Data
     {
         public EntityStorage GetEntityStorage()
         {
-            return new EntityStorage(new List<ClassRoomType>(), new List<StudentSubGroup>(), new List<Teacher>());
-        }
-
-        public IEnumerable<ClassRoom> GetClassRooms(EntityStorage storage)
-        {
-            return new List<ClassRoom>();
+            return new EntityStorage(new List<ClassRoomType>(), new List<StudentSubGroup>(), new List<Teacher>(), new List<ClassRoom>());
         }
 
         public IEnumerable<StudentsClass> GetStudentsClasses(EntityStorage storage)

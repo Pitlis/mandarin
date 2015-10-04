@@ -12,7 +12,6 @@ namespace ESCore
     public class ESProjectCore
     {
         List<StudentsClass> Classes;
-        List<ClassRoom> ClassRooms;
         List<IFactor> Factors;
         public static EntityStorage EStorage { get; private set; }
 
@@ -23,10 +22,9 @@ namespace ESCore
 
         #endregion
 
-        public ESProjectCore(List<StudentsClass> classes, List<ClassRoom> classRooms, EntityStorage storage, List<IFactor> factors)
+        public ESProjectCore(List<StudentsClass> classes, EntityStorage storage, List<IFactor> factors)
         {
             Classes = classes;
-            ClassRooms = classRooms;
             Factors = factors;
             EStorage = storage;
         }
