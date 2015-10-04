@@ -10,7 +10,7 @@ namespace Domain.Model
     public class Teacher//класс преподавателей
     {
         object ID { get;private set; }
-        string FLSName { public get;private set; }//Фио
+        string FLSName { get;private set; }//Фио
         public Teacher(object ID, string FirstSecondSurName)
         {
             this.ID = ID;
