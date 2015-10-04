@@ -8,5 +8,12 @@ namespace Domain.Model
 {
     public class StudentSubGroup
     {
+        public string NameGroup { get; private set; }//название группы
+        public byte NumberSubGroup { get; private set; }//номер подгруппы
+        public StudentSubGroup(string NameGroup,byte NumberSubGroup)
+        {
+            this.NameGroup = NameGroup;
+            this.NumberSubGroup = NumberSubGroup;
+        }
     }
 }
