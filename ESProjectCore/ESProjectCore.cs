@@ -27,6 +27,7 @@ namespace ESCore
             Classes = classes;
             Factors = factors;
             EStorage = storage;
+            DataValidator.Validate(classes, storage);
         }
 
         public IEnumerable<ISchedule> Run()
