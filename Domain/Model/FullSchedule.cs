@@ -18,12 +18,12 @@ namespace Domain.Model
             throw new NotImplementedException();
         }
 
-        public SubGroupSchedule GetSubGroupSchedule(StudentSubGroup subGroup)
+        public PartialSchedule GetPartialSchedule(Teacher teacher)
         {
             throw new NotImplementedException();
         }
 
-        public TeacherSchedule GetTeacherSchedule(Teacher teacher)
+        public PartialSchedule GetPartialSchedule(StudentSubGroup subGroup)
         {
             throw new NotImplementedException();
         }

@@ -9,8 +9,8 @@ namespace Domain
 {
     public interface ISchedule
     {
-        SubGroupSchedule GetSubGroupSchedule(StudentSubGroup subGroup);
-        TeacherSchedule GetTeacherSchedule(Teacher teacher);
+        PartialSchedule GetPartialSchedule(StudentSubGroup subGroup);
+        PartialSchedule GetPartialSchedule(Teacher teacher);
 
         StudentsClass GetLastAddClass();
         ClassRoom GetLastAddClassRooom();

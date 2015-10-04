@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Model
 {
-    public class TeacherSchedule
+    public class PartialSchedule
     {
     }
 }
