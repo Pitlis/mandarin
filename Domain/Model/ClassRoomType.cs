@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Model
 {
-    public class StudentGroup
+    public class ClassRoomType
     {
     }
 }

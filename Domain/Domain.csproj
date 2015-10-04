@@ -44,10 +44,13 @@
     <Compile Include="IRepository.cs" />
     <Compile Include="ISchedule.cs" />
     <Compile Include="Model\ClassRoom.cs" />
+    <Compile Include="Model\ClassRoomType.cs" />
     <Compile Include="Model\StudentsClass.cs" />
     <Compile Include="Model\FullSchedule.cs" />
-    <Compile Include="Model\StudentGroup.cs" />
+    <Compile Include="Model\StudentSubGroup.cs" />
+    <Compile Include="Model\SubGroupSchedule.cs" />
     <Compile Include="Model\Teacher.cs" />
+    <Compile Include="Model\TeacherSchedule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

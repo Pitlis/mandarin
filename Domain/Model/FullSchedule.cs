@@ -8,5 +8,24 @@ namespace Domain.Model
 {
     public class FullSchedule : ISchedule
     {
+        public StudentsClass GetLastAddClass()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ClassRoom GetLastAddClassRooom()
+        {
+            throw new NotImplementedException();
+        }
+
+        public SubGroupSchedule GetSubGroupSchedule(StudentSubGroup subGroup)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TeacherSchedule GetTeacherSchedule(Teacher teacher)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
