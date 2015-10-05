@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESProjectCore", "ESProjectC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactorsWindows", "FactorsWindows\FactorsWindows.csproj", "{87509973-7E10-4D04-BCDF-CFA81D6AA139}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OtherFactors", "OtherFactors\OtherFactors.csproj", "{A9BFB14E-D515-4BE7-AB46-9BADC03598BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{87509973-7E10-4D04-BCDF-CFA81D6AA139}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87509973-7E10-4D04-BCDF-CFA81D6AA139}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87509973-7E10-4D04-BCDF-CFA81D6AA139}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9BFB14E-D515-4BE7-AB46-9BADC03598BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9BFB14E-D515-4BE7-AB46-9BADC03598BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9BFB14E-D515-4BE7-AB46-9BADC03598BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9BFB14E-D515-4BE7-AB46-9BADC03598BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

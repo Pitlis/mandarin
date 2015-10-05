@@ -113,6 +113,10 @@
       <Project>{87509973-7e10-4d04-bcdf-cfa81d6aa139}</Project>
       <Name>FactorsWindows</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OtherFactors\OtherFactors.csproj">
+      <Project>{a9bfb14e-d515-4be7-ab46-9badc03598bd}</Project>
+      <Name>OtherFactors</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

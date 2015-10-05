@@ -27,6 +27,11 @@ namespace Presentation.Code
             {
                 Factors.Add((IFactor)Activator.CreateInstance(factor));
             }
+            asm = Assembly.Load("OtherFactors");
+            foreach (var factor in asm.GetTypes())
+            {
+                Factors.Add((IFactor)Activator.CreateInstance(factor));
+            }
         }
 
 
