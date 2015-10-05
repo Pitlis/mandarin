@@ -1,4 +1,5 @@
 ﻿using Domain.Model;
+using Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace Domain
         PartialSchedule GetPartialSchedule(StudentSubGroup subGroup);
         PartialSchedule GetPartialSchedule(Teacher teacher);
 
-        StudentsClass GetLastAddClass();
-        ClassRoom GetLastAddClassRooom();
+        StudentsClass GetTempClass();
+        ClassRoom GetTempClassRooom();
+        int GetTimeOfTempClass();
     }
 }
