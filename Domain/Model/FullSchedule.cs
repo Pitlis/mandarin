@@ -88,12 +88,42 @@ namespace Domain.Model
 
         public PartialSchedule GetPartialSchedule(Teacher teacher)
         {
-            throw new NotImplementedException();
+            StudentsClass[] partSchedule = new StudentsClass[Constants.WEEKS_IN_SCHEDULE * Constants.DAYS_IN_WEEK * Constants.CLASSES_IN_DAY];
+            for (int timeIndex = 0; timeIndex < classes.GetLength(0); timeIndex++)
+            {
+                for (int classRoomIndex = 0; classRoomIndex < classes.GetLength(1); classRoomIndex++)
+                {
+                    if (classes[timeIndex, classRoomIndex] != null)
+                    {
+                        if (classes[timeIndex, classRoomIndex].Teacher.Contains(teacher))
+                        {
+                            partSchedule[timeIndex] = classes[timeIndex, classRoomIndex];
+                            break;
+                        }
+                    }
+                }
+            }
+            return new PartialSchedule(partSchedule);
         }
 
         public PartialSchedule GetPartialSchedule(StudentSubGroup subGroup)
         {
-            throw new NotImplementedException();
+            StudentsClass[] partSchedule = new StudentsClass[Constants.WEEKS_IN_SCHEDULE * Constants.DAYS_IN_WEEK * Constants.CLASSES_IN_DAY];
+            for (int timeIndex = 0; timeIndex < classes.GetLength(0); timeIndex++)
+            {
+                for (int classRoomIndex = 0; classRoomIndex < classes.GetLength(1); classRoomIndex++)
+                {
+                    if (classes[timeIndex, classRoomIndex] != null)
+                    {
+                        if(classes[timeIndex, classRoomIndex].SubGroups.Contains(subGroup))
+                        {
+                            partSchedule[timeIndex] = classes[timeIndex, classRoomIndex];
+                            break;
+                        }
+                    }
+                }
+            }
+            return new PartialSchedule(partSchedule);
         }
         #endregion
 
