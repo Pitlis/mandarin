@@ -13,6 +13,7 @@ namespace FactorsWindows
         int fine;
         bool isBlock;
         //Здесь был Серёжа. Привет Никита!!!!!!!
+        //А здесь был я, Дима
         public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
         {
             return 0;
