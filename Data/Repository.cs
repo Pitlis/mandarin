@@ -11,14 +11,26 @@ namespace Data
 {
     public class Repository : IRepository
     {
+        
         public EntityStorage GetEntityStorage()
         {
-            return new EntityStorage(new List<ClassRoomType>(), new List<StudentSubGroup>(), new List<Teacher>(), new List<ClassRoom>());
+            Teacher[] teacher = null;
+            TestDataBase t = new TestDataBase(ref teacher);
+            StudentSubGroup[] SubGroup =null;
+            t = new TestDataBase(ref SubGroup);
+            ClassRoomType[] Type = null;
+            t = new TestDataBase(ref Type);
+            ClassRoom[] cl = null;
+            t = new TestDataBase(ref cl, Type);
+            EntityStorage ES = new EntityStorage(Type, SubGroup, teacher, cl);
+            return ES;
         }
 
         public IEnumerable<StudentsClass> GetStudentsClasses(EntityStorage storage)
         {
-            return new List<StudentsClass>();
+            StudentsClass[] SC=null;
+            TestDataBase t = new TestDataBase(ref SC,storage);
+            return SC;
         }
     }
 }

@@ -9,11 +9,12 @@ using Domain.Services;
 
 namespace Data
 {
-   public  class zapol
+   public  class TestDataBase
     {
      
-       public zapol(Teacher[] t)
+       public TestDataBase(ref Teacher[] t)
        {
+           t = new Teacher[25];
            t[0] = new Teacher((int)0, "Козлова Л.Г.");
            t[1] = new Teacher(1, "Абабурко В.Н");
            t[2] = new Teacher(2, "Борисов В.И.");
@@ -40,8 +41,9 @@ namespace Data
            t[23] = new Teacher(23, "Черная Н.Г.");
            t[24] = new Teacher(24, "Якимов А.И");
        }
-       public zapol(StudentSubGroup[] t)
+       public TestDataBase(ref StudentSubGroup[] t)
        {
+           t = new StudentSubGroup[7];
            t[0] = new StudentSubGroup("АСОИ121", 1);
            t[1] = new StudentSubGroup("АСОИ121", 2);
            t[2] = new StudentSubGroup("АСОИ122", 1);
@@ -50,8 +52,9 @@ namespace Data
            t[5] = new StudentSubGroup("АЭП122", 1);
            t[6] = new StudentSubGroup("МПК121", 1);
        }
-       public zapol(ClassRoomType[] t)
+       public TestDataBase(ref ClassRoomType[] t)
        {
+           t = new ClassRoomType[7];
            t[0] = new ClassRoomType("Лекция");
            t[1] = new ClassRoomType("Практика");
            t[2] = new ClassRoomType("Лабораторная-комп");
@@ -61,8 +64,9 @@ namespace Data
            t[6] = new ClassRoomType("Выездная");
 
        }
-       public zapol(ClassRoom[] cl,ClassRoomType[] t)
+       public TestDataBase(ref ClassRoom[] cl,ClassRoomType[] t)
        {
+           cl = new ClassRoom[35];
            cl[0] = new ClassRoom(410, 2, new ClassRoomType[] { t[0]});
            cl[1] = new ClassRoom(411, 4, new ClassRoomType[] { t[0]});
            cl[2] = new ClassRoom(409, 2, new ClassRoomType[] { t[0] });
@@ -76,35 +80,36 @@ namespace Data
            cl[10] = new ClassRoom(518, 2, new ClassRoomType[] { t[2] });
            cl[11] = new ClassRoom(517, 2, new ClassRoomType[] { t[2] });
            cl[12] = new ClassRoom(439, 1, new ClassRoomType[] { t[2] });
-           cl[13] = new ClassRoom(401, 3, new ClassRoomType[] { t[2] });
+           cl[13] = new ClassRoom(401, 3, new ClassRoomType[] { t[2] });//
            cl[14] = new ClassRoom(203, 1, new ClassRoomType[] { t[2] });
            cl[15] = new ClassRoom(231, 1, new ClassRoomType[] { t[2] });
            cl[16] = new ClassRoom(516, 2, new ClassRoomType[] { t[2] });
            cl[17] = new ClassRoom(511, 2, new ClassRoomType[] { t[3] });
            cl[18] = new ClassRoom(514, 2, new ClassRoomType[] { t[3],t[1] });
            cl[19] = new ClassRoom(311, 4, new ClassRoomType[] { t[3]});
-           cl[20] = new ClassRoom(316, 2, new ClassRoomType[] { t[3], t[1] });
-           cl[21] = new ClassRoom(404, 2, new ClassRoomType[] { t[3] });
+           cl[20] = new ClassRoom(405, 2, new ClassRoomType[] { t[1] });
+           cl[21] = new ClassRoom(404, 2, new ClassRoomType[] { t[3], t[4] });
            cl[22] = new ClassRoom(207, 2, new ClassRoomType[] { t[4] });
-           cl[23] = new ClassRoom(204, 2, new ClassRoomType[] { t[4] });
+           cl[23] = new ClassRoom(204, 2, new ClassRoomType[] {t[1] , t[4] });
            cl[24] = new ClassRoom(402, 2, new ClassRoomType[] { t[4] });
-           cl[25] = new ClassRoom(404, 2, new ClassRoomType[] { t[4] });
+           cl[25] = new ClassRoom(419, 1, new ClassRoomType[] { t[1] });
            cl[26] = new ClassRoom(216, 2, new ClassRoomType[] { t[4] });
            cl[27] = new ClassRoom(0, 1, new ClassRoomType[] { t[5] });
            cl[28] = new ClassRoom(1, 1, new ClassRoomType[] { t[6] });
            cl[29] = new ClassRoom(254, 1, new ClassRoomType[] { t[1] });
-           cl[30] = new ClassRoom(401,4, new ClassRoomType[] { t[1] });
+           cl[30] = new ClassRoom(401,4, new ClassRoomType[] { t[1] });//
            cl[31] = new ClassRoom(512, 2, new ClassRoomType[] { t[1] });
-           cl[32] = new ClassRoom(514, 2, new ClassRoomType[] { t[1] });
+           cl[32] = new ClassRoom(527, 1, new ClassRoomType[] { t[1] });
            cl[33] = new ClassRoom(506, 2, new ClassRoomType[] { t[1] });
            cl[34] = new ClassRoom(316, 2, new ClassRoomType[] { t[1] });
-           cl[35] = new ClassRoom(527, 1, new ClassRoomType[] { t[1] });
-           cl[36] = new ClassRoom(419, 1, new ClassRoomType[] { t[1] });
-           cl[37] = new ClassRoom(405, 2, new ClassRoomType[] { t[1] });
-           cl[38] = new ClassRoom(204, 2, new ClassRoomType[] { t[1] });
+          
+         
+          
+          
        }
-       public zapol(StudentsClass[] SC,EntityStorage ES)
+       public TestDataBase(ref StudentsClass[] SC, EntityStorage ES)
        {
+           SC = new StudentsClass[49];
            SC[0] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0], ES.StudentSubGroups[1], ES.StudentSubGroups[2] },
                                         new Teacher[] { ES.Teachers[24] }, "ММИПУ",
                                         new ClassRoomType[] { ES.ClassRoomsTypes[0] });
@@ -272,6 +277,15 @@ namespace Data
            SC[48] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0], ES.StudentSubGroups[1], ES.StudentSubGroups[2], ES.StudentSubGroups[3], ES.StudentSubGroups[4], ES.StudentSubGroups[5], ES.StudentSubGroups[6] },
                                         new Teacher[] { ES.Teachers[12] }, "ФИЗРА",
                                         new ClassRoomType[] { ES.ClassRoomsTypes[5] });
+           //мпк
+           //SC[49] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+           //                             new Teacher[] { ES.Teachers[19] }, "ПИМАК",
+           //                             new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+
+           //SC[49] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+           //                             new Teacher[] { ES.Teachers[0] }, "Экономика",
+           //                             new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+
       
        }
 
