@@ -31,11 +31,12 @@ namespace ESProject
         {
             Logic core = new Logic();
             core.DI();
-            Dictionary<IFactor, int> configFactors = new Dictionary<IFactor, int>();
 
             //Значения берутся откуда-то с формы
-            configFactors.Add(core.Factors[0], 50);
-            core.ConfigFactors(configFactors);
+            //core.FactorTypes[core.FactorTypes.ElementAt(0).Key] = 50;
+            //core.FactorTypes[core.FactorTypes.ElementAt(1).Key] = 60;
+
+
             core.Start();
         }
     }

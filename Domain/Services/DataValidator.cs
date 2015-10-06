@@ -14,7 +14,7 @@ namespace Domain.Services
         //проверяет существование дублирующихся или отсутствующих в хранилище объектов
         //для маленьких объемов данных!
 
-        public static void Validate(List<StudentsClass> classes, EntityStorage storage)
+        public static void Validate(IEnumerable<StudentsClass> classes, EntityStorage storage)
         {
             Dublicats(storage);
             IncorrectReferences(classes, storage);
@@ -46,7 +46,8 @@ namespace Domain.Services
                     throw new Exception("Дубликат объекта ClassRooms в хранилище");
             }
         }
-        static void IncorrectReferences(List<StudentsClass> classes, EntityStorage storage)
+
+        static void IncorrectReferences(IEnumerable<StudentsClass> classes, EntityStorage storage)
         {
             foreach (var cl in storage.ClassRooms)
             {

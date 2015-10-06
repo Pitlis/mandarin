@@ -8,46 +8,38 @@ using System.Reflection;
 using Data;
 using Domain;
 using ESCore;
+using Domain.Services;
 
 namespace Presentation.Code
 {
     class Logic
     {
         public IRepository Repo { get; private set; }
-        public List<IFactor> Factors { get; private set; }
+        public Dictionary<Type, int> FactorTypes { get; private set; }
 
         //TODO Заглушка для Dependency Inversion
         public void DI()
         {
             Repo = new Repository();
+            FactorTypes = new Dictionary<Type, int>();
 
             Assembly asm = Assembly.Load("FactorsWindows");
-            Factors = new List<IFactor>();
             foreach (var factor in asm.GetTypes())
             {
-                Factors.Add((IFactor)Activator.CreateInstance(factor));
+                //FactorTypes.Add(factor, 0);
             }
             asm = Assembly.Load("OtherFactors");
             foreach (var factor in asm.GetTypes())
             {
-                Factors.Add((IFactor)Activator.CreateInstance(factor));
-            }
-        }
-
-
-        public void ConfigFactors(Dictionary<IFactor, int> configs)
-        {
-            foreach(var config in configs)
-            {
-                IFactor factor = Factors.Find((f) => f == config.Key);
-                factor.Initialize(config.Value, config.Value == 1);
+                //FactorTypes.Add(factor, 0);
             }
         }
 
         public void Start()
         {
-            ESProjectCore core = new ESProjectCore(Repo.GetStudentsClasses(Repo.GetEntityStorage()).ToList(), Repo.GetEntityStorage(), Factors);
-            core.Run();
+            EntityStorage storage = Repo.GetEntityStorage();
+            ESProjectCore core = new ESProjectCore(Repo.GetStudentsClasses(storage), storage, FactorTypes);
+            List<ISchedule> schedules = core.Run().ToList<ISchedule>();
         }
 
     }

@@ -9,7 +9,7 @@ namespace Domain.Model
 {
     public class PartialSchedule
     {
-        StudentsClass[] schedule; //Можноли данному полю поставить модификатор паблик?
+        StudentsClass[] schedule;
 
         public PartialSchedule(StudentsClass[] schedule)
         {
