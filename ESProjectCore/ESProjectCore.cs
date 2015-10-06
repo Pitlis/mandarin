@@ -57,7 +57,12 @@ namespace ESCore
         FullSchedule CreateSchedule(StudentsClass[] sortedStudentsClasses)
         {
             FullSchedule resultSchedule = new FullSchedule(EStorage.ClassRooms.Length, EStorage);
-            for (int classIndex = 0; classIndex < sortedStudentsClasses.Length; classIndex++)
+
+            //первая пара ставится в первое подходящее место и не проверяется
+            resultSchedule.SetClass(sortedStudentsClasses[0], resultSchedule.GetSuitableClassRooms(sortedStudentsClasses[0].RequireForClassRoom)[0]);
+            //----
+
+            for (int classIndex = 1; classIndex < sortedStudentsClasses.Length; classIndex++)
             {
                 FullSchedule.StudentsClassPosition[] positionsForClass = resultSchedule.GetSuitableClassRooms(sortedStudentsClasses[classIndex].RequireForClassRoom);
                 int[] fines = new int[positionsForClass.Length];

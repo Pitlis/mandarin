@@ -33,7 +33,7 @@ namespace ESProject
             core.DI();
 
             //Значения берутся откуда-то с формы
-            //core.FactorTypes[core.FactorTypes.ElementAt(0).Key] = 50;
+            core.FactorTypes[core.FactorTypes.ElementAt(0).Key] = 50;
             //core.FactorTypes[core.FactorTypes.ElementAt(1).Key] = 60;
 
 
