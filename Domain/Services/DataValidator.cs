@@ -41,7 +41,7 @@ namespace Domain.Services
             }
             foreach (var item in storage.ClassRooms)
             {
-                var dublicats = from c in storage.ClassRooms where c.Housing == item.Housing && c.Number == c.Number select c;
+                var dublicats = from c in storage.ClassRooms where c.Housing == item.Housing && c.Number == item.Number select c;
                 if (dublicats.Count() > 1)
                     throw new Exception("Дубликат объекта ClassRooms в хранилище");
             }
