@@ -14,7 +14,7 @@ namespace Data
      
        public TestDataBase(ref Teacher[] t)
        {
-           t = new Teacher[25];
+           t = new Teacher[26];
            t[0] = new Teacher((int)0, "Козлова Л.Г.");
            t[1] = new Teacher(1, "Абабурко В.Н");
            t[2] = new Teacher(2, "Борисов В.И.");
@@ -40,6 +40,7 @@ namespace Data
            t[22] = new Teacher(22, "Столяров Ю.Д.");
            t[23] = new Teacher(23, "Черная Н.Г.");
            t[24] = new Teacher(24, "Якимов А.И");
+           t[25] = new Teacher(24, "Прудников В.М");
        }
        public TestDataBase(ref StudentSubGroup[] t)
        {
@@ -109,7 +110,7 @@ namespace Data
        }
        public TestDataBase(ref StudentsClass[] SC, EntityStorage ES)
        {
-           SC = new StudentsClass[49];
+           SC = new StudentsClass[134];
            SC[0] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0], ES.StudentSubGroups[1], ES.StudentSubGroups[2] },
                                         new Teacher[] { ES.Teachers[24] }, "ММИПУ",
                                         new ClassRoomType[] { ES.ClassRoomsTypes[0] });
@@ -223,10 +224,10 @@ namespace Data
 
 
            SC[32] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0], ES.StudentSubGroups[1], ES.StudentSubGroups[2] },
-                                       new Teacher[] { ES.Teachers[17] }, "ОИТ",
+                                       new Teacher[] { ES.Teachers[25] }, "ОИТ",
                                        new ClassRoomType[] { ES.ClassRoomsTypes[0] });
            SC[33] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0] },
-                                        new Teacher[] { ES.Teachers[17] }, "ОИТ",
+                                        new Teacher[] { ES.Teachers[25] }, "ОИТ",
                                         new ClassRoomType[] { ES.ClassRoomsTypes[2] });
            SC[34] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[1] },
                                         new Teacher[] { ES.Teachers[13] }, "ОИТ",
@@ -278,15 +279,300 @@ namespace Data
                                         new Teacher[] { ES.Teachers[12] }, "ФИЗРА",
                                         new ClassRoomType[] { ES.ClassRoomsTypes[5] });
            //мпк
-           //SC[49] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
-           //                             new Teacher[] { ES.Teachers[19] }, "ПИМАК",
-           //                             new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[49] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                        new Teacher[] { ES.Teachers[19] }, "ПИМАК",
+                                        new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[50] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                       new Teacher[] { ES.Teachers[19] }, "ПИМАК",
+                                       new ClassRoomType[] { ES.ClassRoomsTypes[0] });
 
-           //SC[49] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
-           //                             new Teacher[] { ES.Teachers[0] }, "Экономика",
-           //                             new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[51] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                        new Teacher[] { ES.Teachers[0] }, "Экономика",
+                                        new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[52] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                        new Teacher[] { ES.Teachers[0] }, "Экономика",
+                                        new ClassRoomType[] { ES.ClassRoomsTypes[0] });
 
-      
+           SC[53] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                       new Teacher[] { ES.Teachers[0] }, "Экономика",
+                                       new ClassRoomType[] { ES.ClassRoomsTypes[1] });
+
+           SC[54] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                       new Teacher[] { ES.Teachers[19] }, "ПИМАК",
+                                       new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[55] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                       new Teacher[] { ES.Teachers[19] }, "ПИМАК",
+                                       new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[56] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                      new Teacher[] { ES.Teachers[19] }, "ПИМАК",
+                                      new ClassRoomType[] { ES.ClassRoomsTypes[1] });
+
+           SC[57] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                      new Teacher[] { ES.Teachers[19] }, "ПИМАК",
+                                      new ClassRoomType[] { ES.ClassRoomsTypes[1] });
+           SC[58] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                      new Teacher[] { ES.Teachers[19] }, "ПИМАК",
+                                      new ClassRoomType[] { ES.ClassRoomsTypes[1] });
+           //
+           SC[59] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                     new Teacher[] { ES.Teachers[16] }, "ПиМВиОК",
+                                     new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+
+           SC[60] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0], ES.StudentSubGroups[1], ES.StudentSubGroups[2], ES.StudentSubGroups[3], ES.StudentSubGroups[4], ES.StudentSubGroups[5], ES.StudentSubGroups[6] },
+                                                   new Teacher[] { ES.Teachers[12] }, "ФИЗРА",
+                                                   new ClassRoomType[] { ES.ClassRoomsTypes[5] });
+
+           SC[61] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                     new Teacher[] { ES.Teachers[16] }, "ПиМВиОК",
+                                     new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+
+           SC[62] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                     new Teacher[] { ES.Teachers[16] }, "ПиМВиОК",
+                                     new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[63] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                     new Teacher[] { ES.Teachers[2] }, "ПиМВиРК",
+                                     new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[64] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                     new Teacher[] { ES.Teachers[2] }, "ПиМВиРК",
+                                     new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+
+           SC[65] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                     new Teacher[] { ES.Teachers[2] }, "ПиМВиРК",
+                                     new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[66] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                           new Teacher[] { ES.Teachers[2] }, "ПиМВиРК",
+                           new ClassRoomType[] { ES.ClassRoomsTypes[1] });
+           //КОПОО
+           SC[67] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                    new Teacher[] { ES.Teachers[17] }, "КОПОО",
+                                    new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[68] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                           new Teacher[] { ES.Teachers[17] }, "КОПОО",
+                           new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[69] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                    new Teacher[] { ES.Teachers[17] }, "КОПОО",
+                                    new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[70] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                           new Teacher[] { ES.Teachers[17] }, "КОПОО",
+                           new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[69] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                   new Teacher[] { ES.Teachers[17] }, "КОПОО",
+                                   new ClassRoomType[] { ES.ClassRoomsTypes[1] });
+          ///
+           SC[70] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                new Teacher[] { ES.Teachers[17] }, "УИРС",
+                                new ClassRoomType[] { ES.ClassRoomsTypes[1] });
+           SC[71] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                               new Teacher[] { ES.Teachers[17] }, "УИРС",
+                               new ClassRoomType[] { ES.ClassRoomsTypes[1] });
+
+           SC[72] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                     new Teacher[] { ES.Teachers[16] }, "ПиМВиОК",
+                                     new ClassRoomType[] { ES.ClassRoomsTypes[1] });
+
+           SC[73] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                     new Teacher[] { ES.Teachers[14] }, "Автоматика",
+                                     new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[74] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                     new Teacher[] { ES.Teachers[14] }, "Автоматика",
+                                     new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[75] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                     new Teacher[] { ES.Teachers[14] }, "Автоматика",
+                                     new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[76] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                   new Teacher[] { ES.Teachers[14] }, "Автоматика",
+                                   new ClassRoomType[] { ES.ClassRoomsTypes[1] });
+           SC[77] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
+                                   new Teacher[] { ES.Teachers[14] }, "Автоматика",
+                                   new ClassRoomType[] { ES.ClassRoomsTypes[1] });
+           /////////////////////////////////////
+           //аэп
+           SC[78] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3], ES.StudentSubGroups[4], ES.StudentSubGroups[5] },
+                                  new Teacher[] { ES.Teachers[4] }, "ДЕЛОПРОИЗВОДСТВО ",
+                                  new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[79] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3], ES.StudentSubGroups[4], ES.StudentSubGroups[5] },
+                                  new Teacher[] { ES.Teachers[4] }, "ДЕЛОПРОИЗВОДСТВО ",
+                                  new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[80] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3], ES.StudentSubGroups[4], ES.StudentSubGroups[5] },
+                                       new Teacher[] { ES.Teachers[15] }, "ЭАП ",
+                                       new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[81] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3], ES.StudentSubGroups[4], ES.StudentSubGroups[5] },
+                                  new Teacher[] { ES.Teachers[15] }, "ЭАП ",
+                                  new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[82] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3], ES.StudentSubGroups[4] },
+                                new Teacher[] { ES.Teachers[15] }, "ЭАЭ ",
+                                new ClassRoomType[] { ES.ClassRoomsTypes[4] });
+
+           SC[83] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3], ES.StudentSubGroups[4] },
+                                 new Teacher[] { ES.Teachers[15] }, "ЭАЭ ",
+                                 new ClassRoomType[] { ES.ClassRoomsTypes[4] });
+           SC[84] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3], ES.StudentSubGroups[4] },
+                                 new Teacher[] { ES.Teachers[21] }, "ТЭП ",
+                                 new ClassRoomType[] { ES.ClassRoomsTypes[2] });
+           SC[85] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[5] },
+                                 new Teacher[] { ES.Teachers[21] }, "ТЭП ",
+                                 new ClassRoomType[] { ES.ClassRoomsTypes[2] });
+           ///////////
+           SC[86] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3], ES.StudentSubGroups[4], ES.StudentSubGroups[5] },
+                                  new Teacher[] { ES.Teachers[21] }, "ТЭП ",
+                                  new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[87] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3], ES.StudentSubGroups[4], ES.StudentSubGroups[5] },
+                                new Teacher[] { ES.Teachers[21] }, "ТЭП ",
+                                new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+
+           SC[88] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3], ES.StudentSubGroups[4], ES.StudentSubGroups[5] },
+                                 new Teacher[] { ES.Teachers[0] }, "Экономика ",
+                                 new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[89] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3], ES.StudentSubGroups[4], ES.StudentSubGroups[5] },
+                                new Teacher[] { ES.Teachers[0] }, "Экономика ",
+                                new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+
+           SC[90] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3], ES.StudentSubGroups[4] },
+                                 new Teacher[] { ES.Teachers[0] }, "Экономика ",
+                                 new ClassRoomType[] { ES.ClassRoomsTypes[1] });
+           SC[91] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3], ES.StudentSubGroups[4] },
+                                new Teacher[] { ES.Teachers[0] }, "Экономика ",
+                                new ClassRoomType[] { ES.ClassRoomsTypes[1] });
+           SC[92] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[5] },
+                                new Teacher[] { ES.Teachers[21] }, "ТЭП ",
+                                new ClassRoomType[] { ES.ClassRoomsTypes[2] });
+           SC[93] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[5] },
+                                 new Teacher[] { ES.Teachers[21] }, "ТЭП ",
+                                 new ClassRoomType[] { ES.ClassRoomsTypes[2] });
+
+           SC[94] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3] },
+                               new Teacher[] { ES.Teachers[11] }, "МСАЭ ",
+                               new ClassRoomType[] { ES.ClassRoomsTypes[6] });
+           SC[95] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3]},
+                                new Teacher[] { ES.Teachers[11] }, "МСАЭ ",
+                                new ClassRoomType[] { ES.ClassRoomsTypes[6] });
+           SC[96] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[4] },
+                              new Teacher[] { ES.Teachers[11] }, "МСАЭ ",
+                              new ClassRoomType[] { ES.ClassRoomsTypes[6] });
+           SC[97] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[4] },
+                                new Teacher[] { ES.Teachers[11] }, "МСАЭ ",
+                                new ClassRoomType[] { ES.ClassRoomsTypes[6] });
+           SC[98] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[5] },
+                               new Teacher[] { ES.Teachers[0] }, "Экономика ",
+                               new ClassRoomType[] { ES.ClassRoomsTypes[1] });
+
+           SC[99] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[5] },
+                              new Teacher[] { ES.Teachers[0] }, "Экономика ",
+                              new ClassRoomType[] { ES.ClassRoomsTypes[1] });
+           /////////////////
+           SC[100] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3], ES.StudentSubGroups[4], ES.StudentSubGroups[5] },
+                                 new Teacher[] { ES.Teachers[21] }, "ТЭП ",
+                                 new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[101] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3], ES.StudentSubGroups[4], ES.StudentSubGroups[5] },
+                                new Teacher[] { ES.Teachers[21] }, "ТЭП ",
+                                new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[102] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3]},
+                               new Teacher[] { ES.Teachers[15] }, "ЭАЭ ",
+                               new ClassRoomType[] { ES.ClassRoomsTypes[4] });
+           SC[103] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3] },
+                                 new Teacher[] { ES.Teachers[21] }, "ТЭП ",
+                                 new ClassRoomType[] { ES.ClassRoomsTypes[4] });
+
+           SC[104] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[4] },
+                               new Teacher[] { ES.Teachers[15] }, "ЭАЭ ",
+                               new ClassRoomType[] { ES.ClassRoomsTypes[4] });
+           SC[105] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[4] },
+                                 new Teacher[] { ES.Teachers[21] }, "ТЭП ",
+                                 new ClassRoomType[] { ES.ClassRoomsTypes[4] });
+
+           SC[106] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[5] },
+                                new Teacher[] { ES.Teachers[18] }, "СУП ",
+                                new ClassRoomType[] { ES.ClassRoomsTypes[4] });
+           SC[107] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[5] },
+                               new Teacher[] { ES.Teachers[18] }, "СУП ",
+                               new ClassRoomType[] { ES.ClassRoomsTypes[4] });
+
+           SC[108] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3] },
+                                new Teacher[] { ES.Teachers[18] }, "СУП ",
+                                new ClassRoomType[] { ES.ClassRoomsTypes[4] });
+           SC[109] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[4] },
+                               new Teacher[] { ES.Teachers[18] }, "СУП ",
+                               new ClassRoomType[] { ES.ClassRoomsTypes[4] });
+           SC[110] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[5] },
+                             new Teacher[] { ES.Teachers[15] }, "ЭАЭ ",
+                             new ClassRoomType[] { ES.ClassRoomsTypes[4] });
+           SC[111] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3] },
+                               new Teacher[] { ES.Teachers[18] }, "СУП ",
+                               new ClassRoomType[] { ES.ClassRoomsTypes[4] });
+           SC[112] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[4] },
+                               new Teacher[] { ES.Teachers[18] }, "СУП ",
+                               new ClassRoomType[] { ES.ClassRoomsTypes[4] });
+           SC[113] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3] },
+                                 new Teacher[] { ES.Teachers[21] }, "ТЭП ",
+                                 new ClassRoomType[] { ES.ClassRoomsTypes[4] });
+
+           SC[114] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[4] },
+                                 new Teacher[] { ES.Teachers[21] }, "ТЭП ",
+                                 new ClassRoomType[] { ES.ClassRoomsTypes[4] });
+
+           SC[115] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3] },
+                              new Teacher[] { ES.Teachers[11] }, "МСАЭ ",
+                              new ClassRoomType[] { ES.ClassRoomsTypes[6] });
+           ///////////////////
+           SC[116] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3], ES.StudentSubGroups[4], ES.StudentSubGroups[5] },
+                              new Teacher[] { ES.Teachers[18] }, "СУП ",
+                              new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[117] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3], ES.StudentSubGroups[4], ES.StudentSubGroups[5] },
+                               new Teacher[] { ES.Teachers[18] }, "СУП ",
+                               new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[118] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3], ES.StudentSubGroups[4], ES.StudentSubGroups[5] },
+                             new Teacher[] { ES.Teachers[18] }, "СУП ",
+                             new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[119] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3], ES.StudentSubGroups[4], ES.StudentSubGroups[5] },
+                               new Teacher[] { ES.Teachers[18] }, "СУП ",
+                               new ClassRoomType[] { ES.ClassRoomsTypes[0] });//
+           SC[120] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3], ES.StudentSubGroups[4], ES.StudentSubGroups[5] },
+                              new Teacher[] { ES.Teachers[1] }, "ВУЭПТ ",
+                              new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[121] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3], ES.StudentSubGroups[4], ES.StudentSubGroups[5] },
+                             new Teacher[] { ES.Teachers[1] }, "ОНИИД ",
+                             new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[121] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3] },
+                            new Teacher[] { ES.Teachers[23] }, "ОНИИД ",
+                            new ClassRoomType[] { ES.ClassRoomsTypes[4] });
+           SC[122] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[4]},
+                           new Teacher[] { ES.Teachers[23] }, "ОНИИД ",
+                           new ClassRoomType[] { ES.ClassRoomsTypes[4] });
+           SC[123] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[5] },
+                          new Teacher[] { ES.Teachers[23] }, "ОНИИД ",
+                          new ClassRoomType[] { ES.ClassRoomsTypes[4] });
+
+           SC[124] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[5] },
+                             new Teacher[] { ES.Teachers[1] }, "ВУЭПТ ",
+                             new ClassRoomType[] { ES.ClassRoomsTypes[4] });
+           SC[125] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[5] },
+                             new Teacher[] { ES.Teachers[11] }, "МСАЭ ",
+                             new ClassRoomType[] { ES.ClassRoomsTypes[6] });
+           SC[126] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[4] },
+                            new Teacher[] { ES.Teachers[1] }, "ВУЭПТ ",
+                            new ClassRoomType[] { ES.ClassRoomsTypes[4] });
+           SC[127] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3] },
+                            new Teacher[] { ES.Teachers[1] }, "ВУЭПТ ",
+                            new ClassRoomType[] { ES.ClassRoomsTypes[4] });
+           SC[128] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3], ES.StudentSubGroups[4] },
+                            new Teacher[] { ES.Teachers[11] }, "ИНЯЗ ",
+                            new ClassRoomType[] { ES.ClassRoomsTypes[1] });
+           SC[129] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[5] },
+                            new Teacher[] { ES.Teachers[11] }, "ИНЯЗ ",
+                            new ClassRoomType[] { ES.ClassRoomsTypes[1] });
+           SC[130] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[3], ES.StudentSubGroups[4] },
+                            new Teacher[] { ES.Teachers[11] }, "ИНЯЗ ",
+                            new ClassRoomType[] { ES.ClassRoomsTypes[1] });
+           SC[131] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[5] },
+                            new Teacher[] { ES.Teachers[11] }, "ИНЯЗ ",
+                            new ClassRoomType[] { ES.ClassRoomsTypes[1] });
+           SC[132] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[5] },
+                             new Teacher[] { ES.Teachers[11] }, "МСАЭ ",
+                             new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+           SC[133] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[5] },
+                             new Teacher[] { ES.Teachers[11] }, "МСАЭ ",
+                             new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+
        }
 
     }
