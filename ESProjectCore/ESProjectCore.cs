@@ -59,20 +59,20 @@ namespace ESCore
             FullSchedule resultSchedule = new FullSchedule(EStorage.ClassRooms.Length, EStorage);
 
             //первая пара ставится в первое подходящее место и не проверяется
-            resultSchedule.SetClass(sortedStudentsClasses[0], resultSchedule.GetSuitableClassRooms(sortedStudentsClasses[0].RequireForClassRoom)[0]);
+            resultSchedule.SetClass(sortedStudentsClasses[0], resultSchedule.GetSuitableClassRooms(sortedStudentsClasses[0])[0]);
             //----
-
+            int i = 0;
             for (int classIndex = 1; classIndex < sortedStudentsClasses.Length; classIndex++)
             {
-                FullSchedule.StudentsClassPosition[] positionsForClass = resultSchedule.GetSuitableClassRooms(sortedStudentsClasses[classIndex].RequireForClassRoom);
+                FullSchedule.StudentsClassPosition[] positionsForClass = resultSchedule.GetSuitableClassRooms(sortedStudentsClasses[classIndex]);
                 int[] fines = new int[positionsForClass.Length];
 
                 Parallel.For(0, positionsForClass.Length, (positionIndex) =>
                 {
                     Interlocked.Exchange(ref fines[positionIndex], GetSumFine(positionsForClass[positionIndex], CreateFactorsArray(), resultSchedule));
                 });
-
-                if(positionsForClass.Length > 0 && Array.FindAll<int>(fines, (f) => f != Constants.BLOCK_FINE).Length > 0)
+                
+                if (positionsForClass.Length > 0 && Array.FindAll<int>(fines, (f) => f != Constants.BLOCK_FINE).Length > 0)
                 {
                     int indexMinFine = Array.IndexOf<int>(fines, Array.FindAll<int>(fines, (f) => f != Constants.BLOCK_FINE).Min());
                     resultSchedule.SetClass(sortedStudentsClasses[classIndex], positionsForClass[indexMinFine]);
