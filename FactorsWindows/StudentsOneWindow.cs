@@ -18,21 +18,24 @@ namespace FactorsWindows
         //А здесь был я, Дима
         public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
         {
-            StudentsClass sClass = schedule.GetTempClass();
             int classTime = schedule.GetTimeOfTempClass();
             //Считаем день недели последней добавленной пары
             int dayOfWeek = (int)Math.Ceiling( (double)classTime / Constants.CLASSES_IN_DAY);
             //Считаем номер пары в этот день
             int classOfDay = Constants.CLASSES_IN_DAY - (dayOfWeek * Constants.CLASSES_IN_DAY - classTime) - 1;
-            foreach (StudentSubGroup subGroup in sClass.SubGroups)
+            foreach (StudentSubGroup subGroup in schedule.GetTempClass().SubGroups)
             {
-                StudentsClass[] sClasses = schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek);
-                CheckWindowsOfAddedClass(sClasses, classOfDay);
+                if (CheckWindowsOfAddedClass(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek), classOfDay)))
+                {
+                    return fine;
+                }
             }
-            foreach (Teacher t in sClass.Teacher)
+            foreach (Teacher teacher in schedule.GetTempClass().Teacher)
             {
-                StudentsClass[] sClasses = schedule.GetPartialSchedule(t).GetClassesOfDay(dayOfWeek);
-                CheckWindowsOfAddedClass(sClasses, classOfDay);
+                if (CheckWindowsOfAddedClass(schedule.GetPartialSchedule(teacher).GetClassesOfDay(dayOfWeek), classOfDay))
+                {
+                    return fine;
+                }
             }
             return 0;
         }
@@ -46,13 +49,11 @@ namespace FactorsWindows
                 foreach (StudentSubGroup subGroup in eStorage.StudentSubGroups)
                 {
                     //Получаем пары одной группы в один день
-                    StudentsClass[] sClasses = schedule.GetPartialSchedule(subGroup).GetClassesOfDay(i);
-                    windowCount = CountUpWindowsOfFullSchedule(sClasses);
+                    windowCount = CountUpWindowsOfFullSchedule(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(i));
                 }
                 foreach (Teacher t in eStorage.Teachers)
                 {
-                    StudentsClass[] sClasses = schedule.GetPartialSchedule(t).GetClassesOfDay(i);
-                    windowCount += CountUpWindowsOfFullSchedule(sClasses);
+                    windowCount += CountUpWindowsOfFullSchedule(schedule.GetPartialSchedule(t).GetClassesOfDay(i));
                 }
             }
 
@@ -62,39 +63,39 @@ namespace FactorsWindows
             }
             return 0;
         }
-        
-        private int CheckWindowsOfAddedClass(StudentsClass[] sClasses, int classOfDay)
+
+        static private bool CheckWindowsOfAddedClass(StudentsClass[] sClasses, int classOfDay)
         {
             int last = LastClassOfDay(sClasses);
             if (classOfDay == 0 && last == 0)
             {
-                return 0;
+                return false;
             }
             if (classOfDay > 1 && classOfDay < (Constants.CLASSES_IN_DAY - 2))
             {
                 if (CheckWindowsOfNextClass(sClasses, classOfDay) || CheckWindowsOfPreviousClass(sClasses, classOfDay))
                 {
-                    return fine;
+                    return true;
                 }
             }
             else if (classOfDay == 1)
             {
                 if (CheckWindowsOfNextClass(sClasses, classOfDay))
                 {
-                    return fine;
+                    return true;
                 }
             }
             else if (classOfDay == Constants.CLASSES_IN_DAY - 1)
             {
                 if (CheckWindowsOfPreviousClass(sClasses, classOfDay))
                 {
-                    return fine;
+                    return true;
                 }
             }
-            return 0;
+            return false;
         }
 
-        private bool CheckWindowsOfNextClass(StudentsClass[] sClasses, int classOfDay)
+        static private bool CheckWindowsOfNextClass(StudentsClass[] sClasses, int classOfDay)
         {
             if (sClasses[classOfDay + 1] == null && sClasses[classOfDay + 2] != null)
             {
@@ -103,7 +104,7 @@ namespace FactorsWindows
             return false;
         }
 
-        private bool CheckWindowsOfPreviousClass(StudentsClass[] sClasses, int classOfDay)
+        static private bool CheckWindowsOfPreviousClass(StudentsClass[] sClasses, int classOfDay)
         {
             if (sClasses[classOfDay - 1] == null && sClasses[classOfDay - 2] != null)
             {
@@ -112,7 +113,7 @@ namespace FactorsWindows
             return false;
         }
 
-        private int CountUpWindowsOfFullSchedule(StudentsClass[] sClasses)
+        static private int CountUpWindowsOfFullSchedule(StudentsClass[] sClasses)
         {
             int windowCount = 0;
             //Ищем номер последней в этот день пары
@@ -134,7 +135,7 @@ namespace FactorsWindows
             return windowCount;
         }
 
-        private int LastClassOfDay(StudentsClass[] sClasses)
+        static private int LastClassOfDay(StudentsClass[] sClasses)
         {
             for (int j = sClasses.Length - 1; j >= 0; --j)
             {
