@@ -51,7 +51,7 @@ namespace ESCore
                 }
             }
 
-            return new List<ISchedule>() { schedules[Array.IndexOf(fines, Array.FindAll(fines, (f) => f >= 0).Min())] };
+            return new List<ISchedule>() { schedules[Array.IndexOf(fines, Array.FindAll(fines, (f) => f != Constants.BLOCK_FINE).Min())] };
         }
 
         FullSchedule CreateSchedule(StudentsClass[] sortedStudentsClasses)
@@ -67,9 +67,9 @@ namespace ESCore
                     Interlocked.Exchange(ref fines[positionIndex], GetSumFine(positionsForClass[positionIndex], CreateFactorsArray(), resultSchedule));
                 });
 
-                if(positionsForClass.Length > 0 && Array.FindAll<int>(fines, (f) => f >= 0).Length > 0)
+                if(positionsForClass.Length > 0 && Array.FindAll<int>(fines, (f) => f != Constants.BLOCK_FINE).Length > 0)
                 {
-                    int indexMinFine = Array.IndexOf<int>(fines, Array.FindAll<int>(fines, (f) => f >= 0).Min());
+                    int indexMinFine = Array.IndexOf<int>(fines, Array.FindAll<int>(fines, (f) => f != Constants.BLOCK_FINE).Min());
                     resultSchedule.SetClass(sortedStudentsClasses[classIndex], positionsForClass[indexMinFine]);
                 }
                 else
