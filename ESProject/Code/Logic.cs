@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using Microsoft.Office.Interop.Excel;
 
 using Data;
 using Domain;
@@ -39,10 +40,14 @@ namespace Presentation.Code
         public void Start()
         {
             EntityStorage storage = Repo.GetEntityStorage();
-            ESProjectCore core = new ESProjectCore(Repo.GetStudentsClasses(storage), storage, FactorTypes);
+            StudentsClass[] classes = Repo.GetStudentsClasses(storage).ToArray();
+
+            ESProjectCore core = new ESProjectCore(classes, storage, FactorTypes);
             List<ISchedule> schedules = core.Run().ToList<ISchedule>();
             PartialSchedule asoi = schedules[0].GetPartialSchedule(storage.StudentSubGroups[0]);
+            ScheduleExcel excel = new ScheduleExcel(schedules[0], storage);
         }
 
     }
+    
 }
