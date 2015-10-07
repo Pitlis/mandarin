@@ -40,7 +40,7 @@ namespace Presentation.Code
                             fine = 70;
                             break;
                         case "StudentsOneWindow":
-                            fine = 20;
+                            fine = 30;
                             break;
                         case "StudentThreeWindows":
                             fine = 60;
@@ -77,6 +77,9 @@ namespace Presentation.Code
                             break;
                         case "SixthClass":
                             fine = 70;
+                            break;
+                        case "SaturdayTwoClasses":
+                            fine = 40;
                             break;
                         default:
                             break;
