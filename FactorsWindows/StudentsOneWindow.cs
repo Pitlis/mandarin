@@ -20,7 +20,7 @@ namespace FactorsWindows
         {
             int classTime = schedule.GetTimeOfTempClass();
             //Считаем день недели последней добавленной пары
-            int dayOfWeek = (int)Math.Ceiling( (double)classTime / Constants.CLASSES_IN_DAY);
+            int dayOfWeek = (int)Math.Floor( (double)classTime / Constants.CLASSES_IN_DAY);
             //Считаем номер пары в этот день
             int classOfDay = Constants.CLASSES_IN_DAY - (dayOfWeek * Constants.CLASSES_IN_DAY - classTime) - 1;
             foreach (StudentSubGroup subGroup in schedule.GetTempClass().SubGroups)
