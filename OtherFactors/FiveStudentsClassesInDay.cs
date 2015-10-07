@@ -9,7 +9,7 @@ using Domain.Model;
 
 namespace OtherFactors
 {
-    public class SixStudentsClasses : IFactor
+    class FiveStudentsClassesInDay : IFactor
     {
         int fine;
         bool isBlock;
@@ -22,12 +22,12 @@ namespace OtherFactors
             {
                 PartialSchedule groupSchedule = schedule.GetPartialSchedule(groups[groupIndex]);
                 int day = Constants.GetDayOfClass(schedule.GetTimeOfTempClass());
-                if (Array.FindAll<StudentsClass>(groupSchedule.GetClassesOfDay(day), (c) => c != null).Count() == 6)
+                if (Array.FindAll<StudentsClass>(groupSchedule.GetClassesOfDay(day), (c) => c != null).Count() == 5)
                 {
                     if (isBlock)
                         return Constants.BLOCK_FINE;
                     else
-                    fineResult += fine;
+                        fineResult += fine;
                 }
             }
             return fineResult;
@@ -41,7 +41,7 @@ namespace OtherFactors
                 PartialSchedule groupSchedule = schedule.GetPartialSchedule(eStorage.StudentSubGroups[groupIndex]);
                 for (int dayIndex = 0; dayIndex < Constants.WEEKS_IN_SCHEDULE * Constants.DAYS_IN_WEEK; dayIndex++)
                 {
-                    if (Array.FindAll<StudentsClass>(groupSchedule.GetClassesOfDay(dayIndex), (c) => c != null).Count() == 6)
+                    if (Array.FindAll<StudentsClass>(groupSchedule.GetClassesOfDay(dayIndex), (c) => c != null).Count() == 5)
                     {
                         if (isBlock)
                             return Constants.BLOCK_FINE;
@@ -55,11 +55,12 @@ namespace OtherFactors
 
         public string GetName()
         {
-            return "6 пар";
+            return "5 пар в день";
         }
+
         public string GetDescription()
         {
-            return "Шесть пар в день";
+            return "5 пар в день";
         }
 
         public void Initialize(int fine = 0, bool isBlock = false)

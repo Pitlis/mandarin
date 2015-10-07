@@ -9,7 +9,7 @@ using Domain.Model;
 
 namespace OtherFactors
 {
-    public class SixStudentsClasses : IFactor
+    class FiveStudentsClassesInRow : IFactor
     {
         int fine;
         bool isBlock;
@@ -22,16 +22,17 @@ namespace OtherFactors
             {
                 PartialSchedule groupSchedule = schedule.GetPartialSchedule(groups[groupIndex]);
                 int day = Constants.GetDayOfClass(schedule.GetTimeOfTempClass());
-                if (Array.FindAll<StudentsClass>(groupSchedule.GetClassesOfDay(day), (c) => c != null).Count() == 6)
+                if (GetCountClassesInRow(groupSchedule.GetClassesOfDay(day)) == 5)
                 {
                     if (isBlock)
                         return Constants.BLOCK_FINE;
                     else
-                    fineResult += fine;
+                        fineResult += fine;
                 }
             }
             return fineResult;
         }
+
 
         public int GetFineOfFullSchedule(ISchedule schedule, EntityStorage eStorage)
         {
@@ -41,7 +42,7 @@ namespace OtherFactors
                 PartialSchedule groupSchedule = schedule.GetPartialSchedule(eStorage.StudentSubGroups[groupIndex]);
                 for (int dayIndex = 0; dayIndex < Constants.WEEKS_IN_SCHEDULE * Constants.DAYS_IN_WEEK; dayIndex++)
                 {
-                    if (Array.FindAll<StudentsClass>(groupSchedule.GetClassesOfDay(dayIndex), (c) => c != null).Count() == 6)
+                    if (GetCountClassesInRow(groupSchedule.GetClassesOfDay(dayIndex)) == 5)
                     {
                         if (isBlock)
                             return Constants.BLOCK_FINE;
@@ -55,11 +56,11 @@ namespace OtherFactors
 
         public string GetName()
         {
-            return "6 пар";
+            return "5 пар подряд";
         }
         public string GetDescription()
         {
-            return "Шесть пар в день";
+            return "Пять пар подряд - это очень плохо";
         }
 
         public void Initialize(int fine = 0, bool isBlock = false)
@@ -71,6 +72,26 @@ namespace OtherFactors
                 if (fine == 100)
                     this.isBlock = true;
             }
+        }
+
+        int GetCountClassesInRow(StudentsClass[] classesInDay)
+        {
+            int RowMax = 0;
+            int currentRow = 0;
+            for (int classIndex = 0; classIndex < Constants.CLASSES_IN_DAY; classIndex++)
+            {
+                if(classesInDay[classIndex] != null)
+                {
+                    currentRow++;
+                }
+                else
+                {
+                    if (currentRow > RowMax)
+                        RowMax = currentRow;
+                    currentRow = 0;
+                }
+            }
+            return RowMax;
         }
     }
 }

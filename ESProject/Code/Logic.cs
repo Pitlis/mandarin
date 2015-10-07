@@ -48,9 +48,6 @@ namespace Presentation.Code
                         case "StudentTwoWindows":
                             fine = 40;
                             break;
-                        case "TeacherDayOff":
-                            fine = 100;
-                            break;
                         default:
                             break;
                     }
@@ -68,6 +65,15 @@ namespace Presentation.Code
                     {
                         case "SixStudentsClasses":
                             fine = 100;
+                            break;
+                        case "TeacherDayOff":
+                            fine = 100;
+                            break;
+                        case "FiveStudentsClassesInRow":
+                            fine = 100;
+                            break;
+                        case "FiveStudentsClassesInDay":
+                            fine = 50;
                             break;
                         default:
                             break;
