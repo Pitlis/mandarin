@@ -9,7 +9,7 @@ using Domain.Model;
 
 namespace OtherFactors
 {
-    public class SixStudentsClasses : IFactor
+    public class SixStudentsClasses 
     {
         int fine;
         bool isBlock;
@@ -21,12 +21,10 @@ namespace OtherFactors
             for (int groupIndex = 0; groupIndex < groups.Length; groupIndex++)
             {
                 PartialSchedule groupSchedule = schedule.GetPartialSchedule(groups[groupIndex]);
-                for (int dayIndex = 0; dayIndex < Constants.WEEKS_IN_SCHEDULE*Constants.DAYS_IN_WEEK; dayIndex++)
+                int day = Constants.GetDayOfClass(schedule.GetTimeOfTempClass());
+                if (Array.FindAll<StudentsClass>(groupSchedule.GetClassesOfDay(day), (c) => c != null).Count() == 6)
                 {
-                    if (Array.FindAll<StudentsClass>(groupSchedule.GetClassesOfDay(dayIndex), (c) => c != null).Count() == 6)
-                    {
-                        fineResult += fine;
-                    }
+                    fineResult += fine;
                 }
             }
             return fineResult;
