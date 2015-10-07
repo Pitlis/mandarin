@@ -38,6 +38,7 @@ namespace ESProject
 
 
             core.Start();
+            MessageBox.Show("Та да");
         }
     }
 }
