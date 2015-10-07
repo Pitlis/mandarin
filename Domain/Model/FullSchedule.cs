@@ -35,16 +35,17 @@ namespace Domain.Model
             }
         }
         
-        public StudentsClassPosition[] GetSuitableClassRooms(ClassRoomType[] requireForClassRoom)
+        public StudentsClassPosition[] GetSuitableClassRooms(StudentsClass sClass)
         {
             List<StudentsClassPosition> requereClassRooms = new List<StudentsClassPosition>();
-            for (int classRoomIndex = 0; classRoomIndex < eStorage.ClassRooms.Length; classRoomIndex++)
+
+            for (int timeIndex = 0; timeIndex < classes.GetLength(0); timeIndex++)
             {
-                if(eStorage.ClassRooms[classRoomIndex].SuitableByTypes(requireForClassRoom))
+                if(!TeacherBusy(sClass.Teacher, timeIndex) && !StudentsBusy(sClass.SubGroups, timeIndex))
                 {
-                    for (int timeIndex = 0; timeIndex < classes.GetLength(0); timeIndex++)
+                    for (int classRoomIndex = 0; classRoomIndex < eStorage.ClassRooms.Length; classRoomIndex++)
                     {
-                        if(classes[timeIndex, classRoomIndex] == null)
+                        if (classes[timeIndex, classRoomIndex] == null)
                         {
                             requereClassRooms.Add(new StudentsClassPosition(timeIndex, classRoomIndex));
                         }
@@ -126,6 +127,31 @@ namespace Domain.Model
             return new PartialSchedule(partSchedule);
         }
         #endregion
+
+        bool StudentsBusy(StudentSubGroup[] students, int Time)
+        {
+            for (int classRoomIndex = 0; classRoomIndex < classes.GetLength(1); classRoomIndex++)
+            {
+                for (int groupIndex = 0; groupIndex < students.Length; groupIndex++)
+                {
+                    if (classes[Time, classRoomIndex] != null && classes[Time, classRoomIndex].SubGroups.Contains(students[groupIndex]))
+                        return true;
+                }
+            }
+            return false;
+        }
+        bool TeacherBusy(Teacher[] teachers, int Time)
+        {
+            for (int classRoomIndex = 0; classRoomIndex < classes.GetLength(1); classRoomIndex++)
+            {
+                for (int teacherIndex = 0; teacherIndex < teachers.Length; teacherIndex++)
+                {
+                    if (classes[Time, classRoomIndex] != null && classes[Time, classRoomIndex].Teacher.Contains(teachers[teacherIndex]))
+                        return true;
+                }
+            }
+            return false;
+        }
 
         public struct StudentsClassPosition
         {
