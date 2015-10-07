@@ -13,5 +13,10 @@ namespace Domain.Services
         public const int CLASSES_IN_DAY = 6;
 
         public const int BLOCK_FINE = -1;
+
+        public static int GetDayOfClass(int classTime)
+        {
+            return (int)Math.Floor((double)classTime / CLASSES_IN_DAY);
+        }
     }
 }

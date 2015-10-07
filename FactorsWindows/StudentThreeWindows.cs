@@ -18,9 +18,9 @@ namespace FactorsWindows
         {
             int classTime = schedule.GetTimeOfTempClass();
             //Считаем день недели последней добавленной пары
-            int dayOfWeek = (int)Math.Floor((double)classTime / Constants.CLASSES_IN_DAY) + 1;
+            int dayOfWeek = Constants.GetDayOfClass(classTime);
             //Считаем номер пары в этот день
-            int classOfDay = Constants.CLASSES_IN_DAY - (dayOfWeek * Constants.CLASSES_IN_DAY + classTime);
+            int classOfDay = Constants.CLASSES_IN_DAY - ((dayOfWeek + 1) * Constants.CLASSES_IN_DAY + classTime);
             foreach (StudentSubGroup subGroup in schedule.GetTempClass().SubGroups)
             {
                 if (CheckWindowsOfAddedClass(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek), classOfDay))
