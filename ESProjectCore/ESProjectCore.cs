@@ -61,7 +61,7 @@ namespace ESCore
             //первая пара ставится в первое подходящее место и не проверяется
             resultSchedule.SetClass(sortedStudentsClasses[0], resultSchedule.GetSuitableClassRooms(sortedStudentsClasses[0])[0]);
             //----
-            int i = 0;
+
             for (int classIndex = 1; classIndex < sortedStudentsClasses.Length; classIndex++)
             {
                 FullSchedule.StudentsClassPosition[] positionsForClass = resultSchedule.GetSuitableClassRooms(sortedStudentsClasses[classIndex]);
@@ -69,7 +69,7 @@ namespace ESCore
 
                 Parallel.For(0, positionsForClass.Length, (positionIndex) =>
                 {
-                    Interlocked.Exchange(ref fines[positionIndex], GetSumFine(positionsForClass[positionIndex], CreateFactorsArray(), resultSchedule));
+                    Interlocked.Exchange(ref fines[positionIndex], GetSumFine(positionsForClass[positionIndex], CreateFactorsArray(), resultSchedule, sortedStudentsClasses[classIndex]));
                 });
                 
                 if (positionsForClass.Length > 0 && Array.FindAll<int>(fines, (f) => f != Constants.BLOCK_FINE).Length > 0)
@@ -87,15 +87,16 @@ namespace ESCore
             return resultSchedule;
         }
 
-        int GetSumFine(FullSchedule.StudentsClassPosition position, IFactor[] factors, FullSchedule scheduleForCreateTemp)
+        int GetSumFine(FullSchedule.StudentsClassPosition position, IFactor[] factors, FullSchedule scheduleForCreateTemp, StudentsClass sClass)
         {
             FullSchedule schedule = new FullSchedule(scheduleForCreateTemp);
+            schedule.SetClass(sClass, position);
             int fine = 0;
             int resultFine = 0;
             for (int factorIndex = 0; factorIndex < factors.Length; factorIndex++)
             {
                 fine = factors[factorIndex].GetFineOfAddedClass(schedule, EStorage);
-                if(fine != Constants.BLOCK_FINE)
+                if (fine != Constants.BLOCK_FINE)
                 {
                     resultFine += fine;
                 }

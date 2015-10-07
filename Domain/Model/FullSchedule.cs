@@ -45,7 +45,7 @@ namespace Domain.Model
                 {
                     for (int classRoomIndex = 0; classRoomIndex < eStorage.ClassRooms.Length; classRoomIndex++)
                     {
-                        if (classes[timeIndex, classRoomIndex] == null)
+                        if (classes[timeIndex, classRoomIndex] == null && eStorage.ClassRooms[classRoomIndex].SuitableByTypes(sClass.RequireForClassRoom))
                         {
                             requereClassRooms.Add(new StudentsClassPosition(timeIndex, classRoomIndex));
                         }

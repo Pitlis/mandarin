@@ -28,13 +28,50 @@ namespace Presentation.Code
             Assembly asm = Assembly.Load("FactorsWindows");
             foreach (var factor in asm.GetTypes())
             {
-                FactorTypes.Add(factor, 0);
+                if(factor.GetInterface("IFactor") != null)
+                {
+                    int fine = 0;
+                    switch (factor.Name)
+                    {
+                        case "StudentFiveWindows":
+                            fine = 99;
+                            break;
+                        case "StudentFourWindows":
+                            fine = 70;
+                            break;
+                        case "StudentsOneWindow":
+                            fine = 20;
+                            break;
+                        case "StudentThreeWindows":
+                            fine = 60;
+                            break;
+                        case "StudentTwoWindows":
+                            fine = 40;
+                            break;
+                        default:
+                            break;
+                    }
+                    FactorTypes.Add(factor, fine);
+                }
             }
-            //asm = Assembly.Load("OtherFactors");
-            //foreach (var factor in asm.GetTypes())
-            //{
-            //    //FactorTypes.Add(factor, 0);
-            //}
+            
+            asm = Assembly.Load("OtherFactors");
+            foreach (var factor in asm.GetTypes())
+            {
+                if (factor.GetInterface("IFactor") != null)
+                {
+                    int fine = 0;
+                    switch (factor.Name)
+                    {
+                        case "SixStudentsClasses":
+                            fine = 100;
+                            break;
+                        default:
+                            break;
+                    }
+                    FactorTypes.Add(factor, fine);
+                }
+            }
         }
 
         public void Start()

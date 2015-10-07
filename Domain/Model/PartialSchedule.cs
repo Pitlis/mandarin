@@ -18,7 +18,7 @@ namespace Domain.Model
 
         public StudentsClass[] GetClassesOfDay(int day)
         {
-            if (day < 0 || day > Constants.WEEKS_IN_SCHEDULE * Constants.DAYS_IN_WEEK)
+            if (day < 0 || day > Constants.WEEKS_IN_SCHEDULE * Constants.DAYS_IN_WEEK-1)
                 throw new Exception("Некорректный номер дня");
 
             StudentsClass[] classesOfDay = new StudentsClass[Constants.CLASSES_IN_DAY];
