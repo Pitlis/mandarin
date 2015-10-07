@@ -165,12 +165,7 @@ namespace Data
                                         new ClassRoomType[] { ES.ClassRoomsTypes[2] });
 
 
-           SC[16] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0], ES.StudentSubGroups[1], ES.StudentSubGroups[2] },
-                                       new Teacher[] { ES.Teachers[6] }, "СПО",
-                                       new ClassRoomType[] { ES.ClassRoomsTypes[0] });
-           SC[17] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0], ES.StudentSubGroups[1], ES.StudentSubGroups[2] },
-                                       new Teacher[] { ES.Teachers[6] }, "СПО",
-                                       new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+         
 
 
 
@@ -566,10 +561,10 @@ namespace Data
            SC[131] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[5] },
                             new Teacher[] { ES.Teachers[11] }, "ИНЯЗ ",
                             new ClassRoomType[] { ES.ClassRoomsTypes[1] });
-           SC[132] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[5] },
+           SC[16] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[5] },
                              new Teacher[] { ES.Teachers[11] }, "МСАЭ ",
                              new ClassRoomType[] { ES.ClassRoomsTypes[0] });
-           SC[133] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[5] },
+           SC[17] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[5] },
                              new Teacher[] { ES.Teachers[11] }, "МСАЭ ",
                              new ClassRoomType[] { ES.ClassRoomsTypes[0] });
 
