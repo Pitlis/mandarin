@@ -69,6 +69,12 @@ namespace Presentation.Code
                         case "TeacherDayOff":
                             fine = 100;
                             break;
+                        case "FiveStudentsClassesInRow":
+                            fine = 100;
+                            break;
+                        case "FiveStudentsClassesInDay":
+                            fine = 50;
+                            break;
                         default:
                             break;
                     }
