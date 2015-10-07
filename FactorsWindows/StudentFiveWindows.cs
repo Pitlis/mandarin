@@ -1,26 +1,24 @@
 ﻿using Domain;
+using Domain.Model;
+using Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Services;
-using Domain.Model;
 
 namespace FactorsWindows
 {
-    public class StudentsOneWindow : IFactor
+    class StudentFiveWindows : IFactor
     {
         int fine;
         bool isBlock;
-        //Та Дам не прошлё и пол года)
-        //Здесь был Серёжа. Привет Никита!!!!!!!
-        //А здесь был я, Дима
+
         public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
         {
             int classTime = schedule.GetTimeOfTempClass();
             //Считаем день недели последней добавленной пары
-            int dayOfWeek = (int)Math.Ceiling( (double)classTime / Constants.CLASSES_IN_DAY);
+            int dayOfWeek = (int)Math.Ceiling((double)classTime / Constants.CLASSES_IN_DAY);
             //Считаем номер пары в этот день
             int classOfDay = Constants.CLASSES_IN_DAY - (dayOfWeek * Constants.CLASSES_IN_DAY - classTime) - 1;
             foreach (StudentSubGroup subGroup in schedule.GetTempClass().SubGroups)
@@ -55,26 +53,7 @@ namespace FactorsWindows
 
         static private bool CheckWindowsOfAddedClass(StudentsClass[] sClasses, int classOfDay)
         {
-            int last = LastClassOfDay(sClasses);
-            if (classOfDay == 0 && last == 0)
-            {
-                return false;
-            }
-            if (classOfDay > 1 && classOfDay < (Constants.CLASSES_IN_DAY - 2))
-            {
-                if (CheckWindowsOfNextClass(sClasses, classOfDay) || CheckWindowsOfPreviousClass(sClasses, classOfDay))
-                {
-                    return true;
-                }
-            }
-            else if (classOfDay == 1)
-            {
-                if (CheckWindowsOfNextClass(sClasses, classOfDay))
-                {
-                    return true;
-                }
-            }
-            else if (classOfDay == Constants.CLASSES_IN_DAY - 1)
+            if (classOfDay == 5)
             {
                 if (CheckWindowsOfPreviousClass(sClasses, classOfDay))
                 {
@@ -84,18 +63,10 @@ namespace FactorsWindows
             return false;
         }
 
-        static private bool CheckWindowsOfNextClass(StudentsClass[] sClasses, int classOfDay)
-        {
-            if (sClasses[classOfDay + 1] == null && sClasses[classOfDay + 2] != null)
-            {
-                return true;
-            }
-            return false;
-        }
-
         static private bool CheckWindowsOfPreviousClass(StudentsClass[] sClasses, int classOfDay)
         {
-            if (sClasses[classOfDay - 1] == null && sClasses[classOfDay - 2] != null)
+            if (sClasses[classOfDay - 1] == null && sClasses[classOfDay - 2] == null &&
+                sClasses[classOfDay - 3] == null && sClasses[classOfDay - 4] == null && sClasses[classOfDay - 5] != null)
             {
                 return true;
             }
@@ -107,18 +78,20 @@ namespace FactorsWindows
             int windowCount = 0;
             //Ищем номер последней в этот день пары
             int last = LastClassOfDay(sClasses);
-            //Если пара одна или их вообще нет, то соотвественно форточек нет
-            if (last < 2)
+            //Если пар четыре/три/две/одна или их вообще нет, то соотвественно форточек нет
+            if (last < 6)
             {
                 return 0;
             }
-            for (int k = 0; k < Constants.CLASSES_IN_DAY - 1; k++)
+            for (int k = 0; k < Constants.CLASSES_IN_DAY - 5; k++)
             {
-                //Если текущей пары нет, а следующая есть, то текущая пара будет одиночной форточкой
-                if (sClasses[k] == null && sClasses[k + 1] != null)
+                //Если текущей пары и следующих 4 нет, а следующая после этих есть, 
+                //то текущая будет форточка из пяти пар
+                if (sClasses[k] == null && sClasses[k + 1] == null && sClasses[k + 2] == null &&
+                    sClasses[k + 3] == null && sClasses[k + 4] == null && sClasses[k + 5] != null)
                 {
                     windowCount++;
-                    k++;
+                    k += 5;
                 }
             }
             return windowCount;
@@ -139,17 +112,17 @@ namespace FactorsWindows
 
         public string GetDescription()
         {
-            return "Одна форточка у студентов";
+            return "Пять форточек у студентов";
         }
 
         public string GetName()
         {
-            return "Форточка у студентов";
+            return "Форточки у студентов";
         }
 
         public void Initialize(int fine = 0, bool isBlock = false)
         {
-            if(fine >= 0 && fine <= 100)
+            if (fine >= 0 && fine <= 100)
             {
                 this.fine = fine;
                 this.isBlock = isBlock;
@@ -157,7 +130,5 @@ namespace FactorsWindows
                     this.isBlock = true;
             }
         }
-
-
     }
 }

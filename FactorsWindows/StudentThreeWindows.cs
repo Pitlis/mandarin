@@ -1,31 +1,36 @@
 ﻿using Domain;
+using Domain.Model;
+using Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Services;
-using Domain.Model;
 
 namespace FactorsWindows
 {
-    public class StudentsOneWindow : IFactor
+    class StudentThreeWindows : IFactor
     {
         int fine;
         bool isBlock;
-        //Та Дам не прошлё и пол года)
-        //Здесь был Серёжа. Привет Никита!!!!!!!
-        //А здесь был я, Дима
+
         public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
         {
             int classTime = schedule.GetTimeOfTempClass();
             //Считаем день недели последней добавленной пары
-            int dayOfWeek = (int)Math.Ceiling( (double)classTime / Constants.CLASSES_IN_DAY);
+            int dayOfWeek = (int)Math.Ceiling((double)classTime / Constants.CLASSES_IN_DAY);
             //Считаем номер пары в этот день
             int classOfDay = Constants.CLASSES_IN_DAY - (dayOfWeek * Constants.CLASSES_IN_DAY - classTime) - 1;
             foreach (StudentSubGroup subGroup in schedule.GetTempClass().SubGroups)
             {
                 if (CheckWindowsOfAddedClass(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek), classOfDay))
+                {
+                    return fine;
+                }
+            }
+            foreach (Teacher teacher in schedule.GetTempClass().Teacher)
+            {
+                if (CheckWindowsOfAddedClass(schedule.GetPartialSchedule(teacher).GetClassesOfDay(dayOfWeek), classOfDay))
                 {
                     return fine;
                 }
@@ -44,6 +49,10 @@ namespace FactorsWindows
                     //Получаем количество форточек у одной группы в один день
                     windowCount = CountUpWindowsOfFullSchedule(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(i));
                 }
+                foreach (Teacher t in eStorage.Teachers)
+                {
+                    windowCount += CountUpWindowsOfFullSchedule(schedule.GetPartialSchedule(t).GetClassesOfDay(i));
+                }
             }
 
             if (windowCount != 0)
@@ -56,25 +65,23 @@ namespace FactorsWindows
         static private bool CheckWindowsOfAddedClass(StudentsClass[] sClasses, int classOfDay)
         {
             int last = LastClassOfDay(sClasses);
-            if (classOfDay == 0 && last == 0)
+            if ((classOfDay == 0 && last == 0) || (classOfDay == 1 && last == 1) ||
+                (classOfDay == 2 && last == 2))
             {
                 return false;
             }
-            if (classOfDay > 1 && classOfDay < (Constants.CLASSES_IN_DAY - 2))
+            else if (classOfDay == 3 && sClasses[0] == null && sClasses[1] == null && sClasses[2] == null)
             {
-                if (CheckWindowsOfNextClass(sClasses, classOfDay) || CheckWindowsOfPreviousClass(sClasses, classOfDay))
-                {
-                    return true;
-                }
+                return true;
             }
-            else if (classOfDay == 1)
+            else if (classOfDay == 0 || classOfDay == 1)
             {
                 if (CheckWindowsOfNextClass(sClasses, classOfDay))
                 {
                     return true;
                 }
             }
-            else if (classOfDay == Constants.CLASSES_IN_DAY - 1)
+            else if (classOfDay == 4 || classOfDay == 5)
             {
                 if (CheckWindowsOfPreviousClass(sClasses, classOfDay))
                 {
@@ -86,7 +93,8 @@ namespace FactorsWindows
 
         static private bool CheckWindowsOfNextClass(StudentsClass[] sClasses, int classOfDay)
         {
-            if (sClasses[classOfDay + 1] == null && sClasses[classOfDay + 2] != null)
+            if (sClasses[classOfDay + 1] == null && sClasses[classOfDay + 2] == null && 
+                sClasses[classOfDay + 3] == null && sClasses[classOfDay + 4] != null)
             {
                 return true;
             }
@@ -95,7 +103,8 @@ namespace FactorsWindows
 
         static private bool CheckWindowsOfPreviousClass(StudentsClass[] sClasses, int classOfDay)
         {
-            if (sClasses[classOfDay - 1] == null && sClasses[classOfDay - 2] != null)
+            if (sClasses[classOfDay - 1] == null && sClasses[classOfDay - 2] == null && 
+                sClasses[classOfDay - 3] == null && sClasses[classOfDay - 4] != null)
             {
                 return true;
             }
@@ -107,18 +116,19 @@ namespace FactorsWindows
             int windowCount = 0;
             //Ищем номер последней в этот день пары
             int last = LastClassOfDay(sClasses);
-            //Если пара одна или их вообще нет, то соотвественно форточек нет
-            if (last < 2)
+            //Если пар три/две/одна или их вообще нет, то соотвественно форточек нет
+            if (last < 4)
             {
                 return 0;
             }
-            for (int k = 0; k < Constants.CLASSES_IN_DAY - 1; k++)
+            for (int k = 0; k < Constants.CLASSES_IN_DAY - 3; k++)
             {
-                //Если текущей пары нет, а следующая есть, то текущая пара будет одиночной форточкой
-                if (sClasses[k] == null && sClasses[k + 1] != null)
+                //Если текущей пары и следующих 2 нет, а следующая после них есть, 
+                //то текущая будет форточка из трех пар
+                if (sClasses[k] == null && sClasses[k + 1] == null && sClasses[k + 2] == null && sClasses[k + 3] != null)
                 {
                     windowCount++;
-                    k++;
+                    k += 3;
                 }
             }
             return windowCount;
@@ -139,17 +149,17 @@ namespace FactorsWindows
 
         public string GetDescription()
         {
-            return "Одна форточка у студентов";
+            return "Три форточки у студентов";
         }
 
         public string GetName()
         {
-            return "Форточка у студентов";
+            return "Форточки у студентов";
         }
 
         public void Initialize(int fine = 0, bool isBlock = false)
         {
-            if(fine >= 0 && fine <= 100)
+            if (fine >= 0 && fine <= 100)
             {
                 this.fine = fine;
                 this.isBlock = isBlock;
@@ -157,7 +167,5 @@ namespace FactorsWindows
                     this.isBlock = true;
             }
         }
-
-
     }
 }
