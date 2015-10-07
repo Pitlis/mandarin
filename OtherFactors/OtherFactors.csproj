@@ -43,6 +43,7 @@
     <Compile Include="FiveStudentsClassesInDay.cs" />
     <Compile Include="FiveStudentsClassesInRow.cs" />
     <Compile Include="SixStudentsClasses.cs" />
+    <Compile Include="SixthClass.cs" />
     <Compile Include="TeacherDayOff.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

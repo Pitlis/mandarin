@@ -75,6 +75,9 @@ namespace Presentation.Code
                         case "FiveStudentsClassesInDay":
                             fine = 50;
                             break;
+                        case "SixthClass":
+                            fine = 70;
+                            break;
                         default:
                             break;
                     }
