@@ -153,6 +153,19 @@ namespace Domain.Model
             return false;
         }
 
+        public ClassRoom GetClassRoom(StudentsClass sClass)
+        {
+            for (int timeIndex = 0; timeIndex < classes.GetLength(0); timeIndex++)
+            {
+                for (int classRoomIndex = 0; classRoomIndex < classes.GetLength(1); classRoomIndex++)
+                {
+                    if (classes[timeIndex, classRoomIndex] == sClass)
+                        return eStorage.ClassRooms[classRoomIndex];
+                }
+            }
+            return null;
+        }
+
         public struct StudentsClassPosition
         {
             public StudentsClassPosition(int time, int classroom) : this()

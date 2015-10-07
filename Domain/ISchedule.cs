@@ -16,5 +16,6 @@ namespace Domain
         StudentsClass GetTempClass();
         ClassRoom GetTempClassRooom();
         int GetTimeOfTempClass();
+        ClassRoom GetClassRoom(StudentsClass sClass);
     }
 }
