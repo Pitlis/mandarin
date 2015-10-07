@@ -31,19 +31,26 @@ namespace Presentation.Code
                 PartialSchedule partSchedule;
                 partSchedule = schedule.GetPartialSchedule(groop);
                 StudentsClass[] sched;
+                ClassRoom clas;
                 sched = partSchedule.GetClasses();
 
-
-                ((Range)ObjWorkSheet.Cells[1, k]).Clear();
-                ((Range)ObjWorkSheet.Cells[2, k]).Clear();
+                
+                
                 ((Range)ObjWorkSheet.Cells[1, k]).Value2 = groop.NameGroup;
                 ((Range)ObjWorkSheet.Cells[2, k]).Value2 = groop.NumberSubGroup;
                 for (int i = 0; i < (Domain.Services.Constants.CLASSES_IN_DAY * Domain.Services.Constants.DAYS_IN_WEEK * Domain.Services.Constants.WEEKS_IN_SCHEDULE); i++)
                 {
-                    ((Range)ObjWorkSheet.Cells[(i + 3), k]).Clear();
                     if (sched[i] != null)
                     {
-                        ((Range)ObjWorkSheet.Cells[(i + 3), k]).Value2 = sched[i].Name;
+                        string str;
+                        clas = schedule.GetClassRoom(sched[i]);
+                        str = sched[i].Name + "\n" +clas.Housing+" а."+clas.Number;
+                        for (int n = 0; n < sched[i].Teacher.Length; n++)
+                        {
+                            str = str + "\n" + sched[i].Teacher[n].FLSName;
+                        }
+                       
+                        ((Range)ObjWorkSheet.Cells[(i + 3), k]).Value2 = str;
                     }
 
                 }
