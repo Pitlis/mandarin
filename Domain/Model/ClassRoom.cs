@@ -9,8 +9,8 @@ namespace Domain.Model
 {
     public class ClassRoom
     {
-        public int Number { get; private set; }
-        public int Housing { get; private set; }
+        public int Number { get; private set; }//аудитория
+        public int Housing { get; private set; }//корпус
         ClassRoomType[] crTypes;
 
 

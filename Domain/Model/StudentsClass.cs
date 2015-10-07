@@ -15,7 +15,7 @@ namespace Domain.Model
         //В такую пару будут входить 2 подгруппы и 2 препода
         //Пара проходит в одно время в одной аудитории
 
-        public string Name { get; private set; }
+        public string Name { get; private set; }//название предмета
         public ClassRoomType[] RequireForClassRoom { get; private set; }
 
 

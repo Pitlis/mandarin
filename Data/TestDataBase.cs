@@ -110,7 +110,7 @@ namespace Data
        }
        public TestDataBase(ref StudentsClass[] SC, EntityStorage ES)
        {
-           SC = new StudentsClass[134];
+           SC = new StudentsClass[132];
            SC[0] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0], ES.StudentSubGroups[1], ES.StudentSubGroups[2] },
                                         new Teacher[] { ES.Teachers[24] }, "ММИПУ",
                                         new ClassRoomType[] { ES.ClassRoomsTypes[0] });
