@@ -11,6 +11,9 @@ using Domain;
 using ESCore;
 using Domain.Services;
 using Domain.Model;
+using SimpleLogging.NLog;
+using SimpleLogging.Core;
+using System.Runtime.InteropServices;
 
 namespace Presentation.Code
 {
@@ -40,7 +43,7 @@ namespace Presentation.Code
                             fine = 70;
                             break;
                         case "StudentsOneWindow":
-                            fine = 30;
+                            fine = 100;
                             break;
                         case "StudentThreeWindows":
                             fine = 60;
@@ -89,15 +92,30 @@ namespace Presentation.Code
             }
         }
 
+        [DllImport("Kernel32")]
+        public static extern void AllocConsole();
+
+        [DllImport("Kernel32")]
+        public static extern void FreeConsole();
+
         public void Start()
         {
+            AllocConsole();
+            ILoggingService loggingService = new NLogLoggingService();
             EntityStorage storage = Repo.GetEntityStorage();
             StudentsClass[] classes = Repo.GetStudentsClasses(storage).ToArray();
+            loggingService.Info("Загружены данные");
 
             ESProjectCore core = new ESProjectCore(classes, storage, FactorTypes);
+            core.logger = loggingService;
+            loggingService.Info("Загружено ядро. Запуск...");
+
             List<ISchedule> schedules = core.Run().ToList<ISchedule>();
+
+            loggingService.Info("Итоговое расписание готово");
             PartialSchedule asoi = schedules[0].GetPartialSchedule(storage.StudentSubGroups[0]);
             ScheduleExcel excel = new ScheduleExcel(schedules[0], storage);
+            loggingService.Info("Расписание выгружено в Excel");
         }
 
     }

@@ -7,6 +7,7 @@ using Domain;
 using Domain.Model;
 using Domain.Services;
 using System.Threading;
+using SimpleLogging.Core;
 
 namespace ESCore
 {
@@ -20,6 +21,7 @@ namespace ESCore
 
         public int Option1 { get; set; }
         public int Option2 { get; set; }
+        public ILoggingService logger { get; set; }
 
         #endregion
 
@@ -38,15 +40,18 @@ namespace ESCore
             int[] fines = new int[sortCount];
             for (int sortIndex = 0; sortIndex < sortCount; sortIndex++)
             {
+                logger.Info("Итерация " + sortIndex + 1);
                 StudentsClass[] sortedClasses = SortClasses.Sort(Classes, sortIndex);
                 FullSchedule schedule = CreateSchedule(sortedClasses);
                 schedules[sortIndex] = schedule;
                 if (schedule != null)
                 {
                     fines[sortIndex] = ScanFullSchedule(schedule);
+                    logger.Info("Расписание " + (sortIndex + 1) + " сформировано");
                 }
                 else
                 {
+                    logger.Info("Расписание " + (sortIndex + 1) + "заблокировано");
                     fines[sortIndex] = Constants.BLOCK_FINE;
                 }
             }
@@ -76,6 +81,9 @@ namespace ESCore
                 {
                     int indexMinFine = Array.IndexOf<int>(fines, Array.FindAll<int>(fines, (f) => f != Constants.BLOCK_FINE).Min());
                     resultSchedule.SetClass(sortedStudentsClasses[classIndex], positionsForClass[indexMinFine]);
+
+                    logger.Info("Пара <" + sortedStudentsClasses[classIndex].Name +
+                        " " + sortedStudentsClasses[classIndex].Teacher[0].FLSName + "> установлена");
                 }
                 else
                 {
