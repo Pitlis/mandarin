@@ -21,12 +21,21 @@ namespace Presentation.Code
     {
         public IRepository Repo { get; private set; }
         public Dictionary<Type, DataFactor> FactorTypes { get; private set; }
+        EntityStorage storage;
+        StudentsClass[] classes;
+        ILoggingService loggingService;
 
         //TODO Заглушка для Dependency Inversion
         public void DI()
         {
             Repo = new Repository();
             FactorTypes = new Dictionary<Type, DataFactor>();
+
+            AllocConsole();
+            loggingService = new NLogLoggingService();
+            storage = Repo.GetEntityStorage();
+            classes = Repo.GetStudentsClasses(storage).ToArray();
+            loggingService.Info("Загружены данные");
 
             Assembly asm = Assembly.Load("FactorsWindows");
             foreach (var factor in asm.GetTypes())
@@ -61,6 +70,7 @@ namespace Presentation.Code
             asm = Assembly.Load("OtherFactors");
             foreach (var factor in asm.GetTypes())
             {
+                object obj = null;
                 if (factor.GetInterface("IFactor") != null)
                 {
                     int fine = 0;
@@ -84,10 +94,15 @@ namespace Presentation.Code
                         case "SaturdayTwoClasses":
                             fine = 40;
                             break;
+                        case "TwoClassesInWeek":
+                            fine = 100;
+                            StudentsClass[] c = Array.FindAll(classes, (cl) => cl.Name == "ФИЗРА");
+                            obj = new StudentsClass[,] { { c[0], c[1], c[2], c[3] } };
+                            break;
                         default:
                             break;
                     }
-                    FactorTypes.Add(factor, new DataFactor(fine));
+                    FactorTypes.Add(factor, new DataFactor(fine, obj));
                 }
             }
         }
@@ -100,11 +115,6 @@ namespace Presentation.Code
 
         public void Start()
         {
-            AllocConsole();
-            ILoggingService loggingService = new NLogLoggingService();
-            EntityStorage storage = Repo.GetEntityStorage();
-            StudentsClass[] classes = Repo.GetStudentsClasses(storage).ToArray();
-            loggingService.Info("Загружены данные");
 
             ESProjectCore core = new ESProjectCore(classes, storage, FactorTypes);
             core.logger = loggingService;

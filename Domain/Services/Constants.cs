@@ -18,5 +18,9 @@ namespace Domain.Services
         {
             return (int)Math.Floor((double)classTime / CLASSES_IN_DAY);
         }
+        public static int GetWeekOfClass(int classTime)
+        {
+            return classTime < CLASSES_IN_DAY * DAYS_IN_WEEK ? 0 : 1;
+        }
     }
 }

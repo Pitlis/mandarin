@@ -166,6 +166,19 @@ namespace Domain.Model
             return null;
         }
 
+        public StudentsClassPosition? GetClassPosition(StudentsClass sClass)
+        {
+            for (int timeIndex = 0; timeIndex < classes.GetLength(0); timeIndex++)
+            {
+                for (int roomIndex = 0; roomIndex < classes.GetLength(1); roomIndex++)
+                {
+                    if (classes[timeIndex, roomIndex] == sClass)
+                        return new StudentsClassPosition(timeIndex, roomIndex);
+                }
+            }
+            return null;
+        }
+
         public struct StudentsClassPosition
         {
             public StudentsClassPosition(int time, int classroom) : this()

@@ -17,5 +17,6 @@ namespace Domain
         ClassRoom GetTempClassRooom();
         int GetTimeOfTempClass();
         ClassRoom GetClassRoom(StudentsClass sClass);
+        FullSchedule.StudentsClassPosition? GetClassPosition(StudentsClass sClass);
     }
 }
