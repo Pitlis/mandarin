@@ -18,6 +18,7 @@ namespace FactorsWindows
         //А здесь был я, Дима
         public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
         {
+            int fineResult = 0;
             int classTime = schedule.GetTimeOfTempClass();
             //Считаем день недели последней добавленной пары
             int dayOfWeek = Constants.GetDayOfClass(classTime);
@@ -27,10 +28,15 @@ namespace FactorsWindows
             {
                 if (CheckWindowsOfAddedClass(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek), classOfDay))
                 {
-                    return fine;
+                    if (isBlock)
+                        return Constants.BLOCK_FINE;
+                    else
+                    {
+                        fineResult += fine;
+                    }
                 }
             }
-            return 0;
+            return fineResult;
         }
 
         public int GetFineOfFullSchedule(ISchedule schedule, EntityStorage eStorage)
@@ -147,7 +153,7 @@ namespace FactorsWindows
             return "Форточка у студентов";
         }
 
-        public void Initialize(int fine = 0, bool isBlock = false)
+        public void Initialize(int fine = 0, bool isBlock = false, object data = null)
         {
             if(fine >= 0 && fine <= 100)
             {
@@ -156,6 +162,10 @@ namespace FactorsWindows
                 if (fine == 100)
                     this.isBlock = true;
             }
+        }
+        public object GetDataType()
+        {
+            return null;
         }
 
 

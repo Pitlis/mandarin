@@ -14,7 +14,7 @@ namespace ESCore
     public class ESProjectCore
     {
         StudentsClass[] Classes;
-        Dictionary<Type, int> Factors;
+        Dictionary<Type, DataFactor> Factors;
         public static EntityStorage EStorage { get; private set; }
 
         #region Options
@@ -25,7 +25,7 @@ namespace ESCore
 
         #endregion
 
-        public ESProjectCore(IEnumerable<StudentsClass> classes, EntityStorage storage, Dictionary<Type, int> factors)
+        public ESProjectCore(IEnumerable<StudentsClass> classes, EntityStorage storage, Dictionary<Type, DataFactor> factors)
         {
             Classes = classes.ToArray<StudentsClass>();
             Factors = factors;
@@ -122,7 +122,7 @@ namespace ESCore
             foreach(var factor in Factors)
             {
                 factors[factorIndex] = (IFactor)Activator.CreateInstance(factor.Key);
-                factors[factorIndex].Initialize(factor.Value);
+                factors[factorIndex].Initialize(fine: factor.Value.Fine, data: factor.Value.Data);
                 factorIndex++;
             }
             return factors;

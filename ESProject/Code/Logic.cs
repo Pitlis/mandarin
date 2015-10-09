@@ -20,13 +20,13 @@ namespace Presentation.Code
     class Logic
     {
         public IRepository Repo { get; private set; }
-        public Dictionary<Type, int> FactorTypes { get; private set; }
+        public Dictionary<Type, DataFactor> FactorTypes { get; private set; }
 
         //TODO Заглушка для Dependency Inversion
         public void DI()
         {
             Repo = new Repository();
-            FactorTypes = new Dictionary<Type, int>();
+            FactorTypes = new Dictionary<Type, DataFactor>();
 
             Assembly asm = Assembly.Load("FactorsWindows");
             foreach (var factor in asm.GetTypes())
@@ -54,7 +54,7 @@ namespace Presentation.Code
                         default:
                             break;
                     }
-                    FactorTypes.Add(factor, fine);
+                    FactorTypes.Add(factor, new DataFactor(fine));
                 }
             }
 
@@ -87,7 +87,7 @@ namespace Presentation.Code
                         default:
                             break;
                     }
-                    FactorTypes.Add(factor, fine);
+                    FactorTypes.Add(factor, new DataFactor(fine));
                 }
             }
         }
@@ -113,6 +113,7 @@ namespace Presentation.Code
             List<ISchedule> schedules = core.Run().ToList<ISchedule>();
 
             loggingService.Info("Итоговое расписание готово");
+            loggingService.Info("Выгрузка в Excel...");
             PartialSchedule asoi = schedules[0].GetPartialSchedule(storage.StudentSubGroups[0]);
             ScheduleExcel excel = new ScheduleExcel(schedules[0], storage);
             ScheduleExcelTeacher excelTeach = new ScheduleExcelTeacher(schedules[0], storage);

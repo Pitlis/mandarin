@@ -80,7 +80,7 @@ namespace OtherFactors
             return "Больше двух пар в субботу";
         }
 
-        public void Initialize(int fine = 0, bool isBlock = false)
+        public void Initialize(int fine = 0, bool isBlock = false, object data = null)
         {
             if (fine >= 0 && fine <= 100)
             {
@@ -89,6 +89,10 @@ namespace OtherFactors
                 if (fine == 100)
                     this.isBlock = true;
             }
+        }
+        public object GetDataType()
+        {
+            return null;
         }
     }
 }

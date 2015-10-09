@@ -157,7 +157,7 @@ namespace FactorsWindows
             return "Форточки у студентов";
         }
 
-        public void Initialize(int fine = 0, bool isBlock = false)
+        public void Initialize(int fine = 0, bool isBlock = false, object data = null)
         {
             if (fine >= 0 && fine <= 100)
             {
@@ -166,6 +166,10 @@ namespace FactorsWindows
                 if (fine == 100)
                     this.isBlock = true;
             }
+        }
+        public object GetDataType()
+        {
+            return null;
         }
     }
 }

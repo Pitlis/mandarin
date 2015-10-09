@@ -128,7 +128,7 @@ namespace OtherFactors
             return "Поиск выходного дня преподователя";
         }
 
-        public void Initialize(int fine , bool isBlock = false)
+        public void Initialize(int fine , bool isBlock = false, object data = null)
         {
             if (fine >= 0 && fine <= 100)
             {
@@ -137,6 +137,10 @@ namespace OtherFactors
                 if (fine == 100)
                     this.isBlock = true;
             }
+        }
+        public object GetDataType()
+        {
+            return null;
         }
     }
 }
