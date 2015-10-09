@@ -31,7 +31,7 @@ namespace Presentation.Code
             Assembly asm = Assembly.Load("FactorsWindows");
             foreach (var factor in asm.GetTypes())
             {
-                if(factor.GetInterface("IFactor") != null)
+                if (factor.GetInterface("IFactor") != null)
                 {
                     int fine = 0;
                     switch (factor.Name)
@@ -57,7 +57,7 @@ namespace Presentation.Code
                     FactorTypes.Add(factor, fine);
                 }
             }
-            
+
             asm = Assembly.Load("OtherFactors");
             foreach (var factor in asm.GetTypes())
             {
@@ -115,9 +115,9 @@ namespace Presentation.Code
             loggingService.Info("Итоговое расписание готово");
             PartialSchedule asoi = schedules[0].GetPartialSchedule(storage.StudentSubGroups[0]);
             ScheduleExcel excel = new ScheduleExcel(schedules[0], storage);
+            ScheduleExcelTeacher excelTeach = new ScheduleExcelTeacher(schedules[0], storage);
             loggingService.Info("Расписание выгружено в Excel");
         }
 
     }
-    
 }
