@@ -23,17 +23,14 @@ namespace FactorsWindows
             //Считаем день недели последней добавленной пары
             int dayOfWeek = Constants.GetDayOfClass(classTime);
             //Считаем номер пары в этот день
-            int classOfDay = Constants.CLASSES_IN_DAY - ((dayOfWeek + 1) * Constants.CLASSES_IN_DAY + classTime);
+            int classOfDay = classTime - (6 * (dayOfWeek) - 1) - 1;
             foreach (StudentSubGroup subGroup in schedule.GetTempClass().SubGroups)
             {
-                if (CheckWindowsOfAddedClass(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek), classOfDay))
+                if (isBlock)
+                    return Constants.BLOCK_FINE;
+                else
                 {
-                    if (isBlock)
-                        return Constants.BLOCK_FINE;
-                    else
-                    {
-                        fineResult += fine;
-                    }
+                    fineResult += CheckWindowsOfAddedClass(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek), classOfDay, fine);
                 }
             }
             return fineResult;
@@ -43,7 +40,7 @@ namespace FactorsWindows
         {
             int windowCount = 0;
 
-            for (int i = 0; i < Constants.DAYS_IN_WEEK; i++)
+            for (int i = 0; i < Constants.DAYS_IN_WEEK * Constants.WEEKS_IN_SCHEDULE; i++)
             {
                 foreach (StudentSubGroup subGroup in eStorage.StudentSubGroups)
                 {
@@ -59,35 +56,33 @@ namespace FactorsWindows
             return 0;
         }
 
-        static private bool CheckWindowsOfAddedClass(StudentsClass[] sClasses, int classOfDay)
+        static private int CheckWindowsOfAddedClass(StudentsClass[] sClasses, int classOfDay, int fine)
         {
+            int result = 0;
             int last = LastClassOfDay(sClasses);
             if (classOfDay == 0 && last == 0)
             {
-                return false;
+                return 0;
             }
-            if (classOfDay > 1 && classOfDay < (Constants.CLASSES_IN_DAY - 2))
+            if (classOfDay == 1 && sClasses[0] == null)
             {
-                if (CheckWindowsOfNextClass(sClasses, classOfDay) || CheckWindowsOfPreviousClass(sClasses, classOfDay))
-                {
-                    return true;
-                }
+                result += fine;
             }
-            else if (classOfDay == 1)
+            if (classOfDay < 4)
             {
                 if (CheckWindowsOfNextClass(sClasses, classOfDay))
                 {
-                    return true;
+                    result += fine;
                 }
             }
-            else if (classOfDay == Constants.CLASSES_IN_DAY - 1)
+            if (classOfDay > 1)
             {
                 if (CheckWindowsOfPreviousClass(sClasses, classOfDay))
                 {
-                    return true;
+                    result += fine;
                 }
             }
-            return false;
+            return result;
         }
 
         static private bool CheckWindowsOfNextClass(StudentsClass[] sClasses, int classOfDay)

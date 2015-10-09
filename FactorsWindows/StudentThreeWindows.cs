@@ -16,33 +16,27 @@ namespace FactorsWindows
 
         public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
         {
+            int fineResult = 0;
             int classTime = schedule.GetTimeOfTempClass();
             //Считаем день недели последней добавленной пары
             int dayOfWeek = Constants.GetDayOfClass(classTime);
             //Считаем номер пары в этот день
-            int classOfDay = Constants.CLASSES_IN_DAY - ((dayOfWeek + 1) * Constants.CLASSES_IN_DAY + classTime);
+            int classOfDay = classTime - (6 * (dayOfWeek) - 1) - 1;
             foreach (StudentSubGroup subGroup in schedule.GetTempClass().SubGroups)
             {
-                if (CheckWindowsOfAddedClass(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek), classOfDay))
-                {
-                    return fine;
-                }
+                if (isBlock)
+                    return Constants.BLOCK_FINE;
+                else
+                    fineResult += CheckWindowsOfAddedClass(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek), classOfDay, fine);
             }
-            foreach (Teacher teacher in schedule.GetTempClass().Teacher)
-            {
-                if (CheckWindowsOfAddedClass(schedule.GetPartialSchedule(teacher).GetClassesOfDay(dayOfWeek), classOfDay))
-                {
-                    return fine;
-                }
-            }
-            return 0;
+            return fineResult;
         }
 
         public int GetFineOfFullSchedule(ISchedule schedule, EntityStorage eStorage)
         {
             int windowCount = 0;
 
-            for (int i = 0; i < Constants.DAYS_IN_WEEK; i++)
+            for (int i = 0; i < Constants.DAYS_IN_WEEK * Constants.WEEKS_IN_SCHEDULE; i++)
             {
                 foreach (StudentSubGroup subGroup in eStorage.StudentSubGroups)
                 {
@@ -62,33 +56,34 @@ namespace FactorsWindows
             return 0;
         }
 
-        static private bool CheckWindowsOfAddedClass(StudentsClass[] sClasses, int classOfDay)
+        static private int CheckWindowsOfAddedClass(StudentsClass[] sClasses, int classOfDay, int fine)
         {
+            int result = 0;
             int last = LastClassOfDay(sClasses);
             if ((classOfDay == 0 && last == 0) || (classOfDay == 1 && last == 1) ||
                 (classOfDay == 2 && last == 2))
             {
-                return false;
+                return 0;
             }
             else if (classOfDay == 3 && sClasses[0] == null && sClasses[1] == null && sClasses[2] == null)
             {
-                return true;
+                result += fine;
             }
-            else if (classOfDay == 0 || classOfDay == 1)
+            else if (classOfDay < 2)
             {
                 if (CheckWindowsOfNextClass(sClasses, classOfDay))
                 {
-                    return true;
+                    result += fine;
                 }
             }
-            else if (classOfDay == 4 || classOfDay == 5)
+            else if (classOfDay > 3)
             {
                 if (CheckWindowsOfPreviousClass(sClasses, classOfDay))
                 {
-                    return true;
+                    result += fine;
                 }
             }
-            return false;
+            return result;
         }
 
         static private bool CheckWindowsOfNextClass(StudentsClass[] sClasses, int classOfDay)

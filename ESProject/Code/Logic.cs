@@ -52,7 +52,7 @@ namespace Presentation.Code
                             fine = 70;
                             break;
                         case "StudentsOneWindow":
-                            fine = 100;
+                            fine = 99;
                             break;
                         case "StudentThreeWindows":
                             fine = 60;
