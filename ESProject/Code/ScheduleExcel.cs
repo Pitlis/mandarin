@@ -19,52 +19,275 @@ namespace Presentation.Code
 
         public ScheduleExcel(ISchedule schedule, EntityStorage eStorage)
         {
-            ObjExcel = new Application();
-            string filename = System.Environment.CurrentDirectory +
-                   "\\d2.xlsx";
 
-            ObjWorkBook = ObjExcel.Workbooks.Open(filename);
-            ObjWorkSheet = (Worksheet)ObjWorkBook.Sheets[1];
-            int k = 3;
-            foreach (StudentSubGroup groop in eStorage.StudentSubGroups)
+            System.Windows.Forms.SaveFileDialog dialog = new System.Windows.Forms.SaveFileDialog();
+            dialog.InitialDirectory = @"C:\";
+            dialog.Filter = "Excel File (*.xlsx)|*.xlsx";
+            dialog.FileName = "Расписания групп составленно (" + DateTime.Now.ToString("dd.MM.yyyy(HH.mm)") + ")";
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                PartialSchedule partSchedule;
-                partSchedule = schedule.GetPartialSchedule(groop);
-                StudentsClass[] sched;
-                ClassRoom clas;
-                sched = partSchedule.GetClasses();
 
-                ((Range)ObjWorkSheet.Cells[1, k]).Clear();
-                ((Range)ObjWorkSheet.Cells[2, k]).Clear();
+                ObjExcel = new Application();
+                string path = dialog.FileName;
+                ObjWorkBook = ObjExcel.Workbooks.Add();
+                ObjWorkSheet = (Worksheet)ObjWorkBook.Sheets[1];
 
-                ((Range)ObjWorkSheet.Cells[1, k]).Value2 = groop.NameGroup;
-                ((Range)ObjWorkSheet.Cells[2, k]).Value2 = groop.NumberSubGroup;
-                for (int i = 0; i < (Domain.Services.Constants.CLASSES_IN_DAY * Domain.Services.Constants.DAYS_IN_WEEK * Domain.Services.Constants.WEEKS_IN_SCHEDULE); i++)
+                int k = 3;
+                //---------------------------------------------------------
+                //Creat template
+                Range exelcells;
+                exelcells = ObjWorkSheet.Range["A1", "A2"];
+                exelcells.Merge(Type.Missing);
+                ((Range)ObjWorkSheet.Cells[1, Type.Missing]).ColumnWidth = 4;
+                exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                ((Range)ObjWorkSheet.Cells[1, 1]).Value2 = "Дни";
+                exelcells.Borders.ColorIndex = 1;
+
+                exelcells = ObjWorkSheet.Range["A3", "A14"];
+                exelcells.Merge(Type.Missing);
+                exelcells.Orientation = 90;
+                exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.Value2 = "Понедельник";
+                exelcells.Borders.ColorIndex = 1;
+
+                exelcells = ObjWorkSheet.Range["A15", "A26"];
+                exelcells.Merge(Type.Missing);
+                exelcells.Orientation = 90;
+                exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.Value2 = "Вторник";
+                exelcells.Borders.ColorIndex = 1;
+
+                exelcells = ObjWorkSheet.Range["A27", "A38"];
+                exelcells.Merge(Type.Missing);
+                exelcells.Orientation = 90;
+                exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.Value2 = "Среда";
+                exelcells.Borders.ColorIndex = 1;
+
+                exelcells = ObjWorkSheet.Range["A39", "A50"];
+                exelcells.Merge(Type.Missing);
+                exelcells.Orientation = 90;
+                exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.Value2 = "Четверг";
+                exelcells.Borders.ColorIndex = 1;
+
+                exelcells = ObjWorkSheet.Range["A51", "A62"];
+                exelcells.Merge(Type.Missing);
+                exelcells.Orientation = 90;
+                exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.Value2 = "Пятница";
+                exelcells.Borders.ColorIndex = 1;
+
+                exelcells = ObjWorkSheet.Range["A63", "A74"];
+                exelcells.Merge(Type.Missing);
+                exelcells.Orientation = 90;
+                exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.Value2 = "Субота";
+                exelcells.Borders.ColorIndex = 1;
+
+                exelcells = ObjWorkSheet.Range["B1", "B2"];
+                exelcells.Merge(Type.Missing);
+                exelcells.ColumnWidth = 11;
+                exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.Value2 = "Пары";
+                exelcells.Borders.ColorIndex = 1;
+                //------------
+                for (int ti = 3; ti < 73; ti += 12)
                 {
-                    ((Range)ObjWorkSheet.Cells[(i + 3), k]).Clear();
-                    if (sched[i] != null)
+                    exelcells = ObjWorkSheet.Range["B" + ti, "B" + (ti + 1)];
+                    exelcells.Merge(Type.Missing);
+                    exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    exelcells.Value2 = "8.30-10.05";
+                    exelcells.Borders.ColorIndex = 1;
+
+                    exelcells = ObjWorkSheet.Range["B" + (ti + 2), "B" + (ti + 3)];
+                    exelcells.Merge(Type.Missing);
+
+                    exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    exelcells.Value2 = "10.25-12.00";
+                    exelcells.Borders.ColorIndex = 1;
+
+                    exelcells = ObjWorkSheet.Range["B" + (ti + 4), "B" + (ti + 5)];
+                    exelcells.Merge(Type.Missing);
+
+                    exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    exelcells.Value2 = "12.20-13.55";
+                    exelcells.Borders.ColorIndex = 1;
+
+                    exelcells = ObjWorkSheet.Range["B" + (ti + 6), "B" + (ti + 7)];
+                    exelcells.Merge(Type.Missing);
+
+                    exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    exelcells.Value2 = "14.15-15.50";
+                    exelcells.Borders.ColorIndex = 1;
+
+                    exelcells = ObjWorkSheet.Range["B" + (ti + 8), "B" + (ti + 9)];
+                    exelcells.Merge(Type.Missing);
+
+                    exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    exelcells.Value2 = "16.00-17.35";
+                    exelcells.Borders.ColorIndex = 1;
+
+                    exelcells = ObjWorkSheet.Range["B" + (ti + 10), "B" + (ti + 11)];
+                    exelcells.Merge(Type.Missing);
+
+                    exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    exelcells.Value2 = "17.45-19.20";
+                    exelcells.Borders.ColorIndex = 1;
+                }
+                //----------------------
+
+
+
+                //---------------------------------------------------------
+                foreach (StudentSubGroup groop in eStorage.StudentSubGroups)
+                {
+                    PartialSchedule partSchedule;
+                    partSchedule = schedule.GetPartialSchedule(groop);
+                    StudentsClass[] sched;
+                    ClassRoom clas;
+                    sched = partSchedule.GetClasses();
+                    int ifor1 = 0, ifor2 = 32;
+                    ((Range)ObjWorkSheet.Cells[1, k]).Value2 = groop.NameGroup;
+                    ((Range)ObjWorkSheet.Cells[2, k]).Value2 = groop.NumberSubGroup;
+                    ((Range)ObjWorkSheet.Cells[1, k]).HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    ((Range)ObjWorkSheet.Cells[1, k]).VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    ((Range)ObjWorkSheet.Cells[2, k]).HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    ((Range)ObjWorkSheet.Cells[2, k]).VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    ((Range)ObjWorkSheet.Cells[1, k]).Font.Bold = true;
+                    ((Range)ObjWorkSheet.Cells[1, k]).Borders.ColorIndex = 1;
+                    ((Range)ObjWorkSheet.Cells[2, k]).Borders.ColorIndex = 1;
+                    for (int i = 0; i < (Domain.Services.Constants.CLASSES_IN_DAY * Domain.Services.Constants.DAYS_IN_WEEK * Domain.Services.Constants.WEEKS_IN_SCHEDULE); i++)
                     {
-                        string str;
-                        clas = schedule.GetClassRoom(sched[i]);
-                        str = sched[i].Name + "\n" + clas.Housing + " а." + clas.Number;
-                        for (int n = 0; n < sched[i].Teacher.Length; n++)
+                        ((Range)ObjWorkSheet.Cells[(i + 3), k]).Borders.ColorIndex = 1;
+                        ((Range)ObjWorkSheet.Cells[(i + 3), k]).HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                        ((Range)ObjWorkSheet.Cells[(i + 3), k]).VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                        if (sched[i] != null && i >= 0 && i <= 35)
                         {
-                            str = str + "\n" + sched[i].Teacher[n].FLSName;
+                            string str;
+                            clas = schedule.GetClassRoom(sched[i]);
+                            str = sched[i].Name + " (" + clas.Housing + " а." + clas.Number + " )";
+                            for (int n = 0; n < sched[i].Teacher.Length; n++)
+                            {
+                                str = str + " " + sched[i].Teacher[n].FLSName;
+                            }
+
+                            ((Range)ObjWorkSheet.Cells[(i + 3 + ifor1), k]).ColumnWidth = 30;
+                            ((Range)ObjWorkSheet.Cells[(i + 3 + ifor1), k]).Value2 = str;
+
+
+                        }
+                        if (sched[i] != null && i >= 36 && i <= 71)
+                        {
+                            string str;
+                            clas = schedule.GetClassRoom(sched[i]);
+                            str = sched[i].Name + " (" + clas.Housing + " а." + clas.Number + " )";
+                            for (int n = 0; n < sched[i].Teacher.Length; n++)
+                            {
+                                str = str + " " + sched[i].Teacher[n].FLSName;
+                            }
+
+                            ((Range)ObjWorkSheet.Cells[(i - ifor2), k]).ColumnWidth = 30;
+                            ((Range)ObjWorkSheet.Cells[(i - ifor2), k]).Value2 = str;
+
+                        }
+                        if (i >= 0 && i <= 35) ifor1++;
+                        if (i >= 36 && i <= 71) ifor2--;
+
+
+                    }
+                    k++;
+
+
+
+                }
+                //ANALYSING
+                //------------------------------------------------------------------------------------
+
+                string[,] grstr = new string[74, (k - 3)];
+                for (int i = 0; i < (k - 3); i++)
+                {
+                    for (int zed = 0; zed < 74; zed++)
+                    {
+                        if (((Range)ObjWorkSheet.Cells[zed + 1, i + 3]).Value2 != null)
+                        {
+                            grstr[zed, i] = ((Range)ObjWorkSheet.Cells[zed + 1, i + 3]).Value2.ToString();
+                        }
+                    }
+                }
+
+                //Horizantal
+                for (int zed = 0; zed < 74; zed++)
+                {
+                    if (zed != 1)
+                    {
+
+                        for (int i = 0; i < (k - 4); i++)
+                        {
+
+                            if (grstr[zed, i] != null && grstr[zed, i] == grstr[zed, i + 1])
+                            {
+                                exelcells = ObjWorkSheet.Range[ObjWorkSheet.Cells[zed + 1, i + 3], ObjWorkSheet.Cells[zed + 1, i + 4]];
+                                ((Range)ObjWorkSheet.Cells[zed + 1, i + 4]).Clear();
+                                exelcells.Merge(Type.Missing);
+                            }
+
                         }
 
-                        ((Range)ObjWorkSheet.Cells[(i + 3), k]).Value2 = str;
                     }
 
                 }
-                k++;
+                //Vertical
+                for (int i = 0; i < (k - 3); i++)
+                {
 
-                ObjWorkBook.Save();
+
+                    for (int zed = 0; zed < 73; zed += 2)
+                    {
+                        if (grstr[zed, i] == grstr[zed + 1, i])
+                        {
+                            exelcells = ObjWorkSheet.Range[ObjWorkSheet.Cells[zed + 1, i + 3], ObjWorkSheet.Cells[zed + 2, i + 3]];
+                            ((Range)ObjWorkSheet.Cells[zed + 2, i + 3]).Clear();
+                            exelcells.Merge(Type.Missing);
+                        }
+                    }
+
+
+
+
+                }
+
+
+
+
+                //------------------------------------------------------------------------------------
+
+
+                ObjWorkBook.SaveAs(path);
+                ObjWorkBook.Close();
+                ObjExcel.Quit();
+                ObjWorkSheet = null;
+                ObjWorkBook = null;
+                ObjExcel = null;
 
             }
-            ObjWorkBook.Close();
-            ObjExcel = null;
 
         }
+
 
 
     }
@@ -75,47 +298,192 @@ namespace Presentation.Code
         private Worksheet ObjWorkSheet;
         public ScheduleExcelTeacher(ISchedule schedule, EntityStorage estorage)
         {
-            ObjExcel = new Application();
-            string filename = System.Environment.CurrentDirectory +
-                   "\\d1.xlsx";
-            ObjWorkBook = ObjExcel.Workbooks.Open(filename);
-            ObjWorkSheet = (Worksheet)ObjWorkBook.Sheets[1];
-            int k = 3;
-            foreach (Teacher teach in estorage.Teachers)
+            System.Windows.Forms.SaveFileDialog dialog = new System.Windows.Forms.SaveFileDialog();
+            dialog.InitialDirectory = @"C:\";
+            dialog.Filter = "Excel File (*.xlsx)|*.xlsx";
+            dialog.FileName = "Расписания учетелей составленно (" + DateTime.Now.ToString("dd.MM.yyyy(HH.mm)") + ")";
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                PartialSchedule partSchedule;
-                partSchedule = schedule.GetPartialSchedule(teach);
-                StudentsClass[] sched;
-                ClassRoom clas;
-                sched = partSchedule.GetClasses();
-                
-                ((Range)ObjWorkSheet.Cells[2, k]).Clear();
-                ((Range)ObjWorkSheet.Cells[2, k]).Value2 = teach.FLSName;
-                ((Range)ObjWorkSheet.Cells[2, k]).Orientation = 75;
+                string path = dialog.FileName;
+                ObjExcel = new Application();
+                ObjWorkBook = ObjExcel.Workbooks.Add();
+                ObjWorkSheet = (Worksheet)ObjWorkBook.Sheets[1];
+                int k = 3;
 
-                for (int i = 0; i < (Domain.Services.Constants.CLASSES_IN_DAY * Domain.Services.Constants.DAYS_IN_WEEK * Domain.Services.Constants.WEEKS_IN_SCHEDULE); i++)
+                //Creat template
+                Range exelcells;
+                exelcells = ObjWorkSheet.Range["A1", "A2"];
+                exelcells.Merge(Type.Missing);
+                ((Range)ObjWorkSheet.Cells[1, Type.Missing]).ColumnWidth = 4;
+                exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                ((Range)ObjWorkSheet.Cells[1, 1]).Value2 = "Дни";
+                exelcells.Borders.ColorIndex = 1;
+
+                exelcells = ObjWorkSheet.Range["A3", "A14"];
+                exelcells.Merge(Type.Missing);
+                exelcells.Orientation = 90;
+                exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.Value2 = "Понедельник";
+                exelcells.Borders.ColorIndex = 1;
+
+                exelcells = ObjWorkSheet.Range["A15", "A26"];
+                exelcells.Merge(Type.Missing);
+                exelcells.Orientation = 90;
+                exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.Value2 = "Вторник";
+                exelcells.Borders.ColorIndex = 1;
+
+                exelcells = ObjWorkSheet.Range["A27", "A38"];
+                exelcells.Merge(Type.Missing);
+                exelcells.Orientation = 90;
+                exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.Value2 = "Среда";
+                exelcells.Borders.ColorIndex = 1;
+
+                exelcells = ObjWorkSheet.Range["A39", "A50"];
+                exelcells.Merge(Type.Missing);
+                exelcells.Orientation = 90;
+                exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.Value2 = "Четверг";
+                exelcells.Borders.ColorIndex = 1;
+
+                exelcells = ObjWorkSheet.Range["A51", "A62"];
+                exelcells.Merge(Type.Missing);
+                exelcells.Orientation = 90;
+                exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.Value2 = "Пятница";
+                exelcells.Borders.ColorIndex = 1;
+
+                exelcells = ObjWorkSheet.Range["A63", "A74"];
+                exelcells.Merge(Type.Missing);
+                exelcells.Orientation = 90;
+                exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.Value2 = "Субота";
+                exelcells.Borders.ColorIndex = 1;
+
+                exelcells = ObjWorkSheet.Range["B1", "B2"];
+                exelcells.Merge(Type.Missing);
+                exelcells.ColumnWidth = 11;
+                exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                exelcells.Value2 = "Пары";
+                exelcells.Borders.ColorIndex = 1;
+                //------------
+                for (int ti = 3; ti < 73; ti += 12)
                 {
-                    
-                    ((Range)ObjWorkSheet.Cells[(i + 3), k]).Clear();
-                    if (sched[i] != null)
-                    {
-                        string str;
-                        
-                        clas = schedule.GetClassRoom(sched[i]);
-                        str = sched[i].Name + "\n" + clas.Housing + " а." + clas.Number;
+                    exelcells = ObjWorkSheet.Range["B" + ti, "B" + (ti + 1)];
+                    exelcells.Merge(Type.Missing);
+                    exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    exelcells.Value2 = "8.30-10.05";
+                    exelcells.Borders.ColorIndex = 1;
 
-                        ((Range)ObjWorkSheet.Cells[(i + 3), k]).Value2 = str;
+                    exelcells = ObjWorkSheet.Range["B" + (ti + 2), "B" + (ti + 3)];
+                    exelcells.Merge(Type.Missing);
+
+                    exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    exelcells.Value2 = "10.25-12.00";
+                    exelcells.Borders.ColorIndex = 1;
+
+                    exelcells = ObjWorkSheet.Range["B" + (ti + 4), "B" + (ti + 5)];
+                    exelcells.Merge(Type.Missing);
+
+                    exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    exelcells.Value2 = "12.20-13.55";
+                    exelcells.Borders.ColorIndex = 1;
+
+                    exelcells = ObjWorkSheet.Range["B" + (ti + 6), "B" + (ti + 7)];
+                    exelcells.Merge(Type.Missing);
+
+                    exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    exelcells.Value2 = "14.15-15.50";
+                    exelcells.Borders.ColorIndex = 1;
+
+                    exelcells = ObjWorkSheet.Range["B" + (ti + 8), "B" + (ti + 9)];
+                    exelcells.Merge(Type.Missing);
+
+                    exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    exelcells.Value2 = "16.00-17.35";
+                    exelcells.Borders.ColorIndex = 1;
+
+                    exelcells = ObjWorkSheet.Range["B" + (ti + 10), "B" + (ti + 11)];
+                    exelcells.Merge(Type.Missing);
+
+                    exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    exelcells.Value2 = "17.45-19.20";
+                    exelcells.Borders.ColorIndex = 1;
+                }
+                //----------------------
+
+                foreach (Teacher teach in estorage.Teachers)
+                {
+                    PartialSchedule partSchedule;
+                    partSchedule = schedule.GetPartialSchedule(teach);
+                    StudentsClass[] sched;
+                    ClassRoom clas;
+                    sched = partSchedule.GetClasses();
+                    int ifor1 = 0, ifor2 = 32;
+                    ((Range)ObjWorkSheet.Cells[2, k]).Clear();
+                    ((Range)ObjWorkSheet.Cells[2, k]).Value2 = teach.FLSName;
+                    ((Range)ObjWorkSheet.Cells[2, k]).Orientation = 75;
+
+                    for (int i = 0; i < (Domain.Services.Constants.CLASSES_IN_DAY * Domain.Services.Constants.DAYS_IN_WEEK * Domain.Services.Constants.WEEKS_IN_SCHEDULE); i++)
+                    {
+
+
+                        if (sched[i] != null && i >= 0 && i <= 35)
+                        {
+                            string str;
+
+                            clas = schedule.GetClassRoom(sched[i]);
+                            str = sched[i].Name + "(" + clas.Housing + " а." + clas.Number + ")";
+
+                            ((Range)ObjWorkSheet.Cells[(i + 3 + ifor1), k]).ColumnWidth = 30;
+                            ((Range)ObjWorkSheet.Cells[(i + 3 + ifor1), k]).HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                            ((Range)ObjWorkSheet.Cells[(i + 3 + ifor1), k]).VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                            ((Range)ObjWorkSheet.Cells[(i + 3 + ifor1), k]).Value2 = str;
+                        }
+
+                        if (sched[i] != null && i >= 36 && i < 72)
+                        {
+                            string str;
+
+                            clas = schedule.GetClassRoom(sched[i]);
+                            str = sched[i].Name + "(" + clas.Housing + " а." + clas.Number + ")";
+
+                            ((Range)ObjWorkSheet.Cells[(i - ifor2), k]).ColumnWidth = 30;
+                            ((Range)ObjWorkSheet.Cells[(i - ifor2), k]).HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                            ((Range)ObjWorkSheet.Cells[(i - ifor2), k]).VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                            ((Range)ObjWorkSheet.Cells[(i - ifor2), k]).Value2 = str;
+                        }
+                        if (i >= 0 && i <= 35) ifor1++;
+                        if (i >= 36 && i <= 71) ifor2--;
                     }
+                    k++;
+
+
 
                 }
-                k++;
-
-                ObjWorkBook.Save();
+                ObjWorkBook.SaveAs(path);
+                ObjWorkBook.Close();
+                ObjExcel.Quit();
+                ObjWorkSheet = null;
+                ObjWorkBook = null;
+                ObjExcel = null;
 
             }
-            ObjWorkBook.Close();
-            ObjExcel = null;
-
         }
     }
 }
