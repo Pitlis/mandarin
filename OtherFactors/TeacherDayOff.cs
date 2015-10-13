@@ -22,7 +22,7 @@ namespace OtherFactors
 
         public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
         {
-            int rating = -1;
+            int rating = 0;
             Teacher[] tech;
             tech = schedule.GetTempClass().Teacher;
             int ClassInWeek1 = Constants.CLASSES_IN_DAY * Constants.DAYS_IN_WEEK;

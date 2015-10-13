@@ -271,7 +271,7 @@ namespace Data
                                         new ClassRoomType[] { ES.ClassRoomsTypes[2] });
 
            SC[48] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0], ES.StudentSubGroups[1], ES.StudentSubGroups[2], ES.StudentSubGroups[3], ES.StudentSubGroups[4], ES.StudentSubGroups[5], ES.StudentSubGroups[6] },
-                                        new Teacher[] { ES.Teachers[9] }, "ФИЗРА",
+                                        new Teacher[] {  }, "ФИЗРА",
                                         new ClassRoomType[] { ES.ClassRoomsTypes[5] });
            //мпк
            SC[49] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
@@ -314,7 +314,7 @@ namespace Data
                                      new ClassRoomType[] { ES.ClassRoomsTypes[0] });
 
            SC[60] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0], ES.StudentSubGroups[1], ES.StudentSubGroups[2], ES.StudentSubGroups[3], ES.StudentSubGroups[4], ES.StudentSubGroups[5], ES.StudentSubGroups[6] },
-                                                   new Teacher[] { ES.Teachers[9] }, "ФИЗРА",
+                                                   new Teacher[] {  }, "ФИЗРА",
                                                    new ClassRoomType[] { ES.ClassRoomsTypes[5] });
 
            SC[61] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[6] },
@@ -570,10 +570,10 @@ namespace Data
 
 
            SC[132] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0], ES.StudentSubGroups[1], ES.StudentSubGroups[2], ES.StudentSubGroups[3], ES.StudentSubGroups[4], ES.StudentSubGroups[5], ES.StudentSubGroups[6] },
-                                                  new Teacher[] { ES.Teachers[9] }, "ФИЗРА",
+                                                  new Teacher[] {  }, "ФИЗРА",
                                                   new ClassRoomType[] { ES.ClassRoomsTypes[5] });
            SC[133] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0], ES.StudentSubGroups[1], ES.StudentSubGroups[2], ES.StudentSubGroups[3], ES.StudentSubGroups[4], ES.StudentSubGroups[5], ES.StudentSubGroups[6] },
-                                                 new Teacher[] { ES.Teachers[9] }, "ФИЗРА",
+                                                 new Teacher[] {  }, "ФИЗРА",
                                                  new ClassRoomType[] { ES.ClassRoomsTypes[5] });
 
        }

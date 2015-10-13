@@ -83,10 +83,11 @@ namespace ESCore
                     resultSchedule.SetClass(sortedStudentsClasses[classIndex], positionsForClass[indexMinFine]);
 
                     logger.Info("Пара <" + sortedStudentsClasses[classIndex].Name +
-                        " " + sortedStudentsClasses[classIndex].Teacher[0].FLSName + "> установлена");
+                        " " + ((sortedStudentsClasses[classIndex].Teacher.Length > 0) ? sortedStudentsClasses[classIndex].Teacher[0].FLSName : "") + "> установлена");
                 }
                 else
                 {
+                    throw new Exception("Невозможно вставить пару в расписание");
                     //невозможно вставить пару в расписание
                     //Нужно реализовать откат на пару шагов и смену пар местами - чтобы расписание целиком не выбрасывать
                     return null;
