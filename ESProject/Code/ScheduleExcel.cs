@@ -301,7 +301,7 @@ namespace Presentation.Code
             System.Windows.Forms.SaveFileDialog dialog = new System.Windows.Forms.SaveFileDialog();
             dialog.InitialDirectory = @"C:\";
             dialog.Filter = "Excel File (*.xlsx)|*.xlsx";
-            dialog.FileName = "Расписания учетелей составленно (" + DateTime.Now.ToString("dd.MM.yyyy(HH.mm)") + ")";
+            dialog.FileName = "Расписания преподавателей составленно (" + DateTime.Now.ToString("dd.MM.yyyy(HH.mm)") + ")";
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 string path = dialog.FileName;
