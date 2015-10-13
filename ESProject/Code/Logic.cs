@@ -45,9 +45,6 @@ namespace Presentation.Code
                     int fine = 0;
                     switch (factor.Name)
                     {
-                        case "StudentFiveWindows":
-                            fine = 99;
-                            break;
                         case "StudentFourWindows":
                             fine = 70;
                             break;
@@ -59,6 +56,18 @@ namespace Presentation.Code
                             break;
                         case "StudentTwoWindows":
                             fine = 40;
+                            break;
+                        case "TeachersFourWindows":
+                            fine = 69;
+                            break;
+                        case "TeacherssOneWindow":
+                            fine = 98;
+                            break;
+                        case "TeachersThreeWindows":
+                            fine = 59;
+                            break;
+                        case "TeachersTwoWindows":
+                            fine = 39;
                             break;
                         default:
                             break;

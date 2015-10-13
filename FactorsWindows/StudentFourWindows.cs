@@ -55,15 +55,11 @@ namespace FactorsWindows
         static private int CheckWindowsOfAddedClass(StudentsClass[] sClasses, int classOfDay, int fine)
         {
             int result = 0;
-            int last = LastClassOfDay(sClasses);
+            int last = StudentsOneWindow.LastClassOfDay(sClasses);
             if ((classOfDay == 0 && last == 0) || (classOfDay == 1 && last == 1) ||
                 (classOfDay == 2 && last == 2) || (classOfDay == 3 && last == 3))
             {
                 return 0;
-            }
-            if (classOfDay == 4 && sClasses[0]== null && sClasses[1] == null && sClasses[2] == null && sClasses[3] == null)
-            {
-                result += fine;
             }
             else if (classOfDay < 1)
             {
@@ -106,7 +102,7 @@ namespace FactorsWindows
         {
             int windowCount = 0;
             //Ищем номер последней в этот день пары
-            int last = LastClassOfDay(sClasses);
+            int last = StudentsOneWindow.LastClassOfDay(sClasses);
             //Если пар три/две/одна или их вообще нет, то соотвественно форточек нет
             if (last < 5)
             {
@@ -124,18 +120,6 @@ namespace FactorsWindows
                 }
             }
             return windowCount;
-        }
-
-        static private int LastClassOfDay(StudentsClass[] sClasses)
-        {
-            for (int j = sClasses.Length - 1; j >= 0; --j)
-            {
-                if (sClasses[j] != null)
-                {
-                    return j;
-                }
-            }
-            return 0;
         }
 
 

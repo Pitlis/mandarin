@@ -64,10 +64,6 @@ namespace FactorsWindows
             {
                 return 0;
             }
-            if (classOfDay == 1 && sClasses[0] == null)
-            {
-                result += fine;
-            }
             if (classOfDay < 4)
             {
                 if (CheckWindowsOfNextClass(sClasses, classOfDay))
@@ -125,7 +121,7 @@ namespace FactorsWindows
             return windowCount;
         }
 
-        static private int LastClassOfDay(StudentsClass[] sClasses)
+        static public int LastClassOfDay(StudentsClass[] sClasses)
         {
             for (int j = sClasses.Length - 1; j >= 0; --j)
             {
@@ -162,7 +158,5 @@ namespace FactorsWindows
         {
             return null;
         }
-
-
     }
 }

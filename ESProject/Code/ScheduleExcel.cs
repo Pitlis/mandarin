@@ -261,7 +261,7 @@ namespace Presentation.Code
                         if (grstr[zed, i] == grstr[zed + 1, i])
                         {
                             exelcells = ObjWorkSheet.Range[ObjWorkSheet.Cells[zed + 1, i + 3], ObjWorkSheet.Cells[zed + 2, i + 3]];
-                            ((Range)ObjWorkSheet.Cells[zed + 2, i + 3]).Clear();
+                            ((Range)ObjWorkSheet.Cells[zed + 2, i + 3]).Value2 = "";
                             exelcells.Merge(Type.Missing);
                         }
                     }

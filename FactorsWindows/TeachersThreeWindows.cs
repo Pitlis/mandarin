@@ -1,15 +1,15 @@
-﻿using Domain;
-using Domain.Model;
-using Domain.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain;
+using Domain.Services;
+using Domain.Model;
 
 namespace FactorsWindows
 {
-    class StudentThreeWindows : IFactor
+    class TeachersThreeWindows : IFactor
     {
         int fine;
         bool isBlock;
@@ -22,12 +22,12 @@ namespace FactorsWindows
             int dayOfWeek = Constants.GetDayOfClass(classTime);
             //Считаем номер пары в этот день
             int classOfDay = classTime - (6 * (dayOfWeek) - 1) - 1;
-            foreach (StudentSubGroup subGroup in schedule.GetTempClass().SubGroups)
+            foreach (Teacher teacher in schedule.GetTempClass().Teacher)
             {
                 if (isBlock)
                     return Constants.BLOCK_FINE;
                 else
-                    fineResult += CheckWindowsOfAddedClass(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek), classOfDay, fine);
+                    fineResult += CheckWindowsOfAddedClass(schedule.GetPartialSchedule(teacher).GetClassesOfDay(dayOfWeek), classOfDay, fine);
             }
             return fineResult;
         }
@@ -38,10 +38,10 @@ namespace FactorsWindows
 
             for (int i = 0; i < Constants.DAYS_IN_WEEK * Constants.WEEKS_IN_SCHEDULE; i++)
             {
-                foreach (StudentSubGroup subGroup in eStorage.StudentSubGroups)
+                foreach (Teacher teacher in eStorage.Teachers)
                 {
                     //Получаем количество форточек у одной группы в один день
-                    windowCount = CountUpWindowsOfFullSchedule(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(i));
+                    windowCount = CountUpWindowsOfFullSchedule(schedule.GetPartialSchedule(teacher).GetClassesOfDay(i));
                 }
             }
 
@@ -80,7 +80,7 @@ namespace FactorsWindows
 
         static private bool CheckWindowsOfNextClass(StudentsClass[] sClasses, int classOfDay)
         {
-            if (sClasses[classOfDay + 1] == null && sClasses[classOfDay + 2] == null && 
+            if (sClasses[classOfDay + 1] == null && sClasses[classOfDay + 2] == null &&
                 sClasses[classOfDay + 3] == null && sClasses[classOfDay + 4] != null)
             {
                 return true;
@@ -90,7 +90,7 @@ namespace FactorsWindows
 
         static private bool CheckWindowsOfPreviousClass(StudentsClass[] sClasses, int classOfDay)
         {
-            if (sClasses[classOfDay - 1] == null && sClasses[classOfDay - 2] == null && 
+            if (sClasses[classOfDay - 1] == null && sClasses[classOfDay - 2] == null &&
                 sClasses[classOfDay - 3] == null && sClasses[classOfDay - 4] != null)
             {
                 return true;
@@ -124,12 +124,12 @@ namespace FactorsWindows
 
         public string GetDescription()
         {
-            return "Три форточки у студентов";
+            return "Три форточки у преподавателей";
         }
 
         public string GetName()
         {
-            return "Форточки у студентов";
+            return "Форточки у преподавателей";
         }
 
         public void Initialize(int fine = 0, bool isBlock = false, object data = null)
