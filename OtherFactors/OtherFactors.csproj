@@ -43,6 +43,7 @@
     <Compile Include="ClassesInWeek.cs" />
     <Compile Include="FiveStudentsClassesInDay.cs" />
     <Compile Include="FiveStudentsClassesInRow.cs" />
+    <Compile Include="OnlyOneClassInDay.cs" />
     <Compile Include="SaturdayTwoClasses.cs" />
     <Compile Include="SixStudentsClasses.cs" />
     <Compile Include="SixthClass.cs" />

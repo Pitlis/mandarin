@@ -108,6 +108,11 @@ namespace Presentation.Code
                             StudentsClass[] c = Array.FindAll(classes, (cl) => cl.Name == "ФИЗРА");
                             obj = new StudentsClass[,] { { c[0], c[1], c[2], c[3] } };
                             break;
+                        case "OnlyOneClassInDay":
+                            fine = 100;
+                            StudentsClass[] c1 = Array.FindAll(classes, (cl) => cl.Name == "ФИЗРА");
+                            obj = new StudentsClass[,] { { c1[0], c1[1], c1[2], c1[3] } };
+                            break;
                         default:
                             break;
                     }
