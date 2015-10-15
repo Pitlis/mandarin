@@ -14,6 +14,8 @@ namespace Domain.Services
 
         public const int BLOCK_FINE = -1;
 
+        public const int FINE_FOR_SECOND_CLASSROOM = 1000;
+
         public static int GetDayOfClass(int classTime)
         {
             return (int)Math.Floor((double)classTime / CLASSES_IN_DAY);

@@ -34,20 +34,24 @@ namespace Domain.Model
                 }
             }
         }
-        
+
         public StudentsClassPosition[] GetSuitableClassRooms(StudentsClass sClass)
         {
             List<StudentsClassPosition> requereClassRooms = new List<StudentsClassPosition>();
 
             for (int timeIndex = 0; timeIndex < classes.GetLength(0); timeIndex++)
             {
-                if(!TeacherBusy(sClass.Teacher, timeIndex) && !StudentsBusy(sClass.SubGroups, timeIndex))
+                if (!TeacherBusy(sClass.Teacher, timeIndex) && !StudentsBusy(sClass.SubGroups, timeIndex))
                 {
                     for (int classRoomIndex = 0; classRoomIndex < eStorage.ClassRooms.Length; classRoomIndex++)
                     {
                         if (classes[timeIndex, classRoomIndex] == null && eStorage.ClassRooms[classRoomIndex].SuitableByTypes(sClass.RequireForClassRoom))
                         {
-                            requereClassRooms.Add(new StudentsClassPosition(timeIndex, classRoomIndex));
+                            requereClassRooms.Add(new StudentsClassPosition(
+                                timeIndex,
+                                classRoomIndex,
+                                eStorage.ClassRooms[classRoomIndex].GetFine(sClass.RequireForClassRoom))
+                                );
                         }
                     }
                 }
@@ -63,7 +67,7 @@ namespace Domain.Model
         #region ISchedule
         public StudentsClass GetTempClass()
         {
-            if(classes[TempClass.Time, TempClass.Classroom] == null)
+            if (classes[TempClass.Time, TempClass.Classroom] == null)
             {
                 throw new Exception("В объекте расписания исчезла временная пара");
             }
@@ -116,7 +120,7 @@ namespace Domain.Model
                 {
                     if (classes[timeIndex, classRoomIndex] != null)
                     {
-                        if(classes[timeIndex, classRoomIndex].SubGroups.Contains(subGroup))
+                        if (classes[timeIndex, classRoomIndex].SubGroups.Contains(subGroup))
                         {
                             partSchedule[timeIndex] = classes[timeIndex, classRoomIndex];
                             break;
@@ -181,14 +185,16 @@ namespace Domain.Model
 
         public struct StudentsClassPosition
         {
-            public StudentsClassPosition(int time, int classroom) : this()
+            public StudentsClassPosition(int time, int classroom, int fine = 0) : this()
             {
                 Time = time;
                 Classroom = classroom;
+                Fine = fine;
             }
 
             public int Time { get; private set; }
             public int Classroom { get; private set; }
+            public int Fine { get; private set; }
         }
     }
 }

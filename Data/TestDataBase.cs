@@ -55,7 +55,7 @@ namespace Data
        }
        public TestDataBase(ref ClassRoomType[] t)
        {
-           t = new ClassRoomType[7];
+           t = new ClassRoomType[8];
            t[0] = new ClassRoomType("Лекция");
            t[1] = new ClassRoomType("Практика");
            t[2] = new ClassRoomType("Лабораторная-комп");
@@ -63,12 +63,13 @@ namespace Data
            t[4] = new ClassRoomType("Лабораторная-эл");
            t[5] = new ClassRoomType("СпортЗал");
            t[6] = new ClassRoomType("Выездная");
+            t[7] = new ClassRoomType("Особая");
 
-       }
+        }
        public TestDataBase(ref ClassRoom[] cl,ClassRoomType[] t)
        {
            cl = new ClassRoom[35];
-           cl[0] = new ClassRoom(410, 2, new ClassRoomType[] { t[0]});
+           cl[0] = new ClassRoom(410, 2, new ClassRoomType[] { t[0], t[7]}, new System.Collections.BitArray(new bool[] {false, true }));
            cl[1] = new ClassRoom(411, 4, new ClassRoomType[] { t[0]});
            cl[2] = new ClassRoom(409, 2, new ClassRoomType[] { t[0] });
            cl[3] = new ClassRoom(412, 2, new ClassRoomType[] { t[0], t[1] });
@@ -126,7 +127,7 @@ namespace Data
 
            SC[4] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0], ES.StudentSubGroups[1], ES.StudentSubGroups[2] },
                                         new Teacher[] { ES.Teachers[24] }, "ММИПУ",
-                                        new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+                                        new ClassRoomType[] { ES.ClassRoomsTypes[7] });
            SC[5] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0] },
                                         new Teacher[] { ES.Teachers[24] }, "ММИПУ",
                                         new ClassRoomType[] { ES.ClassRoomsTypes[2] });

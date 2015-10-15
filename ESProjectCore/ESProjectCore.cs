@@ -106,7 +106,7 @@ namespace ESCore
             FullSchedule schedule = new FullSchedule(scheduleForCreateTemp);
             schedule.SetClass(sClass, position);
             int fine = 0;
-            int resultFine = 0;
+            int resultFine = position.Fine;
             for (int factorIndex = 0; factorIndex < factors.Length; factorIndex++)
             {
                 fine = factors[factorIndex].GetFineOfAddedClass(schedule, EStorage);
