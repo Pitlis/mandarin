@@ -72,11 +72,16 @@ namespace ESCore
                 FullSchedule.StudentsClassPosition[] positionsForClass = resultSchedule.GetSuitableClassRooms(sortedStudentsClasses[classIndex]);
                 int[] fines = new int[positionsForClass.Length];
 
-                Parallel.For(0, positionsForClass.Length, (positionIndex) =>
+                //Parallel.For(0, positionsForClass.Length, (positionIndex) =>
+                //{
+                //    Interlocked.Exchange(ref fines[positionIndex], GetSumFine(positionsForClass[positionIndex], CreateFactorsArray(), resultSchedule, sortedStudentsClasses[classIndex]));
+                //});
+
+                for (int positionIndex = 0; positionIndex < positionsForClass.Length; positionIndex++)
                 {
                     Interlocked.Exchange(ref fines[positionIndex], GetSumFine(positionsForClass[positionIndex], CreateFactorsArray(), resultSchedule, sortedStudentsClasses[classIndex]));
-                });
-                
+                }
+
                 if (positionsForClass.Length > 0 && Array.FindAll<int>(fines, (f) => f != Constants.BLOCK_FINE).Length > 0)
                 {
                     int indexMinFine = Array.IndexOf<int>(fines, Array.FindAll<int>(fines, (f) => f != Constants.BLOCK_FINE).Min());
