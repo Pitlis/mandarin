@@ -248,8 +248,8 @@ namespace Presentation
                 groupLabel.FontSize = 10;
                 groupLabel.HorizontalContentAlignment = HorizontalAlignment.Center;
                 gdData.Children.Add(groupLabel);
-
-                if (timeStringIndex == 5)
+                timeStringIndex++;
+                if (timeStringIndex == 6)
                 {
                     timeStringIndex = 0;
                 }
