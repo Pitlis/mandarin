@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Model
 {
+    [Serializable]
     public class ClassRoomType
     {
         public ClassRoomType(string description)

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Model
 {
+    [Serializable]
     public class ClassRoom
     {
         public int Number { get; private set; }//аудитория

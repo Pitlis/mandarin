@@ -1,4 +1,6 @@
 ﻿using Domain;
+using Domain.Model;
+using Presentation;
 using Presentation.Code;
 using System;
 using System.Collections.Generic;
@@ -34,6 +36,13 @@ namespace ESProject
             
             core.Start();
             MessageBox.Show("Та да");
+        }
+
+        private void btnEditSchedule_Click(object sender, RoutedEventArgs e)
+        {
+            FullSchedule schedule = Save.LoadSchedule();
+            EditSchedule form = new EditSchedule(new ScheduleForEdit(schedule));
+            form.Show();
         }
     }
 }

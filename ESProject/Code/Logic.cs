@@ -142,6 +142,7 @@ namespace Presentation.Code
             ScheduleExcel excel = new ScheduleExcel(schedules[0], storage);
             ScheduleExcelTeacher excelTeach = new ScheduleExcelTeacher(schedules[0], storage);
             loggingService.Info("Расписание выгружено в Excel");
+            Save.SaveSchedule((FullSchedule)schedules[0]);
         }
 
     }

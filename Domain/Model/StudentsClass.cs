@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Model
 {
+    [Serializable]
     public class StudentsClass
     {
         public StudentSubGroup[] SubGroups { get; private set; }

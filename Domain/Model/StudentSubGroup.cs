@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Model
 {
+    [Serializable]
     public class StudentSubGroup
     {
         public string NameGroup { get; private set; }//название группы

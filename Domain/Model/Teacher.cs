@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Model
 {
+    [Serializable]
     public class Teacher//класс преподавателей
     {
         public object ID { get;private set; }

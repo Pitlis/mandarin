@@ -7,15 +7,16 @@ using System.Threading.Tasks;
 
 namespace Domain.Model
 {
+    [Serializable]
     public class FullSchedule : ISchedule
     {
-        StudentsClass[,] classes;
+        protected StudentsClass[,] classes;
 
         StudentsClassPosition TempClass;//временная пара - нужна, 
         //чтобы классы факторов могли получить информацию по последней добавленной паре
         //чтобы не проверять расписание целиком при каждом добавлении пары
 
-        EntityStorage eStorage;
+        protected EntityStorage eStorage;
         public FullSchedule(int classRoomCount, EntityStorage storage)
         {
             classes = new StudentsClass[Constants.WEEKS_IN_SCHEDULE * Constants.DAYS_IN_WEEK * Constants.CLASSES_IN_DAY, classRoomCount];
@@ -182,7 +183,7 @@ namespace Domain.Model
             }
             return null;
         }
-
+        [Serializable]
         public struct StudentsClassPosition
         {
             public StudentsClassPosition(int time, int classroom, int fine = 0) : this()
