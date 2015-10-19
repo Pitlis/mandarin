@@ -48,7 +48,7 @@ namespace Presentation
             }
             CreateGroupHeader(schedule.Groups);
             CreateDayHeader();
-            CreateTimeHeader();
+            CreateTimeHeader(TimeSelect);
             for (int rowIndex = ROW_HEADER; rowIndex < schedule.partSchedule.GetLength(0) + ROW_HEADER; rowIndex++)
             {
                 Label prevLabel = null;
@@ -74,6 +74,7 @@ namespace Presentation
 
         const int ROW_HEADER = 1;
         const int COLUMN_HEADER = 2;
+
 
         RowDefinition CreateRow()
         {
@@ -153,22 +154,27 @@ namespace Presentation
         Label SelectedCell;
         private void SelectCell(object sender, MouseButtonEventArgs e)
         {
+            Label cell = (Label)sender;
+            int col = (int)cell.GetValue(Grid.ColumnProperty);
+            int row = (int)cell.GetValue(Grid.RowProperty);
             if (SelectedCell != null)
             {
                 SelectedCell.BorderBrush = new SolidColorBrush(Colors.Red);
                 SelectedCell.BorderThickness = new Thickness(1);
             }
-
-            Label cell = (Label)sender;
             if (SelectedCell == cell)
             {
                 SelectedCell = null;
+                btnRemove.IsEnabled = false;
             }
             else
             {
                 SelectedCell = cell;
                 SelectedCell.BorderBrush = new SolidColorBrush(Colors.Blue);
                 SelectedCell.BorderThickness = new Thickness(2);
+                if (schedule.partSchedule[row - ROW_HEADER, col - COLUMN_HEADER] != null)
+                { btnRemove.IsEnabled = true; RowForRemove = row; ColForRemove = col; }
+                else { btnRemove.IsEnabled = false; }
             }
         }
 
@@ -230,7 +236,7 @@ namespace Presentation
                 rowIndex += 6;
             }
         }
-        void CreateTimeHeader()
+        void CreateTimeHeader(MouseButtonEventHandler mLeft)
         {
             string[] times = new string[] { "8.30-10.05", "10.25-12.00", "12.20-13.55", "14.15-15.50", "16.00-17.35", "17.45-19.20" };
 
@@ -249,11 +255,104 @@ namespace Presentation
                 groupLabel.HorizontalContentAlignment = HorizontalAlignment.Center;
                 gdData.Children.Add(groupLabel);
                 timeStringIndex++;
+                groupLabel.MouseLeftButtonDown += mLeft;
                 if (timeStringIndex == 6)
                 {
                     timeStringIndex = 0;
                 }
             }
+        }
+        #endregion
+
+        #region Edit Schedule
+
+        public int ColForRemove = 0;
+        public int RowForRemove = 0;
+        public List<StudentsClass> RemoveClases = new List<StudentsClass>();
+
+        private void btnRemove_Click(object sender, RoutedEventArgs e)
+        {
+            StudentsClass clas;
+            RemoveClases.Add(schedule.partSchedule[RowForRemove - ROW_HEADER, ColForRemove - COLUMN_HEADER]);
+            RemovelistBox.Items.Add(RemoveClases.Last());
+            clas = schedule.partSchedule[RowForRemove - ROW_HEADER, ColForRemove - COLUMN_HEADER];
+            for (int colIndex = 0; colIndex < schedule.partSchedule.GetLength(1); colIndex++)
+            {
+                if (schedule.partSchedule[RowForRemove - ROW_HEADER, colIndex] == clas)
+                    schedule.partSchedule[RowForRemove - ROW_HEADER, colIndex] = null;
+            }
+            btnShow_Click(Type.Missing, e);
+            btnRemove.IsEnabled = false;
+           
+
+        }
+        Label SelectedTimeCell;
+        private void TimeSelect(object sender, MouseButtonEventArgs e)
+        {
+            Label cell = (Label)sender;
+            int col = (int)cell.GetValue(Grid.ColumnProperty);
+            int row = (int)cell.GetValue(Grid.RowProperty);
+            if (SelectedTimeCell != null)
+            {
+                SelectedTimeCell.BorderBrush = new SolidColorBrush(Colors.Green);
+                SelectedTimeCell.BorderThickness = new Thickness(1);
+                if(SelectedTimeCell.Content != null) {
+                    TimeBox.Text = SelectedTimeCell.Content.ToString();
+                }
+                
+            }
+            if (SelectedTimeCell == cell)
+            {
+                SelectedTimeCell = null;
+                TimeBox.Text = "";
+            }
+            else
+            {
+                SelectedTimeCell = cell;
+                SelectedTimeCell.BorderBrush = new SolidColorBrush(Colors.Yellow);
+                SelectedTimeCell.BorderThickness = new Thickness(2);
+                if (SelectedTimeCell.Content != null)
+                {
+                    TimeBox.Text = SelectedTimeCell.Content.ToString();
+                }
+            }
+        }
+
+        private void RemovelistBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            StudentsClass clas = (StudentsClass)RemovelistBox.SelectedItem;
+            InfoClass.Text = clas.Name;
+            InfoTeachers.Items.Clear();
+            InfoGroop.Items.Clear();
+            foreach (Teacher tecah in clas.Teacher)
+            {
+                InfoTeachers.Items.Add(tecah);
+            }
+            foreach (StudentSubGroup groop in clas.SubGroups)
+            {
+                InfoGroop.Items.Add(groop);
+            }
+            btnClass.IsEnabled = true;
+
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if(RemoveClases.Count !=0)
+            {
+                MessageBox.Show("Остались непоставленные пары");
+                e.Cancel = true;
+            }
+        }
+
+        private void btnClass_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void btnClass_Click_1(object sender, RoutedEventArgs e)
+        {
+            ChooseClassRoom form = new ChooseClassRoom();
+            form.ShowDialog();
         }
         #endregion
 

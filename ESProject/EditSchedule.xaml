@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Presentation"
         mc:Ignorable="d"
-        Title="EditSchedule" Height="700" Width="1300">
+        Title="EditSchedule" Height="700" Width="1300" Closing="Window_Closing">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="14*"/>
@@ -16,7 +16,22 @@
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Column="0" Grid.Row="0">
             <Grid Name="gdData" Margin="10"/>
         </ScrollViewer>
-        
+        <Button x:Name="btnRemove" Content="Снять" Grid.Column="1" HorizontalAlignment="Left" Margin="41,46,0,0" VerticalAlignment="Top" Width="75" Click="btnRemove_Click" IsEnabled="False"/>
+        <Button x:Name="btnSet" Content="Поставить" Grid.Column="1" HorizontalAlignment="Left" Margin="178,46,0,0" VerticalAlignment="Top" Width="75" Click="btnShow_Click" IsEnabled="False" RenderTransformOrigin="0.533,0.8"/>
+        <ListBox x:Name="RemovelistBox"  Grid.Column="1" HorizontalAlignment="Left" Height="122" Margin="29,525,0,0" VerticalAlignment="Top" Width="291" DisplayMemberPath="Name" SelectionChanged="RemovelistBox_SelectionChanged"/>
+        <Label x:Name="lable" Content="Неустановленные пары:" Grid.Column="1" HorizontalAlignment="Left" Margin="29,494,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="InfoClass" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="29,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" IsReadOnly="True"/>
+        <Label x:Name="lable_Copy" Content="Предмет" Grid.Column="1" HorizontalAlignment="Left" Margin="29,85,0,0" VerticalAlignment="Top"/>
+        <ListBox x:Name="InfoTeachers" Grid.Column="1" HorizontalAlignment="Left" Height="74" Margin="29,184,0,0" VerticalAlignment="Top" Width="265" DisplayMemberPath="FLSName"/>
+        <Label x:Name="lable_Copy1" Content="Преподаватели:" Grid.Column="1" HorizontalAlignment="Left" Margin="29,153,0,0" VerticalAlignment="Top"/>
+        <ListBox x:Name="InfoGroop" Grid.Column="1" HorizontalAlignment="Left" Height="77" Margin="29,293,0,0" VerticalAlignment="Top" Width="265" DisplayMemberPath="NameGroup"/>
+        <Label x:Name="lable_Copy2" Content="Группы:" Grid.Column="1" HorizontalAlignment="Left" Margin="29,267,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="ClassBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="29,401,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" IsReadOnly="True"/>
+        <TextBox x:Name="TimeBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="29,450,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" IsReadOnly="True"/>
+        <Label x:Name="lable_Copy3" Content="Аудитория" Grid.Column="1" HorizontalAlignment="Left" Margin="32,370,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lable_Copy4" Content="Время" Grid.Column="1" HorizontalAlignment="Left" Margin="29,424,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btnClass" Content="..." Grid.Column="1" HorizontalAlignment="Left" Margin="245,401,0,0" VerticalAlignment="Top" Width="75" IsEnabled="False" Click="btnClass_Click_1"/>
+
 
     </Grid>
 </Window>
