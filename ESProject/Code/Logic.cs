@@ -117,6 +117,11 @@ namespace Presentation.Code
                             fine = 50;
                             obj = GetStudentClassesByPair(classes);
                             break;
+                        case "OneClassInWeek":
+                            fine = 100;
+                            StudentsClass[] c2 = Array.FindAll(classes, (cl) => cl.Name == "ЭС");
+                            obj = new StudentsClass[,] { { c2[0], c2[1] } };
+                            break;
                         default:
                             break;
                     }
