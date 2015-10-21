@@ -122,6 +122,11 @@ namespace Presentation.Code
                             StudentsClass[] c2 = Array.FindAll(classes, (cl) => cl.Name == "ЭС");
                             obj = new StudentsClass[,] { { c2[0], c2[1] } };
                             break;
+                        case "ThreeClassesInWeek":
+                            fine = 100;
+                            StudentsClass[] c3 = Array.FindAll(classes, (cl) => cl.Name == "СПО");
+                            obj = new StudentsClass[,] { { c3[0], c3[1], c3[2], c3[3], c3[4], c3[5] } };
+                            break;
                         default:
                             break;
                     }
