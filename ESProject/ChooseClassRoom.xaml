@@ -5,20 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Presentation"
         mc:Ignorable="d"
-        Title="ChooseClassRoom" Height="363.159" Width="493.651">
+        Title="ChooseClassRoom" Height="363.159" Width="493.651" Loaded="Window_Loaded">
     <Grid>
-        <ListBox x:Name="listClassRoom" HorizontalAlignment="Left" Height="292" Margin="10,30,0,0" VerticalAlignment="Top" Width="191"/>
-        <RadioButton x:Name="radioButton" Content="Все" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" IsChecked="True"/>
-        <RadioButton x:Name="radioButton_Copy" Content="Сейчас свободные" HorizontalAlignment="Left" Margin="65,10,0,0" VerticalAlignment="Top"/>
-        <ListBox x:Name="listClassRoom_Copy" HorizontalAlignment="Left" Height="99" Margin="221,30,0,0" VerticalAlignment="Top" Width="245"/>
+        <RadioButton x:Name="radioButtonAll" Content="Все" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="radioButtonAll_Checked_1"/>
+        <RadioButton x:Name="radioButtonFree" Content="Сейчас свободные" HorizontalAlignment="Left" Margin="65,10,0,0" VerticalAlignment="Top" IsEnabled="False" Checked="radioButtonFree_Checked"/>
+        <ListBox x:Name="listClassRoomProp" HorizontalAlignment="Left" Height="99" Margin="221,30,0,0" VerticalAlignment="Top" Width="245"/>
         <Label x:Name="label" Content="Особенности аудитории:" HorizontalAlignment="Left" Margin="221,4,0,0" VerticalAlignment="Top" Width="151"/>
-        <Button x:Name="button" Content="Поставить" HorizontalAlignment="Left" Margin="221,145,0,0" VerticalAlignment="Top" Width="83"/>
+        <Button x:Name="button" Content="Поставить" HorizontalAlignment="Left" Margin="221,145,0,0" VerticalAlignment="Top" Width="83" Click="button_Click" IsEnabled="False"/>
         <TextBox x:Name="textClass" HorizontalAlignment="Left" Height="23" Margin="221,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="245" IsReadOnly="True"/>
-        <TextBox x:Name="textClass_Copy" HorizontalAlignment="Left" Height="23" Margin="221,291,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="245" IsReadOnly="True"/>
-        <TextBox x:Name="textClass_Copy1" HorizontalAlignment="Left" Height="23" Margin="221,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="245" IsReadOnly="True"/>
+        <TextBox x:Name="textGroop" HorizontalAlignment="Left" Height="23" Margin="221,291,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="245" IsReadOnly="True"/>
+        <TextBox x:Name="textTeacher" HorizontalAlignment="Left" Height="23" Margin="221,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="245" IsReadOnly="True"/>
         <Label x:Name="label_Copy" Content="Пара:" HorizontalAlignment="Left" Margin="221,172,0,0" VerticalAlignment="Top" Width="151"/>
         <Label x:Name="label_Copy1" Content="Преподаватель:" HorizontalAlignment="Left" Margin="221,221,0,0" VerticalAlignment="Top" Width="151"/>
         <Label x:Name="label_Copy2" Content="Группы:" HorizontalAlignment="Left" Margin="221,265,0,0" VerticalAlignment="Top" Width="151"/>
+        <ListView x:Name="listViewClassRoom" Height="275" Margin="10,39,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Width="180" SelectionChanged="listViewClassRoom_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Корпус" Width="50" DisplayMemberBinding="{Binding Housing}" />
+                    <GridViewColumn Header="№" DisplayMemberBinding="{Binding Number}" Width="55" />
+                </GridView>
+            </ListView.View>
+        </ListView>
 
     </Grid>
 </Window>

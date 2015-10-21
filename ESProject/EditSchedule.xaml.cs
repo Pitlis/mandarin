@@ -31,6 +31,8 @@ namespace Presentation
 
         private void btnShow_Click(object sender, RoutedEventArgs e)
         {
+
+            
             gdData.ColumnDefinitions.Clear();
             gdData.RowDefinitions.Clear();
 
@@ -134,13 +136,13 @@ namespace Presentation
             Label cell = (Label)sender;
             int col = (int)cell.GetValue(Grid.ColumnProperty);
             int row = (int)cell.GetValue(Grid.RowProperty);
-            if(schedule.partSchedule[row - ROW_HEADER, col - COLUMN_HEADER] != null)
+            if (schedule.partSchedule[row - ROW_HEADER, col - COLUMN_HEADER] != null)
             {
                 ClassRoom room = schedule.GetClassRoom(schedule.partSchedule[row - ROW_HEADER, col - COLUMN_HEADER]);
-                string teacher = schedule.partSchedule[row - ROW_HEADER, col - COLUMN_HEADER].Teacher.Length > 0 ? 
-                    schedule.partSchedule[row - ROW_HEADER, col - COLUMN_HEADER].Teacher[0].FLSName : 
+                string teacher = schedule.partSchedule[row - ROW_HEADER, col - COLUMN_HEADER].Teacher.Length > 0 ?
+                    schedule.partSchedule[row - ROW_HEADER, col - COLUMN_HEADER].Teacher[0].FLSName :
                     "";
-                MessageBox.Show(String.Format("Пара: {0}\nАудитория: {1} (корпус {2})\nПреподаватель: {3}", 
+                MessageBox.Show(String.Format("Пара: {0}\nАудитория: {1} (корпус {2})\nПреподаватель: {3}",
                     schedule.partSchedule[row - ROW_HEADER, col - COLUMN_HEADER].Name,
                     room.Number, room.Housing,
                     teacher));
@@ -161,11 +163,21 @@ namespace Presentation
             {
                 SelectedCell.BorderBrush = new SolidColorBrush(Colors.Red);
                 SelectedCell.BorderThickness = new Thickness(1);
+                InfoClass.Text = "";
+                InfoTeachers.Items.Clear();
+                InfoGroop.Items.Clear();
+                RemovelistBox.SelectedIndex = -1;
+                btnSet.IsEnabled = false;
             }
             if (SelectedCell == cell)
             {
                 SelectedCell = null;
+                InfoClass.Text = "";
+                InfoTeachers.Items.Clear();
+                InfoGroop.Items.Clear();
                 btnRemove.IsEnabled = false;
+                RemovelistBox.SelectedIndex = -1;
+                btnSet.IsEnabled = false;
             }
             else
             {
@@ -173,8 +185,37 @@ namespace Presentation
                 SelectedCell.BorderBrush = new SolidColorBrush(Colors.Blue);
                 SelectedCell.BorderThickness = new Thickness(2);
                 if (schedule.partSchedule[row - ROW_HEADER, col - COLUMN_HEADER] != null)
-                { btnRemove.IsEnabled = true; RowForRemove = row; ColForRemove = col; }
-                else { btnRemove.IsEnabled = false; }
+                {
+                    btnRemove.IsEnabled = true; RowForRemove = row; ColForRemove = col;
+                    RemovelistBox.SelectedIndex = -1;
+                    StudentsClass clas = schedule.partSchedule[row - ROW_HEADER, col - COLUMN_HEADER];
+                    InfoClass.Text = clas.Name;
+                    InfoTeachers.Items.Clear();
+                    InfoGroop.Items.Clear();
+                    btnSet.IsEnabled = false;
+                    foreach (Teacher tecah in clas.Teacher)
+                    {
+                        InfoTeachers.Items.Add(tecah);
+                    }
+                    foreach (StudentSubGroup groop in clas.SubGroups)
+                    {
+                        InfoGroop.Items.Add(groop);
+                    }
+                    btnClass.IsEnabled = false;
+
+                }
+                else
+                {
+                    btnRemove.IsEnabled = false;
+                    btnSet.IsEnabled = false;
+                    InfoClass.Text = "";
+                    InfoTeachers.Items.Clear();
+                    InfoGroop.Items.Clear();
+                    SelectedCell = cell;
+                    SelectedCell.BorderBrush = new SolidColorBrush(Colors.Blue);
+                    SelectedCell.BorderThickness = new Thickness(2);
+                    RemovelistBox.SelectedIndex = -1;
+                }
             }
         }
 
@@ -201,12 +242,13 @@ namespace Presentation
             foreach (StudentSubGroup group in groups)
             {
                 Label groupLabel = new Label();
+                
                 groupLabel.Content = group.NameGroup + "/" + group.NumberSubGroup;
                 groupLabel.Height = CELL_HEIGHT;
                 groupLabel.Width = CELL_WIDTH;
                 groupLabel.BorderBrush = new SolidColorBrush(Colors.Red);
                 groupLabel.BorderThickness = new Thickness(1);
-                groupLabel.SetValue(Grid.RowProperty, ROW_HEADER-1);
+                groupLabel.SetValue(Grid.RowProperty, ROW_HEADER - 1);
                 groupLabel.SetValue(Grid.ColumnProperty, columnIndex);
                 groupLabel.FontSize = 12;
                 groupLabel.HorizontalContentAlignment = HorizontalAlignment.Center;
@@ -217,14 +259,14 @@ namespace Presentation
         void CreateDayHeader()
         {
             int rowIndex = ROW_HEADER;
-            string[] days = new string[] {"Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота" };
+            string[] days = new string[] { "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота" };
             foreach (string day in days)
             {
                 Label groupLabel = new Label();
                 groupLabel.LayoutTransform = new RotateTransform(270);
                 groupLabel.Content = day;
                 groupLabel.Height = 30;
-                groupLabel.Width = CELL_HEIGHT*6;
+                groupLabel.Width = CELL_HEIGHT * 6;
                 groupLabel.BorderBrush = new SolidColorBrush(Colors.Green);
                 groupLabel.BorderThickness = new Thickness(1);
                 groupLabel.SetValue(Grid.RowProperty, rowIndex);
@@ -266,24 +308,31 @@ namespace Presentation
 
         #region Edit Schedule
 
-        public int ColForRemove = 0;
-        public int RowForRemove = 0;
-        public List<StudentsClass> RemoveClases = new List<StudentsClass>();
+        private int ColForRemove = 0;
+        private int RowForRemove = 0;
+        private int TimeRows = -1;
+        
 
         private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
             StudentsClass clas;
-            RemoveClases.Add(schedule.partSchedule[RowForRemove - ROW_HEADER, ColForRemove - COLUMN_HEADER]);
-            RemovelistBox.Items.Add(RemoveClases.Last());
+            schedule.RemoveClases.Add(schedule.partSchedule[RowForRemove - ROW_HEADER, ColForRemove - COLUMN_HEADER]);
+            RemovelistBox.Items.Add(schedule.RemoveClases.Last());
             clas = schedule.partSchedule[RowForRemove - ROW_HEADER, ColForRemove - COLUMN_HEADER];
+            schedule.RemoveFromClasses(clas, RowForRemove - ROW_HEADER);
             for (int colIndex = 0; colIndex < schedule.partSchedule.GetLength(1); colIndex++)
             {
                 if (schedule.partSchedule[RowForRemove - ROW_HEADER, colIndex] == clas)
+                {
                     schedule.partSchedule[RowForRemove - ROW_HEADER, colIndex] = null;
+                }
             }
             btnShow_Click(Type.Missing, e);
             btnRemove.IsEnabled = false;
-           
+            InfoClass.Text = "";
+            InfoTeachers.Items.Clear();
+            InfoGroop.Items.Clear();
+
 
         }
         Label SelectedTimeCell;
@@ -296,15 +345,21 @@ namespace Presentation
             {
                 SelectedTimeCell.BorderBrush = new SolidColorBrush(Colors.Green);
                 SelectedTimeCell.BorderThickness = new Thickness(1);
-                if(SelectedTimeCell.Content != null) {
+                if (SelectedTimeCell.Content != null)
+                {
                     TimeBox.Text = SelectedTimeCell.Content.ToString();
+                    TimeRows = row-1;
+                    if (RemovelistBox.SelectedItem != null && TimeRows != -1 && listViewClassRoom.Items.Count != 0)
+                    { btnSet.IsEnabled = true; }
                 }
-                
+
             }
             if (SelectedTimeCell == cell)
             {
                 SelectedTimeCell = null;
                 TimeBox.Text = "";
+                TimeRows = -1;
+                btnSet.IsEnabled = false;
             }
             else
             {
@@ -314,46 +369,84 @@ namespace Presentation
                 if (SelectedTimeCell.Content != null)
                 {
                     TimeBox.Text = SelectedTimeCell.Content.ToString();
+                    TimeRows = row-1;
+                    if (RemovelistBox.SelectedItem != null && TimeRows != -1 && listViewClassRoom.Items.Count != 0)
+                    { btnSet.IsEnabled = true; }
                 }
             }
         }
 
         private void RemovelistBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            StudentsClass clas = (StudentsClass)RemovelistBox.SelectedItem;
-            InfoClass.Text = clas.Name;
-            InfoTeachers.Items.Clear();
-            InfoGroop.Items.Clear();
-            foreach (Teacher tecah in clas.Teacher)
+            if (RemovelistBox.SelectedIndex != -1)
             {
-                InfoTeachers.Items.Add(tecah);
+                btnSet.IsEnabled = false;
+                StudentsClass clas = (StudentsClass)RemovelistBox.SelectedItem;
+                InfoClass.Text = clas.Name;
+                InfoTeachers.Items.Clear();
+                InfoGroop.Items.Clear();
+                foreach (Teacher tecah in clas.Teacher)
+                {
+                    InfoTeachers.Items.Add(tecah);
+                }
+                foreach (StudentSubGroup groop in clas.SubGroups)
+                {
+                    InfoGroop.Items.Add(groop);
+                }
+                btnClass.IsEnabled = true;
+                btnRemove.IsEnabled = false;
+
             }
-            foreach (StudentSubGroup groop in clas.SubGroups)
+            if (SelectedCell != null && RemovelistBox.SelectedIndex != -1)
             {
-                InfoGroop.Items.Add(groop);
+                SelectedCell.BorderBrush = new SolidColorBrush(Colors.Red);
+                SelectedCell.BorderThickness = new Thickness(1);
+                SelectedCell = null;
             }
-            btnClass.IsEnabled = true;
+
+            listViewClassRoom.Items.Clear();
+            if (RemovelistBox.SelectedItem != null && TimeRows !=-1 && listViewClassRoom.Items.Count != 0)
+            { btnSet.IsEnabled = true; }
+            
+
+
 
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if(RemoveClases.Count !=0)
+            if (schedule.RemoveClases.Count !=0)
             {
                 MessageBox.Show("Остались непоставленные пары");
                 e.Cancel = true;
             }
         }
 
-        private void btnClass_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
         private void btnClass_Click_1(object sender, RoutedEventArgs e)
         {
-            ChooseClassRoom form = new ChooseClassRoom();
+            StudentsClass clas;
+            clas = (StudentsClass)RemovelistBox.SelectedItem;
+            ChooseClassRoom form = new ChooseClassRoom(TimeRows, schedule, clas);
+            form.Owner = this;
             form.ShowDialog();
+
         }
+        private void InfoTeachers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            InfoTeachers.SelectedIndex = -1;
+        }
+
+        private void InfoGroop_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            InfoGroop.SelectedIndex = -1;
+        }
+
+        private void listViewClassRoom_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            listViewClassRoom.SelectedIndex = -1;
+        }
+
         #endregion
 
 

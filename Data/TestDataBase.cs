@@ -63,7 +63,7 @@ namespace Data
            t[4] = new ClassRoomType("Лабораторная-эл");
            t[5] = new ClassRoomType("СпортЗал");
            t[6] = new ClassRoomType("Выездная");
-            t[7] = new ClassRoomType("Особая");
+           t[7] = new ClassRoomType("Особая");
 
         }
        public TestDataBase(ref ClassRoom[] cl,ClassRoomType[] t)
