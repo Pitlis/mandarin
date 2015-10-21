@@ -113,6 +113,10 @@ namespace Presentation.Code
                             StudentsClass[] c1 = Array.FindAll(classes, (cl) => cl.Name == "ФИЗРА");
                             obj = new StudentsClass[,] { { c1[0], c1[1], c1[2], c1[3] } };
                             break;
+                        case "SameClassesInSameTime":
+                            fine = 50;
+                            obj = GetStudentClassesByPair(classes);
+                            break;
                         default:
                             break;
                     }
@@ -145,5 +149,95 @@ namespace Presentation.Code
             Save.SaveSchedule((FullSchedule)schedules[0]);
         }
 
+        bool StudentClassEquals(StudentsClass c1, StudentsClass c2)
+        {
+            if(c1.Name == c2.Name)
+            {
+                foreach(Teacher teacher in c1.Teacher)
+                {
+                    if(!c2.Teacher.Contains(teacher))
+                    {
+                        return false;
+                    }
+                }
+                foreach (Teacher teacher in c2.Teacher)
+                {
+                    if (!c1.Teacher.Contains(teacher))
+                    {
+                        return false;
+                    }
+                }
+                foreach (StudentSubGroup group in c1.SubGroups)
+                {
+                    if (!c2.SubGroups.Contains(group))
+                    {
+                        return false;
+                    }
+                }
+                foreach (StudentSubGroup group in c2.SubGroups)
+                {
+                    if (!c1.SubGroups.Contains(group))
+                    {
+                        return false;
+                    }
+                }
+
+                foreach (ClassRoomType roomType in c1.RequireForClassRoom)
+                {
+                    if (!c2.RequireForClassRoom.Contains(roomType))
+                    {
+                        return false;
+                    }
+                }
+
+                foreach (ClassRoomType roomType in c2.RequireForClassRoom)
+                {
+                    if (!c1.RequireForClassRoom.Contains(roomType))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        StudentsClass[,] GetStudentClassesByPair(StudentsClass[] classes)
+        {
+            List<StudentClassPair> pairsClasses = new List<StudentClassPair>();
+            List<StudentsClass> classesList = classes.ToList();
+            foreach (StudentsClass sClass in classesList)
+            {
+                if(pairsClasses.FindAll((pc) => pc.c1 == sClass || pc.c2 == sClass).Count == 0)
+                {
+                    StudentsClass secondClass = classesList.Find(c => StudentClassEquals(c, sClass));
+                    if(secondClass != null)
+                    {
+                        pairsClasses.Add(new StudentClassPair(sClass, secondClass));
+                    }
+                }
+            }
+            StudentsClass[,] pairsClassesArray = new StudentsClass[pairsClasses.Count, 2];
+            for (int pairClassesIndex = 0; pairClassesIndex < pairsClasses.Count; pairClassesIndex++)
+            {
+                pairsClassesArray[pairClassesIndex, 0] = pairsClasses[pairClassesIndex].c1;
+                pairsClassesArray[pairClassesIndex, 1] = pairsClasses[pairClassesIndex].c2;
+            }
+
+            return pairsClassesArray;
+        }
+
+        struct StudentClassPair
+        {
+            public StudentsClass c1;
+            public StudentsClass c2;
+            public StudentClassPair(StudentsClass c1, StudentsClass c2)
+            {
+                this.c1 = c1;
+                this.c2 = c2;
+            }
+        }
     }
 }
