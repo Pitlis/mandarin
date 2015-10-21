@@ -63,7 +63,7 @@ namespace OtherFactors
             return false;
         }
 
-        static int GetRow(StudentsClass[,] sClasses, StudentsClass sClass)
+        public static int GetRow(StudentsClass[,] sClasses, StudentsClass sClass)
         {
             for (int rowIndex = 0; rowIndex < sClasses.GetLength(0); rowIndex++)
             {
