@@ -317,7 +317,8 @@ namespace Presentation
         {
             StudentsClass clas;
             schedule.RemoveClases.Add(schedule.partSchedule[RowForRemove - ROW_HEADER, ColForRemove - COLUMN_HEADER]);
-            RemovelistBox.Items.Add(schedule.RemoveClases.Last());
+            RemovelistBox.ItemsSource = null;
+            RemovelistBox.ItemsSource = schedule.RemoveClases;
             clas = schedule.partSchedule[RowForRemove - ROW_HEADER, ColForRemove - COLUMN_HEADER];
             schedule.RemoveFromClasses(clas, RowForRemove - ROW_HEADER);
             for (int colIndex = 0; colIndex < schedule.partSchedule.GetLength(1); colIndex++)
@@ -446,6 +447,16 @@ namespace Presentation
         {
             listViewClassRoom.SelectedIndex = -1;
         }
+
+
+        private void btnSet_Click(object sender, RoutedEventArgs e)
+        {          
+            schedule.SetClass((ClassRoom)listViewClassRoom.Items.GetItemAt(0), (StudentsClass)RemovelistBox.SelectedItem, TimeRows);
+            RemovelistBox.ItemsSource = null;
+            RemovelistBox.ItemsSource = schedule.RemoveClases;
+            btnShow_Click(Type.Missing, e);
+        }
+
 
         #endregion
 

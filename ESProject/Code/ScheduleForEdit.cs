@@ -70,7 +70,7 @@ namespace Presentation.Code
         /// <summary>
         /// Метод который узнает свободна ли аудитория в данное время(если да то true,TimeRows строка в расписании)
         /// </summary>
-        public bool ClassRoomFree(ClassRoom item,int TimeRows)
+        public bool ClassRoomFree(ClassRoom item, int TimeRows)
         {
             ClassRoom cl;
             for (int colIndex = 0; colIndex < classes.GetLength(1); colIndex++)
@@ -102,7 +102,7 @@ namespace Presentation.Code
         public List<ClassRoom> GetListFreeClasRoom(int TimeRows, List<ClassRoom> clas)
         {
             int[] k = new int[clas.Count];
-            int z=0, im = 0;
+            int z = 0, im = 0;
             foreach (ClassRoom items in clas)
             {
                 for (int colIndex = 0; colIndex < classes.GetLength(1); colIndex++)
@@ -118,6 +118,145 @@ namespace Presentation.Code
                 im++;
             }
             return clas;
+        }
+        /// <summary>
+        /// Метод для постановки пары в "большое" рассписание
+        /// </summary>
+        public void SetClass(ClassRoom clas, StudentsClass sClas, int TimeRow)
+        {
+            int clasIndex = -1;
+            for (int i = 0; i < eStorage.ClassRooms.Length; i++)
+            {
+                if (eStorage.ClassRooms[i] == clas) clasIndex = i;
+            }
+            string s = "";
+
+            #region OtherCalses
+            //Есть ли у этих групп другие занятия в это время?
+            foreach (StudentSubGroup groop in sClas.SubGroups)
+            {
+                for (int colIndex = 0; colIndex < classes.GetLength(1); colIndex++)
+                {
+                    if (classes[TimeRow, colIndex] != null && classes[TimeRow, colIndex].SubGroups.Contains(groop))
+                    {
+                        s += "\n" + groop.NameGroup + ": " + classes[TimeRow, colIndex].Name;
+                        break;
+                    }
+                }
+            }
+            if (s != "")
+            {
+                System.Windows.MessageBoxResult result = System.Windows.MessageBox.Show("В этот момент идут занятия в группах: \n" + s + "\n Хотите снять данные пары?", "Вопрос", System.Windows.MessageBoxButton.OKCancel, System.Windows.MessageBoxImage.Question);
+                if (result == System.Windows.MessageBoxResult.OK)
+                {
+                    foreach (StudentSubGroup groop in sClas.SubGroups)
+                    {
+                        for (int colIndex = 0; colIndex < classes.GetLength(1); colIndex++)
+                        {
+                            if (classes[TimeRow, colIndex] != null && classes[TimeRow, colIndex].SubGroups.Contains(groop))
+                            {
+                                RemoveClases.Add(classes[TimeRow, colIndex]);
+                                classes[TimeRow, colIndex] = null;
+                                break;
+                            }
+                        }
+                        for (int colIndex = 0; colIndex < partSchedule.GetLength(1); colIndex++)
+                        {
+                            if (partSchedule[TimeRow, colIndex] != null && partSchedule[TimeRow, colIndex].SubGroups.Contains(groop))
+                            {
+                                partSchedule[TimeRow, colIndex] = null;
+                            }
+                        }
+
+                    }
+                }
+                else { System.Windows.MessageBox.Show("Выбранну пару невозможно поставить из за накладки в расписании", "Ошибка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information); return; }
+            }
+            //-------------------------
+            #endregion
+            s = "";
+
+            #region TeacherClasses
+            //Есть ли у преподавателей другие пары в это время?
+            foreach (Teacher teach in sClas.Teacher)
+            {
+                for (int colIndex = 0; colIndex < classes.GetLength(1); colIndex++)
+                {
+                    if (classes[TimeRow, colIndex] != null && classes[TimeRow, colIndex].Teacher.Contains(teach))
+                    {
+                        s += "\n" + teach.FLSName + ": " + classes[TimeRow, colIndex].Name;
+                        break;
+                    }
+                }
+            }
+            if (s != "")
+            {
+                System.Windows.MessageBoxResult result = System.Windows.MessageBox.Show("В этот момент идут занятия у преподавателей: \n" + s + "\n Хотите снять данные пары?", "Вопрос", System.Windows.MessageBoxButton.OKCancel, System.Windows.MessageBoxImage.Question);
+                if (result == System.Windows.MessageBoxResult.OK)
+                {
+                    foreach (Teacher teach in sClas.Teacher)
+                    {
+                        for (int colIndex = 0; colIndex < classes.GetLength(1); colIndex++)
+                        {
+                            if (classes[TimeRow, colIndex] != null && classes[TimeRow, colIndex].Teacher.Contains(teach))
+                            {
+                                RemoveClases.Add(classes[TimeRow, colIndex]);
+                                classes[TimeRow, colIndex] = null;
+                                break;
+                            }
+                        }
+                        for (int colIndex = 0; colIndex < partSchedule.GetLength(1); colIndex++)
+                        {
+                            if (partSchedule[TimeRow, colIndex] != null && partSchedule[TimeRow, colIndex].Teacher.Contains(teach))
+                            {
+                                partSchedule[TimeRow, colIndex] = null;
+                            }
+                        }
+                    }
+                }
+                else { System.Windows.MessageBox.Show("Выбранну пару невозможно поставить из за накладки в расписании", "Ошибка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information); return; }
+            }
+            //------------------
+            #endregion
+
+            s = "";
+            if (classes[TimeRow, clasIndex] != null)
+            {
+                ClassRoom audit;
+                audit = GetClassRoom(classes[TimeRow, clasIndex]);
+                s = audit.Number + "Корпус: " + audit.Number;
+                System.Windows.MessageBoxResult result = System.Windows.MessageBox.Show("В аудитории: " + s + " уже ведутся занятия.\n Хотите снять данную пары?", "Вопрос", System.Windows.MessageBoxButton.OKCancel, System.Windows.MessageBoxImage.Question);
+                if (result == System.Windows.MessageBoxResult.OK)
+                {
+                    RemoveClases.Add(classes[TimeRow, clasIndex]);
+                    classes[TimeRow, clasIndex] = null;
+                    for (int colIndex = 0; colIndex < partSchedule.GetLength(1); colIndex++)
+                    {
+                        if (partSchedule[TimeRow, colIndex] != null && GetClassRoom(partSchedule[TimeRow, colIndex]) == audit)
+                        {
+                            partSchedule[TimeRow, colIndex] = null;
+                        }
+
+                    }
+                }
+                else { System.Windows.MessageBox.Show("Выбранну пару невозможно поставить из за накладки в расписании", "Ошибка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information); return; }
+
+            }
+            classes[TimeRow, clasIndex] = sClas;
+            foreach (var grop in sClas.SubGroups)
+            {
+                for (int i = 0; i < Groups.Length; i++)
+                {
+                    if (grop == Groups[i])
+                    {
+                        partSchedule[TimeRow, i] = sClas;
+                        break;
+                    }
+                }
+                
+            }
+            RemoveClases.Remove(sClas);
+
         }
 
         public class ClassRoomComparer : IComparer<ClassRoom>

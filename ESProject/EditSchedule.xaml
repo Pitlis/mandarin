@@ -17,7 +17,7 @@
             <Grid Name="gdData" Margin="10"/>
         </ScrollViewer>
         <Button x:Name="btnRemove" Content="Снять" Grid.Column="1" HorizontalAlignment="Left" Margin="41,46,0,0" VerticalAlignment="Top" Width="75" Click="btnRemove_Click" IsEnabled="False"/>
-        <Button x:Name="btnSet" Content="Поставить" Grid.Column="1" HorizontalAlignment="Left" Margin="178,46,0,0" VerticalAlignment="Top" Width="75" Click="btnShow_Click" IsEnabled="False" RenderTransformOrigin="0.533,0.8"/>
+        <Button x:Name="btnSet" Content="Поставить" Grid.Column="1" HorizontalAlignment="Left" Margin="178,46,0,0" VerticalAlignment="Top" Width="75" IsEnabled="False" RenderTransformOrigin="0.533,0.8" Click="btnSet_Click"/>
         <ListBox x:Name="RemovelistBox"  Grid.Column="1" HorizontalAlignment="Left" Height="122" Margin="29,525,0,0" VerticalAlignment="Top" Width="291" DisplayMemberPath="Name" SelectionChanged="RemovelistBox_SelectionChanged"/>
         <Label x:Name="lable" Content="Неустановленные пары:" Grid.Column="1" HorizontalAlignment="Left" Margin="29,494,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="InfoClass" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="29,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" IsReadOnly="True"/>

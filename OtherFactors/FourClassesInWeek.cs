@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace OtherFactors
 {
-    class FourClassesInWeek : IFactor
+    class FourClassesInWeek //: IFactor
     {
         int fine;
         bool isBlock;
