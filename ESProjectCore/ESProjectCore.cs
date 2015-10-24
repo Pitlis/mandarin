@@ -65,6 +65,8 @@ namespace ESCore
 
             //первая пара ставится в первое подходящее место и не проверяется
             resultSchedule.SetClass(sortedStudentsClasses[0], resultSchedule.GetSuitableClassRooms(sortedStudentsClasses[0])[0]);
+            logger.Info("Пара <" + sortedStudentsClasses[0].Name +
+                        " " + ((sortedStudentsClasses[0].Teacher.Length > 0) ? sortedStudentsClasses[0].Teacher[0].FLSName : "") + "> установлена (1/" + sortedStudentsClasses.Length + ")");
             //----
 
             for (int classIndex = 1; classIndex < sortedStudentsClasses.Length; classIndex++)
