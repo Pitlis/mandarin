@@ -222,7 +222,7 @@ namespace Presentation.Code
             {
                 if(pairsClasses.FindAll((pc) => pc.c1 == sClass || pc.c2 == sClass).Count == 0)
                 {
-                    StudentsClass secondClass = classesList.Find(c => StudentClassEquals(c, sClass));
+                    StudentsClass secondClass = classesList.Find(c => StudentClassEquals(c, sClass) && c != sClass);
                     if(secondClass != null)
                     {
                         pairsClasses.Add(new StudentClassPair(sClass, secondClass));
