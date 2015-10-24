@@ -145,11 +145,23 @@ namespace Presentation.Code
             List<ISchedule> schedules = core.Run().ToList<ISchedule>();
 
             loggingService.Info("Итоговое расписание готово");
-            loggingService.Info("Выгрузка в Excel...");
-            PartialSchedule asoi = schedules[0].GetPartialSchedule(storage.StudentSubGroups[0]);
+
             ScheduleExcel excel = new ScheduleExcel(schedules[0], storage);
             ScheduleExcelTeacher excelTeach = new ScheduleExcelTeacher(schedules[0], storage);
-            loggingService.Info("Расписание выгружено в Excel");
+            Parallel.Invoke(
+            () =>
+            {
+                loggingService.Info("Выгрузка в Excel расписания студентов...");
+                excel.LoadToExcel();
+                loggingService.Info("Расписание студентов выгружено в Excel");
+            },
+            () =>
+            {
+                loggingService.Info("Выгрузка в Excel расписания преподавателей...");
+                excelTeach.LoadToExcel();
+                loggingService.Info("Расписание преподавателей выгружено в Excel");
+            });
+
             Save.SaveSchedule((FullSchedule)schedules[0]);
         }
 
