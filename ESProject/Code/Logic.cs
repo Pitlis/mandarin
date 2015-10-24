@@ -220,10 +220,15 @@ namespace Presentation.Code
             List<StudentsClass> classesList = classes.ToList();
             foreach (StudentsClass sClass in classesList)
             {
-                if(pairsClasses.FindAll((pc) => pc.c1 == sClass || pc.c2 == sClass).Count == 0)
+                if (pairsClasses.FindAll((pc) => pc.c1 == sClass || pc.c2 == sClass).Count == 0)
                 {
+                    if (classesList.FindAll(c => StudentClassEquals(c, sClass) && c != sClass).Count > 2)
+                    {
+                        //пара встречается больше двух раз за две недели
+                        continue;
+                    }
                     StudentsClass secondClass = classesList.Find(c => StudentClassEquals(c, sClass) && c != sClass);
-                    if(secondClass != null)
+                    if (secondClass != null)
                     {
                         pairsClasses.Add(new StudentClassPair(sClass, secondClass));
                     }

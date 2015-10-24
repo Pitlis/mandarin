@@ -114,7 +114,7 @@ namespace Data
            SC = new StudentsClass[135];
            SC[0] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0], ES.StudentSubGroups[1], ES.StudentSubGroups[2] },
                                         new Teacher[] { ES.Teachers[24] }, "ММИПУ",
-                                        new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+                                        new ClassRoomType[] { ES.ClassRoomsTypes[7] });
            SC[1] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0] },
                                         new Teacher[] { ES.Teachers[24] }, "ММИПУ",
                                         new ClassRoomType[] { ES.ClassRoomsTypes[2] });
