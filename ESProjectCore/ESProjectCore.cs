@@ -62,7 +62,7 @@ namespace ESCore
         FullSchedule CreateSchedule(StudentsClass[] sortedStudentsClasses)
         {
             FullSchedule resultSchedule = new FullSchedule(EStorage.ClassRooms.Length, EStorage);
-
+            Rollback rollback = new Rollback(sortedStudentsClasses, 1000, resultSchedule);
             //первая пара ставится в первое подходящее место и не проверяется
             resultSchedule.SetClass(sortedStudentsClasses[0], resultSchedule.GetSuitableClassRooms(sortedStudentsClasses[0])[0]);
             logger.Info("Пара <" + sortedStudentsClasses[0].Name +
@@ -74,15 +74,15 @@ namespace ESCore
                 FullSchedule.StudentsClassPosition[] positionsForClass = resultSchedule.GetSuitableClassRooms(sortedStudentsClasses[classIndex]);
                 int[] fines = new int[positionsForClass.Length];
 
-                //Parallel.For(0, positionsForClass.Length, (positionIndex) =>
-                //{
-                //    Interlocked.Exchange(ref fines[positionIndex], GetSumFine(positionsForClass[positionIndex], CreateFactorsArray(), resultSchedule, sortedStudentsClasses[classIndex]));
-                //});
-
-                for (int positionIndex = 0; positionIndex < positionsForClass.Length; positionIndex++)
+                Parallel.For(0, positionsForClass.Length, (positionIndex) =>
                 {
                     Interlocked.Exchange(ref fines[positionIndex], GetSumFine(positionsForClass[positionIndex], CreateFactorsArray(), resultSchedule, sortedStudentsClasses[classIndex]));
-                }
+                });
+
+                //for (int positionIndex = 0; positionIndex < positionsForClass.Length; positionIndex++)
+                //{
+                //    Interlocked.Exchange(ref fines[positionIndex], GetSumFine(positionsForClass[positionIndex], CreateFactorsArray(), resultSchedule, sortedStudentsClasses[classIndex]));
+                //}
 
                 if (positionsForClass.Length > 0 && Array.FindAll<int>(fines, (f) => f != Constants.BLOCK_FINE).Length > 0)
                 {
@@ -94,14 +94,18 @@ namespace ESCore
                 }
                 else
                 {
-                    throw new Exception("Невозможно вставить пару в расписание");
-                    //невозможно вставить пару в расписание
-                    //Нужно реализовать откат на пару шагов и смену пар местами - чтобы расписание целиком не выбрасывать
-                    return null;
+                    logger.Info("----- Откат пары <" + sortedStudentsClasses[classIndex].Name + ">");
+                    if(!rollback.DoRollback(sortedStudentsClasses, ref classIndex))
+                    {
+                        throw new Exception("Невозможно вставить пару в расписание");
+                        return null;
+                    }
                 }
             }
             return resultSchedule;
         }
+
+
 
         int GetSumFine(FullSchedule.StudentsClassPosition position, IFactor[] factors, FullSchedule scheduleForCreateTemp, StudentsClass sClass)
         {
@@ -142,7 +146,7 @@ namespace ESCore
             for (int factorIndex = 0; factorIndex < factors.Length; factorIndex++)
             {
                 int fine = factors[factorIndex].GetFineOfFullSchedule(schedule, EStorage);
-                if(fine == Constants.BLOCK_FINE)
+                if (fine == Constants.BLOCK_FINE)
                 {
                     return Constants.BLOCK_FINE;
                 }

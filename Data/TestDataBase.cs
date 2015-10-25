@@ -111,7 +111,7 @@ namespace Data
        }
        public TestDataBase(ref StudentsClass[] SC, EntityStorage ES)
        {
-           SC = new StudentsClass[135];
+           SC = new StudentsClass[136];
            SC[0] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0], ES.StudentSubGroups[1], ES.StudentSubGroups[2] },
                                         new Teacher[] { ES.Teachers[24] }, "ММИПУ",
                                         new ClassRoomType[] { ES.ClassRoomsTypes[7] });
@@ -267,7 +267,10 @@ namespace Data
             SC[45] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0] },
                                         new Teacher[] { ES.Teachers[8] }, "ЭС",
                                         new ClassRoomType[] { ES.ClassRoomsTypes[2] });
-           SC[46] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[1] },
+            SC[135] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0] },
+                            new Teacher[] { ES.Teachers[8] }, "ЭС",
+                            new ClassRoomType[] { ES.ClassRoomsTypes[2] });
+            SC[46] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[1] },
                                         new Teacher[] { ES.Teachers[12] }, "ЭС",
                                         new ClassRoomType[] { ES.ClassRoomsTypes[2] });
            SC[47] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[2] },

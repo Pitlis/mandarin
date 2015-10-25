@@ -114,12 +114,12 @@ namespace Presentation.Code
                             obj = new StudentsClass[,] { { c1[0], c1[1], c1[2], c1[3] } };
                             break;
                         case "SameClassesInSameTime":
-                            fine = 99;
-                            obj = GetStudentClassesByPair(classes);
+                            fine = 100;
+                            obj = GetGroupSameClasses(classes);
                             break;
                         case "OneClassInWeek":
                             fine = 100;
-                            obj = GetStudentClassesByPair(classes);
+                            obj = GetGroupTwoSameClasses(classes);
                             break;
                         default:
                             break;
@@ -137,7 +137,6 @@ namespace Presentation.Code
 
         public void Start()
         {
-
             ESProjectCore core = new ESProjectCore(classes, storage, FactorTypes);
             core.logger = loggingService;
             loggingService.Info("Загружено ядро. Запуск...");
@@ -220,7 +219,9 @@ namespace Presentation.Code
                 return false;
             }
         }
-        StudentsClass[,] GetStudentClassesByPair(StudentsClass[] classes)
+        
+        //группировка пар, если пара встречается только два раза за две недели
+        StudentsClass[,] GetGroupTwoSameClasses(StudentsClass[] classes)
         {
             List<StudentClassPair> pairsClasses = new List<StudentClassPair>();
             List<StudentsClass> classesList = classes.ToList();
@@ -237,6 +238,35 @@ namespace Presentation.Code
                     if (secondClass != null)
                     {
                         pairsClasses.Add(new StudentClassPair(sClass, secondClass));
+                    }
+                }
+            }
+            StudentsClass[,] pairsClassesArray = new StudentsClass[pairsClasses.Count, 2];
+            for (int pairClassesIndex = 0; pairClassesIndex < pairsClasses.Count; pairClassesIndex++)
+            {
+                pairsClassesArray[pairClassesIndex, 0] = pairsClasses[pairClassesIndex].c1;
+                pairsClassesArray[pairClassesIndex, 1] = pairsClasses[pairClassesIndex].c2;
+            }
+
+            return pairsClassesArray;
+        }
+
+        //группировка пар, если пара встречается больше двух раз за две недели
+        StudentsClass[,] GetGroupSameClasses(StudentsClass[] classes)
+        {
+            List<StudentClassPair> pairsClasses = new List<StudentClassPair>();
+            List<StudentsClass> classesList = classes.ToList();
+            foreach (StudentsClass sClass in classesList)
+            {
+                if (pairsClasses.FindAll((pc) => pc.c1 == sClass || pc.c2 == sClass).Count == 0)
+                {
+                    List<StudentsClass> sameClasses = classesList.FindAll(c => StudentClassEquals(c, sClass));
+                    int countClasses = sameClasses.Count;
+                    if (countClasses % 2 == 1)
+                        countClasses--;
+                    for (int pairIndex = 0; pairIndex < countClasses; pairIndex+=2)
+                    {
+                        pairsClasses.Add(new StudentClassPair(sameClasses[pairIndex], sameClasses[pairIndex+1]));
                     }
                 }
             }

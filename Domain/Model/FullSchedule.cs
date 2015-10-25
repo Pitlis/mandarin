@@ -64,6 +64,14 @@ namespace Domain.Model
             classes[position.Time, position.Classroom] = sClass;
             TempClass = position;
         }
+        public void RemoveClass(StudentsClass sClass)
+        {
+            StudentsClassPosition? position = this.GetClassPosition(sClass);
+            if(position.HasValue)
+            {
+                classes[position.Value.Time, position.Value.Classroom] = null;
+            }
+        }
 
         #region ISchedule
         public StudentsClass GetTempClass()
