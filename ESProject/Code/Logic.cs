@@ -46,28 +46,28 @@ namespace Presentation.Code
                     switch (factor.Name)
                     {
                         case "StudentFourWindows":
-                            fine = 70;
+                            fine = 100;
                             break;
                         case "StudentsOneWindow":
-                            fine = 99;
+                            fine = 100;
                             break;
                         case "StudentThreeWindows":
-                            fine = 60;
+                            fine = 100;
                             break;
                         case "StudentTwoWindows":
-                            fine = 40;
+                            fine = 100;
                             break;
                         case "TeachersFourWindows":
-                            fine = 69;
+                            fine = 49;
                             break;
                         case "TeacherssOneWindow":
-                            fine = 98;
+                            fine = 40;
                             break;
                         case "TeachersThreeWindows":
-                            fine = 59;
+                            fine = 48;
                             break;
                         case "TeachersTwoWindows":
-                            fine = 39;
+                            fine = 47;
                             break;
                         default:
                             break;
@@ -117,9 +117,17 @@ namespace Presentation.Code
                             fine = 100;
                             obj = GetGroupSameClasses(classes);
                             break;
+                        case "SameClassesInSameRoom":
+                            fine = 99;
+                            obj = GetGroupSameClasses(classes);
+                            break;
                         case "OneClassInWeek":
                             fine = 100;
                             obj = GetGroupTwoSameClasses(classes);
+                            break;
+                        case "TwoLectureClassesInDay":
+                            fine = 99;
+                            obj = GetLectureClasses(classes);
                             break;
                         default:
                             break;
@@ -278,6 +286,24 @@ namespace Presentation.Code
             }
 
             return pairsClassesArray;
+        }
+
+        //Поиск пар-лекций
+        List<StudentsClass> GetLectureClasses(StudentsClass[] classes)
+        {
+            List<StudentsClass> classesList = classes.ToList();
+            List<StudentsClass> lectureList = new List<StudentsClass>();
+            foreach (StudentsClass sClass in classesList)
+            {
+                foreach (ClassRoomType cRoomType in sClass.RequireForClassRoom)
+                {
+                    if (cRoomType.Description.Equals("Лекция"))
+                    {
+                        lectureList.Add(sClass);   
+                    }
+                }
+            }
+            return lectureList;
         }
 
         struct StudentClassPair
