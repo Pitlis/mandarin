@@ -41,7 +41,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StudentFiveWindows.cs" />
     <Compile Include="StudentFourWindows.cs" />
     <Compile Include="StudentsOneWindow.cs" />
     <Compile Include="StudentThreeWindows.cs" />

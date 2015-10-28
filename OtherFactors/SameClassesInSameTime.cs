@@ -22,7 +22,7 @@ namespace OtherFactors
             int classRow = -1;
             if ((classRow = ClassesInWeek.GetRow(sClasses, schedule.GetTempClass())) != -1)
             {
-                if (ClassesTime.CheckClassesHasSameTime(schedule,classRow,sClasses))
+                if (SameClasses.CheckClassesHasSameTime(schedule,classRow,sClasses))
                 {
                     if (isBlock)
                         return Constants.BLOCK_FINE;
@@ -38,7 +38,7 @@ namespace OtherFactors
             int fineResult = 0;
             for (int classIndex = 0; classIndex < sClasses.GetLength(0); classIndex++)
             {
-                if (ClassesTime.CheckClassesHasSameTime(schedule, classIndex, sClasses))
+                if (SameClasses.CheckClassesHasSameTime(schedule, classIndex, sClasses))
                 {
                     if (isBlock)
                         return Constants.BLOCK_FINE;

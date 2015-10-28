@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassesInWeek.cs" />
-    <Compile Include="ClassesTime.cs" />
+    <Compile Include="SameClasses.cs" />
     <Compile Include="FiveStudentsClassesInDay.cs" />
     <Compile Include="FiveStudentsClassesInRow.cs" />
     <Compile Include="FourClassesInWeek.cs" />
@@ -57,7 +57,6 @@
     <Compile Include="ThreeClassesInWeek.cs" />
     <Compile Include="TwoClassesInWeek.cs" />
     <Compile Include="TwoLectureClassesInDay.cs" />
-    <Compile Include="TwoNotLectureClassesInDay.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj">
