@@ -26,11 +26,13 @@ namespace FactorsWindows
             int classOfDay = classTime - (6 * (dayOfWeek) - 1) - 1;
             foreach (StudentSubGroup subGroup in schedule.GetTempClass().SubGroups)
             {
-                if (isBlock)
-                    return Constants.BLOCK_FINE;
-                else
+                int result = CheckWindowsOfAddedClass(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek), classOfDay, fine);
+                if (result > 0)
                 {
-                    fineResult += CheckWindowsOfAddedClass(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek), classOfDay, fine);
+                    if (isBlock)
+                        return Constants.BLOCK_FINE;
+                    else
+                        fineResult += result;
                 }
             }
             return fineResult;
@@ -45,13 +47,20 @@ namespace FactorsWindows
                 foreach (StudentSubGroup subGroup in eStorage.StudentSubGroups)
                 {
                     //Получаем количество форточек у одной группы в один день
-                    windowCount = CountUpWindowsOfFullSchedule(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(i));
+                    if (subGroup.NameGroup == "АСОИ121")
+                    {
+
+                    }
+                    windowCount += CountUpWindowsOfFullSchedule(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(i));
                 }
             }
 
             if (windowCount != 0)
             {
-                return windowCount * fine;
+                if (isBlock)
+                    return Constants.BLOCK_FINE;
+                else
+                    return windowCount * fine;
             }
             return 0;
         }
@@ -104,12 +113,14 @@ namespace FactorsWindows
             int windowCount = 0;
             //Ищем номер последней в этот день пары
             int last = LastClassOfDay(sClasses);
+            //Ищем номер первой в этот день пары
+            int first = FirstClassOfDay(sClasses);
             //Если пара одна или их вообще нет, то соотвественно форточек нет
-            if (last < 2)
+            if ((last - first < 2) || first == -1 || last == -1)
             {
                 return 0;
             }
-            for (int k = 0; k < Constants.CLASSES_IN_DAY - 1; k++)
+            for (int k = first; k < last - 1; k++)
             {
                 //Если текущей пары нет, а следующая есть, то текущая пара будет одиночной форточкой
                 if (sClasses[k] == null && sClasses[k + 1] != null)
@@ -130,9 +141,21 @@ namespace FactorsWindows
                     return j;
                 }
             }
-            return 0;
+            return -1;
         }
 
+        //TO-DO
+        static public int FirstClassOfDay(StudentsClass[] sClasses)
+        {
+            for (int j = 0; j <= sClasses.Length - 1; j++)
+            {
+                if (sClasses[j] != null)
+                {
+                    return j;
+                }
+            }
+            return -1;
+        }
 
         public string GetDescription()
         {

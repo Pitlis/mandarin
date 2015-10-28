@@ -22,12 +22,16 @@ namespace FactorsWindows
             int dayOfWeek = Constants.GetDayOfClass(classTime);
             //Считаем номер пары в этот день
             int classOfDay = classTime - (6 * (dayOfWeek) - 1) - 1;
-            foreach (Teacher teacher in schedule.GetTempClass().Teacher)
+            foreach (StudentSubGroup subGroup in schedule.GetTempClass().SubGroups)
             {
-                if (isBlock)
-                    return Constants.BLOCK_FINE;
-                else
-                    fineResult += CheckWindowsOfAddedClass(schedule.GetPartialSchedule(teacher).GetClassesOfDay(dayOfWeek), classOfDay, fine);
+                int result = CheckWindowsOfAddedClass(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek), classOfDay, fine);
+                if (result > 0)
+                {
+                    if (isBlock)
+                        return Constants.BLOCK_FINE;
+                    else
+                        fineResult += result;
+                }
             }
             return fineResult;
         }
@@ -41,13 +45,16 @@ namespace FactorsWindows
                 foreach (Teacher teacher in eStorage.Teachers)
                 {
                     //Получаем количество форточек у одной группы в один день
-                    windowCount = CountUpWindowsOfFullSchedule(schedule.GetPartialSchedule(teacher).GetClassesOfDay(i));
+                    windowCount += CountUpWindowsOfFullSchedule(schedule.GetPartialSchedule(teacher).GetClassesOfDay(i));
                 }
             }
 
             if (windowCount != 0)
             {
-                return windowCount * fine;
+                if (isBlock)
+                    return Constants.BLOCK_FINE;
+                else
+                    return windowCount * fine;
             }
             return 0;
         }

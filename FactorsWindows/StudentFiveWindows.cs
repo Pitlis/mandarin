@@ -24,10 +24,14 @@ namespace FactorsWindows
             int classOfDay = classTime - (6 * (dayOfWeek) - 1) - 1;
             foreach (StudentSubGroup subGroup in schedule.GetTempClass().SubGroups)
             {
-                if (isBlock)
-                    return Constants.BLOCK_FINE;
-                else
-                    fineResult += CheckWindowsOfAddedClass(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek), classOfDay, fine);
+                int result = CheckWindowsOfAddedClass(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek), classOfDay, fine);
+                if (result > 0)
+                {
+                    if (isBlock)
+                        return Constants.BLOCK_FINE;
+                    else
+                        fineResult += result;
+                }
             }
             return fineResult;
         }
@@ -41,13 +45,16 @@ namespace FactorsWindows
                 foreach (StudentSubGroup subGroup in eStorage.StudentSubGroups)
                 {
                     //Получаем количество форточек у одной группы в один день
-                    windowCount = CountUpWindowsOfFullSchedule(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(i));
+                    windowCount += CountUpWindowsOfFullSchedule(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(i));
                 }
             }
 
             if (windowCount != 0)
             {
-                return windowCount * fine;
+                if (isBlock)
+                    return Constants.BLOCK_FINE;
+                else
+                    return windowCount * fine;
             }
             return 0;
         }
@@ -80,12 +87,14 @@ namespace FactorsWindows
             int windowCount = 0;
             //Ищем номер последней в этот день пары
             int last = LastClassOfDay(sClasses);
+            //Ищем номер первой в этот день пары
+            int first = StudentsOneWindow.FirstClassOfDay(sClasses);
             //Если пар четыре/три/две/одна или их вообще нет, то соотвественно форточек нет
-            if (last < 6)
+            if ((last - first < 6) || first == -1 || last == -1)
             {
                 return 0;
             }
-            for (int k = 0; k < Constants.CLASSES_IN_DAY - 5; k++)
+            for (int k = first; k < last - 5; k++)
             {
                 //Если текущей пары и следующих 4 нет, а следующая после этих есть, 
                 //то текущая будет форточка из пяти пар
