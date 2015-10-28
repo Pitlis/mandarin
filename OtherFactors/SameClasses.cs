@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace OtherFactors
 {
-    class ClassesTime
+    class SameClasses
     {
         public static bool CheckClassesHasSameTime(ISchedule schedule, int classRow, StudentsClass[,] sClasses)
         {
@@ -35,6 +35,15 @@ namespace OtherFactors
                 }
             }
             return false;
+        }
+
+        public static bool CheckClassesHasSameRoom(ISchedule schedule, int classRow, StudentsClass[,] sClasses)
+        {
+            if (schedule.GetClassRoom(sClasses[classRow, 0]) == schedule.GetClassRoom(sClasses[classRow, 1]))
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
