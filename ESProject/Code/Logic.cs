@@ -229,7 +229,7 @@ namespace Presentation.Code
             {
                 if (pairsClasses.FindAll((pc) => pc.c1 == sClass || pc.c2 == sClass).Count == 0)
                 {
-                    if (classesList.FindAll(c => StudentClassEquals(c, sClass) && c != sClass).Count > 2)
+                    if (classesList.FindAll(c => StudentClassEquals(c, sClass) && c != sClass).Count > 1)
                     {
                         //пара встречается больше двух раз за две недели
                         continue;
