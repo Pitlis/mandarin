@@ -28,7 +28,7 @@ namespace ESCore
         public ESProjectCore(IEnumerable<StudentsClass> classes, EntityStorage storage, Dictionary<Type, DataFactor> factors)
         {
             Classes = classes.ToArray<StudentsClass>();
-            Factors = factors;
+            Factors = SortFactors(factors);
             EStorage = storage;
             DataValidator.Validate(classes, storage);
         }
@@ -153,6 +153,25 @@ namespace ESCore
                 fineResult += fine;
             }
             return fineResult;
+        }
+
+        //первыми проверяются факторы с блокирующими штрафами
+        Dictionary<Type, DataFactor> SortFactors(Dictionary<Type, DataFactor> factors)
+        {
+            Dictionary<Type, DataFactor> sortedFactors = new Dictionary<Type, DataFactor>();
+            List<KeyValuePair<Type, DataFactor>> factorList = factors.ToList();
+
+            factorList.Sort((firstPair, nextPair) =>
+            {
+                return -firstPair.Value.Fine.CompareTo(nextPair.Value.Fine);
+            });
+
+            foreach (var factor in factorList)
+            {
+                sortedFactors.Add(factor.Key, factor.Value);
+            }
+
+            return sortedFactors;
         }
     }
 }
