@@ -105,8 +105,7 @@ namespace Presentation.Code
                             break;
                         case "TwoClassesInWeek":
                             fine = 100;
-                            StudentsClass[] c = Array.FindAll(classes, (cl) => cl.Name == "ФИЗРА");
-                            obj = new StudentsClass[,] { { c[0], c[1], c[2], c[3] } };
+                            obj = GetGroupFourSameClasses(classes);
                             break;
                         case "OnlyOneClassInDay":
                             fine = 100;
@@ -125,8 +124,8 @@ namespace Presentation.Code
                             fine = 100;
                             obj = GetGroupTwoSameClasses(classes);
                             break;
-                        case "TwoLectureClassesInDay":
-                            fine = 99;
+                        case "LectureClassesInDay":
+                            fine = 100;
                             obj = GetLectureClasses(classes);
                             break;
                         default:
@@ -288,6 +287,41 @@ namespace Presentation.Code
             return pairsClassesArray;
         }
 
+        //группировка пар, если пара встречается только четыре раза за две недели
+        StudentsClass[,] GetGroupFourSameClasses(StudentsClass[] classes)
+        {
+            List<StudentClassQuad> quadsClasses = new List<StudentClassQuad>();
+            List<StudentsClass> classesList = classes.ToList();
+            foreach (StudentsClass sClass in classesList)
+            {
+                if (quadsClasses.FindAll((pc) => pc.c1 == sClass || pc.c2 == sClass || pc.c3 == sClass || pc.c4 == sClass).Count == 0)
+                {
+                    if (classesList.FindAll(c => StudentClassEquals(c, sClass) && c != sClass).Count > 3)
+                    {
+                        //пара встречается больше четырех раз за две недели
+                        continue;
+                    }
+                    StudentsClass secondClass = classesList.Find(c => StudentClassEquals(c, sClass) && c != sClass);
+                    StudentsClass thirdClass = classesList.Find(c => StudentClassEquals(c, sClass) && c != sClass && c != secondClass);
+                    StudentsClass fourthClass = classesList.Find(c => StudentClassEquals(c, sClass) && c != sClass && c != secondClass && c != thirdClass);
+                    if (secondClass != null && thirdClass != null && fourthClass != null)
+                    {
+                        quadsClasses.Add(new StudentClassQuad(sClass, secondClass, thirdClass, fourthClass));
+                    }
+                }
+            }
+            StudentsClass[,] quadsClassesArray = new StudentsClass[quadsClasses.Count, 4];
+            for (int pairClassesIndex = 0; pairClassesIndex < quadsClasses.Count; pairClassesIndex++)
+            {
+                quadsClassesArray[pairClassesIndex, 0] = quadsClasses[pairClassesIndex].c1;
+                quadsClassesArray[pairClassesIndex, 1] = quadsClasses[pairClassesIndex].c2;
+                quadsClassesArray[pairClassesIndex, 2] = quadsClasses[pairClassesIndex].c3;
+                quadsClassesArray[pairClassesIndex, 3] = quadsClasses[pairClassesIndex].c4;
+            }
+
+            return quadsClassesArray;
+        }
+
         //Поиск пар-лекций
         List<StudentsClass> GetLectureClasses(StudentsClass[] classes)
         {
@@ -314,6 +348,21 @@ namespace Presentation.Code
             {
                 this.c1 = c1;
                 this.c2 = c2;
+            }
+        }
+
+        struct StudentClassQuad
+        {
+            public StudentsClass c1;
+            public StudentsClass c2;
+            public StudentsClass c3;
+            public StudentsClass c4;
+            public StudentClassQuad(StudentsClass c1, StudentsClass c2, StudentsClass c3, StudentsClass c4)
+            {
+                this.c1 = c1;
+                this.c2 = c2;
+                this.c3 = c3;
+                this.c4 = c4;
             }
         }
     }

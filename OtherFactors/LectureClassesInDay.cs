@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace OtherFactors
 {
-    class TwoLectureClassesInDay : IFactor
+    class LectureClassesInDay : IFactor
     {
         int fine;
         bool isBlock;
@@ -26,7 +26,7 @@ namespace OtherFactors
             foreach (StudentSubGroup subGroup in schedule.GetTempClass().SubGroups)
             {
                 lectureCount += CountLectureClassesInDay(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek), sClasses);
-                if (lectureCount > 2)
+                if (lectureCount > 3)
                 {
                     fineCount++;
                 }
@@ -45,19 +45,25 @@ namespace OtherFactors
         public int GetFineOfFullSchedule(ISchedule schedule, EntityStorage eStorage)
         {
             int lectureCount = 0;
-            for (int i = 0; i < Constants.DAYS_IN_WEEK * Constants.WEEKS_IN_SCHEDULE; i++)
+            int fineCount = 0;
+            foreach (StudentSubGroup subGroup in eStorage.StudentSubGroups)
             {
-                foreach (StudentSubGroup subGroup in eStorage.StudentSubGroups)
+                for (int i = 0; i < Constants.DAYS_IN_WEEK * Constants.WEEKS_IN_SCHEDULE; i++)
                 {
-                    lectureCount += CountLectureClassesInDay(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(i), sClasses);
+
+                    lectureCount = CountLectureClassesInDay(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(i), sClasses);
+                    if (lectureCount > 3)
+                    {
+                        fineCount++;
+                    }
                 }
             }
-            if (lectureCount != 0)
+            if (fineCount != 0)
             {
                 if (isBlock)
                     return Constants.BLOCK_FINE;
                 else
-                    return lectureCount * fine;
+                    return fineCount * fine;
             }
             return 0;
         }
