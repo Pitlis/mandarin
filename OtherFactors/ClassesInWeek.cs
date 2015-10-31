@@ -21,6 +21,8 @@ namespace OtherFactors
                 int weekCount2 = 0; //количество "особых" пар из полученной строки, поставленных на вторую неделю
                 for (int classIndex = 0; classIndex < sClasses.GetLength(1); classIndex++)
                 {
+                    if (sClasses[rowClass, classIndex] == null)
+                        continue;
                     FullSchedule.StudentsClassPosition? position = schedule.GetClassPosition(sClasses[rowClass, classIndex]);
                     if (position.HasValue)//если пара установлена
                     {
@@ -48,6 +50,8 @@ namespace OtherFactors
                 int dayCount = 0; //количество "особых" пар из полученной строки, поставленных в данный день
                 for (int classIndex = 0; classIndex < sClasses.GetLength(1); classIndex++)
                 {
+                    if (sClasses[rowClass, classIndex] == null)
+                        continue;
                     FullSchedule.StudentsClassPosition? position = schedule.GetClassPosition(sClasses[rowClass, classIndex]);
                     if (position.HasValue)//если пара установлена
                     {
@@ -65,6 +69,8 @@ namespace OtherFactors
 
         public static int GetRow(StudentsClass[,] sClasses, StudentsClass sClass)
         {
+            if (sClass == null)
+                return -1;
             for (int rowIndex = 0; rowIndex < sClasses.GetLength(0); rowIndex++)
             {
                 for (int colIndex = 0; colIndex < sClasses.GetLength(1); colIndex++)
