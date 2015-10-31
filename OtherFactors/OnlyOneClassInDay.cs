@@ -51,7 +51,7 @@ namespace OtherFactors
         }
         public object GetDataType()
         {
-            return typeof(StudentsClass[,]);
+            return typeof(List<StudentsClass>[]);
         }
 
         public string GetDescription()
@@ -70,24 +70,31 @@ namespace OtherFactors
             }
             try
             {
-                StudentsClass[,] tempArray = (StudentsClass[,])data;
-                sClasses = new StudentsClass[tempArray.GetLength(0), tempArray.GetLength(1)];
+                List<StudentsClass>[] tempArray = (List<StudentsClass>[])data;
 
-                for (int rowIndex = 0; rowIndex < tempArray.GetLength(0); rowIndex++)
+                //поиск максимальной длины листа - такого размера будут строки в двумерном массиве
+                //лишние значения будут заполнены Null
+                int maxListLength = 0;
+                for (int listIndex = 0; listIndex < tempArray.Length; listIndex++)
                 {
-                    //в получаемом массиве, в каждой строке должнен быть список пар, которые нельзя вместе ставить в один день
-                    for (int classIndex = 0; classIndex < tempArray.GetLength(1); classIndex++)
+                    if (tempArray[listIndex].Count > maxListLength)
+                        maxListLength = tempArray[listIndex].Count;
+                }
+
+                sClasses = new StudentsClass[tempArray.Length, maxListLength];
+
+                for (int rowIndex = 0; rowIndex < tempArray.Length; rowIndex++)
+                {
+                    //в получаемом массиве списков, каждый список - набор пар, которые нельзя вместе ставить в один день
+                    for (int classIndex = 0; classIndex < tempArray[rowIndex].Count; classIndex++)
                     {
-                        if (tempArray[rowIndex, classIndex] != null)
-                            sClasses[rowIndex, classIndex] = tempArray[rowIndex, classIndex];
-                        else
-                            throw new NullReferenceException();
+                        sClasses[rowIndex, classIndex] = tempArray[rowIndex][classIndex];
                     }
                 }
             }
             catch (Exception ex)
             {
-                new Exception("Неверный формат данных. Требуется двумерный массив NxK типа StudentsClass. " + ex.Message);
+                new Exception("Неверный формат данных. Требуется массив списков типа StudentsClass. " + ex.Message);
             }
         }
     }

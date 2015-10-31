@@ -109,16 +109,15 @@ namespace Presentation.Code
                             break;
                         case "OnlyOneClassInDay":
                             fine = 100;
-                            StudentsClass[] c1 = Array.FindAll(classes, (cl) => cl.Name == "ФИЗРА");
-                            obj = new StudentsClass[,] { { c1[0], c1[1], c1[2], c1[3] } };
+                            obj = GetGroupSameClasses(classes);
                             break;
                         case "SameClassesInSameTime":
                             fine = 100;
-                            obj = GetGroupSameClasses(classes);
+                            obj = GetGroupSameClassesMoreTwoInTwoWeeks(classes);
                             break;
                         case "SameClassesInSameRoom":
                             fine = 99;
-                            obj = GetGroupSameClasses(classes);
+                            obj = GetGroupSameClassesMoreTwoInTwoWeeks(classes);
                             break;
                         case "OneClassInWeek":
                             fine = 100;
@@ -259,7 +258,7 @@ namespace Presentation.Code
         }
 
         //группировка пар, если пара встречается больше двух раз за две недели
-        StudentsClass[,] GetGroupSameClasses(StudentsClass[] classes)
+        StudentsClass[,] GetGroupSameClassesMoreTwoInTwoWeeks(StudentsClass[] classes)
         {
             List<StudentClassPair> pairsClasses = new List<StudentClassPair>();
             List<StudentsClass> classesList = classes.ToList();
@@ -320,6 +319,29 @@ namespace Presentation.Code
             }
 
             return quadsClassesArray;
+        }
+
+        //группировка всех одинаковых пар - чтобы не ставились по две одинаковые в день
+        List<StudentsClass>[] GetGroupSameClasses(StudentsClass[] classes)
+        {
+            List<List<StudentsClass>> listOfGroupSameClasses = new List<List<StudentsClass>>();
+            List<StudentsClass> classesList = classes.ToList();
+            foreach (StudentsClass sClass in classesList)
+            {
+                if (listOfGroupSameClasses.FindAll((list) => list.FindAll((c) => c == sClass).Count > 0).Count == 0)
+                {
+                    List<StudentsClass> groupSameClasses = new List<StudentsClass>();
+                    foreach (var cl in classesList.FindAll((c) => StudentClassEquals(c, sClass)))
+                    {
+                        groupSameClasses.Add(cl);
+                    }
+                    if(groupSameClasses.Count > 1)
+                    {
+                        listOfGroupSameClasses.Add(groupSameClasses);
+                    }
+                }
+            }
+            return listOfGroupSameClasses.ToArray<List<StudentsClass>>();
         }
 
         //Поиск пар-лекций
