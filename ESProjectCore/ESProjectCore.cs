@@ -62,7 +62,8 @@ namespace ESCore
         FullSchedule CreateSchedule(StudentsClass[] sortedStudentsClasses)
         {
             FullSchedule resultSchedule = new FullSchedule(EStorage.ClassRooms.Length, EStorage);
-            Rollback rollback = new Rollback(sortedStudentsClasses, 1000, resultSchedule);
+            Rollback rollback = new Rollback(sortedStudentsClasses, 100000, resultSchedule);
+            IFactor[] factors = CreateFactorsArray();
             //первая пара ставится в первое подходящее место и не проверяется
             resultSchedule.SetClass(sortedStudentsClasses[0], resultSchedule.GetSuitableClassRooms(sortedStudentsClasses[0])[0]);
             logger.Info("Пара <" + sortedStudentsClasses[0].Name +
@@ -73,10 +74,10 @@ namespace ESCore
             {
                 FullSchedule.StudentsClassPosition[] positionsForClass = resultSchedule.GetSuitableClassRooms(sortedStudentsClasses[classIndex]);
                 int[] fines = new int[positionsForClass.Length];
-
+                
                 Parallel.For(0, positionsForClass.Length, (positionIndex) =>
                 {
-                    Interlocked.Exchange(ref fines[positionIndex], GetSumFine(positionsForClass[positionIndex], CreateFactorsArray(), resultSchedule, sortedStudentsClasses[classIndex]));
+                    Interlocked.Exchange(ref fines[positionIndex], GetSumFine(positionsForClass[positionIndex], factors, resultSchedule, sortedStudentsClasses[classIndex]));
                 });
 
                 //for (int positionIndex = 0; positionIndex < positionsForClass.Length; positionIndex++)
