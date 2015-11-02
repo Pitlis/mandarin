@@ -101,7 +101,7 @@ namespace Presentation.Code
                             fine = 70;
                             break;
                         case "SaturdayTwoClasses":
-                            fine = 40;
+                            fine = 90;
                             break;
                         case "TwoClassesInWeek":
                             fine = 100;
@@ -126,6 +126,9 @@ namespace Presentation.Code
                         case "LectureClassesInDay":
                             fine = 100;
                             obj = GetLectureClasses(classes);
+                            break;
+                        case "MoreThreeClassesInDay":
+                            fine = 44;
                             break;
                         default:
                             break;
