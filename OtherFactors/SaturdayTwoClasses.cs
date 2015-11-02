@@ -24,7 +24,7 @@ namespace OtherFactors
                 {
                     PartialSchedule groupSchedule = schedule.GetPartialSchedule(groups[groupIndex]);
                     int day = Constants.GetDayOfClass(schedule.GetTimeOfTempClass());
-                    if (groupSchedule.GetClassesOfDay(day).Count() > 2)
+                    if (Array.FindAll<StudentsClass>(groupSchedule.GetClassesOfDay(day), (c) => c != null).Count() > 2)
                     {
                         if (isBlock)
                             return Constants.BLOCK_FINE;
@@ -50,7 +50,7 @@ namespace OtherFactors
                 {
                     if (IsSaturday(Constants.GetDayOfClass(dayIndex)))
                     {
-                        if (groupSchedule.GetClassesOfDay(dayIndex).Count() > 2)
+                        if (Array.FindAll<StudentsClass>(groupSchedule.GetClassesOfDay(dayIndex), (c) => c != null).Count() > 2)
                         {
                             if (isBlock)
                                 return Constants.BLOCK_FINE;

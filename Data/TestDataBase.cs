@@ -111,7 +111,7 @@ namespace Data
        }
        public TestDataBase(ref StudentsClass[] SC, EntityStorage ES)
        {
-           SC = new StudentsClass[136];
+           SC = new StudentsClass[140];
            SC[0] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0], ES.StudentSubGroups[1], ES.StudentSubGroups[2] },
                                         new Teacher[] { ES.Teachers[24] }, "ММИПУ",
                                         new ClassRoomType[] { ES.ClassRoomsTypes[7] });
@@ -141,7 +141,13 @@ namespace Data
            SC[8] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0], ES.StudentSubGroups[1], ES.StudentSubGroups[2] },
                                         new Teacher[] { ES.Teachers[6] }, "СПО",
                                         new ClassRoomType[] { ES.ClassRoomsTypes[0] });
-           SC[9] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0] },
+            SC[136] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0], ES.StudentSubGroups[1], ES.StudentSubGroups[2] },
+                             new Teacher[] { ES.Teachers[6] }, "СПО",
+                             new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+            SC[137] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0], ES.StudentSubGroups[1], ES.StudentSubGroups[2] },
+                             new Teacher[] { ES.Teachers[6] }, "СПО",
+                             new ClassRoomType[] { ES.ClassRoomsTypes[0] });
+            SC[9] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0] },
                                         new Teacher[] { ES.Teachers[6] }, "СПО",
                                         new ClassRoomType[] { ES.ClassRoomsTypes[2] });
            SC[10] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[1] },
@@ -273,11 +279,17 @@ namespace Data
             SC[46] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[1] },
                                         new Teacher[] { ES.Teachers[12] }, "ЭС",
                                         new ClassRoomType[] { ES.ClassRoomsTypes[2] });
-           SC[47] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[2] },
+            SC[138] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[1] },
+                            new Teacher[] { ES.Teachers[12] }, "ЭС",
+                            new ClassRoomType[] { ES.ClassRoomsTypes[2] });
+            SC[47] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[2] },
                                         new Teacher[] { ES.Teachers[12] }, "ЭС",
                                         new ClassRoomType[] { ES.ClassRoomsTypes[2] });
+            SC[139] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[2] },
+                            new Teacher[] { ES.Teachers[12] }, "ЭС",
+                            new ClassRoomType[] { ES.ClassRoomsTypes[2] });
 
-           SC[48] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0], ES.StudentSubGroups[1], ES.StudentSubGroups[2], ES.StudentSubGroups[3], ES.StudentSubGroups[4], ES.StudentSubGroups[5], ES.StudentSubGroups[6] },
+            SC[48] = new StudentsClass(new StudentSubGroup[] { ES.StudentSubGroups[0], ES.StudentSubGroups[1], ES.StudentSubGroups[2], ES.StudentSubGroups[3], ES.StudentSubGroups[4], ES.StudentSubGroups[5], ES.StudentSubGroups[6] },
                                         new Teacher[] {  }, "ФИЗРА",
                                         new ClassRoomType[] { ES.ClassRoomsTypes[5] });
            //мпк
