@@ -128,8 +128,11 @@ namespace Presentation.Code
                             obj = GetLectureClasses(classes);
                             break;
                         case "MoreThreeClassesInDay":
-                            fine = 44;
+                            fine = 30;
                             break;
+                        //case "SaturdayClass":
+                        //    fine = 61;
+                        //    break;
                         default:
                             break;
                     }
