@@ -54,6 +54,7 @@
     <Compile Include="SaturdayTwoClasses.cs" />
     <Compile Include="SixStudentsClasses.cs" />
     <Compile Include="SixthClass.cs" />
+    <Compile Include="TeacherBalanceClasses.cs" />
     <Compile Include="TeacherDayOff.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThreeClassesInWeek.cs" />

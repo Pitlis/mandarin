@@ -130,9 +130,12 @@ namespace Presentation.Code
                         case "MoreThreeClassesInDay":
                             fine = 30;
                             break;
-                        //case "SaturdayClass":
-                        //    fine = 61;
-                        //    break;
+                        case "SaturdayClass":
+                            fine = 61;
+                            break;
+                        case "TeacherBalanceClasses":
+                            fine = 100;
+                            break;
                         default:
                             break;
                     }
