@@ -35,28 +35,33 @@ namespace ESCore
 
         public IEnumerable<ISchedule> Run()
         {
-            int sortCount = 1;
+            int sortCount = 10;
             FullSchedule[] schedules = new FullSchedule[sortCount];
             int[] fines = new int[sortCount];
             for (int sortIndex = 0; sortIndex < sortCount; sortIndex++)
             {
-                logger.Info("Итерация " + sortIndex + 1);
+                logger.Info("Итерация " + (sortIndex + 1).ToString());
                 StudentsClass[] sortedClasses = SortClasses.Sort(Classes, sortIndex);
                 FullSchedule schedule = CreateSchedule(sortedClasses);
                 schedules[sortIndex] = schedule;
                 if (schedule != null)
                 {
                     fines[sortIndex] = ScanFullSchedule(schedule);
-                    logger.Info("Расписание " + (sortIndex + 1) + " сформировано");
+                    logger.Info("Расписание " + (sortIndex + 1).ToString() + " сформировано");
+                    return new List<ISchedule>() { schedules[sortIndex] };
                 }
                 else
                 {
-                    logger.Info("Расписание " + (sortIndex + 1) + "заблокировано");
+                    logger.Info("Расписание " + (sortIndex + 1).ToString() + " заблокировано");
                     fines[sortIndex] = Constants.BLOCK_FINE;
                 }
             }
-
-            return new List<ISchedule>() { schedules[Array.IndexOf(fines, Array.FindAll(fines, (f) => f != Constants.BLOCK_FINE).Min())] };
+            if(Array.FindAll(fines, (f) => f != Constants.BLOCK_FINE).Length > 0)
+                return new List<ISchedule>() { schedules[Array.IndexOf(fines, Array.FindAll(fines, (f) => f != Constants.BLOCK_FINE).Min())] };
+            else
+            {
+                return new List<ISchedule>();
+            }
         }
 
         FullSchedule CreateSchedule(StudentsClass[] sortedStudentsClasses)
@@ -98,7 +103,6 @@ namespace ESCore
                     logger.Info("----- Откат пары <" + sortedStudentsClasses[classIndex].Name + ">");
                     if(!rollback.DoRollback(sortedStudentsClasses, ref classIndex))
                     {
-                        throw new Exception("Невозможно вставить пару в расписание");
                         return null;
                     }
                 }
