@@ -455,6 +455,7 @@ namespace Presentation
             RemovelistBox.ItemsSource = null;
             RemovelistBox.ItemsSource = schedule.RemoveClases;
             btnShow_Click(Type.Missing, e);
+            btnSet.IsEnabled = false;
         }
 
 

@@ -79,6 +79,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="FactorSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -96,6 +100,9 @@
     <Compile Include="Code\ScheduleForEdit.cs" />
     <Compile Include="EditSchedule.xaml.cs">
       <DependentUpon>EditSchedule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FactorSettings.xaml.cs">
+      <DependentUpon>FactorSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

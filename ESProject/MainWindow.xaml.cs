@@ -44,5 +44,11 @@ namespace ESProject
             EditSchedule form = new EditSchedule(new ScheduleForEdit(schedule));
             form.Show();
         }
+
+        private void FactorSetting_Click(object sender, RoutedEventArgs e)
+        {
+            FactorSettings fsett = new FactorSettings(new Dictionary<Type, DataFactor>());
+            fsett.Show();
+        }
     }
 }

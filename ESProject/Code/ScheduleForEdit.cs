@@ -224,12 +224,11 @@ namespace Presentation.Code
             {
                 ClassRoom audit;
                 audit = GetClassRoom(classes[TimeRow, clasIndex]);
-                s = audit.Number + "Корпус: " + audit.Number;
+                s = audit.Number + "Корпус: " + audit.Housing;
                 System.Windows.MessageBoxResult result = System.Windows.MessageBox.Show("В аудитории: " + s + " уже ведутся занятия.\n Хотите снять данную пары?", "Вопрос", System.Windows.MessageBoxButton.OKCancel, System.Windows.MessageBoxImage.Question);
                 if (result == System.Windows.MessageBoxResult.OK)
                 {
                     RemoveClases.Add(classes[TimeRow, clasIndex]);
-                    classes[TimeRow, clasIndex] = null;
                     for (int colIndex = 0; colIndex < partSchedule.GetLength(1); colIndex++)
                     {
                         if (partSchedule[TimeRow, colIndex] != null && GetClassRoom(partSchedule[TimeRow, colIndex]) == audit)
@@ -238,6 +237,7 @@ namespace Presentation.Code
                         }
 
                     }
+                    classes[TimeRow, clasIndex] = null;
                 }
                 else { System.Windows.MessageBox.Show("Выбранну пару невозможно поставить из за накладки в расписании", "Ошибка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information); return; }
 

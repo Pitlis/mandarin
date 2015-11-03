@@ -133,7 +133,7 @@ namespace FactorsWindows
 
         public string GetName()
         {
-            return "Форточки у преподавателей";
+            return "2 Форточки у преподавателей";
         }
 
         public void Initialize(int fine = 0, bool isBlock = false, object data = null)
