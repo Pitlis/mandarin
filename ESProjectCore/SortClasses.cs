@@ -9,6 +9,7 @@ namespace ESCore
 {
     static class SortClasses
     {
+        static Random rand = new Random(DateTime.Now.Millisecond);
         public static StudentsClass[] Sort(StudentsClass[] classes, int sortType = 0, bool returnNewArray = false)
         {
             StudentsClass[] classArray;
@@ -27,7 +28,7 @@ namespace ESCore
                     SortBySubGroupCount(classArray);
                     break;
                 default:
-                    SortBySubGroupCount(classArray);
+                    SortRandom(classArray);
                     break;
             }
             return classArray;
@@ -39,6 +40,23 @@ namespace ESCore
                     new Comparison<StudentsClass>(
                             (c1, c2) => -c1.SubGroups.Length.CompareTo(c2.SubGroups.Length)
                     ));
+        }
+
+        static void SortRandom(StudentsClass[] classes)
+        {
+            
+            for (int classIndex = 0; classIndex < classes.Length; classIndex++)
+            {
+                int index2 = rand.Next(0, classes.Length);
+                Swap(classes, classIndex, index2);
+            }
+        }
+
+        static void Swap(StudentsClass[] array, int index1, int index2)
+        {
+            StudentsClass temp = array[index1];
+            array[index1] = array[index2];
+            array[index2] = temp;
         }
     }
 }
