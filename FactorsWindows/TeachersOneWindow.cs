@@ -134,7 +134,7 @@ namespace FactorsWindows
 
         public string GetName()
         {
-            return "Форточка у преподавателей";
+            return "1 Форточка у преподавателей";
         }
 
         public void Initialize(int fine = 0, bool isBlock = false, object data = null)
