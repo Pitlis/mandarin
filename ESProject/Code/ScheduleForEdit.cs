@@ -13,6 +13,7 @@ namespace Presentation.Code
         public StudentsClass[,] partSchedule { get; private set; }
         public StudentSubGroup[] Groups { get; private set; }
         public List<StudentsClass> RemoveClases = new List<StudentsClass>();
+        private FacultyAndСourse Faculty {get; set;}
 
         public ScheduleForEdit(FullSchedule fSchedule) : base(fSchedule)
         {
@@ -29,6 +30,29 @@ namespace Presentation.Code
                     partSchedule[classIndex, groupIndex] = groupClasses[classIndex];
                 }
             }
+        }
+        /// <summary>
+        /// Метод для создания частичного рассписания для задоного факультета и курса
+        /// </summary>
+        public void CretScheduleForFacult(string name, int cours)
+        {
+            Faculty = new FacultyAndСourse();
+            int classesInSchedule = Constants.WEEKS_IN_SCHEDULE * Constants.DAYS_IN_WEEK * Constants.CLASSES_IN_DAY;
+            ClassRoom cl = GetClassRoom(classes[0, 0]);
+            partSchedule = new StudentsClass[classesInSchedule, Faculty.GetGroops(name, cours).Count];
+            Groups = new StudentSubGroup[Faculty.GetGroops(name, cours).Count];
+
+            for (int groupIndex = 0; groupIndex < Faculty.GetGroops(name, cours).Count; groupIndex++)
+            {
+                Groups[groupIndex] = Faculty.GetGroops(name, cours)[groupIndex];
+                StudentsClass[] groupClasses = this.GetPartialSchedule(Groups[groupIndex]).GetClasses();
+                for (int classIndex = 0; classIndex < classesInSchedule; classIndex++)
+                {
+                    partSchedule[classIndex, groupIndex] = groupClasses[classIndex];
+                }
+            }
+
+
         }
 
         /// <summary>

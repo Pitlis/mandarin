@@ -16,5 +16,9 @@ namespace Domain.Model
             this.NameGroup = NameGroup;
             this.NumberSubGroup = NumberSubGroup;
         }
+        public static bool EqualGroups(StudentSubGroup group1, StudentSubGroup group2)
+        {
+            return group1.NameGroup.Equals(group2.NameGroup) && group1.NumberSubGroup.Equals(group2.NumberSubGroup);
+        }
     }
 }

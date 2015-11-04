@@ -22,6 +22,7 @@ namespace Presentation
     public partial class EditSchedule : Window
     {
         ScheduleForEdit schedule;
+        Code.FacultyAndСourse Faculte;
 
         public EditSchedule(ScheduleForEdit s)
         {
@@ -32,10 +33,10 @@ namespace Presentation
         private void btnShow_Click(object sender, RoutedEventArgs e)
         {
 
-            
+            schedule.CretScheduleForFacult((string)comboBoxFacult.SelectedItem, (int)comboBoxCours.SelectedItem);
             gdData.ColumnDefinitions.Clear();
             gdData.RowDefinitions.Clear();
-
+           
             gdData.ColumnDefinitions.Add(CreateDayHeaderColumn());
             gdData.ColumnDefinitions.Add(CreateTimeHeaderColumn());
 
@@ -459,8 +460,23 @@ namespace Presentation
         }
 
 
+
         #endregion
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Faculte = new Code.FacultyAndСourse();
+            foreach (string item in Faculte.NameFacult)
+            {
+                comboBoxFacult.Items.Add(item);
+            }
+            comboBoxFacult.SelectedIndex = 0;
+            for (int i = 1; i <= 5; i++)
+            {
+                comboBoxCours.Items.Add(i);
+            }
+            comboBoxCours.SelectedIndex = 0;
 
+        }
     }
 }

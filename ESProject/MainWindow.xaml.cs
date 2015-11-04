@@ -50,5 +50,11 @@ namespace ESProject
             FactorSettings fsett = new FactorSettings(new Dictionary<Type, DataFactor>());
             fsett.Show();
         }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            Presentation.FacultyAndGroops facult = new Presentation.FacultyAndGroops();
+            facult.Show();
+        }
     }
 }
