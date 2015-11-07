@@ -39,9 +39,14 @@ namespace OtherFactors
 
         public static bool CheckClassesHasSameRoom(ISchedule schedule, int classRow, StudentsClass[,] sClasses)
         {
-            if (schedule.GetClassRoom(sClasses[classRow, 0]) == schedule.GetClassRoom(sClasses[classRow, 1]))
+            FullSchedule.StudentsClassPosition? firstClassPosition = schedule.GetClassPosition(sClasses[classRow, 0]);
+            FullSchedule.StudentsClassPosition? secondClassPosition = schedule.GetClassPosition(sClasses[classRow, 1]);
+            if (firstClassPosition.HasValue && secondClassPosition.HasValue)
             {
-                return false;
+                if (firstClassPosition.Value.Classroom != secondClassPosition.Value.Classroom)
+                {
+                    return false;
+                }
             }
             return true;
         }
