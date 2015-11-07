@@ -22,7 +22,7 @@ namespace OtherFactors
             int classRow = -1;
             if ((classRow = ClassesInWeek.GetRow(sClasses, schedule.GetTempClass())) != -1)
             {
-                if (SameClasses.CheckClassesHasSameRoom(schedule, classRow, sClasses))
+                if (!SameClasses.CheckClassesHasSameRoom(schedule, classRow, sClasses))
                 {
                     if (isBlock)
                         return Constants.BLOCK_FINE;
