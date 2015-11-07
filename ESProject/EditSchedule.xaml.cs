@@ -32,7 +32,7 @@ namespace Presentation
 
         private void btnShow_Click(object sender, RoutedEventArgs e)
         {
-
+            gdData.Children.Clear();
             schedule.CretScheduleForFacult((string)comboBoxFacult.SelectedItem, (int)comboBoxCours.SelectedItem);
             gdData.ColumnDefinitions.Clear();
             gdData.RowDefinitions.Clear();
