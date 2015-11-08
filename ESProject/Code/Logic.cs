@@ -150,9 +150,14 @@ namespace Presentation.Code
         [DllImport("Kernel32")]
         public static extern void FreeConsole();
 
+        string pathToScheduleFolder;
+
         public void Start()
         {
+            pathToScheduleFolder = Directory.CreateDirectory(DateTime.Now.ToString("dd.MM.yyyy(HH.mm)")).FullName;
+
             ESProjectCore core = new ESProjectCore(classes, storage, FactorTypes);
+            core.SaveCreatedSchedule = SaveCreatedSchedule;
             core.logger = loggingService;
             loggingService.Info("Загружено ядро. Запуск...");
 
@@ -395,6 +400,23 @@ namespace Presentation.Code
                 this.c3 = c3;
                 this.c4 = c4;
             }
+        }
+
+        void SaveCreatedSchedule(FullSchedule schedule, int fine, int sort)
+        {
+            string path = Directory.CreateDirectory(pathToScheduleFolder + String.Format(@"\fine {0} -- sort {1}", fine, sort)).FullName;
+            ScheduleExcel excel = new ScheduleExcel(path + @"\Расписание студентов.xlsx", schedule, storage);
+            ScheduleExcelTeacher excelTeach = new ScheduleExcelTeacher(path + @"\Расписание преподавателей.xlsx", schedule, storage);
+
+            loggingService.Info("Выгрузка в Excel расписания студентов...");
+            excel.LoadToExcel();
+            loggingService.Info("Расписание студентов выгружено в Excel");
+
+            loggingService.Info("Выгрузка в Excel расписания преподавателей...");
+            excelTeach.LoadToExcel();
+            loggingService.Info("Расписание преподавателей выгружено в Excel");
+
+            Save.SaveSchedule((FullSchedule)schedule, path);
         }
     }
 }

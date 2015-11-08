@@ -40,7 +40,12 @@ namespace Presentation.Code
             }
         }
 
-
+        public ScheduleExcel(string fileName, ISchedule schedule, EntityStorage eStorage)
+        {
+            this.schedule = schedule;
+            this.eStorage = eStorage;
+            pathToFile = fileName;
+        }
 
         public void LoadToExcel()
         {
@@ -314,6 +319,13 @@ namespace Presentation.Code
             {
                 pathToFile = null;
             }
+        }
+
+        public ScheduleExcelTeacher(string fileName, ISchedule schedule, EntityStorage eStorage)
+        {
+            this.schedule = schedule;
+            this.eStorage = eStorage;
+            pathToFile = fileName;
         }
 
 

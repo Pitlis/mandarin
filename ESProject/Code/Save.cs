@@ -19,6 +19,15 @@ namespace Presentation.Code
                 formatter.Serialize(fs, schedule);
             }
         }
+        public static void SaveSchedule(FullSchedule schedule, string path)
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (FileStream fs = new FileStream(path + @"\schedule.dat", FileMode.OpenOrCreate))
+            {
+                formatter.Serialize(fs, schedule);
+            }
+        }
+
         public static FullSchedule LoadSchedule()
         {
             BinaryFormatter formatter = new BinaryFormatter();

@@ -19,7 +19,7 @@ namespace ESCore
 
         #region Options
 
-        public int Option1 { get; set; }
+        public Action<FullSchedule, int, int> SaveCreatedSchedule { get; set; }
         public int Option2 { get; set; }
         public ILoggingService logger { get; set; }
 
@@ -48,7 +48,8 @@ namespace ESCore
                 {
                     fines[sortIndex] = ScanFullSchedule(schedule);
                     logger.Info("Расписание " + (sortIndex + 1).ToString() + " сформировано");
-                    return new List<ISchedule>() { schedules[sortIndex] };
+                    if (SaveCreatedSchedule != null)
+                        SaveCreatedSchedule(schedule, fines[sortIndex], sortIndex);
                 }
                 else
                 {
@@ -56,12 +57,7 @@ namespace ESCore
                     fines[sortIndex] = Constants.BLOCK_FINE;
                 }
             }
-            if(Array.FindAll(fines, (f) => f != Constants.BLOCK_FINE).Length > 0)
-                return new List<ISchedule>() { schedules[Array.IndexOf(fines, Array.FindAll(fines, (f) => f != Constants.BLOCK_FINE).Min())] };
-            else
-            {
-                return new List<ISchedule>();
-            }
+            return new List<ISchedule>() { schedules[Array.IndexOf(fines, Array.FindAll(fines, (f) => f != Constants.BLOCK_FINE).Min())] };
         }
 
         FullSchedule CreateSchedule(StudentsClass[] sortedStudentsClasses)
