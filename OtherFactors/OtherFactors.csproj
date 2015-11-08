@@ -50,6 +50,7 @@
     <Compile Include="OnlyOneClassInDay.cs" />
     <Compile Include="SameClassesInSameRoom.cs" />
     <Compile Include="SameClassesInSameTime.cs" />
+    <Compile Include="SameLecturesInSameTime.cs" />
     <Compile Include="SaturdayClass.cs" />
     <Compile Include="SaturdayTwoClasses.cs" />
     <Compile Include="SixStudentsClasses.cs" />

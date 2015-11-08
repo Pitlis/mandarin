@@ -136,6 +136,10 @@ namespace Presentation.Code
                         case "TeacherBalanceClasses":
                             fine = 100;
                             break;
+                        case "SameLecturesInSameTime":
+                            fine = 100;
+                            obj = GetLecturePairs(classes);
+                            break;
                         default:
                             break;
                     }
@@ -374,6 +378,13 @@ namespace Presentation.Code
                 }
             }
             return lectureList;
+        }
+
+        StudentsClass[,] GetLecturePairs(StudentsClass[] classes)
+        {
+            List<StudentsClass> classesList = GetLectureClasses(classes);
+            StudentsClass[,] lecutreClassesPairs = GetGroupSameClassesMoreTwoInTwoWeeks(classesList.ToArray());
+            return lecutreClassesPairs;
         }
 
         struct StudentClassPair

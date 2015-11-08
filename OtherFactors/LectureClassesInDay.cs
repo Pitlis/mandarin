@@ -25,12 +25,11 @@ namespace OtherFactors
             int fineCount = 0;
             foreach (StudentSubGroup subGroup in schedule.GetTempClass().SubGroups)
             {
-                lectureCount += CountLectureClassesInDay(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek), sClasses);
+                lectureCount = CountLectureClassesInDay(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek), sClasses);
                 if (lectureCount > 3)
                 {
                     fineCount++;
                 }
-                lectureCount = 0;
             }
             if (fineCount != 0)
             {

@@ -47,10 +47,6 @@ namespace FactorsWindows
                 foreach (StudentSubGroup subGroup in eStorage.StudentSubGroups)
                 {
                     //Получаем количество форточек у одной группы в один день
-                    if (subGroup.NameGroup == "АСОИ121")
-                    {
-
-                    }
                     windowCount += CountUpWindowsOfFullSchedule(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(i));
                 }
             }
