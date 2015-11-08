@@ -170,7 +170,8 @@ namespace ESCore
 
             foreach (var factor in factorList)
             {
-                sortedFactors.Add(factor.Key, factor.Value);
+                if(factor.Value.Fine > 0)
+                    sortedFactors.Add(factor.Key, factor.Value);
             }
 
             return sortedFactors;
