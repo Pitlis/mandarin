@@ -14,6 +14,7 @@ using Domain.Model;
 using SimpleLogging.NLog;
 using SimpleLogging.Core;
 using System.Runtime.InteropServices;
+using System.IO;
 
 namespace Presentation.Code
 {
@@ -139,6 +140,9 @@ namespace Presentation.Code
                         case "SameLecturesInSameTime":
                             fine = 100;
                             obj = GetLecturePairs(classes);
+                            break;
+                        case "FifthClass":
+                            fine = 50;
                             break;
                         default:
                             break;
@@ -371,9 +375,9 @@ namespace Presentation.Code
             {
                 foreach (ClassRoomType cRoomType in sClass.RequireForClassRoom)
                 {
-                    if (cRoomType.Description.Equals("Лекция"))
+                    if (cRoomType.Description.Contains("Лекция"))
                     {
-                        lectureList.Add(sClass);   
+                        lectureList.Add(sClass);
                     }
                 }
             }
