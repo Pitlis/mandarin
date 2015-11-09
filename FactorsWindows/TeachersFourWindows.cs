@@ -110,12 +110,14 @@ namespace FactorsWindows
             int windowCount = 0;
             //Ищем номер последней в этот день пары
             int last = StudentsOneWindow.LastClassOfDay(sClasses);
+            //Ищем номер первой в этот день пары
+            int first = StudentsOneWindow.FirstClassOfDay(sClasses);
             //Если пар три/две/одна или их вообще нет, то соотвественно форточек нет
-            if (last < 5)
+            if ((last - first < 5) || first == -1 || last == -1)
             {
                 return 0;
             }
-            for (int k = 0; k < Constants.CLASSES_IN_DAY - 4; k++)
+            for (int k = first; k < last - 4; k++)
             {
                 //Если текущей пары и следующих 3 нет, а следующая после них есть, 
                 //то будет форточка из четырех пар

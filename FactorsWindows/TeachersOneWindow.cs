@@ -109,12 +109,14 @@ namespace FactorsWindows
             int windowCount = 0;
             //Ищем номер последней в этот день пары
             int last = StudentsOneWindow.LastClassOfDay(sClasses);
+            //Ищем номер первой в этот день пары
+            int first = StudentsOneWindow.FirstClassOfDay(sClasses);
             //Если пара одна или их вообще нет, то соотвественно форточек нет
-            if (last < 2)
+            if ((last - first < 2) || first == -1 || last == -1)
             {
                 return 0;
             }
-            for (int k = 0; k < Constants.CLASSES_IN_DAY - 1; k++)
+            for (int k = first; k < last - 1; k++)
             {
                 //Если текущей пары нет, а следующая есть, то текущая пара будет одиночной форточкой
                 if (sClasses[k] == null && sClasses[k + 1] != null)
