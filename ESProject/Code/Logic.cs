@@ -231,7 +231,7 @@ namespace Presentation.Code
             List<StudentsClass> classesList = classes.ToList();
             foreach (StudentsClass sClass in classesList)
             {
-                if (pairsClasses.FindAll((pc) => pc.c1 == sClass || pc.c2 == sClass).Count == 0)
+                if (pairsClasses.FindAll((pc) => pc.c1 == sClass || pc.c2 == sClass || StudentsClass.StudentClassEquals(pc.c1, sClass)).Count == 0)
                 {
                     List<StudentsClass> sameClasses = classesList.FindAll(c => StudentsClass.StudentClassEquals(c, sClass));
                     int countClasses = sameClasses.Count;
