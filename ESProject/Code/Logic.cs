@@ -191,62 +191,7 @@ namespace Presentation.Code
 
             Save.SaveSchedule((FullSchedule)schedules[0]);
         }
-
-        bool StudentClassEquals(StudentsClass c1, StudentsClass c2)
-        {
-            if(c1.Name == c2.Name)
-            {
-                foreach(Teacher teacher in c1.Teacher)
-                {
-                    if(!c2.Teacher.Contains(teacher))
-                    {
-                        return false;
-                    }
-                }
-                foreach (Teacher teacher in c2.Teacher)
-                {
-                    if (!c1.Teacher.Contains(teacher))
-                    {
-                        return false;
-                    }
-                }
-                foreach (StudentSubGroup group in c1.SubGroups)
-                {
-                    if (!c2.SubGroups.Contains(group))
-                    {
-                        return false;
-                    }
-                }
-                foreach (StudentSubGroup group in c2.SubGroups)
-                {
-                    if (!c1.SubGroups.Contains(group))
-                    {
-                        return false;
-                    }
-                }
-
-                foreach (ClassRoomType roomType in c1.RequireForClassRoom)
-                {
-                    if (!c2.RequireForClassRoom.Contains(roomType))
-                    {
-                        return false;
-                    }
-                }
-
-                foreach (ClassRoomType roomType in c2.RequireForClassRoom)
-                {
-                    if (!c1.RequireForClassRoom.Contains(roomType))
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        
         
         //группировка пар, если пара встречается только два раза за две недели
         StudentsClass[,] GetGroupTwoSameClasses(StudentsClass[] classes)
@@ -257,12 +202,12 @@ namespace Presentation.Code
             {
                 if (pairsClasses.FindAll((pc) => pc.c1 == sClass || pc.c2 == sClass).Count == 0)
                 {
-                    if (classesList.FindAll(c => StudentClassEquals(c, sClass) && c != sClass).Count > 1)
+                    if (classesList.FindAll(c => StudentsClass.StudentClassEquals(c, sClass) && c != sClass).Count > 1)
                     {
                         //пара встречается больше двух раз за две недели
                         continue;
                     }
-                    StudentsClass secondClass = classesList.Find(c => StudentClassEquals(c, sClass) && c != sClass);
+                    StudentsClass secondClass = classesList.Find(c => StudentsClass.StudentClassEquals(c, sClass) && c != sClass);
                     if (secondClass != null)
                     {
                         pairsClasses.Add(new StudentClassPair(sClass, secondClass));
@@ -288,7 +233,7 @@ namespace Presentation.Code
             {
                 if (pairsClasses.FindAll((pc) => pc.c1 == sClass || pc.c2 == sClass).Count == 0)
                 {
-                    List<StudentsClass> sameClasses = classesList.FindAll(c => StudentClassEquals(c, sClass));
+                    List<StudentsClass> sameClasses = classesList.FindAll(c => StudentsClass.StudentClassEquals(c, sClass));
                     int countClasses = sameClasses.Count;
                     if (countClasses % 2 == 1)
                         countClasses--;
@@ -317,14 +262,14 @@ namespace Presentation.Code
             {
                 if (quadsClasses.FindAll((pc) => pc.c1 == sClass || pc.c2 == sClass || pc.c3 == sClass || pc.c4 == sClass).Count == 0)
                 {
-                    if (classesList.FindAll(c => StudentClassEquals(c, sClass) && c != sClass).Count > 3)
+                    if (classesList.FindAll(c => StudentsClass.StudentClassEquals(c, sClass) && c != sClass).Count > 3)
                     {
                         //пара встречается больше четырех раз за две недели
                         continue;
                     }
-                    StudentsClass secondClass = classesList.Find(c => StudentClassEquals(c, sClass) && c != sClass);
-                    StudentsClass thirdClass = classesList.Find(c => StudentClassEquals(c, sClass) && c != sClass && c != secondClass);
-                    StudentsClass fourthClass = classesList.Find(c => StudentClassEquals(c, sClass) && c != sClass && c != secondClass && c != thirdClass);
+                    StudentsClass secondClass = classesList.Find(c => StudentsClass.StudentClassEquals(c, sClass) && c != sClass);
+                    StudentsClass thirdClass = classesList.Find(c => StudentsClass.StudentClassEquals(c, sClass) && c != sClass && c != secondClass);
+                    StudentsClass fourthClass = classesList.Find(c => StudentsClass.StudentClassEquals(c, sClass) && c != sClass && c != secondClass && c != thirdClass);
                     if (secondClass != null && thirdClass != null && fourthClass != null)
                     {
                         quadsClasses.Add(new StudentClassQuad(sClass, secondClass, thirdClass, fourthClass));
@@ -353,7 +298,7 @@ namespace Presentation.Code
                 if (listOfGroupSameClasses.FindAll((list) => list.FindAll((c) => c == sClass).Count > 0).Count == 0)
                 {
                     List<StudentsClass> groupSameClasses = new List<StudentsClass>();
-                    foreach (var cl in classesList.FindAll((c) => StudentClassEquals(c, sClass)))
+                    foreach (var cl in classesList.FindAll((c) => StudentsClass.StudentClassEquals(c, sClass)))
                     {
                         groupSameClasses.Add(cl);
                     }
