@@ -12,6 +12,11 @@
                 <DataGridTextColumn Header="Имя анализатора" IsReadOnly="True" Binding="{Binding Path=Name}"/>
                 <DataGridTextColumn Header="Значения штрафа" Binding="{Binding Path=Fine, Mode=TwoWay}"/>
             </DataGrid.Columns>
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Details}" Margin="10" />
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
         </DataGrid>
         <Button x:Name="button" Content="Сохранить" HorizontalAlignment="Left" Margin="216,22,0,0" VerticalAlignment="Top" Width="93" Click="button_Click" />
 

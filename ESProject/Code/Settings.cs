@@ -6,40 +6,21 @@ using System.Threading.Tasks;
 using Domain.Model;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using Domain.Services;
 using System.Collections;
 
 namespace Presentation.Code
 {
     [Serializable]
-    class FacultyAndСourse
+    class Settings
     {
         public List<Facult> LFacult { get; set; }
         public List<string> NameFacult { get; set; }
-
-        public void Save()
+        public List<StudentSubGroup> UGroops = new List<StudentSubGroup>();
+        public Settings()
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            using (FileStream fs = new FileStream("FacultyAndGroops.dat", FileMode.Create))
-            {
-                formatter.Serialize(fs, LFacult);
-            }
-        }
-        public FacultyAndСourse()
-        {
-            if (File.Exists("FacultyAndGroops.dat"))
-            {
-                BinaryFormatter formatter = new BinaryFormatter();
-                using (FileStream fs = new FileStream("FacultyAndGroops.dat", FileMode.Open))
-                {
-                    LFacult = (List<Facult>)formatter.Deserialize(fs);
-                    NameFacult = new List<string>() { "ЭЛЕКТРОТЕХНИЧЕСКИЙ", "АВТОМЕХАНИЧЕСКИЙ", "СТРОИТЕЛЬНЫЙ", "МАШИНОСТРОИТЕЛЬНЫЙ", "ЭКОНОМИЧЕСКИЙ", "ИНЖЕНЕРНОЭКОНОМИЧЕСКИЙ" };
-                }
-            }
-            else
-            {
                 LFacult = new List<Facult>();
                 NameFacult = new List<string>() { "ЭЛЕКТРОТЕХНИЧЕСКИЙ", "АВТОМЕХАНИЧЕСКИЙ", "СТРОИТЕЛЬНЫЙ", "МАШИНОСТРОИТЕЛЬНЫЙ", "ЭКОНОМИЧЕСКИЙ", "ИНЖЕНЕРНОЭКОНОМИЧЕСКИЙ" };
-            }
         }
         /// <summary>
         /// Возвращает список групп по имени факультета
@@ -74,7 +55,7 @@ namespace Presentation.Code
         /// <summary>
         /// Возвращает номер курса по группе
         /// </summary>
-        public int GetСourse(StudentSubGroup groop)
+        public static int GetСourse(StudentSubGroup groop)
         {
             string s = groop.NameGroup.Substring(groop.NameGroup.Length - 3, 2);
             int YerEnter = 2000 + Convert.ToInt32(s);
@@ -133,6 +114,15 @@ namespace Presentation.Code
 
                 }
             }
+        }
+        public static StudentSubGroup GetClassGroupStorage(StudentSubGroup group, EntityStorage storage)
+        {
+            foreach(StudentSubGroup item in storage.StudentSubGroups)
+            {
+                if (item.NameGroup == group.NameGroup && item.NumberSubGroup == group.NumberSubGroup)
+                    return item;
+            }
+            return null;
         }
     }
 

@@ -13,7 +13,8 @@ namespace Presentation.Code
         public StudentsClass[,] partSchedule { get; private set; }
         public StudentSubGroup[] Groups { get; private set; }
         public List<StudentsClass> RemoveClases = new List<StudentsClass>();
-        private FacultyAndСourse Faculty {get; set;}
+        private Settings Sett {get; set;}
+        public EntityStorage store { get; private set; }
 
         public ScheduleForEdit(FullSchedule fSchedule) : base(fSchedule)
         {
@@ -21,6 +22,7 @@ namespace Presentation.Code
             ClassRoom cl = GetClassRoom(classes[0, 0]);
             partSchedule = new StudentsClass[classesInSchedule, eStorage.StudentSubGroups.Length];
             Groups = new StudentSubGroup[eStorage.StudentSubGroups.Length];
+            store = eStorage;
             for (int groupIndex = 0; groupIndex < eStorage.StudentSubGroups.Length; groupIndex++)
             {
                 Groups[groupIndex] = eStorage.StudentSubGroups[groupIndex];
@@ -36,16 +38,20 @@ namespace Presentation.Code
         /// </summary>
         public void CretScheduleForFacult(string name, int cours)
         {
-            Faculty = new FacultyAndСourse();
+            Sett = Save.LoadSettings();
             int classesInSchedule = Constants.WEEKS_IN_SCHEDULE * Constants.DAYS_IN_WEEK * Constants.CLASSES_IN_DAY;
             ClassRoom cl = GetClassRoom(classes[0, 0]);
-            partSchedule = new StudentsClass[classesInSchedule, Faculty.GetGroops(name, cours).Count];
-            Groups = new StudentSubGroup[Faculty.GetGroops(name, cours).Count];
-
-            for (int groupIndex = 0; groupIndex < Faculty.GetGroops(name, cours).Count; groupIndex++)
+            partSchedule = new StudentsClass[classesInSchedule, Sett.GetGroops(name, cours).Count];
+            Groups = new StudentSubGroup[Sett.GetGroops(name, cours).Count];
+            for (int groupIndex = 0; groupIndex < Sett.GetGroops(name, cours).Count; groupIndex++)
             {
-                Groups[groupIndex] = Faculty.GetGroops(name, cours)[groupIndex];
-                StudentsClass[] groupClasses = this.GetPartialSchedule(Groups[groupIndex]).GetClasses();
+                Groups[groupIndex] = Sett.GetGroops(name, cours)[groupIndex];
+            }
+            Array.Sort(Groups, new GroupsComparer());
+
+            for (int groupIndex = 0; groupIndex < Sett.GetGroops(name, cours).Count; groupIndex++)
+            {
+                StudentsClass[] groupClasses = this.GetPartialSchedule(Settings.GetClassGroupStorage(Groups[groupIndex], eStorage)).GetClasses();
                 for (int classIndex = 0; classIndex < classesInSchedule; classIndex++)
                 {
                     partSchedule[classIndex, groupIndex] = groupClasses[classIndex];
@@ -65,6 +71,7 @@ namespace Presentation.Code
                 if (classes[row, colIndex] == clas)
                     classes[row, colIndex] = null;
             }
+           
         }
         /// <summary>
         /// Метод для получения списка аудитории подходящих паре
@@ -292,5 +299,15 @@ namespace Presentation.Code
                     (cl1.Housing < cl2.Housing ? -1 : 1);
             }
         }
+        public class GroupsComparer : IComparer<StudentSubGroup>
+        {
+            public int Compare(StudentSubGroup cl1, StudentSubGroup cl2)
+            {
+                return cl1.NameGroup == cl2.NameGroup ?
+                    (cl1.NumberSubGroup == cl2.NumberSubGroup ? 0 : (cl1.NumberSubGroup < cl2.NumberSubGroup ? -1 : 1)) :
+                    (String.Compare(cl1.NameGroup, cl2.NameGroup)<0  ? -1 : 1);
+            }
+        }
+
     }
 }

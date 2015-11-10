@@ -129,27 +129,11 @@ namespace Domain.Model
                 {
                     if (classes[timeIndex, classRoomIndex] != null)
                     {
-                        //Change (comment if)
-                        bool eq = false;
-                        foreach(StudentSubGroup item in classes[timeIndex, classRoomIndex].SubGroups)
-                        {
-                            if(StudentSubGroup.EqualGroups(item, subGroup))
-                            {
-                                eq = true;
-                                break;
-                            }
-                        }
-                        if(eq)
+                        if (classes[timeIndex, classRoomIndex].SubGroups.Contains(subGroup))
                         {
                             partSchedule[timeIndex] = classes[timeIndex, classRoomIndex];
                             break;
                         }
-                        //EndChange
-                        //if (classes[timeIndex, classRoomIndex].SubGroups.Contains(subGroup))
-                        //{
-                        //    partSchedule[timeIndex] = classes[timeIndex, classRoomIndex];
-                        //    break;
-                        //}
                     }
                 }
             }

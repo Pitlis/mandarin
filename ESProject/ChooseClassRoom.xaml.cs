@@ -51,7 +51,8 @@ namespace Presentation
                     z++;
                 }
             }
-          // listViewClassRoom.ItemsSource = schedule.GetListClasRoom(TimeRows, clas);
+            // listViewClassRoom.ItemsSource = schedule.GetListClasRoom(TimeRows, clas);
+            radioButtonAll.IsChecked = true;
 
         }
 

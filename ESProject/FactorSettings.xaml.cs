@@ -322,7 +322,7 @@ namespace Presentation
                 }
                 if(contain == false)
                 {
-                    Fac fac = new Fac(factors[factorIndex].GetName(), 0);
+                    Fac fac = new Fac(factors[factorIndex].GetName(), 0, factors[factorIndex].GetDescription());
                     Lfac.Add(fac);
                 }
                  
@@ -349,6 +349,7 @@ namespace Presentation
     {
         public string Name { get; set; }
         private int fine;
+        private string detalis;
         public int Fine
         {
             get { return fine; }
@@ -361,11 +362,19 @@ namespace Presentation
             }
 
         }
+        public string Details
+        {
+            get
+            {
+                return detalis;
+            }
+        }
 
-        public Fac(string name, int fine)
+        public Fac(string name, int fine, string description)
         {
             Name = name;
             this.fine = fine;
+            this.detalis = description;
         }
         private Fac()
         {

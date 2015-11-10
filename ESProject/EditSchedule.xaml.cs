@@ -4,16 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-
+using System.IO;
 namespace Presentation
 {
     /// <summary>
@@ -22,7 +17,7 @@ namespace Presentation
     public partial class EditSchedule : Window
     {
         ScheduleForEdit schedule;
-        Code.FacultyAndСourse Faculte;
+        Code.Settings Sett;
 
         public EditSchedule(ScheduleForEdit s)
         {
@@ -32,8 +27,20 @@ namespace Presentation
 
         private void btnShow_Click(object sender, RoutedEventArgs e)
         {
+            if (File.Exists("Settings.dat"))
+            {
+                Sett = Code.Save.LoadSettings();
+                schedule.CretScheduleForFacult((string)comboBoxFacult.SelectedItem, (int)comboBoxCours.SelectedItem);
+            }
+            else
+            {
+                MessageBox.Show("Не найден файл с настройками.Будет выведено расписанния для всех групп.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                comboBoxCours.IsEnabled = false; comboBoxFacult.IsEnabled = false;
+            }
+            if (Sett.UGroops.Count !=0)
+            { MessageBox.Show("Внимание есть группы не относящееся ни к 1 факультету. Зайдите в настройки чтобы отнести группы к факультету!","Warning", MessageBoxButton.OK, MessageBoxImage.Warning); }
             gdData.Children.Clear();
-            schedule.CretScheduleForFacult((string)comboBoxFacult.SelectedItem, (int)comboBoxCours.SelectedItem);
+            btnExcel.IsEnabled = true;
             gdData.ColumnDefinitions.Clear();
             gdData.RowDefinitions.Clear();
            
@@ -169,6 +176,7 @@ namespace Presentation
                 InfoGroop.Items.Clear();
                 RemovelistBox.SelectedIndex = -1;
                 btnSet.IsEnabled = false;
+                btnClass.IsEnabled = false;
             }
             if (SelectedCell == cell)
             {
@@ -179,6 +187,7 @@ namespace Presentation
                 btnRemove.IsEnabled = false;
                 RemovelistBox.SelectedIndex = -1;
                 btnSet.IsEnabled = false;
+                btnClass.IsEnabled = false;
             }
             else
             {
@@ -209,6 +218,7 @@ namespace Presentation
                 {
                     btnRemove.IsEnabled = false;
                     btnSet.IsEnabled = false;
+                    btnClass.IsEnabled = false;
                     InfoClass.Text = "";
                     InfoTeachers.Items.Clear();
                     InfoGroop.Items.Clear();
@@ -422,6 +432,7 @@ namespace Presentation
                 MessageBox.Show("Остались непоставленные пары");
                 e.Cancel = true;
             }
+           
         }
 
 
@@ -457,6 +468,7 @@ namespace Presentation
             RemovelistBox.ItemsSource = schedule.RemoveClases;
             btnShow_Click(Type.Missing, e);
             btnSet.IsEnabled = false;
+            btnClass.IsEnabled = false;
         }
 
 
@@ -465,8 +477,8 @@ namespace Presentation
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Faculte = new Code.FacultyAndСourse();
-            foreach (string item in Faculte.NameFacult)
+            Sett = new Code.Settings();
+            foreach (string item in Sett.NameFacult)
             {
                 comboBoxFacult.Items.Add(item);
             }
@@ -477,6 +489,17 @@ namespace Presentation
             }
             comboBoxCours.SelectedIndex = 0;
 
+        }
+
+        private void btnExcel_Click(object sender, RoutedEventArgs e)
+        {
+            if(schedule.RemoveClases.Count == 0)
+            {
+                ScheduleExcel excel = new ScheduleExcel(schedule, schedule.store);
+                excel.LoadPartScheduleExcel(schedule.Groups);
+            }
+            else
+            { MessageBox.Show("Nope"); }
         }
     }
 }
