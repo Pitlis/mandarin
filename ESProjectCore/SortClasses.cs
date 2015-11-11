@@ -1,4 +1,5 @@
 ﻿using Domain.Model;
+using Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace ESCore
     static class SortClasses
     {
         static Random rand = new Random(DateTime.Now.Millisecond);
-        public static StudentsClass[] Sort(StudentsClass[] classes, int sortType = 0, bool returnNewArray = false)
+        public static StudentsClass[] Sort(StudentsClass[] classes, EntityStorage eStorage, int sortType = 0, bool returnNewArray = false)
         {
             StudentsClass[] classArray;
             if (returnNewArray)
@@ -25,6 +26,9 @@ namespace ESCore
             switch (sortType)
             {
                 case 0:
+                    SortByFreedomPositionScore(classArray, eStorage);
+                    break;
+                case 1:
                     SortBySubGroupCount(classArray);
                     break;
                 default:
@@ -77,6 +81,102 @@ namespace ESCore
             }
             
             classes = result.ToArray();
+        }
+
+        static void SortByFreedomPositionScore(StudentsClass[] classes, EntityStorage eStorage)
+        {
+            List<StudentClassScores> sClasses = new List<StudentClassScores>();
+            double[] a = new double[classes.Length];
+            double[] g = new double[classes.Length];
+            double[] p = new double[classes.Length];
+            for (int classIndex = 0; classIndex < classes.Length; classIndex++)
+            {
+                a[classIndex] = 0;
+                g[classIndex] = 0;
+                p[classIndex] = 0;
+                //Определяем количество подходящих аудиторий для каждой пары
+                for (int requireClassRoomIndex = 0; requireClassRoomIndex < classes[classIndex].RequireForClassRoom.Length; requireClassRoomIndex++)
+                {
+                    foreach (ClassRoom cRoom in eStorage.ClassRooms)
+                    {
+                        foreach (ClassRoomType cRoomType in cRoom.Types)
+                        {
+                            ClassRoomType cr = cRoomType;
+                            if (cRoomType.Description.Equals(classes[classIndex].RequireForClassRoom[requireClassRoomIndex].Description))
+                            {
+                                a[classIndex]++;
+                            }
+                        }
+                    }
+                }
+                //Определяем количество пар занятий для преподавателя и подгруппы
+                for (int secondClassIndex = 0; secondClassIndex < classes.Length; secondClassIndex++)
+                {
+                    if (StudentsClass.StudentClassEqualsTeachers(classes[classIndex], classes[secondClassIndex]))
+                    {
+                        p[classIndex]++;
+                    }
+                    if (StudentsClass.StudentClassEqualsSubGroups(classes[classIndex], classes[secondClassIndex]))
+                    {
+                        g[classIndex]++;
+                    }
+                }
+                sClasses.Add(new StudentClassScores(classes[classIndex], a[classIndex] / (g[classIndex] * p[classIndex])));
+            }
+            sClasses.Sort((s1, s2) =>
+            {
+                bool sOne = false, sTwo = false;
+                int result;
+                foreach (ClassRoomType cRoomType in s1.sClass.RequireForClassRoom)
+                {
+                    if (cRoomType.Description.Contains("Лекция") || cRoomType.Description.Contains("СпортЗал"))
+                    {
+                        sOne = true;
+                    }
+                }
+                foreach (ClassRoomType cRoomType in s2.sClass.RequireForClassRoom)
+                {
+                    if (cRoomType.Description.Contains("Лекция") || cRoomType.Description.Contains("СпортЗал"))
+                    {
+                        sTwo = true;
+                    }
+                }
+                if ((sOne && sTwo) || (!sOne && !sTwo))
+                {
+                    result = 0;
+                }
+                else if (sOne && !sTwo)
+                {
+                    result = -1;
+                }
+                else
+                    result = 1;
+                if (result == 0)
+                {
+                    result = s1.fPosScore.CompareTo(s2.fPosScore);
+                    if (result == 0)
+                    {
+                        result = -s1.sClass.SubGroups.Length.CompareTo(s2.sClass.SubGroups.Length);
+                        if (result == 0)
+                        {
+                            result = s1.sClass.SubGroups[0].NameGroup.CompareTo(s2.sClass.SubGroups[0].NameGroup);
+                            if (result == 0)
+                            {
+                                result = s1.sClass.SubGroups[0].NumberSubGroup.CompareTo(s2.sClass.SubGroups[0].NumberSubGroup);
+                                if (result == 0)
+                                {
+                                    result = s1.sClass.Name.CompareTo(s2.sClass.Name);
+                                }
+                            }
+                        }
+                    }
+                }
+                return result;
+            });
+            for (int i = 0; i < classes.Length; i++)
+            {
+                classes[i] = sClasses[i].sClass;
+            }
         }
 
         static void SortRandom(StudentsClass[] classes)
@@ -134,6 +234,15 @@ namespace ESCore
             }
         }
 
-
+        struct StudentClassScores
+        {
+            public StudentsClass sClass;
+            public double fPosScore;
+            public StudentClassScores(StudentsClass sClass, double fPosScore)
+            {
+                this.sClass = sClass;
+                this.fPosScore = fPosScore;
+            }
+        }
     }
 }
