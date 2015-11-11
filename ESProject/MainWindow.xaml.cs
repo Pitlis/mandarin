@@ -4,6 +4,7 @@ using Presentation;
 using Presentation.Code;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,6 +56,42 @@ namespace ESProject
         {
             Presentation.FacultyAndGroops facult = new Presentation.FacultyAndGroops();
             facult.Show();
+        }
+
+        private void btn_filedb_Click(object sender, RoutedEventArgs e)
+        {
+            string path = System.Environment.CurrentDirectory + "\\filepath.txt";
+            string filepath_db = System.Environment.CurrentDirectory + "\\bd4.mdf";
+            FileInfo fi1;
+            if (System.IO.File.Exists(path))//проверка на существование файла настроек
+            {
+                fi1 = new FileInfo(path);
+                using (StreamReader sr = fi1.OpenText())
+                {
+                    string s = sr.ReadLine();
+                    if (System.IO.File.Exists(s))//проверка на путь в нем
+                    {
+                        filepath_db = s;
+                    }
+                }
+            }
+            if (!System.IO.File.Exists(filepath_db))
+            {
+                filepath_db = @"C:\";
+            }
+            System.Windows.Forms.OpenFileDialog dialog = new System.Windows.Forms.OpenFileDialog();
+            dialog.InitialDirectory = filepath_db;
+            dialog.Filter = "DB File |*.mdf";
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                filepath_db = dialog.FileName;
+            }
+            else filepath_db = System.Environment.CurrentDirectory + "\\bd4.mdf";
+            fi1 = new FileInfo(path);
+            using (StreamWriter sr = fi1.CreateText())
+            {
+                sr.WriteLine(filepath_db);
+            }
         }
     }
 }
