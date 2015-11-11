@@ -41,7 +41,7 @@ namespace ESCore
             for (int sortIndex = 0; sortIndex < sortCount; sortIndex++)
             {
                 logger.Info("Итерация " + (sortIndex + 1).ToString());
-                StudentsClass[] sortedClasses = SortClasses.Sort(Classes, sortIndex);
+                StudentsClass[] sortedClasses = SortClasses.Sort(Classes, EStorage, sortIndex);
                 FullSchedule schedule = CreateSchedule(sortedClasses);
                 schedules[sortIndex] = schedule;
                 if (schedule != null)

@@ -47,28 +47,28 @@ namespace Presentation.Code
                     switch (factor.Name)
                     {
                         case "StudentFourWindows":
-                            fine = 100;
+                            fine = 12;
                             break;
                         case "StudentsOneWindow":
-                            fine = 100;
+                            fine = 2;
                             break;
                         case "StudentThreeWindows":
-                            fine = 100;
+                            fine = 8;
                             break;
                         case "StudentTwoWindows":
-                            fine = 100;
+                            fine = 4;
                             break;
                         case "TeachersFourWindows":
-                            fine = 49;
+                            fine = 12;
                             break;
                         case "TeacherssOneWindow":
-                            fine = 40;
+                            fine = 1;
                             break;
                         case "TeachersThreeWindows":
-                            fine = 48;
+                            fine = 6;
                             break;
                         case "TeachersTwoWindows":
-                            fine = 47;
+                            fine = 3;
                             break;
                         default:
                             break;
@@ -87,25 +87,25 @@ namespace Presentation.Code
                     switch (factor.Name)
                     {
                         case "SixStudentsClasses":
-                            fine = 100;
+                            fine = 10;
                             break;
                         case "TeacherDayOff":
                             fine = 100;
                             break;
                         case "FiveStudentsClassesInRow":
-                            fine = 100;
+                            fine = 10;
                             break;
                         case "FiveStudentsClassesInDay":
-                            fine = 50;
+                            fine = 8;
                             break;
                         case "SixthClass":
-                            fine = 70;
+                            fine = 8;
                             break;
                         case "SaturdayTwoClasses":
-                            fine = 90;
+                            fine = 8;
                             break;
                         case "TwoClassesInWeek":
-                            fine = 100;
+                            fine = 10;
                             obj = GetGroupFourSameClasses(classes);
                             break;
                         case "OnlyOneClassInDay":
@@ -113,26 +113,26 @@ namespace Presentation.Code
                             obj = GetGroupSameClasses(classes);
                             break;
                         case "SameClassesInSameTime":
-                            fine = 100;
-                            obj = GetGroupSameClassesMoreTwoInTwoWeeks(classes);
-                            break;
-                        case "SameClassesInSameRoom":
                             fine = 99;
                             obj = GetGroupSameClassesMoreTwoInTwoWeeks(classes);
                             break;
+                        case "SameClassesInSameRoom":
+                            fine = 20;
+                            obj = GetGroupSameClassesMoreTwoInTwoWeeks(classes);
+                            break;
                         case "OneClassInWeek":
-                            fine = 100;
+                            fine = 99;
                             obj = GetGroupTwoSameClasses(classes);
                             break;
                         case "LectureClassesInDay":
-                            fine = 100;
+                            fine = 6;
                             obj = GetLectureClasses(classes);
                             break;
                         case "MoreThreeClassesInDay":
-                            fine = 30;
+                            fine = 4;
                             break;
                         case "SaturdayClass":
-                            fine = 61;
+                            fine = 4;
                             break;
                         case "TeacherBalanceClasses":
                             fine = 100;
@@ -142,7 +142,15 @@ namespace Presentation.Code
                             obj = GetLecturePairs(classes);
                             break;
                         case "FifthClass":
-                            fine = 50;
+                            fine = 8;
+                            break;
+                        case "ClassInSameTimeOnOtherWeek":
+                            fine = 100;
+                            obj = GetGroupSameClassesMoreTwoInTwoWeeks(classes);
+                            break;
+                        case "SameRoomIfClassesInSameTime":
+                            fine = 100;
+                            obj = GetGroupSameClassesMoreTwoInTwoWeeks(classes);
                             break;
                         default:
                             break;
