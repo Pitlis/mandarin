@@ -50,5 +50,47 @@ namespace OtherFactors
             }
             return true;
         }
+
+        public static bool CheckClassInSameTimeOnOtherWeek(ISchedule schedule, StudentsClass[] sClasses, int dayOfWeek, int classOfDay)
+        {
+            StudentSubGroup[] groups = schedule.GetTempClass().SubGroups;
+            if (dayOfWeek < 6)
+            {
+                foreach (StudentSubGroup subGroup in groups)
+                {
+                    if (schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek + 6)[classOfDay] != null)
+                    {
+                        StudentsClass secondClass = schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek + 6)[classOfDay];
+                        if (!StudentsClass.StudentClassEquals(schedule.GetTempClass(), secondClass))
+                        {
+                            if (Array.FindAll<StudentsClass>(sClasses, (c) => c == secondClass).Count() == 0
+                                && Array.FindAll<StudentsClass>(sClasses, (c) => c == schedule.GetTempClass()).Count() > 0)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach (StudentSubGroup subGroup in groups)
+                {
+                    if (schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek - 6)[classOfDay] != null)
+                    {
+                        StudentsClass secondClass = schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek - 6)[classOfDay];
+                        if (!StudentsClass.StudentClassEquals(schedule.GetTempClass(), secondClass))
+                        {
+                            if (Array.FindAll<StudentsClass>(sClasses, (c) => c == secondClass).Count() == 0
+                                && Array.FindAll<StudentsClass>(sClasses, (c) => c == schedule.GetTempClass()).Count() > 0)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
     }
 }
