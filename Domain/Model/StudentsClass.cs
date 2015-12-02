@@ -166,5 +166,17 @@ namespace Domain.Model
                 return false;
             }
         }
+
+        public static bool StudentClassContainsEvenOneSubGroup(StudentsClass mainClass, StudentsClass subClass)
+        {
+            foreach (StudentSubGroup subGroup in subClass.SubGroups)
+            {
+                if (mainClass.SubGroups.Contains(subGroup))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

@@ -158,6 +158,10 @@ namespace Presentation.Code
                             fine = 100;
                             obj = GetGroupSameClassesMoreTwoInTwoWeeks(classes);
                             break;
+                        case "VIPClasses":
+                            fine = 100;
+                            obj = vip.LVIP;
+                            break;
                         default:
                             break;
                     }

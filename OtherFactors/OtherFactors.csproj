@@ -65,6 +65,7 @@
     <Compile Include="ThreeClassesInWeek.cs" />
     <Compile Include="TwoClassesInWeek.cs" />
     <Compile Include="LectureClassesInDay.cs" />
+    <Compile Include="VIPClasses.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj">
