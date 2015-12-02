@@ -191,6 +191,11 @@ namespace Domain.Model
             }
             return null;
         }
+
+        public StudentsClass GetClassByRoomAndPosition(int roomIndex, int timeIndex)
+        {
+            return classes[timeIndex, roomIndex];
+        }
         [Serializable]
         public struct StudentsClassPosition
         {
