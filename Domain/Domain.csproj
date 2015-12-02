@@ -50,6 +50,7 @@
     <Compile Include="Model\StudentSubGroup.cs" />
     <Compile Include="Model\PartialSchedule.cs" />
     <Compile Include="Model\Teacher.cs" />
+    <Compile Include="Model\VIPClases.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Constants.cs" />
     <Compile Include="Services\DataValidator.cs" />
