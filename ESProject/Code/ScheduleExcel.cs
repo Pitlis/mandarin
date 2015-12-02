@@ -81,6 +81,8 @@ namespace Presentation.Code
                     ((Range)ObjWorkSheet.Cells[(i + 3), k]).Borders.ColorIndex = 1;
                     ((Range)ObjWorkSheet.Cells[(i + 3), k]).HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
                     ((Range)ObjWorkSheet.Cells[(i + 3), k]).VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    if ((i + 1) % 12 == 0)
+                        ((Range)ObjWorkSheet.Cells[(i + 3), k]).Borders[XlBordersIndex.xlEdgeBottom].Weight = XlBorderWeight.xlMedium;
                     if (sched[i] != null && i >= 0 && i <= 35)
                     {
                         string str;
@@ -174,8 +176,7 @@ namespace Presentation.Code
         public void LoadPartScheduleExcel(StudentSubGroup[] Groups)
         {
             if (pathToFile == null)
-                return;
-
+                return;                      
             ObjExcel = new Application();
             string path = pathToFile;
             ObjWorkBook = ObjExcel.Workbooks.Add();
@@ -186,13 +187,15 @@ namespace Presentation.Code
             foreach (StudentSubGroup groop in Groups)
             {
                 PartialSchedule partSchedule;
-                partSchedule = schedule.GetPartialSchedule(Settings.GetClassGroupStorage(groop, eStorage));
+                partSchedule = schedule.GetPartialSchedule(FacultAndGroop.GetClassGroupStorage(groop, eStorage));
                 StudentsClass[] sched;
                 ClassRoom clas;
                 sched = partSchedule.GetClasses();
                 int ifor1 = 0, ifor2 = 32;
                 ((Range)ObjWorkSheet.Cells[1, k]).Value2 = groop.NameGroup;
+                ((Range)ObjWorkSheet.Cells[1, k]).Borders.Weight = XlBorderWeight.xlMedium;
                 ((Range)ObjWorkSheet.Cells[2, k]).Value2 = groop.NumberSubGroup;
+                ((Range)ObjWorkSheet.Cells[2, k]).Borders.Weight = XlBorderWeight.xlMedium;
                 ((Range)ObjWorkSheet.Cells[1, k]).HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
                 ((Range)ObjWorkSheet.Cells[1, k]).VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
                 ((Range)ObjWorkSheet.Cells[2, k]).HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
@@ -205,6 +208,8 @@ namespace Presentation.Code
                     ((Range)ObjWorkSheet.Cells[(i + 3), k]).Borders.ColorIndex = 1;
                     ((Range)ObjWorkSheet.Cells[(i + 3), k]).HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
                     ((Range)ObjWorkSheet.Cells[(i + 3), k]).VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    if((i +1)% 12==0)
+                        ((Range)ObjWorkSheet.Cells[(i + 3), k]).Borders[XlBordersIndex.xlEdgeBottom].Weight = XlBorderWeight.xlMedium;
                     if (sched[i] != null && i >= 0 && i <= 35)
                     {
                         string str;
@@ -238,6 +243,7 @@ namespace Presentation.Code
                     if (i >= 36 && i <= 71) ifor2--;
                 }
                 k++;
+              
 
 
 
@@ -310,6 +316,7 @@ namespace Presentation.Code
             exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
             exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
             ((Range)ObjWorkSheet.Cells[1, 1]).Value2 = "Дни";
+            exelcells.Borders.Weight = XlBorderWeight.xlMedium;
             exelcells.Borders.ColorIndex = 1;
 
             exelcells = ObjWorkSheet.Range["A3", "A14"];
@@ -319,6 +326,7 @@ namespace Presentation.Code
             exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
             exelcells.Value2 = "Понедельник";
             exelcells.Borders.ColorIndex = 1;
+            exelcells.Borders.Weight = XlBorderWeight.xlMedium;
 
             exelcells = ObjWorkSheet.Range["A15", "A26"];
             exelcells.Merge(Type.Missing);
@@ -327,6 +335,7 @@ namespace Presentation.Code
             exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
             exelcells.Value2 = "Вторник";
             exelcells.Borders.ColorIndex = 1;
+            exelcells.Borders.Weight = XlBorderWeight.xlMedium;
 
             exelcells = ObjWorkSheet.Range["A27", "A38"];
             exelcells.Merge(Type.Missing);
@@ -335,6 +344,7 @@ namespace Presentation.Code
             exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
             exelcells.Value2 = "Среда";
             exelcells.Borders.ColorIndex = 1;
+            exelcells.Borders.Weight = XlBorderWeight.xlMedium;
 
             exelcells = ObjWorkSheet.Range["A39", "A50"];
             exelcells.Merge(Type.Missing);
@@ -343,6 +353,7 @@ namespace Presentation.Code
             exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
             exelcells.Value2 = "Четверг";
             exelcells.Borders.ColorIndex = 1;
+            exelcells.Borders.Weight = XlBorderWeight.xlMedium;
 
             exelcells = ObjWorkSheet.Range["A51", "A62"];
             exelcells.Merge(Type.Missing);
@@ -351,14 +362,16 @@ namespace Presentation.Code
             exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
             exelcells.Value2 = "Пятница";
             exelcells.Borders.ColorIndex = 1;
+            exelcells.Borders.Weight = XlBorderWeight.xlMedium;
 
             exelcells = ObjWorkSheet.Range["A63", "A74"];
             exelcells.Merge(Type.Missing);
             exelcells.Orientation = 90;
             exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
             exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
-            exelcells.Value2 = "Субота";
+            exelcells.Value2 = "Суббота";
             exelcells.Borders.ColorIndex = 1;
+            exelcells.Borders.Weight = XlBorderWeight.xlMedium;
 
             exelcells = ObjWorkSheet.Range["B1", "B2"];
             exelcells.Merge(Type.Missing);
@@ -367,6 +380,7 @@ namespace Presentation.Code
             exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
             exelcells.Value2 = "Пары";
             exelcells.Borders.ColorIndex = 1;
+            exelcells.Borders.Weight = XlBorderWeight.xlMedium;
             //------------
             for (int ti = 3; ti < 73; ti += 12)
             {
@@ -376,6 +390,7 @@ namespace Presentation.Code
                 exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
                 exelcells.Value2 = "8.30-10.05";
                 exelcells.Borders.ColorIndex = 1;
+                exelcells.Borders.Weight = XlBorderWeight.xlMedium;
 
                 exelcells = ObjWorkSheet.Range["B" + (ti + 2), "B" + (ti + 3)];
                 exelcells.Merge(Type.Missing);
@@ -384,6 +399,7 @@ namespace Presentation.Code
                 exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
                 exelcells.Value2 = "10.25-12.00";
                 exelcells.Borders.ColorIndex = 1;
+                exelcells.Borders.Weight = XlBorderWeight.xlMedium;
 
                 exelcells = ObjWorkSheet.Range["B" + (ti + 4), "B" + (ti + 5)];
                 exelcells.Merge(Type.Missing);
@@ -392,6 +408,7 @@ namespace Presentation.Code
                 exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
                 exelcells.Value2 = "12.20-13.55";
                 exelcells.Borders.ColorIndex = 1;
+                exelcells.Borders.Weight = XlBorderWeight.xlMedium;
 
                 exelcells = ObjWorkSheet.Range["B" + (ti + 6), "B" + (ti + 7)];
                 exelcells.Merge(Type.Missing);
@@ -400,6 +417,7 @@ namespace Presentation.Code
                 exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
                 exelcells.Value2 = "14.15-15.50";
                 exelcells.Borders.ColorIndex = 1;
+                exelcells.Borders.Weight = XlBorderWeight.xlMedium;
 
                 exelcells = ObjWorkSheet.Range["B" + (ti + 8), "B" + (ti + 9)];
                 exelcells.Merge(Type.Missing);
@@ -408,14 +426,15 @@ namespace Presentation.Code
                 exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
                 exelcells.Value2 = "16.00-17.35";
                 exelcells.Borders.ColorIndex = 1;
+                exelcells.Borders.Weight = XlBorderWeight.xlMedium;
 
                 exelcells = ObjWorkSheet.Range["B" + (ti + 10), "B" + (ti + 11)];
                 exelcells.Merge(Type.Missing);
-
                 exelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
                 exelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
                 exelcells.Value2 = "17.45-19.20";
                 exelcells.Borders.ColorIndex = 1;
+                exelcells.Borders.Weight = XlBorderWeight.xlMedium;
             }
         }
     }

@@ -17,7 +17,7 @@ namespace Presentation
     /// </summary>
     public partial class FacultyAndGroops : Window
     {
-        private Code.Settings Sett;
+        private Code.FacultAndGroop Sett;
         EntityStorage storage;
         public IRepository Repo { get; private set; }
         public FacultyAndGroops(/*EntityStorage storage*/)
@@ -31,7 +31,7 @@ namespace Presentation
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Sett = new Code.Settings();
+            Sett = new Code.FacultAndGroop();
             if (File.Exists("Settings.dat")) {
             Sett = Code.Save.LoadSettings();
             }

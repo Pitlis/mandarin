@@ -13,7 +13,7 @@ namespace Presentation.Code
         public StudentsClass[,] partSchedule { get; private set; }
         public StudentSubGroup[] Groups { get; private set; }
         public List<StudentsClass> RemoveClases = new List<StudentsClass>();
-        private Settings Sett {get; set;}
+        private FacultAndGroop Sett {get; set;}
         public EntityStorage store { get; private set; }
 
         public ScheduleForEdit(FullSchedule fSchedule) : base(fSchedule)
@@ -51,7 +51,7 @@ namespace Presentation.Code
 
             for (int groupIndex = 0; groupIndex < Sett.GetGroops(name, cours).Count; groupIndex++)
             {
-                StudentsClass[] groupClasses = this.GetPartialSchedule(Settings.GetClassGroupStorage(Groups[groupIndex], eStorage)).GetClasses();
+                StudentsClass[] groupClasses = this.GetPartialSchedule(FacultAndGroop.GetClassGroupStorage(Groups[groupIndex], eStorage)).GetClasses();
                 for (int classIndex = 0; classIndex < classesInSchedule; classIndex++)
                 {
                     partSchedule[classIndex, groupIndex] = groupClasses[classIndex];
@@ -81,6 +81,29 @@ namespace Presentation.Code
             List<ClassRoom> clasR = new List<ClassRoom>();
 
             foreach (ClassRoom items in eStorage.ClassRooms)
+            {
+                int k = 0;
+                foreach (ClassRoomType type in clas.RequireForClassRoom)
+                {
+                    if (items.Types.Contains(type))
+                    {
+                        k++;
+                    }
+                }
+                if (k == clas.RequireForClassRoom.Length)
+                { clasR.Add(items); }
+
+
+            }
+            clasR.Sort(new ClassRoomComparer());
+            return clasR;
+        }
+
+        public static List<ClassRoom> GetListClasRoom(EntityStorage storage, StudentsClass clas)
+        {
+            List<ClassRoom> clasR = new List<ClassRoom>();
+
+            foreach (ClassRoom items in storage.ClassRooms)
             {
                 int k = 0;
                 foreach (ClassRoomType type in clas.RequireForClassRoom)
@@ -288,6 +311,52 @@ namespace Presentation.Code
             }
             RemoveClases.Remove(sClas);
 
+        }
+        /// <summary>
+        /// Метод для расчета "хороших" позиций
+        /// </summary>
+        public bool[] GetFinePosition(StudentsClass sClas)
+        {
+            int classesInSchedule = Constants.WEEKS_IN_SCHEDULE * Constants.DAYS_IN_WEEK * Constants.CLASSES_IN_DAY;
+            bool[] position = new bool[classesInSchedule];
+            #region Аудитории
+            List<ClassRoom> Lcals;
+            for (int i = 0; i < classesInSchedule; i++)
+            {
+               Lcals = GetListClasRoom(i, sClas);
+               foreach(ClassRoom item in Lcals)
+                {
+                    position[i] = ClassRoomFree(item, i);
+                    if (position[i]) break;
+                }
+            }
+            #endregion
+            #region Учителя
+            StudentsClass[] classes;
+            foreach (Teacher item in sClas.Teacher)
+            {
+                classes = GetPartialSchedule(item).GetClasses();
+                for (int i = 0; i < classesInSchedule; i++)
+                {
+                    if (classes[i] != null)
+                        position[i] = false;
+                }
+            }
+            #endregion
+            #region Пары 
+            foreach (StudentSubGroup item in sClas.SubGroups)
+            {              
+                classes = GetPartialSchedule(item).GetClasses();
+                for (int i = 0; i < classesInSchedule; i++)
+                {
+                    if (classes[i] != null)
+                        position[i] = false;
+                }
+            }
+            #endregion
+            return position;
+
+            
         }
 
         public class ClassRoomComparer : IComparer<ClassRoom>

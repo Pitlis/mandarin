@@ -1,0 +1,42 @@
+﻿<Window x:Class="Presentation.VIP"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Presentation"
+        mc:Ignorable="d"
+        Title="VIP" Height="350" Width="757">
+    <Grid>
+        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="250" Margin="30,44,0,0" VerticalAlignment="Top" Width="192" DisplayMemberPath="FLSName" SelectionChanged="listBox_SelectionChanged"/>
+        <ListBox x:Name="listBox1" Height="250" Margin="244,44,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="212" DisplayMemberPath="Name" SelectionChanged="listBox1_SelectionChanged"/>
+        <Button x:Name="button" Content="..." HorizontalAlignment="Left" Margin="675,37,0,0" VerticalAlignment="Top" Width="55" RenderTransformOrigin="0.509,0" Click="button_Click" IsEnabled="False"/>
+        <GroupBox x:Name="groupBox" Header="Время" HorizontalAlignment="Left" Margin="480,174,0,0" VerticalAlignment="Top" Height="99" Width="259">
+            <Grid Margin="0,0,-2,1">
+                <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="120"/>
+                <ComboBox x:Name="comboBox1" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top" Width="120"/>
+                <RadioButton x:Name="radioButton" Content="Верхняя неделя" HorizontalAlignment="Left" Margin="135,17,0,0" VerticalAlignment="Top" IsChecked="True"/>
+                <RadioButton x:Name="radioButton_Copy" Content="Нижняя неделя" HorizontalAlignment="Left" Margin="135,44,0,0" VerticalAlignment="Top"/>
+            </Grid>
+        </GroupBox>
+        <Button x:Name="button_Copy" Content="Добавить" HorizontalAlignment="Left" Margin="632,289,0,0" VerticalAlignment="Top" Width="98" RenderTransformOrigin="0.509,0" Click="button_Copy_Click"/>
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" Margin="30,16,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="153" TextChanged="textBox1_TextChanged"/>
+        <Label x:Name="lable_Copy2" Content="Группы:" HorizontalAlignment="Left" Margin="474,57,0,0" VerticalAlignment="Top"/>
+        <ListView x:Name="InfoGroop" Height="81" Margin="480,88,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Width="259" SelectionChanged="InfoGroop_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Группа" Width="125" DisplayMemberBinding="{Binding NameGroup}" />
+                    <GridViewColumn Header="№ подгруппы" DisplayMemberBinding="{Binding NumberSubGroup}" Width="93" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ListView x:Name="listViewClassRoom" Height="44" Margin="474,13,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Width="195" SelectionChanged="listViewClassRoom_SelectionChanged_1">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Корпус" Width="90" DisplayMemberBinding="{Binding Housing}" />
+                    <GridViewColumn Header="Аудитория" DisplayMemberBinding="{Binding Number}" Width="95" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button x:Name="button_Copy1" Content="Снять" HorizontalAlignment="Left" Margin="512,289,0,0" VerticalAlignment="Top" Width="98" RenderTransformOrigin="0.509,0" Click="button_Copy1_Click"/>
+    </Grid>
+</Window>

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Domain.Model;
 using Presentation.Code;
+using Domain.Services;
 
 namespace Presentation
 {
@@ -23,12 +24,22 @@ namespace Presentation
     {
         private int TimeRows;
         ScheduleForEdit schedule;
+        EntityStorage store;
         private StudentsClass clas;
+        
         public ChooseClassRoom(int TimeRows, ScheduleForEdit schedule, StudentsClass clas)
         {
             InitializeComponent();
             this.TimeRows = TimeRows;
             this.schedule = schedule;
+            this.clas = clas;
+        }
+
+        public ChooseClassRoom(int TimeRows, EntityStorage store, StudentsClass clas)
+        {
+            InitializeComponent();
+            this.TimeRows = TimeRows;
+            this.store = store;
             this.clas = clas;
         }
 
@@ -111,13 +122,21 @@ namespace Presentation
         }
         private void radioButtonAll_Checked_1(object sender, RoutedEventArgs e)
         {
-            listViewClassRoom.ItemsSource = schedule.GetListClasRoom(TimeRows, clas);
+            if(schedule != null )
+            {
+                listViewClassRoom.ItemsSource = schedule.GetListClasRoom(TimeRows, clas);
+            }
+           else
+            {
+                listViewClassRoom.ItemsSource = ScheduleForEdit.GetListClasRoom(store, clas);
+            }
             listViewClassRoom.SelectedIndex = -1;
             button.IsEnabled = false;
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
+            if(schedule != null) { 
             EditSchedule main = this.Owner as EditSchedule;
             if (main != null)
             {
@@ -127,6 +146,17 @@ namespace Presentation
             if (main.RemovelistBox.SelectedItem != null && TimeRows != -1 && main.listViewClassRoom.Items.Count != 0)
             { main.btnSet.IsEnabled = true; }
             this.Close();
+            }
+            else
+            {
+                VIP main = this.Owner as VIP;
+                if (main != null)
+                {
+                    main.listViewClassRoom.Items.Clear();
+                    main.listViewClassRoom.Items.Add(listViewClassRoom.SelectedItem);
+                }
+                this.Close();
+            }
         }
     }
 }

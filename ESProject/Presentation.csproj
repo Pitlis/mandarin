@@ -71,6 +71,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Code\Setting.cs" />
+    <Compile Include="VIP.xaml.cs">
+      <DependentUpon>VIP.xaml</DependentUpon>
+    </Compile>
     <Page Include="ChooseClassRoom.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -98,7 +102,7 @@
     <Compile Include="ChooseClassRoom.xaml.cs">
       <DependentUpon>ChooseClassRoom.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Code\Settings.cs" />
+    <Compile Include="Code\FacultAndGroop.cs" />
     <Compile Include="Code\Logic.cs" />
     <Compile Include="Code\Save.cs" />
     <Compile Include="Code\ScheduleExcel.cs" />
@@ -116,6 +120,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="VIP.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

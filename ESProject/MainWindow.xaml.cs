@@ -93,5 +93,11 @@ namespace ESProject
                 sr.WriteLine(filepath_db);
             }
         }
+
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            VIP form = new VIP();
+            form.ShowDialog();
+        }
     }
 }

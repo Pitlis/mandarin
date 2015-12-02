@@ -12,12 +12,12 @@ using System.Collections;
 namespace Presentation.Code
 {
     [Serializable]
-    class Settings
+    class FacultAndGroop
     {
         public List<Facult> LFacult { get; set; }
         public List<string> NameFacult { get; set; }
         public List<StudentSubGroup> UGroops = new List<StudentSubGroup>();
-        public Settings()
+        public FacultAndGroop()
         {
                 LFacult = new List<Facult>();
                 NameFacult = new List<string>() { "ЭЛЕКТРОТЕХНИЧЕСКИЙ", "АВТОМЕХАНИЧЕСКИЙ", "СТРОИТЕЛЬНЫЙ", "МАШИНОСТРОИТЕЛЬНЫЙ", "ЭКОНОМИЧЕСКИЙ", "ИНЖЕНЕРНОЭКОНОМИЧЕСКИЙ" };

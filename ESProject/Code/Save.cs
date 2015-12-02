@@ -39,7 +39,7 @@ namespace Presentation.Code
             return schedule;
         }
 
-        public static void SaveSettings(Settings sett)
+        public static void SaveSettings(FacultAndGroop sett)
         {
             BinaryFormatter formatter = new BinaryFormatter();
             using (FileStream fs = new FileStream("Settings.dat", FileMode.Create))
@@ -47,13 +47,13 @@ namespace Presentation.Code
                 formatter.Serialize(fs, sett);
             }
         }
-        public static Settings LoadSettings()
+        public static FacultAndGroop LoadSettings()
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            Settings sett = null;
+            FacultAndGroop sett = null;
             using (FileStream fs = new FileStream("Settings.dat", FileMode.OpenOrCreate))
             {
-                sett = (Settings)formatter.Deserialize(fs);
+                sett = (FacultAndGroop)formatter.Deserialize(fs);
             }
             return sett;
         }

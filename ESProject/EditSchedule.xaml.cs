@@ -9,6 +9,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.IO;
+using Domain.Services;
+
 namespace Presentation
 {
     /// <summary>
@@ -17,7 +19,9 @@ namespace Presentation
     public partial class EditSchedule : Window
     {
         ScheduleForEdit schedule;
-        Code.Settings Sett;
+        FacultAndGroop Sett;
+        bool[] position;
+        Label[] time;
 
         public EditSchedule(ScheduleForEdit s)
         {
@@ -294,8 +298,10 @@ namespace Presentation
             string[] times = new string[] { "8.30-10.05", "10.25-12.00", "12.20-13.55", "14.15-15.50", "16.00-17.35", "17.45-19.20" };
 
             int timeStringIndex = 0;
+            time = new Label[72];
             for (int timeIndex = 0; timeIndex < 72; timeIndex++)
             {
+                
                 Label groupLabel = new Label();
                 groupLabel.Content = times[timeStringIndex];
                 groupLabel.Height = CELL_HEIGHT;
@@ -307,6 +313,7 @@ namespace Presentation
                 groupLabel.FontSize = 10;
                 groupLabel.HorizontalContentAlignment = HorizontalAlignment.Center;
                 gdData.Children.Add(groupLabel);
+                time[timeIndex] = groupLabel;
                 timeStringIndex++;
                 groupLabel.MouseLeftButtonDown += mLeft;
                 if (timeStringIndex == 6)
@@ -390,10 +397,13 @@ namespace Presentation
 
         private void RemovelistBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            int classesInSchedule = Constants.WEEKS_IN_SCHEDULE * Constants.DAYS_IN_WEEK * Constants.CLASSES_IN_DAY;
             if (RemovelistBox.SelectedIndex != -1)
             {
+                position = new bool[classesInSchedule];
                 btnSet.IsEnabled = false;
                 StudentsClass clas = (StudentsClass)RemovelistBox.SelectedItem;
+                position = schedule.GetFinePosition(clas);
                 InfoClass.Text = clas.Name;
                 InfoTeachers.Items.Clear();
                 InfoGroop.Items.Clear();
@@ -408,6 +418,13 @@ namespace Presentation
                 btnClass.IsEnabled = true;
                 btnRemove.IsEnabled = false;
 
+                for (int i = 0; i < classesInSchedule; i++)
+                {
+                    if (position[i]) { time[i].Background = new SolidColorBrush(Colors.Green); } 
+                    else { time[i].Background = new SolidColorBrush(Colors.White); }
+                }
+
+
             }
             if (SelectedCell != null && RemovelistBox.SelectedIndex != -1)
             {
@@ -420,6 +437,13 @@ namespace Presentation
             if (RemovelistBox.SelectedItem != null && TimeRows !=-1 && listViewClassRoom.Items.Count != 0)
             { btnSet.IsEnabled = true; }
             
+            if(RemovelistBox.SelectedIndex == -1)
+            {
+                for (int i = 0; i < classesInSchedule; i++)
+                {
+                    if (position[i]) { time[i].Background = new SolidColorBrush(Colors.White); }
+                }
+            }
 
 
 
@@ -477,7 +501,7 @@ namespace Presentation
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Sett = new Code.Settings();
+            Sett = new Code.FacultAndGroop();
             foreach (string item in Sett.NameFacult)
             {
                 comboBoxFacult.Items.Add(item);

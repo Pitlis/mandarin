@@ -34,8 +34,10 @@ namespace Presentation.Code
 
             AllocConsole();
             loggingService = new NLogLoggingService();
+            
             storage = Repo.GetEntityStorage();
             classes = Repo.GetStudentsClasses(storage).ToArray();
+            Setting vip = new Setting(storage, classes);
             loggingService.Info("Загружены данные");
 
             Assembly asm = Assembly.Load("FactorsWindows");
