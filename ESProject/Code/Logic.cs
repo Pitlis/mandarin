@@ -154,6 +154,10 @@ namespace Presentation.Code
                             fine = 100;
                             obj = GetGroupSameClassesMoreTwoInTwoWeeks(classes);
                             break;
+                        case "PairClassesInSameRoom":
+                            fine = 100;
+                            obj = GetGroupSameClassesMoreTwoInTwoWeeks(classes);
+                            break;
                         default:
                             break;
                     }
