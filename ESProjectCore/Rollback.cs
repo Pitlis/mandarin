@@ -43,18 +43,18 @@ namespace ESCore
         
         public bool DoRollback(ref StudentsClass[] sortedStudentsClasses, ref int classIndex)
         {
-            logger.Trace("позиция: " + (classIndex+1).ToString());
+            logger.Debug("позиция: " + (classIndex+1).ToString());
             currentCountRollbacks++;
             //слишком много откатов
             if (currentCountRollbacks > MaxCountRollbacks)
             {
-                logger.Trace("Слишком много откатов");
+                logger.Debug("Слишком много откатов");
                 return false;
             }
             //дошли до начала списка пар - не с чем менять
             if (classIndex == 1)
             {
-                logger.Trace("начало списка - не с чем менять");
+                logger.Debug("начало списка - не с чем менять");
                 return false;
             }
 
@@ -63,14 +63,14 @@ namespace ESCore
             if (indexForRollback == null)
             {
                 //не с чем менять
-                logger.Trace("Пару не с чем менять");
+                logger.Debug("Пару не с чем менять");
                 return false;
             }
             //удаление откаченных пар из расписания
-            logger.Trace("Пары будут откачены: ");
+            logger.Debug("Пары будут откачены: ");
             for (int index = 0; index < indexForRollback.Length; index++)
             {
-                logger.Trace("- " + sortedStudentsClasses[indexForRollback[index]].Name);
+                logger.Debug("- " + sortedStudentsClasses[indexForRollback[index]].Name);
                 schedule.RemoveClass(sortedStudentsClasses[indexForRollback[index]]);
             }
             
