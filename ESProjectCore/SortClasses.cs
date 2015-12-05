@@ -11,7 +11,7 @@ namespace ESCore
     static class SortClasses
     {
         static Random rand = new Random(DateTime.Now.Millisecond);
-        public static StudentsClass[] Sort(StudentsClass[] classes, EntityStorage eStorage, int sortType = 0, bool returnNewArray = false)
+        public static StudentsClass[] Sort(StudentsClass[] classes, EntityStorage eStorage, StudentsClass[] fixedClasses, int sortType = 0, bool returnNewArray = false)
         {
             StudentsClass[] classArray;
             if (returnNewArray)
@@ -22,7 +22,12 @@ namespace ESCore
             {
                 classArray = classes;
             }
-
+            if (fixedClasses != null)
+            {
+                List<StudentsClass> temp = classArray.ToList<StudentsClass>();
+                temp.RemoveAll(c => fixedClasses.Contains(c));
+                classArray = temp.ToArray();
+            }
             switch (sortType)
             {
                 case 0:
@@ -34,6 +39,12 @@ namespace ESCore
                 default:
                     SortRandom(classArray);
                     break;
+            }
+            if (fixedClasses != null)
+            {
+                List<StudentsClass> temp = classArray.ToList<StudentsClass>();
+                temp.InsertRange(0, fixedClasses);
+                classArray = temp.ToArray();
             }
             return classArray;
         }
@@ -69,17 +80,17 @@ namespace ESCore
             for (int classIndex = 0; classIndex < classes.Length; classIndex++)
             {
                 //это одиночная пара
-                if(pairsClasses.Find(p => p.c1 == classes[classIndex] || p.c2 == classes[classIndex]) == null)
+                if (pairsClasses.Find(p => p.c1 == classes[classIndex] || p.c2 == classes[classIndex]) == null)
                 {
                     i++;
                     int indexForInsert = 0;
-                    for (indexForInsert = 0; result[indexForInsert].SubGroups.Length >= classes[classIndex].SubGroups.Length && indexForInsert < result.Count-1; indexForInsert++)
+                    for (indexForInsert = 0; result[indexForInsert].SubGroups.Length >= classes[classIndex].SubGroups.Length && indexForInsert < result.Count - 1; indexForInsert++)
                     {
                     }
                     result.Insert(indexForInsert, classes[classIndex]);
                 }
             }
-            
+
             classes = result.ToArray();
         }
 
@@ -181,7 +192,7 @@ namespace ESCore
 
         static void SortRandom(StudentsClass[] classes)
         {
-            
+
             for (int classIndex = 0; classIndex < classes.Length; classIndex++)
             {
                 int index2 = rand.Next(0, classes.Length);
