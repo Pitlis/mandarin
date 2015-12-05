@@ -67,7 +67,7 @@ namespace ESCore
             rollback.logger = logger;
             IFactor[] factors = CreateFactorsArray();
             //первая пара ставится в первое подходящее место и не проверяется
-            resultSchedule.SetClass(sortedStudentsClasses[0], resultSchedule.GetSuitableClassRooms(sortedStudentsClasses[0])[0]);
+            resultSchedule.SetClass(sortedStudentsClasses[0], Array.Find(resultSchedule.GetSuitableClassRooms(sortedStudentsClasses[0]), p => GetSumFine(p, factors, resultSchedule, sortedStudentsClasses[0]) != Constants.BLOCK_FINE));
             logger.Info("Пара <" + sortedStudentsClasses[0].Name +
                         " " + ((sortedStudentsClasses[0].Teacher.Length > 0) ? sortedStudentsClasses[0].Teacher[0].FLSName : "") + "> установлена (1/" + sortedStudentsClasses.Length + ")");
             //----
