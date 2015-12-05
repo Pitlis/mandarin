@@ -20,15 +20,24 @@ namespace ESCore
         int[] rollbackLenghtArray;
         int[] rollbackCountArray;
         FullSchedule schedule;
+        StudentsClass[] fixedClasses;//пары, которые невозможно откатить
 
         const int MAX_ROLLBACKS_WITHOUT_INCREASE = 5;
 
-        public Rollback(StudentsClass[] classes, int maxCountRollabaks, FullSchedule schedule)
+        public Rollback(StudentsClass[] classes, int maxCountRollabaks, FullSchedule schedule, StudentsClass[] fixedClasses)
         {
             MaxCountRollbacks = maxCountRollabaks;
             rollbackLenghtArray = new int[classes.Length];
             rollbackCountArray = new int[classes.Length];
             classesForCountRollbackLength = (StudentsClass[])classes.Clone();
+            if(fixedClasses != null)
+            {
+                this.fixedClasses = fixedClasses;
+            }
+            else
+            {
+                this.fixedClasses = new StudentsClass[0];
+            }
             this.schedule = schedule;
         }
         
@@ -136,6 +145,10 @@ namespace ESCore
         }
         bool IsSuitableClass(StudentsClass suitableClass, StudentsClass cl)
         {
+            if (fixedClasses.Contains(suitableClass))
+            {
+                return false;
+            }
             for (int teacherIndex = 0; teacherIndex < cl.Teacher.Length; teacherIndex++)
             {
                 Teacher teacher = Array.Find<Teacher>(suitableClass.Teacher, (t) => t == cl.Teacher[teacherIndex]);

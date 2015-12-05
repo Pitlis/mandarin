@@ -86,10 +86,10 @@ namespace Presentation
 
                 foreach (VIPClases item in vip.LVIP)
                 {
-                    if (cl == item.Cla)
+                    if (cl == item.sClass)
                     {
                         listViewClassRoom.Items.Clear();
-                        listViewClassRoom.Items.Add(item.Aud);
+                        listViewClassRoom.Items.Add(item.Room);
                         int z = Constants.GetDayOfClass(item.Time);
                         if ((z + 1) > 6)
                         {
@@ -158,7 +158,7 @@ namespace Presentation
                 bool factor = false;
                 foreach (var item in vip.LVIP)
                 {
-                    if (item.Aud == sub && item.Time == z)
+                    if (item.Room == sub && item.Time == z)
                     { factor = true; break; }
                 }
                 if (clas != null)
@@ -170,9 +170,9 @@ namespace Presentation
                             foreach (var item in vip.LVIP)
                             {
 
-                                if (item.Cla == clas)
+                                if (item.sClass == clas)
                                 {
-                                    item.Aud = sub;
+                                    item.Room = sub;
                                     item.Time = z;
                                 }
                             }
@@ -197,7 +197,7 @@ namespace Presentation
                 vip.LVIPB = new List<VIPClasesBin>();
                 foreach (var item in vip.LVIP)
                 {
-                    VIPClasesBin a = new VIPClasesBin(vip.GetPosClas(item.Cla), item.Time, vip.GetAudPos(item.Aud));
+                    VIPClasesBin a = new VIPClasesBin(vip.GetPosClas(item.sClass), item.Time, vip.GetAudPos(item.Room));
                     vip.LVIPB.Add(a);
 
                 }
@@ -221,7 +221,7 @@ namespace Presentation
             {
                 for (int i = 0; i < vip.LVIP.Count; i++)
                 {
-                    if (vip.LVIP[i].Cla == clas)
+                    if (vip.LVIP[i].sClass == clas)
                     {
                         vip.LVIP.RemoveAt(i);
                         comboBox.SelectedIndex = -1;
@@ -235,7 +235,7 @@ namespace Presentation
                 vip.LVIPB = new List<VIPClasesBin>();
                 foreach (var item in vip.LVIP)
                 {
-                    VIPClasesBin a = new VIPClasesBin(vip.GetPosClas(item.Cla), item.Time, vip.GetAudPos(item.Aud));
+                    VIPClasesBin a = new VIPClasesBin(vip.GetPosClas(item.sClass), item.Time, vip.GetAudPos(item.Room));
                     vip.LVIPB.Add(a);
 
                 }

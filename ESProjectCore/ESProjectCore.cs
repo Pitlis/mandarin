@@ -20,7 +20,7 @@ namespace ESCore
         #region Options
 
         public Action<FullSchedule, int, int> SaveCreatedSchedule { get; set; }
-        public int Option2 { get; set; }
+        public StudentsClass[] FixedClasses { get; set; }
         public ILoggingService logger { get; set; }
 
         #endregion
@@ -63,7 +63,7 @@ namespace ESCore
         FullSchedule CreateSchedule(StudentsClass[] sortedStudentsClasses)
         {
             FullSchedule resultSchedule = new FullSchedule(EStorage.ClassRooms.Length, EStorage);
-            Rollback rollback = new Rollback(sortedStudentsClasses, 100000, resultSchedule);
+            Rollback rollback = new Rollback(sortedStudentsClasses, 100000, resultSchedule, FixedClasses);
             rollback.logger = logger;
             IFactor[] factors = CreateFactorsArray();
             //первая пара ставится в первое подходящее место и не проверяется

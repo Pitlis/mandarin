@@ -108,6 +108,23 @@ namespace Presentation.Code
             }
             return List;
         }
+
+        public StudentsClass[] GetVipClasses()
+        {
+            if(LVIP != null)
+            {
+                StudentsClass[] vipClasses = new StudentsClass[LVIP.Count];
+                for (int classIndex = 0; classIndex < LVIP.Count; classIndex++)
+                {
+                    vipClasses[classIndex] = LVIP[classIndex].sClass;
+                }
+                return vipClasses;
+            }
+            else
+            {
+                return new StudentsClass[0];
+            }
+        }
     }
     [Serializable]
     class VIPClasesBin

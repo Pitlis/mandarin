@@ -8,14 +8,14 @@ namespace Domain.Model
 {
     public class VIPClases
     {
-        public StudentsClass Cla { get; set; }
+        public StudentsClass sClass { get; set; }
         public int Time { get; set; }
-        public ClassRoom Aud { get; set; }
-        public VIPClases(StudentsClass cla, int time, ClassRoom aud)
+        public ClassRoom Room { get; set; }
+        public VIPClases(StudentsClass sClass, int time, ClassRoom room)
         {
-            this.Cla = cla;
+            this.sClass = sClass;
             this.Time = time;
-            this.Aud = aud;
+            this.Room = room;
         }
     }
 }

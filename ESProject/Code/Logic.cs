@@ -25,6 +25,7 @@ namespace Presentation.Code
         EntityStorage storage;
         StudentsClass[] classes;
         ILoggingService loggingService;
+        Setting vip;
 
         //TODO Заглушка для Dependency Inversion
         public void DI()
@@ -37,7 +38,7 @@ namespace Presentation.Code
             
             storage = Repo.GetEntityStorage();
             classes = Repo.GetStudentsClasses(storage).ToArray();
-            Setting vip = new Setting(storage, classes);
+            vip = new Setting(storage, classes);
             loggingService.Info("Загружены данные");
 
             Assembly asm = Assembly.Load("FactorsWindows");
@@ -185,6 +186,7 @@ namespace Presentation.Code
             ESProjectCore core = new ESProjectCore(classes, storage, FactorTypes);
             core.SaveCreatedSchedule = SaveCreatedSchedule;
             core.logger = loggingService;
+            core.FixedClasses = vip.GetVipClasses();
             loggingService.Info("Загружено ядро. Запуск...");
 
             List<ISchedule> schedules = core.Run().ToList<ISchedule>();

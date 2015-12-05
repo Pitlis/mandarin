@@ -20,10 +20,10 @@ namespace OtherFactors
             int fineResult = 0;
             StudentsClass tClass = schedule.GetTempClass();
             int tTime = schedule.GetClassPosition(tClass).Value.Time;
-            if (sClasses.FindAll((c) => c.Cla == tClass).Count() > 0)
+            if (sClasses.FindAll((c) => c.sClass == tClass).Count() > 0)
             {
-                VIPClases vipClass = sClasses.Find((c) => c.Cla == tClass);
-                if (vipClass.Aud != schedule.GetClassRoom(tClass) || vipClass.Time != tTime)
+                VIPClases vipClass = sClasses.Find((c) => c.sClass == tClass);
+                if (vipClass.Room != schedule.GetClassRoom(tClass) || vipClass.Time != tTime)
                 {
                     if (isBlock)
                         return Constants.BLOCK_FINE;
@@ -33,7 +33,7 @@ namespace OtherFactors
             }
             else
             {
-                if (sClasses.FindAll((c) => c.Time == tTime && StudentsClass.StudentClassContainsEvenOneSubGroup(tClass, c.Cla)).Count() > 0)
+                if (sClasses.FindAll((c) => c.Time == tTime && StudentsClass.StudentClassContainsEvenOneSubGroup(tClass, c.sClass)).Count() > 0)
                 {
                     if (isBlock)
                         return Constants.BLOCK_FINE;
@@ -55,10 +55,10 @@ namespace OtherFactors
                     StudentsClass[] sClass = groupSchedule.GetClassesOfDay(dayIndex);
                     for (int classIndex = 0; classIndex < sClass.Length; classIndex++)
                     {
-                        if (sClasses.FindAll((c) => c.Cla == sClass[classIndex]).Count() > 0)
+                        if (sClasses.FindAll((c) => c.sClass == sClass[classIndex]).Count() > 0)
                         {
-                            VIPClases vipClass = sClasses.Find((c) => c.Cla == sClass[classIndex]);
-                            if (vipClass.Aud != schedule.GetClassRoom(sClass[classIndex]) && vipClass.Time != schedule.GetClassPosition(sClass[classIndex]).Value.Time)
+                            VIPClases vipClass = sClasses.Find((c) => c.sClass == sClass[classIndex]);
+                            if (vipClass.Room != schedule.GetClassRoom(sClass[classIndex]) && vipClass.Time != schedule.GetClassPosition(sClass[classIndex]).Value.Time)
                             {
                                 if (isBlock)
                                     return Constants.BLOCK_FINE;
