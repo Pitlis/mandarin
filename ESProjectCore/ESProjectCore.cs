@@ -81,7 +81,7 @@ namespace ESCore
                 {
                     Interlocked.Exchange(ref fines[positionIndex], GetSumFine(positionsForClass[positionIndex], factors, resultSchedule, sortedStudentsClasses[classIndex]));
                 });
-
+                Logger_StartInstallClass(sortedStudentsClasses[classIndex], positionsForClass, fines);
                 //for (int positionIndex = 0; positionIndex < positionsForClass.Length; positionIndex++)
                 //{
                 //    Interlocked.Exchange(ref fines[positionIndex], GetSumFine(positionsForClass[positionIndex], CreateFactorsArray(), resultSchedule, sortedStudentsClasses[classIndex]));
@@ -92,12 +92,11 @@ namespace ESCore
                     int indexMinFine = Array.IndexOf<int>(fines, Array.FindAll<int>(fines, (f) => f != Constants.BLOCK_FINE).Min());
                     resultSchedule.SetClass(sortedStudentsClasses[classIndex], positionsForClass[indexMinFine]);
 
-                    logger.Info("Пара <" + sortedStudentsClasses[classIndex].Name +
-                        " " + ((sortedStudentsClasses[classIndex].Teacher.Length > 0) ? sortedStudentsClasses[classIndex].Teacher[0].FLSName : "") + "> установлена (" + (classIndex + 1) + "/" + sortedStudentsClasses.Length + ")");
+                    Logger_ClassInstalled(sortedStudentsClasses[classIndex], positionsForClass[indexMinFine], classIndex, sortedStudentsClasses.Length, fines[indexMinFine]);
                 }
                 else
                 {
-                    logger.Info("----- Откат пары <" + sortedStudentsClasses[classIndex].Name + ">");
+                    logger.Info("---------- Откат пары <" + sortedStudentsClasses[classIndex].Name + ">");
                     if(!rollback.DoRollback(ref sortedStudentsClasses, ref classIndex))
                     {
                         return null;
@@ -176,5 +175,51 @@ namespace ESCore
 
             return sortedFactors;
         }
+
+        #region Logger
+        void Logger_ClassInstalled(StudentsClass sClass, FullSchedule.StudentsClassPosition position, int indexInList, int listLength, int fine)
+        {
+            logger.Trace("----- Выбрана позиция: " + SClassPositionToString(position) + ", штраф: " + fine);
+            logger.Info("Пара <" + sClass.Name + " " + TeatherNameToString(sClass) + 
+                        "> установлена (" + (indexInList + 1) + "/" + listLength + ")");
+        }
+        void Logger_StartInstallClass(StudentsClass sClass, FullSchedule.StudentsClassPosition[] positionsForClass, int[] fines)
+        {
+            logger.Trace("----- Доступны позиции для установки (" + Array.FindAll<int>(fines, f => f != Constants.BLOCK_FINE).Length + "):");
+            string positionsString = "\n";
+            for (int positionIndex = 0; positionIndex < positionsForClass.Length; positionIndex++)
+            {
+                if(fines[positionIndex] != Constants.BLOCK_FINE)
+                {
+                    positionsString += ((positionIndex + 1).ToString() + ". " + SClassPositionToString(positionsForClass[positionIndex]) + ", штраф: " + fines[positionIndex] + "\n");
+
+                }
+            }
+            logger.Trace(positionsString);
+        }
+        string TeatherNameToString(StudentsClass sClass)
+        {
+            if(sClass.Teacher.Length > 0)
+            {
+                return sClass.Teacher[0].FLSName;
+            }
+            else
+            {
+                return "";
+            }
+        }
+        string SClassPositionToString(FullSchedule.StudentsClassPosition position)
+        {
+            string week = (Constants.GetWeekOfClass(position.Time) == 0 ? "Нижняя" : "Верхняя") + " неделя";
+            int day = Constants.GetDayOfClass(position.Time);
+            day = day >= Constants.DAYS_IN_WEEK ? day - Constants.DAYS_IN_WEEK : day;
+            string dayString = ((DayOfWeek)(day + 1)).ToString();
+
+            string time = "пара " + (Constants.GetTimeOfClass(position.Time) + 1).ToString();
+            ClassRoom room = EStorage.ClassRooms[position.Classroom];
+            string classRoom = room.Number + "/" + room.Housing;
+            return week + ", " + dayString + ", " + time + ", " + classRoom;
+        }
+        #endregion
     }
 }
