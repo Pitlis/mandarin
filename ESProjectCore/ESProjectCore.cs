@@ -66,10 +66,8 @@ namespace ESCore
             Rollback rollback = new Rollback(sortedStudentsClasses, 100000, resultSchedule, FixedClasses);
             rollback.logger = logger;
             IFactor[] factors = CreateFactorsArray();
-            //первая пара ставится в первое подходящее место и не проверяется
-            resultSchedule.SetClass(sortedStudentsClasses[0], Array.Find(resultSchedule.GetSuitableClassRooms(sortedStudentsClasses[0]), p => GetSumFine(p, factors, resultSchedule, sortedStudentsClasses[0]) != Constants.BLOCK_FINE));
-            logger.Info("Пара <" + sortedStudentsClasses[0].Name +
-                        " " + ((sortedStudentsClasses[0].Teacher.Length > 0) ? sortedStudentsClasses[0].Teacher[0].FLSName : "") + "> установлена (1/" + sortedStudentsClasses.Length + ")");
+            //первая пара ставится отдельно
+            InsertFirstClass(sortedStudentsClasses, resultSchedule, factors);
             //----
 
             for (int classIndex = 1; classIndex < sortedStudentsClasses.Length; classIndex++)
@@ -105,7 +103,21 @@ namespace ESCore
             }
             return resultSchedule;
         }
+        void InsertFirstClass(StudentsClass[] sortedStudentsClasses, FullSchedule resultSchedule, IFactor[] factors)
+        {
+            FullSchedule.StudentsClassPosition[] positions = resultSchedule.GetSuitableClassRooms(sortedStudentsClasses[0]);
+            int[] fines = new int[positions.Length];
+            for (int positionIndex = 0; positionIndex < positions.Length; positionIndex++)
+            {
+                fines[positionIndex] = GetSumFine(positions[positionIndex], factors, resultSchedule, sortedStudentsClasses[0]);
+            }
+            Logger_StartInstallClass(sortedStudentsClasses[0], positions, fines);
+            int indexMinFine = Array.IndexOf<int>(fines, Array.FindAll<int>(fines, (f) => f != Constants.BLOCK_FINE).Min());
+            resultSchedule.SetClass(sortedStudentsClasses[0], positions[indexMinFine]);
 
+            Logger_ClassInstalled(sortedStudentsClasses[0], positions[indexMinFine], 0, sortedStudentsClasses.Length, fines[indexMinFine]);
+
+        }
 
 
         int GetSumFine(FullSchedule.StudentsClassPosition position, IFactor[] factors, FullSchedule scheduleForCreateTemp, StudentsClass sClass)
@@ -185,6 +197,7 @@ namespace ESCore
         }
         void Logger_StartInstallClass(StudentsClass sClass, FullSchedule.StudentsClassPosition[] positionsForClass, int[] fines)
         {
+            logger.Trace("Попытка установки пары " + sClass.Name + " " + TeatherNameToString(sClass));
             logger.Trace("----- Доступны позиции для установки (" + Array.FindAll<int>(fines, f => f != Constants.BLOCK_FINE).Length + "):");
             string positionsString = "\n";
             for (int positionIndex = 0; positionIndex < positionsForClass.Length; positionIndex++)
