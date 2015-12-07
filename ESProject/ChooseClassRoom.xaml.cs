@@ -48,6 +48,7 @@ namespace Presentation
             if (TimeRows == -1)
             {
                 radioButtonFree.IsEnabled = false;
+                radioButtonAll.IsChecked = true;
 
             }
             else
@@ -61,9 +62,10 @@ namespace Presentation
                     free[z] = schedule.ClassRoomFree(item, TimeRows);
                     z++;
                 }
+                radioButtonFree.IsChecked = true;
             }
             // listViewClassRoom.ItemsSource = schedule.GetListClasRoom(TimeRows, clas);
-            radioButtonAll.IsChecked = true;
+           
 
         }
 
@@ -142,6 +144,7 @@ namespace Presentation
             {
                 main.listViewClassRoom.Items.Clear();
                 main.listViewClassRoom.Items.Add(listViewClassRoom.SelectedItem);
+                main.btnSet_Click(sender, e);
             }
             if (main.RemovelistBox.SelectedItem != null && TimeRows != -1 && main.listViewClassRoom.Items.Count != 0)
             { main.btnSet.IsEnabled = true; }

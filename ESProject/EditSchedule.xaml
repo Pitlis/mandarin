@@ -27,7 +27,6 @@
         <Label x:Name="lable_Copy2" Content="Группы:" Grid.Column="1" HorizontalAlignment="Left" Margin="29,267,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="TimeBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="29,473,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" IsReadOnly="True"/>
         <Label x:Name="lable_Copy4" Content="Время" Grid.Column="1" HorizontalAlignment="Left" Margin="29,447,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="btnClass" Content="..." Grid.Column="1" HorizontalAlignment="Left" Margin="245,420,0,0" VerticalAlignment="Top" Width="49" IsEnabled="False" Click="btnClass_Click_1"/>
         <ListView x:Name="listViewClassRoom" Height="44" Margin="32,396,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Grid.Column="1" SelectionChanged="listViewClassRoom_SelectionChanged" Width="195">
             <ListView.View>
                 <GridView>

@@ -62,7 +62,7 @@ namespace Presentation
             }
             CreateGroupHeader(schedule.Groups);
             CreateDayHeader();
-            CreateTimeHeader(TimeSelect);
+            CreateTimeHeader(TimeSelect, DoubleClick);
             for (int rowIndex = ROW_HEADER; rowIndex < schedule.partSchedule.GetLength(0) + ROW_HEADER; rowIndex++)
             {
                 Label prevLabel = null;
@@ -180,7 +180,7 @@ namespace Presentation
                 InfoGroop.Items.Clear();
                 RemovelistBox.SelectedIndex = -1;
                 btnSet.IsEnabled = false;
-                btnClass.IsEnabled = false;
+                //btnClass.IsEnabled = false;
             }
             if (SelectedCell == cell)
             {
@@ -191,7 +191,7 @@ namespace Presentation
                 btnRemove.IsEnabled = false;
                 RemovelistBox.SelectedIndex = -1;
                 btnSet.IsEnabled = false;
-                btnClass.IsEnabled = false;
+                //btnClass.IsEnabled = false;
             }
             else
             {
@@ -215,14 +215,14 @@ namespace Presentation
                     {
                         InfoGroop.Items.Add(groop);
                     }
-                    btnClass.IsEnabled = false;
+                    //btnClass.IsEnabled = false;
 
                 }
                 else
                 {
                     btnRemove.IsEnabled = false;
                     btnSet.IsEnabled = false;
-                    btnClass.IsEnabled = false;
+                    //btnClass.IsEnabled = false;
                     InfoClass.Text = "";
                     InfoTeachers.Items.Clear();
                     InfoGroop.Items.Clear();
@@ -293,7 +293,7 @@ namespace Presentation
                 rowIndex += 6;
             }
         }
-        void CreateTimeHeader(MouseButtonEventHandler mLeft)
+        void CreateTimeHeader(MouseButtonEventHandler mLeft, MouseButtonEventHandler MouseDoubleClick)
         {
             string[] times = new string[] { "8.30-10.05", "10.25-12.00", "12.20-13.55", "14.15-15.50", "16.00-17.35", "17.45-19.20" };
 
@@ -316,6 +316,7 @@ namespace Presentation
                 time[timeIndex] = groupLabel;
                 timeStringIndex++;
                 groupLabel.MouseLeftButtonDown += mLeft;
+                groupLabel.MouseDoubleClick += MouseDoubleClick;
                 if (timeStringIndex == 6)
                 {
                     timeStringIndex = 0;
@@ -395,6 +396,20 @@ namespace Presentation
             }
         }
 
+        private void DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Label cell = (Label)sender;
+            TimeRows = (int)cell.GetValue(Grid.RowProperty);
+            if (RemovelistBox.SelectedIndex != -1)
+            { 
+            StudentsClass clas;
+            clas = (StudentsClass)RemovelistBox.SelectedItem;
+            ChooseClassRoom form = new ChooseClassRoom(TimeRows, schedule, clas);
+            form.Owner = this;
+            form.ShowDialog();
+            }
+        }
+
         private void RemovelistBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int classesInSchedule = Constants.WEEKS_IN_SCHEDULE * Constants.DAYS_IN_WEEK * Constants.CLASSES_IN_DAY;
@@ -415,7 +430,7 @@ namespace Presentation
                 {
                     InfoGroop.Items.Add(groop);
                 }
-                btnClass.IsEnabled = true;
+                //btnClass.IsEnabled = true;
                 btnRemove.IsEnabled = false;
 
                 for (int i = 0; i < classesInSchedule; i++)
@@ -485,14 +500,14 @@ namespace Presentation
         }
 
 
-        private void btnSet_Click(object sender, RoutedEventArgs e)
+        public void btnSet_Click(object sender, RoutedEventArgs e)
         {          
             schedule.SetClass((ClassRoom)listViewClassRoom.Items.GetItemAt(0), (StudentsClass)RemovelistBox.SelectedItem, TimeRows);
             RemovelistBox.ItemsSource = null;
             RemovelistBox.ItemsSource = schedule.RemoveClases;
             btnShow_Click(Type.Missing, e);
             btnSet.IsEnabled = false;
-            btnClass.IsEnabled = false;
+           // btnClass.IsEnabled = false;
         }
 
 
