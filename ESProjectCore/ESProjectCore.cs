@@ -223,7 +223,7 @@ namespace ESCore
         }
         string SClassPositionToString(FullSchedule.StudentsClassPosition position)
         {
-            string week = (Constants.GetWeekOfClass(position.Time) == 0 ? "Нижняя" : "Верхняя") + " неделя";
+            string week = (Constants.GetWeekOfClass(position.Time) == 0 ? "Верхняя" : "Нижняя") + " неделя";
             int day = Constants.GetDayOfClass(position.Time);
             day = day >= Constants.DAYS_IN_WEEK ? day - Constants.DAYS_IN_WEEK : day;
             string dayString = ((DayOfWeek)(day + 1)).ToString();
