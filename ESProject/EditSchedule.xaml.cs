@@ -399,7 +399,7 @@ namespace Presentation
         private void DoubleClick(object sender, MouseButtonEventArgs e)
         {
             Label cell = (Label)sender;
-            TimeRows = (int)cell.GetValue(Grid.RowProperty);
+            TimeRows = (int)cell.GetValue(Grid.RowProperty) -1;
             if (RemovelistBox.SelectedIndex != -1)
             { 
             StudentsClass clas;
