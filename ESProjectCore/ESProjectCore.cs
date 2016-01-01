@@ -35,7 +35,7 @@ namespace ESCore
 
         public IEnumerable<ISchedule> Run()
         {
-            int sortCount = 10;
+            int sortCount = 2;
             FullSchedule[] schedules = new FullSchedule[sortCount];
             int[] fines = new int[sortCount];
             for (int sortIndex = 0; sortIndex < sortCount; sortIndex++)
@@ -214,7 +214,7 @@ namespace ESCore
         {
             if(sClass.Teacher.Length > 0)
             {
-                return sClass.Teacher[0].FLSName;
+                return sClass.Teacher[0].Name;
             }
             else
             {

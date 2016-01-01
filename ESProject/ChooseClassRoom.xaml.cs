@@ -100,7 +100,7 @@ namespace Presentation
                         textClass.Text = Sclas.Name;
                         foreach (Teacher item in Sclas.Teacher)
                         {
-                            textTeacher.Text += item.FLSName + " | ";
+                            textTeacher.Text += item.Name + " | ";
                         }
 
                         foreach (StudentSubGroup item in Sclas.SubGroups)

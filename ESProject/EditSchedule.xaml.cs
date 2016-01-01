@@ -152,7 +152,7 @@ namespace Presentation
             {
                 ClassRoom room = schedule.GetClassRoom(schedule.partSchedule[row - ROW_HEADER, col - COLUMN_HEADER]);
                 string teacher = schedule.partSchedule[row - ROW_HEADER, col - COLUMN_HEADER].Teacher.Length > 0 ?
-                    schedule.partSchedule[row - ROW_HEADER, col - COLUMN_HEADER].Teacher[0].FLSName :
+                    schedule.partSchedule[row - ROW_HEADER, col - COLUMN_HEADER].Teacher[0].Name :
                     "";
                 MessageBox.Show(String.Format("Пара: {0}\nАудитория: {1} (корпус {2})\nПреподаватель: {3}",
                     schedule.partSchedule[row - ROW_HEADER, col - COLUMN_HEADER].Name,

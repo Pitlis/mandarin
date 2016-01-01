@@ -11,11 +11,12 @@ namespace Domain.Model
     public class Teacher//класс преподавателей
     {
         public object ID { get;private set; }
-        public string FLSName { get; private set; }//Фио
         public Teacher(object ID, string FirstSecondSurName)
+        public string Name { get; private set; }
         {
             this.ID = ID;
             FLSName = FirstSecondSurName;
+            this.Name = Name;
         }
 
     }

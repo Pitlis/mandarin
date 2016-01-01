@@ -38,8 +38,8 @@ namespace Presentation
         {
 
 
-            Collection = new List<Teacher>(vip.storage.Teachers.OrderBy(i => !i.FLSName.ToLower().StartsWith(s)).
-                Where(item => item.FLSName.ToLower().Contains(s)));
+            Collection = new List<Teacher>(vip.storage.Teachers.OrderBy(i => !i.Name.ToLower().StartsWith(s)).
+                Where(item => item.Name.ToLower().Contains(s)));
             listBox.ItemsSource = Collection;
         }
 

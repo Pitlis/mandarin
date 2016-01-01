@@ -90,7 +90,7 @@ namespace Presentation.Code
                         str = sched[i].Name + " (" + clas.Housing + " а." + clas.Number + " )";
                         for (int n = 0; n < sched[i].Teacher.Length; n++)
                         {
-                            str = str + " " + sched[i].Teacher[n].FLSName;
+                            str = str + " " + sched[i].Teacher[n].Name;
                         }
 
                         ((Range)ObjWorkSheet.Cells[(i + 3 + ifor1), k]).ColumnWidth = 30;
@@ -105,7 +105,7 @@ namespace Presentation.Code
                         str = sched[i].Name + " (" + clas.Housing + " а." + clas.Number + " )";
                         for (int n = 0; n < sched[i].Teacher.Length; n++)
                         {
-                            str = str + " " + sched[i].Teacher[n].FLSName;
+                            str = str + " " + sched[i].Teacher[n].Name;
                         }
 
                         ((Range)ObjWorkSheet.Cells[(i - ifor2), k]).ColumnWidth = 30;
@@ -217,7 +217,7 @@ namespace Presentation.Code
                         str = sched[i].Name + " (" + clas.Housing + " а." + clas.Number + " )";
                         for (int n = 0; n < sched[i].Teacher.Length; n++)
                         {
-                            str = str + " " + sched[i].Teacher[n].FLSName;
+                            str = str + " " + sched[i].Teacher[n].Name;
                         }
 
                         ((Range)ObjWorkSheet.Cells[(i + 3 + ifor1), k]).ColumnWidth = 30;
@@ -232,7 +232,7 @@ namespace Presentation.Code
                         str = sched[i].Name + " (" + clas.Housing + " а." + clas.Number + " )";
                         for (int n = 0; n < sched[i].Teacher.Length; n++)
                         {
-                            str = str + " " + sched[i].Teacher[n].FLSName;
+                            str = str + " " + sched[i].Teacher[n].Name;
                         }
 
                         ((Range)ObjWorkSheet.Cells[(i - ifor2), k]).ColumnWidth = 30;
@@ -494,7 +494,7 @@ namespace Presentation.Code
                 sched = partSchedule.GetClasses();
                 int ifor1 = 0, ifor2 = 32;
                 ((Range)ObjWorkSheet.Cells[2, k]).Clear();
-                ((Range)ObjWorkSheet.Cells[2, k]).Value2 = teach.FLSName;
+                ((Range)ObjWorkSheet.Cells[2, k]).Value2 = teach.Name;
                 ((Range)ObjWorkSheet.Cells[2, k]).Orientation = 75;
 
                 for (int i = 0; i < (Domain.Services.Constants.CLASSES_IN_DAY * Domain.Services.Constants.DAYS_IN_WEEK * Domain.Services.Constants.WEEKS_IN_SCHEDULE); i++)

@@ -238,7 +238,7 @@ namespace Presentation.Code
                 {
                     if (classes[TimeRow, colIndex] != null && classes[TimeRow, colIndex].Teacher.Contains(teach))
                     {
-                        s += "\n" + teach.FLSName + ": " + classes[TimeRow, colIndex].Name;
+                        s += "\n" + teach.Name + ": " + classes[TimeRow, colIndex].Name;
                         break;
                     }
                 }

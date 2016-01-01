@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="VIP" Height="350" Width="757">
     <Grid>
-        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="250" Margin="30,44,0,0" VerticalAlignment="Top" Width="192" DisplayMemberPath="FLSName" SelectionChanged="listBox_SelectionChanged"/>
+        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="250" Margin="30,44,0,0" VerticalAlignment="Top" Width="192" DisplayMemberPath="Name" SelectionChanged="listBox_SelectionChanged"/>
         <ListBox x:Name="listBox1" Height="250" Margin="244,44,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="212" DisplayMemberPath="Name" SelectionChanged="listBox1_SelectionChanged"/>
         <Button x:Name="button" Content="..." HorizontalAlignment="Left" Margin="675,37,0,0" VerticalAlignment="Top" Width="55" RenderTransformOrigin="0.509,0" Click="button_Click" IsEnabled="False"/>
         <GroupBox x:Name="groupBox" Header="Время" HorizontalAlignment="Left" Margin="480,174,0,0" VerticalAlignment="Top" Height="99" Width="259">
