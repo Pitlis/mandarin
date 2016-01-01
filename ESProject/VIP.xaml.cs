@@ -155,7 +155,7 @@ namespace Presentation
                     z += comboBox1.SelectedIndex;
                 }
                 sub = (ClassRoom)listViewClassRoom.Items[0];
-                bool factor = false;
+                bool factor = false, factor1 = false;
                 foreach (var item in vip.LVIP)
                 {
                     if (item.Room == sub && item.Time == z)
@@ -174,26 +174,33 @@ namespace Presentation
                                 {
                                     item.Room = sub;
                                     item.Time = z;
+                                    factor1 = true;
+                                    MessageBox.Show("Всё ок");
                                 }
+
                             }
                         }
                         else { MessageBox.Show("В это время в этой аудитории уже стоит пара"); }
 
-                            if (!factor)
+                        if (!factor)
+                        {
+                            if (!factor1)
                             {
                                 VIPClases vi = new VIPClases(clas, z, sub);
                                 vip.LVIP.Add(vi);
                                 MessageBox.Show("Всё ок");
                             }
-                            else { MessageBox.Show("В это время в этой аудитории уже стоит пара"); }
 
+                        }
+                        else { MessageBox.Show("В это время в этой аудитории уже стоит пара"); }
 
-                            }
-                    }
-                    else
-                    {
 
                     }
+                }
+                else
+                {
+
+                }
                 vip.LVIPB = new List<VIPClasesBin>();
                 foreach (var item in vip.LVIP)
                 {

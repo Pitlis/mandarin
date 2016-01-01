@@ -163,6 +163,9 @@ namespace Presentation.Code
                             fine = 100;
                             obj = vip.LVIP;
                             break;
+                        case "SaturdayClassOneAtWeek":
+                            fine = 5;
+                            break;
                         default:
                             break;
                     }
