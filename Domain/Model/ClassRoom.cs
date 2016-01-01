@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Domain.Model
 {
     [Serializable]
-    public class ClassRoom
+    public class ClassRoom : IDomainIdentity<ClassRoom>
     {
         public int Number { get; private set; }//аудитория
         public int Housing { get; private set; }//корпус
@@ -21,7 +21,7 @@ namespace Domain.Model
         //по умолчанию - все типы первичные
 
 
-        public ClassRoom(int number, int housing, IEnumerable<ClassRoomType> types, BitArray mask = null)
+        public ClassRoom(int Id, int number, int housing, IEnumerable<ClassRoomType> types, BitArray mask = null)
         {
             Number = number;
             Housing = housing;
@@ -34,6 +34,7 @@ namespace Domain.Model
                     secondTypesMask[maskIndex] = mask[maskIndex];
                 }
             }
+            ((IDomainIdentity<ClassRoom>)this).ID = Id;
         }
 
         public IEnumerable<ClassRoomType> Types
@@ -47,7 +48,7 @@ namespace Domain.Model
             ClassRoomType[] requiredTypes = types.ToArray<ClassRoomType>();
             for (int i = 0; i < requiredTypes.Length; i++)
             {
-                if(!crTypes.Contains<ClassRoomType>(requiredTypes[i]))
+                if (!crTypes.Contains<ClassRoomType>(requiredTypes[i]))
                 {
                     return false;
                 }
@@ -70,5 +71,41 @@ namespace Domain.Model
         }
 
 
+        #region IDomainIdentity
+        int IDomainIdentity<ClassRoom>.ID { get; set; }
+        bool IDomainIdentity<ClassRoom>.EqualsByID(ClassRoom obj)
+        {
+            return ((IDomainIdentity<ClassRoom>)this).ID == ((IDomainIdentity<ClassRoom>)obj).ID;
+        }
+
+        bool IDomainIdentity<ClassRoom>.EqualsByParams(ClassRoom obj)
+        {
+            bool crTypesAreEquels = true;
+            if (obj.crTypes.Length == crTypes.Length)
+            {
+                for (int typeIndex = 0; typeIndex < crTypes.Length; typeIndex++)
+                {
+                    if (Array.Find(obj.crTypes, t => ((IDomainIdentity<ClassRoomType>)crTypes[typeIndex]).EqualsByParams(t)) == null)
+                    {
+                        crTypesAreEquels = false;
+                        break;
+                    }
+                }
+                for (int typeIndex = 0; typeIndex < obj.crTypes.Length; typeIndex++)
+                {
+                    if (Array.Find(crTypes, t => ((IDomainIdentity<ClassRoomType>)obj.crTypes[typeIndex]).EqualsByParams(t)) == null)
+                    {
+                        crTypesAreEquels = false;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                crTypesAreEquels = false;
+            }
+            return Number == obj.Number && Housing == obj.Housing && crTypesAreEquels;
+        }
+        #endregion
     }
 }

@@ -23,7 +23,7 @@ namespace Domain.Services
         {
             foreach (var item in storage.Teachers)
             {
-                var dublicats = from t in storage.Teachers where t.ID == item.ID && t.FLSName == item.FLSName select t;
+                var dublicats = from t in storage.Teachers where ((IDomainIdentity<Teacher>)t).EqualsByID(item) && t.Name == item.Name select t;
                 if (dublicats.Count() > 1)
                     throw new Exception("Дубликат объекта Teacher в хранилище");
             }

@@ -8,16 +8,27 @@ using System.Threading.Tasks;
 namespace Domain.Model
 {
     [Serializable]
-    public class Teacher//класс преподавателей
+    public class Teacher : IDomainIdentity<Teacher>
     {
-        public object ID { get;private set; }
-        public Teacher(object ID, string FirstSecondSurName)
         public string Name { get; private set; }
+        public Teacher(int Id, string Name)
         {
-            this.ID = ID;
-            FLSName = FirstSecondSurName;
             this.Name = Name;
+            ((IDomainIdentity<Teacher>)this).ID = Id;
         }
 
+
+        #region IDomainIdentity
+        int IDomainIdentity<Teacher>.ID { get; set; }
+        bool IDomainIdentity<Teacher>.EqualsByID(Teacher obj)
+        {
+            return ((IDomainIdentity<Teacher>)this).ID == ((IDomainIdentity<Teacher>)obj).ID;
+        }
+
+        bool IDomainIdentity<Teacher>.EqualsByParams(Teacher obj)
+        {
+            return Name == obj.Name;
+        }
+        #endregion
     }
 }

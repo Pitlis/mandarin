@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IDomainIdentity.cs" />
     <Compile Include="IFactor.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="ISchedule.cs" />

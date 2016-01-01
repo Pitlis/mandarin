@@ -47,12 +47,12 @@ namespace Presentation
                     bool Contains = false;
                     for (int i = 0; i < Sett.LFacult.Count; i++)
                     {
-                        if (Sett.LFacult[i].LGroop.Find((a)=>StudentSubGroup.EqualGroups(a, item))!=null)
+                        if (Sett.LFacult[i].LGroop.Find((a) => ((IDomainIdentity<StudentSubGroup>)a).EqualsByParams(item)) != null)
                         { Contains = true; break; }
                     }
                     if (Contains == false)
                     {
-                            if (Sett.UGroops.Find((a) => StudentSubGroup.EqualGroups(a, item)) == null)
+                            if (Sett.UGroops.Find((a) => ((IDomainIdentity<StudentSubGroup>)a).EqualsByParams(item)) == null)
                             { Sett.UGroops.Add(item); }
                         
                     }
