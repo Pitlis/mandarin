@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using Microsoft.Office.Interop.Excel;
-
-using Data;
 using Domain;
 using ESCore;
 using Domain.Services;
@@ -30,14 +28,18 @@ namespace Presentation.Code
         //TODO Заглушка для Dependency Inversion
         public void DI()
         {
-            Repo = new Repository();
+            Repo = new MockDataBase.MockRepository();
+            Repo.Init(null);
+
             FactorTypes = new Dictionary<Type, DataFactor>();
 
             AllocConsole();
             loggingService = new NLogLoggingService();
-            
-            storage = Repo.GetEntityStorage();
-            classes = Repo.GetStudentsClasses(storage).ToArray();
+
+            DataConvertor.DomainData data = DataConvertor.ConvertData(Repo.GetTeachers(), Repo.GetStudentsGroups(), Repo.GetClassRoomsTypes(), Repo.GetClassRooms(), Repo.GetStudentsClasses());
+
+            storage = data.eStorage;
+            classes = data.sClasses;
             vip = new Setting(storage, classes);
             loggingService.Info("Загружены данные");
 

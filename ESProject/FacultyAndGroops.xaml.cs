@@ -7,8 +7,8 @@ using System.Windows;
 using System.Windows.Controls;
 using Domain.Services;
 using Domain;
-using Data;
 using Domain.Model;
+using ESCore;
 
 namespace Presentation
 {
@@ -23,8 +23,10 @@ namespace Presentation
         public FacultyAndGroops(/*EntityStorage storage*/)
         {
             InitializeComponent();
-            Repo = new Repository();
-            storage = Repo.GetEntityStorage();
+            Repo = new MockDataBase.MockRepository();
+            DataConvertor.DomainData data = DataConvertor.ConvertData(Repo.GetTeachers(), Repo.GetStudentsGroups(), Repo.GetClassRoomsTypes(), Repo.GetClassRooms(), Repo.GetStudentsClasses());
+
+            storage = data.eStorage;
             //this.storage = storage;
 
         }

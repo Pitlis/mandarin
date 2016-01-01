@@ -9,7 +9,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using Domain;
 using Domain.Model;
 using Domain.Services;
-using Data;
+using ESCore;
 
 namespace Presentation.Code
 {
@@ -25,10 +25,13 @@ namespace Presentation.Code
         public Setting()
         {
             LVIP = new List<VIPClases>();
-            Repo = new Repository();
+            Repo = new MockDataBase.MockRepository();
+            Repo.Init(null);
+            DataConvertor.DomainData data = DataConvertor.ConvertData(Repo.GetTeachers(), Repo.GetStudentsGroups(), Repo.GetClassRoomsTypes(), Repo.GetClassRooms(), Repo.GetStudentsClasses());
+
             LVIPB = new List<VIPClasesBin>();
-            storage = Repo.GetEntityStorage();
-            Clases = Repo.GetStudentsClasses(storage).ToArray();
+            storage = data.eStorage;
+            Clases = data.sClasses;
             BinaryFormatter formatter = new BinaryFormatter();
 
             

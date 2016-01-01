@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Windows;
-using Data;
 using Domain;
 using Domain.Services;
 using Domain.Model;
 using System.Reflection;
 using System.IO;
 using System.Xml.Serialization;
+using ESCore;
 
 namespace Presentation
 {
@@ -42,9 +42,12 @@ namespace Presentation
             EntityStorage storage;
             StudentsClass[] classes;
             IRepository Repo;
-            Repo = new Repository();
-            storage = Repo.GetEntityStorage();
-            classes = Repo.GetStudentsClasses(storage).ToArray();
+            Repo = new MockDataBase.MockRepository();
+            Repo.Init(null);
+            DataConvertor.DomainData data = DataConvertor.ConvertData(Repo.GetTeachers(), Repo.GetStudentsGroups(), Repo.GetClassRoomsTypes(), Repo.GetClassRooms(), Repo.GetStudentsClasses());
+
+            storage = data.eStorage;
+            classes = data.sClasses;
             Assembly asm = Assembly.Load("FactorsWindows");
             foreach (var factor in asm.GetTypes())
             {
