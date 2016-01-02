@@ -18,6 +18,7 @@ namespace Domain.Services
         {
             Dublicats(storage);
             IncorrectReferences(classes, storage);
+            UniqueId(classes, storage);
         }
         static void Dublicats(EntityStorage storage)
         {
@@ -44,6 +45,74 @@ namespace Domain.Services
                 var dublicats = from c in storage.ClassRooms where c.Housing == item.Housing && c.Number == item.Number select c;
                 if (dublicats.Count() > 1)
                     throw new Exception("Дубликат объекта ClassRooms в хранилище");
+            }
+        }
+        static void UniqueId(IEnumerable<StudentsClass> classes, EntityStorage storage)
+        {
+            List<int> classesId = new List<int>();
+            foreach (StudentsClass item in classes)
+            {
+                int id = ((IDomainIdentity<StudentsClass>)item).ID;
+                if(classesId.Contains(id))
+                {
+                    throw new Exception("Повторяющийся Id в списке занятий");
+                }
+                else
+                {
+                    classesId.Add(id);
+                }
+            }
+            List<int> teacherId = new List<int>();
+            foreach (Teacher item in storage.Teachers)
+            {
+                int id = ((IDomainIdentity<Teacher>)item).ID;
+                if (teacherId.Contains(id))
+                {
+                    throw new Exception("Повторяющийся Id в списке преподавателей");
+                }
+                else
+                {
+                    teacherId.Add(id);
+                }
+            }
+            List<int> typeId = new List<int>();
+            foreach (ClassRoomType item in storage.ClassRoomsTypes)
+            {
+                int id = ((IDomainIdentity<ClassRoomType>)item).ID;
+                if (typeId.Contains(id))
+                {
+                    throw new Exception("Повторяющийся Id в списке типов аудиторий");
+                }
+                else
+                {
+                    typeId.Add(id);
+                }
+            }
+            List<int> roomId = new List<int>();
+            foreach (ClassRoom item in storage.ClassRooms)
+            {
+                int id = ((IDomainIdentity<ClassRoom>)item).ID;
+                if (roomId.Contains(id))
+                {
+                    throw new Exception("Повторяющийся Id в списке аудиторий");
+                }
+                else
+                {
+                    roomId.Add(id);
+                }
+            }
+            List<int> groupId = new List<int>();
+            foreach (StudentSubGroup item in storage.StudentSubGroups)
+            {
+                int id = ((IDomainIdentity<StudentSubGroup>)item).ID;
+                if (groupId.Contains(id))
+                {
+                    throw new Exception("Повторяющийся Id в списке групп");
+                }
+                else
+                {
+                    groupId.Add(id);
+                }
             }
         }
 

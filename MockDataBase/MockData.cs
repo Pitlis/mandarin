@@ -91,7 +91,7 @@ namespace MockDataBase
             cl[16] = new DBClassRoom(16, 516, 2, new List<int> { 2 });
             cl[17] = new DBClassRoom(17, 511, 2, new List<int> { 2 });
             cl[18] = new DBClassRoom(18, 514, 2, new List<int> { 3, 1 });
-            cl[19] = new DBClassRoom(18, 311, 4, new List<int> { 3 });
+            cl[19] = new DBClassRoom(19, 311, 4, new List<int> { 3 });
             cl[20] = new DBClassRoom(20, 405, 2, new List<int> { 1 });
             cl[21] = new DBClassRoom(21, 404, 2, new List<int> { 3, 4 });
             cl[22] = new DBClassRoom(22, 207, 2, new List<int> { 4 });
