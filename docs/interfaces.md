@@ -5,7 +5,7 @@
 
 **Список интерфейсов:**
 
-* [IDomainIdentity](#IDomainIdentity)
+* [IDomainIdentity](#idomainidentity)
 * IFactor.cs
 * IRepository.cs
 
