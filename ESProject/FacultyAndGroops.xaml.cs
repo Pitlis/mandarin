@@ -23,7 +23,8 @@ namespace Presentation
         public FacultyAndGroops(/*EntityStorage storage*/)
         {
             InitializeComponent();
-            Repo = new MockDataBase.MockRepository();
+            Repo = new Data.DataRepository();
+            //Repo = new MockDataBase.MockRepository();
             DataConvertor.DomainData data = DataConvertor.ConvertData(Repo.GetTeachers(), Repo.GetStudentsGroups(), Repo.GetClassRoomsTypes(), Repo.GetClassRooms(), Repo.GetStudentsClasses());
 
             storage = data.eStorage;
@@ -34,8 +35,9 @@ namespace Presentation
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Sett = new Code.FacultAndGroop();
-            if (File.Exists("Settings.dat")) {
-            Sett = Code.Save.LoadSettings();
+            if (File.Exists("Settings.dat"))
+            {
+                Sett = Code.Save.LoadSettings();
             }
             foreach (string item in Sett.NameFacult)
             {
@@ -54,9 +56,9 @@ namespace Presentation
                     }
                     if (Contains == false)
                     {
-                            if (Sett.UGroops.Find((a) => ((IDomainIdentity<StudentSubGroup>)a).EqualsByParams(item)) == null)
-                            { Sett.UGroops.Add(item); }
-                        
+                        if (Sett.UGroops.Find((a) => ((IDomainIdentity<StudentSubGroup>)a).EqualsByParams(item)) == null)
+                        { Sett.UGroops.Add(item); }
+
                     }
                 }
             }
@@ -135,7 +137,7 @@ namespace Presentation
 
         private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
-            int index=DisplayGroopView.SelectedIndex;
+            int index = DisplayGroopView.SelectedIndex;
             Sett.UGroops.Add((StudentSubGroup)DisplayGroopView.SelectedItem);
             Sett.RemoveGroop(comboBox.SelectedItem.ToString(), (StudentSubGroup)DisplayGroopView.SelectedItem);
             DisplayGroopView.ItemsSource = null;

@@ -28,9 +28,11 @@ namespace Presentation.Code
         //TODO Заглушка для Dependency Inversion
         public void DI()
         {
-            Repo = new MockDataBase.MockRepository();
-            Repo.Init(null);
+            Repo = new Data.DataRepository();
+            Repo.Init(new string[] { @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=C:\USERS\СЕРГЕЙ\DOCUMENTS\ESPROJECT\ESPROJECT\BIN\DEBUG\BD4.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" });
 
+            //Repo = new MockDataBase.MockRepository();
+            //Repo.Init(null);
             FactorTypes = new Dictionary<Type, DataFactor>();
 
             AllocConsole();
@@ -216,8 +218,8 @@ namespace Presentation.Code
 
             Save.SaveSchedule((FullSchedule)schedules[0]);
         }
-        
-        
+
+
         //группировка пар, если пара встречается только два раза за две недели
         StudentsClass[,] GetGroupTwoSameClasses(StudentsClass[] classes)
         {
@@ -262,9 +264,9 @@ namespace Presentation.Code
                     int countClasses = sameClasses.Count;
                     if (countClasses % 2 == 1)
                         countClasses--;
-                    for (int pairIndex = 0; pairIndex < countClasses; pairIndex+=2)
+                    for (int pairIndex = 0; pairIndex < countClasses; pairIndex += 2)
                     {
-                        pairsClasses.Add(new StudentClassPair(sameClasses[pairIndex], sameClasses[pairIndex+1]));
+                        pairsClasses.Add(new StudentClassPair(sameClasses[pairIndex], sameClasses[pairIndex + 1]));
                     }
                 }
             }
@@ -327,7 +329,7 @@ namespace Presentation.Code
                     {
                         groupSameClasses.Add(cl);
                     }
-                    if(groupSameClasses.Count > 1)
+                    if (groupSameClasses.Count > 1)
                     {
                         listOfGroupSameClasses.Add(groupSameClasses);
                     }

@@ -17,7 +17,7 @@ namespace Presentation.Code
     {
         public IRepository Repo { get; private set; }
         public List<VIPClasesBin> LVIPB { get; set; }
-        public List<VIPClases> LVIP { get;  set; }
+        public List<VIPClases> LVIP { get; set; }
         public EntityStorage storage { get; set; }
         public StudentsClass[] Clases { get; set; }
 
@@ -25,8 +25,11 @@ namespace Presentation.Code
         public Setting()
         {
             LVIP = new List<VIPClases>();
-            Repo = new MockDataBase.MockRepository();
-            Repo.Init(null);
+            //Repo = new MockDataBase.MockRepository();
+            //Repo.Init(null);
+            Repo = new Data.DataRepository();
+            Repo.Init(new string[] { @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=C:\USERS\СЕРГЕЙ\DOCUMENTS\ESPROJECT\ESPROJECT\BIN\DEBUG\BD4.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" });
+
             DataConvertor.DomainData data = DataConvertor.ConvertData(Repo.GetTeachers(), Repo.GetStudentsGroups(), Repo.GetClassRoomsTypes(), Repo.GetClassRooms(), Repo.GetStudentsClasses());
 
             LVIPB = new List<VIPClasesBin>();
@@ -34,7 +37,7 @@ namespace Presentation.Code
             Clases = data.sClasses;
             BinaryFormatter formatter = new BinaryFormatter();
 
-            
+
             if (File.Exists("Setting.dat"))
             {
 
@@ -48,10 +51,10 @@ namespace Presentation.Code
                     VIPClases n = new VIPClases(Clases[item.Cla], item.Time, storage.ClassRooms[item.Aud]);
                     LVIP.Add(n);
                 }
-               
+
             }
-            
-            
+
+
 
         }
         public Setting(EntityStorage storage, StudentsClass[] Clases)
@@ -114,7 +117,7 @@ namespace Presentation.Code
 
         public StudentsClass[] GetVipClasses()
         {
-            if(LVIP != null)
+            if (LVIP != null)
             {
                 StudentsClass[] vipClasses = new StudentsClass[LVIP.Count];
                 for (int classIndex = 0; classIndex < LVIP.Count; classIndex++)

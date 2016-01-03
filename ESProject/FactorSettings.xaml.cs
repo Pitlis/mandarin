@@ -42,8 +42,11 @@ namespace Presentation
             EntityStorage storage;
             StudentsClass[] classes;
             IRepository Repo;
-            Repo = new MockDataBase.MockRepository();
-            Repo.Init(null);
+            //Repo = new MockDataBase.MockRepository();
+            //Repo.Init(null);
+            Repo = new Data.DataRepository();
+            Repo.Init(new string[] { @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=C:\USERS\СЕРГЕЙ\DOCUMENTS\ESPROJECT\ESPROJECT\BIN\DEBUG\BD4.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" });
+
             DataConvertor.DomainData data = DataConvertor.ConvertData(Repo.GetTeachers(), Repo.GetStudentsGroups(), Repo.GetClassRoomsTypes(), Repo.GetClassRooms(), Repo.GetStudentsClasses());
 
             storage = data.eStorage;
@@ -321,14 +324,14 @@ namespace Presentation
                 bool contain = false;
                 for (int i = 0; i < Lfac.Count; i++)
                 {
-                    if (Lfac[i].Name == factors[factorIndex].GetName()) { contain = true;  break; }
+                    if (Lfac[i].Name == factors[factorIndex].GetName()) { contain = true; break; }
                 }
-                if(contain == false)
+                if (contain == false)
                 {
                     Fac fac = new Fac(factors[factorIndex].GetName(), 0, factors[factorIndex].GetDescription());
                     Lfac.Add(fac);
                 }
-                 
+
 
                 factorIndex++;
 
