@@ -14,7 +14,7 @@ namespace Data
         SqlConnection connection;
         public List<string> GetParametersNames()
         {
-            return new List<string>();
+            return new List<string>() { "Строка подключения" };
         }
 
         public bool Init(string[] connectionStrings)
