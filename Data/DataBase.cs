@@ -10,259 +10,158 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
 using System.IO;
-
+using Domain.DataBaseTypes;
 namespace Data
 {
-//    class DataBase
-//    {
-//        int[] MappingType,MappingTeachers,MappingGroups;
-//        SqlConnection connection;
-//       public  ClassRoom[] ClassRooms { get; private set; }
-//       public ClassRoomType[] ClassRoomsTypes { get; private set; }
-//       public StudentSubGroup[] StudentSubGroups { get; private set; }
-//       public Teacher[] Teachers { get; private set; }
-//     void Connect()
-//        {
-//            ConnectionStringSettings config_str;
-//            config_str = ConfigurationManager.ConnectionStrings["DB_localdb"];
-//            string path = System.Environment.CurrentDirectory + "\\filepath.txt";
-//            string filepath_db = System.Environment.CurrentDirectory + "\\bd4.mdf";
-//            FileInfo fi1;
-//            if (System.IO.File.Exists(path))//проверка на существование файла настроек
-//            {
-//                fi1 = new FileInfo(path);
-//                using (StreamReader sr = fi1.OpenText())
-//                {
-//                    string s = sr.ReadLine();
-//                    if (System.IO.File.Exists(s))//проверка на путь в нем
-//                    {
-//                        filepath_db = s;
-//                    }
-//                }
-//            }
-//            SqlConnectionStringBuilder strokapodkl = new SqlConnectionStringBuilder(config_str.ConnectionString);
-//            strokapodkl.AttachDBFilename = filepath_db;
-//            connection = new SqlConnection(strokapodkl.ConnectionString);
-//            try
-//            {
-//                connection.Open();
-//            }
-//            catch
-//            {
-//                throw new Exception("Возможно отсутствует БД");
-//            }
-
-//        }
-//        public DataBase()
-//       {
-//           Connect();
-//           FilingTypes();
-//           FilingRooms();
-//           FilingGroups();
-//           FilingTeachers();
-          
-//       }
-//         public EntityStorage GetES()
-//        {
-//            return  new EntityStorage(ClassRoomsTypes, StudentSubGroups, Teachers, ClassRooms);
-//        }
-         
-//         void FilingTeachers()
-//        {
-//            DateTime start = DateTime.Now;
-//            SqlDataAdapter sqladapter = new SqlDataAdapter("select IDTeachers,LName from Teachers", connection);
-//            SqlCommandBuilder  sqlcmd = new SqlCommandBuilder(sqladapter);
-//            DataTable dt = new DataTable();          
-//            sqladapter.Fill(dt);
-//            int n = dt.Rows.Count;
-//            Teachers = new Teacher[n];
-//            MappingTeachers = new int[n];
-//            for (int i = 0; i < n; i++)
-//            {
-//                Teachers[i] = new Teacher(Convert.ToInt32(dt.Rows[i][0].ToString()), dt.Rows[i][1].ToString().ToUpper());
-//                MappingTeachers[i] = Convert.ToInt32((dt.Rows[i][0].ToString()));
-//            }
-//            DateTime now = DateTime.Now;
-//            TimeSpan time = now - start; 
-//        }
-//         void FilingGroups()
-//       {
-//           DateTime start = DateTime.Now;
-//           SqlDataAdapter sqladapter = new SqlDataAdapter("select IDGroups,NameGroup,NumberSubGroup from SubGroups", connection);
-//           SqlCommandBuilder sqlcmd = new SqlCommandBuilder(sqladapter);
-//           DataTable dt = new DataTable();
-//           sqladapter.Fill(dt);
-//           int n = dt.Rows.Count;
-//           StudentSubGroups = new StudentSubGroup[n];
-//           MappingGroups = new int[n];
-//           for (int i = 0; i < n; i++)
-//           {
-//               StudentSubGroups[i] = new StudentSubGroup(dt.Rows[i][1].ToString().ToUpper(), Convert.ToByte(dt.Rows[i][2].ToString()));
-//               MappingGroups[i] = Convert.ToInt32((dt.Rows[i][0].ToString())); 
-//           }
-//           DateTime now = DateTime.Now;
-//           TimeSpan time = now - start;
-//       }
-//        public void FilingTypes()
-//        {
-//            DateTime start = DateTime.Now;
-//            SqlDataAdapter sqladapter = new SqlDataAdapter("select IDTypes,Description from Types order by IDTypes asc", connection);
-//            SqlCommandBuilder sqlcmd = new SqlCommandBuilder(sqladapter);
-//            DataTable dt = new DataTable();
-//            sqladapter.Fill(dt);
-//            int n = dt.Rows.Count;
-//            ClassRoomsTypes = new ClassRoomType[n];
-//            MappingType = new int[n];
-//            for (int i = 0; i < n; i++)
-//            {
-//                ClassRoomsTypes[i] = new ClassRoomType(dt.Rows[i][1].ToString());
-//                MappingType[i] = Convert.ToInt32((dt.Rows[i][0].ToString()));              
-//            }
-//            DateTime now = DateTime.Now;
-//            TimeSpan time = now - start;
-//        }
-//       public  void FilingClasses(ref StudentsClass[] SC, EntityStorage ES)
-//       {
-//           SqlDataAdapter sqladapter = new SqlDataAdapter("select ID,Name,Count from Classes order by ID asc", connection);
-//           SqlCommandBuilder sqlcmd = new SqlCommandBuilder(sqladapter);
-//           DataTable dt = new DataTable();
-//           sqladapter.Fill(dt);
-//           sqladapter = new SqlDataAdapter("select Sum(Count) from Classes ", connection);
-//           sqlcmd = new SqlCommandBuilder(sqladapter);
-//           DataTable dtcountn = new DataTable();
-//           sqladapter.Fill(dtcountn);
-//           int n =Convert.ToInt32(dtcountn.Rows[0][0].ToString());
-//           SC = new StudentsClass[n];
-//           int kl = 0;
-//           for (int i = 0; i <dt.Rows.Count;i++ )
-//           {
-//               //список типов всех получаем
-//               string s = "select IDTypes from ClassesTypes where ID=" + dt.Rows[i][0] + " order by IDTypes asc";
-//               SqlDataAdapter sqladapter1 = new SqlDataAdapter(s, connection);
-//               SqlCommandBuilder sqlcmd1 = new SqlCommandBuilder(sqladapter1);
-//               DataTable dt1 = new DataTable();
-//               sqladapter1.Fill(dt1);
-//               ClassRoomType[] ClassRoomsTypes1 = new ClassRoomType[dt1.Rows.Count];
-//               for (int j = 0; j < dt1.Rows.Count; j++)
-//               {
-//                   int tip = Convert.ToInt32(dt1.Rows[j][0].ToString());
-//                   int nomertype = 0;
-//                   //получение номера типа в массивe
-//                   for (int h = 0; h < MappingType.Count(); h++)
-//                   {
-//                       if (MappingType[h] == tip)
-//                       {
-//                           nomertype = h;
-//                           h = MappingType.Count();
-//                           ClassRoomsTypes1[j] =ES.ClassRoomsTypes[nomertype];                        
-//                       }
-//                   }
-//               }
-//               //////////////
-//               s = "select IDTeachers from ClassesTeachers where ID=" + dt.Rows[i][0] + " order by IDTeachers asc";
-//               sqladapter1 = new SqlDataAdapter(s, connection);
-//               sqlcmd1 = new SqlCommandBuilder(sqladapter1);
-//               dt1 = new DataTable();
-//               sqladapter1.Fill(dt1);
-//               Teacher[] T = new Teacher[dt1.Rows.Count];
-//               for (int j = 0; j < dt1.Rows.Count; j++)
-//               {
-//                   int tip = Convert.ToInt32(dt1.Rows[j][0].ToString());
-//                   int nomertype = 0;
-//                   //получение номера типа в массивe
-//                   for (int h = 0; h < MappingTeachers.Count(); h++)
-//                   {
-//                       if (MappingTeachers[h] == tip)
-//                       {
-//                           nomertype = h;
-//                           h = MappingTeachers.Count();
-//                          T[j] =ES.Teachers[nomertype];
-//                       }
-//                   }
-//               }
-//               /////////////////
-//               s = "select IDGroups from ClassesSubGroups where ID=" + dt.Rows[i][0] + " order by IDGroups asc";
-//               sqladapter1 = new SqlDataAdapter(s, connection);
-//               sqlcmd1 = new SqlCommandBuilder(sqladapter1);
-//               dt1 = new DataTable();
-//               sqladapter1.Fill(dt1);
-//               StudentSubGroup[] S = new StudentSubGroup[dt1.Rows.Count];
-//               for (int j = 0; j < dt1.Rows.Count; j++)
-//               {
-//                   int tip = Convert.ToInt32(dt1.Rows[j][0].ToString());
-//                   int nomertype = 0;
-                   
-//                   //получение номера типа в массивe
-//                   for (int h = 0; h < MappingGroups.Count(); h++)
-//                   {
-//                       if (MappingGroups[h] == tip)
-//                       {
-//                           nomertype = h;
-//                           h = MappingGroups.Count();
-//                           S[j] =ES.StudentSubGroups[nomertype];
-//                       }
-//                   }
-//               }
-//               if (T.Count() == 0) T = new Teacher[]{};
-//               ////////////
-//               for (int t=0; t < Convert.ToInt32(dt.Rows[i][2].ToString());t++)
-//			{
-//                SC[kl] = new StudentsClass(S, T, dt.Rows[i][1].ToString().ToUpper(), ClassRoomsTypes1);
-//                kl++;
-//			}
-             
+    static class DataBase
+    {
+        static DataTable FilingDT(SqlCommand command)
+        {
+            DataTable DT = new DataTable();
+            SqlDataAdapter sqladapter = new SqlDataAdapter(command);
+            SqlCommandBuilder sqlcmd = new SqlCommandBuilder(sqladapter);
+            sqladapter.Fill(DT);
+            return DT;
+        }
+        public static List<DBTeacher> GetTeachers(SqlConnection connection)
+        {
+            string commandText = "select IDTeachers,LName,FName,SName from Teachers order by  IDTeachers Asc";
+            SqlCommand command = new SqlCommand(commandText, connection);
+            DataTable dtTeachers = FilingDT(command);
+            DBTeacher[] teachers = new DBTeacher[dtTeachers.Rows.Count];
+            for (int rowIndex = 0; rowIndex < dtTeachers.Rows.Count; rowIndex++)
+            {
+                string fullnameteacher = dtTeachers.Rows[rowIndex][1].ToString().ToUpper() + " "
+                                        + dtTeachers.Rows[rowIndex][2].ToString().ToUpper()[0] + "."
+                                        + dtTeachers.Rows[rowIndex][3].ToString().ToUpper()[0] + ".";
+                teachers[rowIndex] = new DBTeacher(Convert.ToInt32(dtTeachers.Rows[rowIndex][0].ToString()),
+                                                   fullnameteacher);
+            }
+            return teachers.ToList();
+        }
+        public static List<DBStudentSubGroup> GetGroups(SqlConnection connection)
+        {
+            string commandText = "select IDGroups,NameGroup,NumberSubGroup from SubGroups order by  IDGroups Asc ";
+            SqlCommand command = new SqlCommand(commandText, connection);
+            DataTable dtSubGroups = FilingDT(command);
+            DBStudentSubGroup[] studentSubGroups = new DBStudentSubGroup[dtSubGroups.Rows.Count];
+            for (int rowIndex = 0; rowIndex < dtSubGroups.Rows.Count; rowIndex++)
+            {
+                studentSubGroups[rowIndex] = new DBStudentSubGroup(Convert.ToInt32(dtSubGroups.Rows[rowIndex][0].ToString()),
+                                                          dtSubGroups.Rows[rowIndex][1].ToString().ToUpper(),
+                                                          Convert.ToByte(dtSubGroups.Rows[rowIndex][2].ToString()));
+            }
+            return studentSubGroups.ToList();
+        }
+        public static List<DBClassRoomType> GetRoomTypes(SqlConnection connection)
+        {
+            string commandText = "select IDTypes, Description from Types order by IDTypes asc";
+            SqlCommand command = new SqlCommand(commandText, connection);
+            DataTable dtRoomTypes = FilingDT(command);
+            DBClassRoomType[] сlassRoomsTypes = new DBClassRoomType[dtRoomTypes.Rows.Count];
+            for (int rowIndex = 0; rowIndex < dtRoomTypes.Rows.Count; rowIndex++)
+            {
+                сlassRoomsTypes[rowIndex] = new DBClassRoomType(Convert.ToInt32(dtRoomTypes.Rows[rowIndex][0].ToString()),
+                                                                 dtRoomTypes.Rows[rowIndex][1].ToString());
+            }
+            return сlassRoomsTypes.ToList();
+        }
+        public static List<DBClassRoom> GetClassRooms(SqlConnection connection)
+        {
+            string commandText = "select IDrooms,Housing,Number from ClassRooms order by IDrooms asc";
+            SqlCommand command = new SqlCommand(commandText, connection);
+            DataTable dtClassRooms = FilingDT(command);
+            DBClassRoom[] classRooms = new DBClassRoom[dtClassRooms.Rows.Count];
+            for (int rowIndexRooms = 0; rowIndexRooms < dtClassRooms.Rows.Count; rowIndexRooms++)
+            {
+                //список всех типов  для данной аудитории получаем
+                commandText = "select IDTypes,flag from ClassRoomsTypes where IDrooms=@IDrooms order by IDTypes asc";
+                command = new SqlCommand(commandText, connection);
+                command.Parameters.AddWithValue("@IDrooms", Convert.ToInt32(dtClassRooms.Rows[rowIndexRooms][0].ToString()));
+                DataTable dttypes = FilingDT(command);
+                int[] ClassRoomsTypesRoom = new int[dttypes.Rows.Count];
+                BitArray secondTypesMask = new BitArray(dttypes.Rows.Count, false);
+                for (int rowIndexTypes = 0; rowIndexTypes < dttypes.Rows.Count; rowIndexTypes++)
+                {
+                    ClassRoomsTypesRoom[rowIndexTypes] = Convert.ToInt32(dttypes.Rows[rowIndexTypes][0].ToString());
+                    if (Convert.ToInt32(dttypes.Rows[rowIndexTypes][1].ToString()) == 1)
+                    {
+                        secondTypesMask[rowIndexTypes] = true;
+                    }
+                }
+                classRooms[rowIndexRooms] = new DBClassRoom(Convert.ToInt32(dtClassRooms.Rows[rowIndexRooms][0].ToString()),
+                                                Convert.ToInt32(dtClassRooms.Rows[rowIndexRooms][2].ToString()),
+                                                Convert.ToInt32(dtClassRooms.Rows[rowIndexRooms][1].ToString()),
+                                                ClassRoomsTypesRoom.ToList(),
+                                                secondTypesMask);
+            }
+            return classRooms.ToList();
+        }
+        public static List<DBStudentsClass> GetStudentClasses(SqlConnection connection)
+        {
+            string commandText = "select ID,Name,Count from Classes order by ID asc";
+            SqlCommand command = new SqlCommand(commandText, connection);
+            DataTable dtStudentClasses = FilingDT(command);
+            commandText = "select Sum(Count) from Classes ";
+            command = new SqlCommand(commandText, connection);
+            DataTable dtcount = FilingDT(command);
+            int countClasses = Convert.ToInt32(dtcount.Rows[0][0].ToString());
+            DBStudentsClass[] studentsClass = new DBStudentsClass[countClasses];
+            int posIndexClasses = 0;
+            for (int rowIndexClasses = 0; rowIndexClasses < dtStudentClasses.Rows.Count; rowIndexClasses++)
+            {
+                //список типов всех получаем
+                commandText = "select IDTypes from ClassesTypes where ID=@ID order by IDTypes asc";
+                command = new SqlCommand(commandText, connection);
+                command.Parameters.AddWithValue("@ID", Convert.ToInt32(dtStudentClasses.Rows[rowIndexClasses][0].ToString()));
+                DataTable dtClassTypes = FilingDT(command);
+                int[] classRoomsTypesClass = new int[dtClassTypes.Rows.Count];
+                for (int rowIndexTypes = 0; rowIndexTypes < dtClassTypes.Rows.Count; rowIndexTypes++)
+                {
+                    int id = Convert.ToInt32(dtClassTypes.Rows[rowIndexTypes][0].ToString());
+                    classRoomsTypesClass[rowIndexTypes] = id;
+                }
+                //////////////
+                commandText = "select IDTeachers from ClassesTeachers where ID=@ID order by IDTeachers asc";
+                command = new SqlCommand(commandText, connection);
+                command.Parameters.AddWithValue("@ID", Convert.ToInt32(dtStudentClasses.Rows[rowIndexClasses][0].ToString()));
+                DataTable dtclassTeachers = FilingDT(command);
+                int[] teachersClass = new int[dtclassTeachers.Rows.Count];
+                for (int rowIndexTeachers = 0; rowIndexTeachers < dtclassTeachers.Rows.Count; rowIndexTeachers++)
+                {
+                    int id = Convert.ToInt32(dtclassTeachers.Rows[rowIndexTeachers][0].ToString());
+                    teachersClass[rowIndexTeachers] = id;
+                }
+                /////////////////
+                commandText = "select IDGroups from ClassesSubGroups where ID=@ID order by IDGroups asc";
+                command = new SqlCommand(commandText, connection);
+                command.Parameters.AddWithValue("@ID", Convert.ToInt32(dtStudentClasses.Rows[rowIndexClasses][0].ToString()));
+                DataTable dtclassSubGroup = FilingDT(command);
+                int[] studentSubGroup = new int[dtclassSubGroup.Rows.Count];
+                for (int rowIndexSubGroup = 0; rowIndexSubGroup < dtclassSubGroup.Rows.Count; rowIndexSubGroup++)
+                {
+                    int id = Convert.ToInt32(dtclassSubGroup.Rows[rowIndexSubGroup][0].ToString());
+                    studentSubGroup[rowIndexSubGroup] = id;
+                }
+                if (teachersClass.Count() == 0) teachersClass = new int[] { };//????????
+                ////////////
+                for (int countClass = 0; countClass < Convert.ToInt32(dtStudentClasses.Rows[rowIndexClasses][2].ToString()); countClass++)
+                {
+                    studentsClass[posIndexClasses] = new DBStudentsClass(posIndexClasses,
+                                                            studentSubGroup,
+                                                            teachersClass,
+                                                            dtStudentClasses.Rows[rowIndexClasses][1].ToString().ToUpper(),
+                                                            classRoomsTypesClass);
+                    posIndexClasses++;
+                }
 
 
-
-
-//           }
-//           connection.Close();
-//       }
-//        void FilingRooms()
-//       {
-//           DateTime start = DateTime.Now;
-//           SqlDataAdapter sqladapter = new SqlDataAdapter("select IDrooms,Housing,Number from ClassRooms order by IDrooms asc", connection);
-//           SqlCommandBuilder sqlcmd = new SqlCommandBuilder(sqladapter);
-//           DataTable dt = new DataTable();
-//           sqladapter.Fill(dt);
-//           int n = dt.Rows.Count;
-//           ClassRooms = new ClassRoom[n];
-//           for (int i = 0; i < n; i++)
-//           {
-//               //список типов всех получаем
-//               string s = "select IDTypes,flag from ClassRoomsTypes where IDrooms=" + dt.Rows[i][0] + " order by IDTypes asc";
-//               SqlDataAdapter sqladapter1 = new SqlDataAdapter(s, connection);
-//               SqlCommandBuilder sqlcmd1 = new SqlCommandBuilder(sqladapter1);
-//               DataTable dt1 = new DataTable();
-//               sqladapter1.Fill(dt1);
-//               ClassRoomType[] ClassRoomsTypes1 = new ClassRoomType[dt1.Rows.Count];
-//               BitArray m = new BitArray(dt1.Rows.Count, false);
-//               for (int j = 0; j < dt1.Rows.Count; j++)
-//               {
-//                   int tip = Convert.ToInt32(dt1.Rows[j][0].ToString());
-//                   int nomertype=0;
-//                   //получение номера типа в массивe
-//                   for (int h = 0; h < MappingType.Count(); h++)
-//                   {
-//                       if(MappingType[h]==tip)
-//                       {
-//                           nomertype = h;
-//                           h = MappingType.Count();
-//                           ClassRoomsTypes1[j] = ClassRoomsTypes[nomertype];
-//                           //проверка на обязательность
-//                           if (Convert.ToInt32(dt1.Rows[j][1].ToString()) == 1) m[j]=true ;
-//                       }
-//                   }                    
-//               }
-//               ClassRooms[i] = new ClassRoom(Convert.ToInt32(dt.Rows[i][2].ToString()), Convert.ToInt32(Convert.ToInt32(dt.Rows[i][1].ToString())), ClassRoomsTypes1, m);
-//           }
-//           DateTime now = DateTime.Now;
-//           TimeSpan time = now - start;
-
-
-//       }
-
-
-
-//    }
+            }
+            return studentsClass.ToList();
+        }
+    }
 }
+
+
+
+
