@@ -174,9 +174,9 @@
       <Project>{9fdc9a52-9a85-4864-8de8-68fbf01fdef1}</Project>
       <Name>Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ESProjectCore\ESProjectCore.csproj">
+    <ProjectReference Include="..\Core\Core.csproj">
       <Project>{9a25ffcf-b250-499d-a876-90b951517d37}</Project>
-      <Name>ESProjectCore</Name>
+      <Name>Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\FactorsWindows\FactorsWindows.csproj">
       <Project>{87509973-7e10-4d04-bcdf-cfa81d6aa139}</Project>

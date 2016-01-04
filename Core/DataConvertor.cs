@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ESCore
+namespace MandarinCore
 {
     //Преобразование данных из DataBaseTypes
     //в классы Domain.Model

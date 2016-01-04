@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using Domain.Services;
 using Domain;
 using Domain.Model;
-using ESCore;
+using MandarinCore;
 
 namespace Presentation
 {

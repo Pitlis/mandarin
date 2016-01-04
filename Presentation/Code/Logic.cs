@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using Microsoft.Office.Interop.Excel;
 using Domain;
-using ESCore;
+using MandarinCore;
 using Domain.Services;
 using Domain.Model;
 using SimpleLogging.NLog;
@@ -190,7 +190,7 @@ namespace Presentation.Code
         {
             pathToScheduleFolder = Directory.CreateDirectory(DateTime.Now.ToString("dd.MM.yyyy(HH.mm)")).FullName;
 
-            ESProjectCore core = new ESProjectCore(classes, storage, FactorTypes);
+            Core core = new Core(classes, storage, FactorTypes);
             core.SaveCreatedSchedule = SaveCreatedSchedule;
             core.logger = loggingService;
             core.FixedClasses = vip.GetVipClasses();

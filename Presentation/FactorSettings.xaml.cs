@@ -10,7 +10,7 @@ using Domain.Model;
 using System.Reflection;
 using System.IO;
 using System.Xml.Serialization;
-using ESCore;
+using MandarinCore;
 
 namespace Presentation
 {
@@ -162,12 +162,12 @@ namespace Presentation
             {
                 if (pairsClasses.FindAll((pc) => pc.c1 == sClass || pc.c2 == sClass).Count == 0)
                 {
-                    if (classesList.FindAll(c => StudentClassEquals(c, sClass) && c != sClass).Count > 1)
+                    if (classesList.FindAll(c => StudentsClass.StudentClassEquals(c, sClass) && c != sClass).Count > 1)
                     {
                         //пара встречается больше двух раз за две недели
                         continue;
                     }
-                    StudentsClass secondClass = classesList.Find(c => StudentClassEquals(c, sClass) && c != sClass);
+                    StudentsClass secondClass = classesList.Find(c => StudentsClass.StudentClassEquals(c, sClass) && c != sClass);
                     if (secondClass != null)
                     {
                         pairsClasses.Add(new StudentClassPair(sClass, secondClass));
@@ -193,7 +193,7 @@ namespace Presentation
             {
                 if (pairsClasses.FindAll((pc) => pc.c1 == sClass || pc.c2 == sClass).Count == 0)
                 {
-                    List<StudentsClass> sameClasses = classesList.FindAll(c => StudentClassEquals(c, sClass));
+                    List<StudentsClass> sameClasses = classesList.FindAll(c => StudentsClass.StudentClassEquals(c, sClass));
                     int countClasses = sameClasses.Count;
                     if (countClasses % 2 == 1)
                         countClasses--;

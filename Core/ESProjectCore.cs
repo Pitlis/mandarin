@@ -9,9 +9,9 @@ using Domain.Services;
 using System.Threading;
 using SimpleLogging.Core;
 
-namespace ESCore
+namespace MandarinCore
 {
-    public class ESProjectCore
+    public class Core
     {
         StudentsClass[] Classes;
         Dictionary<Type, DataFactor> Factors;
@@ -25,7 +25,7 @@ namespace ESCore
 
         #endregion
 
-        public ESProjectCore(IEnumerable<StudentsClass> classes, EntityStorage storage, Dictionary<Type, DataFactor> factors)
+        public Core(IEnumerable<StudentsClass> classes, EntityStorage storage, Dictionary<Type, DataFactor> factors)
         {
             Classes = classes.ToArray<StudentsClass>();
             Factors = SortFactors(factors);
