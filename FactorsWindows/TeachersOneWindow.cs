@@ -23,16 +23,16 @@ namespace FactorsWindows
             //Считаем день недели последней добавленной пары
             int dayOfWeek = Constants.GetDayOfClass(classTime);
             //Считаем номер пары в этот день
-            int classOfDay = classTime - (6 * (dayOfWeek) - 1) - 1;
-            foreach (StudentSubGroup subGroup in schedule.GetTempClass().SubGroups)
+            int classOfDay = Constants.GetTimeOfClass(classTime);
+            foreach (Teacher teacher in schedule.GetTempClass().Teacher)
             {
-                int result = CheckWindowsOfAddedClass(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek), classOfDay, fine);
-                if (result > 0)
+                int windowsCount = Classes.CountUpOneWindowOfAddedClass(schedule.GetPartialSchedule(teacher).GetClassesOfDay(dayOfWeek), classOfDay);
+                if (windowsCount > 0)
                 {
                     if (isBlock)
                         return Constants.BLOCK_FINE;
                     else
-                        fineResult += result;
+                        fineResult += windowsCount * fine;
                 }
             }
             return fineResult;
@@ -42,16 +42,13 @@ namespace FactorsWindows
         {
             int windowCount = 0;
 
-            for (int i = 0; i < Constants.DAYS_IN_WEEK * Constants.WEEKS_IN_SCHEDULE; i++)
+            foreach (Teacher teacher in eStorage.Teachers)
             {
-                foreach (Teacher teacher in eStorage.Teachers)
-                {
-                    //Получаем количество форточек у одной группы в один день
-                    windowCount += CountUpWindowsOfFullSchedule(schedule.GetPartialSchedule(teacher).GetClassesOfDay(i));
-                }
+                //Получаем количество форточек у одной группы в один день
+                windowCount += Classes.CountUpOneWindowOfFullSchedule(schedule.GetPartialSchedule(teacher));
             }
 
-            if (windowCount != 0)
+            if (windowCount > 0)
             {
                 if (isBlock)
                     return Constants.BLOCK_FINE;
@@ -60,74 +57,6 @@ namespace FactorsWindows
             }
             return 0;
         }
-
-        static private int CheckWindowsOfAddedClass(StudentsClass[] sClasses, int classOfDay, int fine)
-        {
-            int result = 0;
-            int last = StudentsOneWindow.LastClassOfDay(sClasses);
-            if (classOfDay == 0 && last == 0)
-            {
-                return 0;
-            }
-            if (classOfDay < 4)
-            {
-                if (CheckWindowsOfNextClass(sClasses, classOfDay))
-                {
-                    result += fine;
-                }
-            }
-            if (classOfDay > 1)
-            {
-                if (CheckWindowsOfPreviousClass(sClasses, classOfDay))
-                {
-                    result += fine;
-                }
-            }
-            return result;
-        }
-
-        static private bool CheckWindowsOfNextClass(StudentsClass[] sClasses, int classOfDay)
-        {
-            if (sClasses[classOfDay + 1] == null && sClasses[classOfDay + 2] != null)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        static private bool CheckWindowsOfPreviousClass(StudentsClass[] sClasses, int classOfDay)
-        {
-            if (sClasses[classOfDay - 1] == null && sClasses[classOfDay - 2] != null)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        static private int CountUpWindowsOfFullSchedule(StudentsClass[] sClasses)
-        {
-            int windowCount = 0;
-            //Ищем номер последней в этот день пары
-            int last = StudentsOneWindow.LastClassOfDay(sClasses);
-            //Ищем номер первой в этот день пары
-            int first = StudentsOneWindow.FirstClassOfDay(sClasses);
-            //Если пара одна или их вообще нет, то соотвественно форточек нет
-            if ((last - first < 2) || first == -1 || last == -1)
-            {
-                return 0;
-            }
-            for (int k = first; k < last - 1; k++)
-            {
-                //Если текущей пары нет, а следующая есть, то текущая пара будет одиночной форточкой
-                if (sClasses[k] == null && sClasses[k + 1] != null)
-                {
-                    windowCount++;
-                    k++;
-                }
-            }
-            return windowCount;
-        }
-
 
         public string GetDescription()
         {

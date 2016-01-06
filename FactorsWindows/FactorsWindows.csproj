@@ -49,6 +49,7 @@
     <Compile Include="TeachersOneWindow.cs" />
     <Compile Include="TeachersThreeWindows.cs" />
     <Compile Include="TeachersTwoWindows.cs" />
+    <Compile Include="Classes.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj">
