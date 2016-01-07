@@ -1,5 +1,6 @@
 ﻿using Domain;
 using Domain.Model;
+using Domain.Service;
 using Domain.Services;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace OtherFactors
     {
         int fine;
         bool isBlock;
-        List<VIPClases> sClasses;
+        List<FixedClasses> sClasses;
 
         public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
         {
@@ -22,7 +23,7 @@ namespace OtherFactors
             int tTime = schedule.GetClassPosition(tClass).Value.Time;
             if (sClasses.FindAll((c) => c.sClass == tClass).Count() > 0)
             {
-                VIPClases vipClass = sClasses.Find((c) => c.sClass == tClass);
+                FixedClasses vipClass = sClasses.Find((c) => c.sClass == tClass);
                 if (vipClass.Room != schedule.GetClassRoom(tClass) || vipClass.Time != tTime)
                 {
                     if (isBlock)
@@ -57,7 +58,7 @@ namespace OtherFactors
                     {
                         if (sClasses.FindAll((c) => c.sClass == sClass[classIndex]).Count() > 0)
                         {
-                            VIPClases vipClass = sClasses.Find((c) => c.sClass == sClass[classIndex]);
+                            FixedClasses vipClass = sClasses.Find((c) => c.sClass == sClass[classIndex]);
                             if (vipClass.Room != schedule.GetClassRoom(sClass[classIndex]) && vipClass.Time != schedule.GetClassPosition(sClass[classIndex]).Value.Time)
                             {
                                 if (isBlock)
@@ -93,7 +94,7 @@ namespace OtherFactors
             }
             try
             {
-                sClasses = (List<VIPClases>)data;
+                sClasses = (List<FixedClasses>)data;
             }
             catch (Exception ex)
             {
@@ -102,7 +103,7 @@ namespace OtherFactors
         }
         public object GetDataType()
         {
-            return typeof(List<VIPClases>);
+            return typeof(List<FixedClasses>);
         }
     }
 }

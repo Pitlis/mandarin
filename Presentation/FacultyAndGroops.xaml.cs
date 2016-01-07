@@ -25,9 +25,8 @@ namespace Presentation
             InitializeComponent();
             Repo = new Data.DataRepository();
             //Repo = new MockDataBase.MockRepository();
-            DataConvertor.DomainData data = DataConvertor.ConvertData(Repo.GetTeachers(), Repo.GetStudentsGroups(), Repo.GetClassRoomsTypes(), Repo.GetClassRooms(), Repo.GetStudentsClasses());
-
-            storage = data.eStorage;
+            storage = DataConvertor.ConvertData(Repo.GetTeachers(), Repo.GetStudentsGroups(), Repo.GetClassRoomsTypes(), Repo.GetClassRooms(), Repo.GetStudentsClasses());
+            
             //this.storage = storage;
 
         }

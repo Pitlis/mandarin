@@ -13,6 +13,7 @@ using SimpleLogging.NLog;
 using SimpleLogging.Core;
 using System.Runtime.InteropServices;
 using System.IO;
+using Domain.Service;
 
 namespace Presentation.Code
 {
@@ -38,10 +39,8 @@ namespace Presentation.Code
             AllocConsole();
             loggingService = new NLogLoggingService();
 
-            DataConvertor.DomainData data = DataConvertor.ConvertData(Repo.GetTeachers(), Repo.GetStudentsGroups(), Repo.GetClassRoomsTypes(), Repo.GetClassRooms(), Repo.GetStudentsClasses());
+            storage = DataConvertor.ConvertData(Repo.GetTeachers(), Repo.GetStudentsGroups(), Repo.GetClassRoomsTypes(), Repo.GetClassRooms(), Repo.GetStudentsClasses());
 
-            storage = data.eStorage;
-            classes = data.sClasses;
             vip = new Setting(storage, classes);
             loggingService.Info("Загружены данные");
 
@@ -190,7 +189,7 @@ namespace Presentation.Code
         {
             pathToScheduleFolder = Directory.CreateDirectory(DateTime.Now.ToString("dd.MM.yyyy(HH.mm)")).FullName;
 
-            Core core = new Core(classes, storage, FactorTypes);
+            Core core = new Core(storage, FactorTypes);
             core.SaveCreatedSchedule = SaveCreatedSchedule;
             core.logger = loggingService;
             core.FixedClasses = vip.GetVipClasses();

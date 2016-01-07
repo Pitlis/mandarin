@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataFiles\Base.cs" />
     <Compile Include="DataBaseTypes.cs" />
     <Compile Include="IDomainIdentity.cs" />
     <Compile Include="IFactor.cs" />
@@ -48,16 +49,16 @@
     <Compile Include="Model\ClassRoom.cs" />
     <Compile Include="Model\ClassRoomType.cs" />
     <Compile Include="Model\StudentsClass.cs" />
-    <Compile Include="Model\FullSchedule.cs" />
+    <Compile Include="Services\FullSchedule.cs" />
     <Compile Include="Model\StudentSubGroup.cs" />
-    <Compile Include="Model\PartialSchedule.cs" />
+    <Compile Include="Services\PartialSchedule.cs" />
     <Compile Include="Model\Teacher.cs" />
-    <Compile Include="Model\VIPClases.cs" />
+    <Compile Include="Services\FixedClasses.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Constants.cs" />
-    <Compile Include="Services\DataValidator.cs" />
     <Compile Include="Services\EntityStorage.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

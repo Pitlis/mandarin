@@ -1,11 +1,12 @@
-﻿using Domain.Services;
+﻿using Domain.Model;
+using Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Model
+namespace Domain.Services
 {
     public class PartialSchedule
     {

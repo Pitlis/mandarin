@@ -8,12 +8,12 @@ using Domain.Model;
 using Domain.Services;
 using System.Threading;
 using SimpleLogging.Core;
+using Domain.Service;
 
 namespace MandarinCore
 {
     public class Core
     {
-        StudentsClass[] Classes;
         Dictionary<Type, DataFactor> Factors;
         public static EntityStorage EStorage { get; private set; }
 
@@ -25,12 +25,11 @@ namespace MandarinCore
 
         #endregion
 
-        public Core(IEnumerable<StudentsClass> classes, EntityStorage storage, Dictionary<Type, DataFactor> factors)
+        public Core(EntityStorage storage, Dictionary<Type, DataFactor> factors)
         {
-            Classes = classes.ToArray<StudentsClass>();
             Factors = SortFactors(factors);
             EStorage = storage;
-            DataValidator.Validate(classes, storage);
+            DataValidator.Validate(storage);
         }
 
         public IEnumerable<ISchedule> Run()
@@ -41,7 +40,7 @@ namespace MandarinCore
             for (int sortIndex = 0; sortIndex < sortCount; sortIndex++)
             {
                 logger.Info("Итерация " + (sortIndex + 1).ToString());
-                StudentsClass[] sortedClasses = SortClasses.Sort(Classes, EStorage, FixedClasses, sortIndex);
+                StudentsClass[] sortedClasses = SortClasses.Sort(EStorage, FixedClasses, sortIndex);
                 FullSchedule schedule = CreateSchedule(sortedClasses);
                 schedules[sortIndex] = schedule;
                 if (schedule != null)

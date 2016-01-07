@@ -1,4 +1,5 @@
 ﻿using Domain.Model;
+using Domain.Service;
 using Domain.Services;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace Presentation.Code
         public ScheduleForEdit(FullSchedule fSchedule) : base(fSchedule)
         {
             int classesInSchedule = Constants.WEEKS_IN_SCHEDULE * Constants.DAYS_IN_WEEK * Constants.CLASSES_IN_DAY;
-            ClassRoom cl = GetClassRoom(classes[0, 0]);
+            ClassRoom cl = GetClassRoom(classesTable[0, 0]);
             partSchedule = new StudentsClass[classesInSchedule, eStorage.StudentSubGroups.Length];
             Groups = new StudentSubGroup[eStorage.StudentSubGroups.Length];
             store = eStorage;
@@ -40,7 +41,7 @@ namespace Presentation.Code
         {
             Sett = Save.LoadSettings();
             int classesInSchedule = Constants.WEEKS_IN_SCHEDULE * Constants.DAYS_IN_WEEK * Constants.CLASSES_IN_DAY;
-            ClassRoom cl = GetClassRoom(classes[0, 0]);
+            ClassRoom cl = GetClassRoom(classesTable[0, 0]);
             partSchedule = new StudentsClass[classesInSchedule, Sett.GetGroops(name, cours).Count];
             Groups = new StudentSubGroup[Sett.GetGroops(name, cours).Count];
             for (int groupIndex = 0; groupIndex < Sett.GetGroops(name, cours).Count; groupIndex++)
@@ -66,10 +67,10 @@ namespace Presentation.Code
         /// </summary>
         public void RemoveFromClasses(StudentsClass clas, int row)
         {
-            for (int colIndex = 0; colIndex < classes.GetLength(1); colIndex++)
+            for (int colIndex = 0; colIndex < classesTable.GetLength(1); colIndex++)
             {
-                if (classes[row, colIndex] == clas)
-                    classes[row, colIndex] = null;
+                if (classesTable[row, colIndex] == clas)
+                    classesTable[row, colIndex] = null;
             }
            
         }
@@ -127,10 +128,10 @@ namespace Presentation.Code
         public bool ClassRoomFree(ClassRoom item, int TimeRows)
         {
             ClassRoom cl;
-            for (int colIndex = 0; colIndex < classes.GetLength(1); colIndex++)
+            for (int colIndex = 0; colIndex < classesTable.GetLength(1); colIndex++)
             {
-                cl = GetClassRoom(classes[TimeRows, colIndex]);
-                if (classes[TimeRows, colIndex] != null && cl == item)
+                cl = GetClassRoom(classesTable[TimeRows, colIndex]);
+                if (classesTable[TimeRows, colIndex] != null && cl == item)
                     return false;
             }
             return true;
@@ -142,11 +143,11 @@ namespace Presentation.Code
         public StudentsClass GetStudentsClass(ClassRoom item, int TimeRows)
         {
             ClassRoom cl;
-            for (int colIndex = 0; colIndex < classes.GetLength(1); colIndex++)
+            for (int colIndex = 0; colIndex < classesTable.GetLength(1); colIndex++)
             {
-                cl = GetClassRoom(classes[TimeRows, colIndex]);
-                if (classes[TimeRows, colIndex] != null && cl == item)
-                    return classes[TimeRows, colIndex];
+                cl = GetClassRoom(classesTable[TimeRows, colIndex]);
+                if (classesTable[TimeRows, colIndex] != null && cl == item)
+                    return classesTable[TimeRows, colIndex];
             }
             return null;
         }
@@ -159,9 +160,9 @@ namespace Presentation.Code
             int z = 0, im = 0;
             foreach (ClassRoom items in clas)
             {
-                for (int colIndex = 0; colIndex < classes.GetLength(1); colIndex++)
+                for (int colIndex = 0; colIndex < classesTable.GetLength(1); colIndex++)
                 {
-                    if (classes[TimeRows, colIndex] != null && GetClassRoom(classes[TimeRows, colIndex]) == items)
+                    if (classesTable[TimeRows, colIndex] != null && GetClassRoom(classesTable[TimeRows, colIndex]) == items)
                     { k[z] = -1; }
                 }
                 z++;
@@ -189,11 +190,11 @@ namespace Presentation.Code
             //Есть ли у этих групп другие занятия в это время?
             foreach (StudentSubGroup groop in sClas.SubGroups)
             {
-                for (int colIndex = 0; colIndex < classes.GetLength(1); colIndex++)
+                for (int colIndex = 0; colIndex < classesTable.GetLength(1); colIndex++)
                 {
-                    if (classes[TimeRow, colIndex] != null && classes[TimeRow, colIndex].SubGroups.Contains(groop))
+                    if (classesTable[TimeRow, colIndex] != null && classesTable[TimeRow, colIndex].SubGroups.Contains(groop))
                     {
-                        s += "\n" + groop.NameGroup + ": " + classes[TimeRow, colIndex].Name;
+                        s += "\n" + groop.NameGroup + ": " + classesTable[TimeRow, colIndex].Name;
                         break;
                     }
                 }
@@ -205,12 +206,12 @@ namespace Presentation.Code
                 {
                     foreach (StudentSubGroup groop in sClas.SubGroups)
                     {
-                        for (int colIndex = 0; colIndex < classes.GetLength(1); colIndex++)
+                        for (int colIndex = 0; colIndex < classesTable.GetLength(1); colIndex++)
                         {
-                            if (classes[TimeRow, colIndex] != null && classes[TimeRow, colIndex].SubGroups.Contains(groop))
+                            if (classesTable[TimeRow, colIndex] != null && classesTable[TimeRow, colIndex].SubGroups.Contains(groop))
                             {
-                                RemoveClases.Add(classes[TimeRow, colIndex]);
-                                classes[TimeRow, colIndex] = null;
+                                RemoveClases.Add(classesTable[TimeRow, colIndex]);
+                                classesTable[TimeRow, colIndex] = null;
                                 break;
                             }
                         }
@@ -234,11 +235,11 @@ namespace Presentation.Code
             //Есть ли у преподавателей другие пары в это время?
             foreach (Teacher teach in sClas.Teacher)
             {
-                for (int colIndex = 0; colIndex < classes.GetLength(1); colIndex++)
+                for (int colIndex = 0; colIndex < classesTable.GetLength(1); colIndex++)
                 {
-                    if (classes[TimeRow, colIndex] != null && classes[TimeRow, colIndex].Teacher.Contains(teach))
+                    if (classesTable[TimeRow, colIndex] != null && classesTable[TimeRow, colIndex].Teacher.Contains(teach))
                     {
-                        s += "\n" + teach.Name + ": " + classes[TimeRow, colIndex].Name;
+                        s += "\n" + teach.Name + ": " + classesTable[TimeRow, colIndex].Name;
                         break;
                     }
                 }
@@ -250,12 +251,12 @@ namespace Presentation.Code
                 {
                     foreach (Teacher teach in sClas.Teacher)
                     {
-                        for (int colIndex = 0; colIndex < classes.GetLength(1); colIndex++)
+                        for (int colIndex = 0; colIndex < classesTable.GetLength(1); colIndex++)
                         {
-                            if (classes[TimeRow, colIndex] != null && classes[TimeRow, colIndex].Teacher.Contains(teach))
+                            if (classesTable[TimeRow, colIndex] != null && classesTable[TimeRow, colIndex].Teacher.Contains(teach))
                             {
-                                RemoveClases.Add(classes[TimeRow, colIndex]);
-                                classes[TimeRow, colIndex] = null;
+                                RemoveClases.Add(classesTable[TimeRow, colIndex]);
+                                classesTable[TimeRow, colIndex] = null;
                                 break;
                             }
                         }
@@ -274,15 +275,15 @@ namespace Presentation.Code
             #endregion
 
             s = "";
-            if (classes[TimeRow, clasIndex] != null)
+            if (classesTable[TimeRow, clasIndex] != null)
             {
                 ClassRoom audit;
-                audit = GetClassRoom(classes[TimeRow, clasIndex]);
+                audit = GetClassRoom(classesTable[TimeRow, clasIndex]);
                 s = audit.Number + "Корпус: " + audit.Housing;
                 System.Windows.MessageBoxResult result = System.Windows.MessageBox.Show("В аудитории: " + s + " уже ведутся занятия.\n Хотите снять данную пары?", "Вопрос", System.Windows.MessageBoxButton.OKCancel, System.Windows.MessageBoxImage.Question);
                 if (result == System.Windows.MessageBoxResult.OK)
                 {
-                    RemoveClases.Add(classes[TimeRow, clasIndex]);
+                    RemoveClases.Add(classesTable[TimeRow, clasIndex]);
                     for (int colIndex = 0; colIndex < partSchedule.GetLength(1); colIndex++)
                     {
                         if (partSchedule[TimeRow, colIndex] != null && GetClassRoom(partSchedule[TimeRow, colIndex]) == audit)
@@ -291,12 +292,12 @@ namespace Presentation.Code
                         }
 
                     }
-                    classes[TimeRow, clasIndex] = null;
+                    classesTable[TimeRow, clasIndex] = null;
                 }
                 else { System.Windows.MessageBox.Show("Выбранну пару невозможно поставить из за накладки в расписании", "Ошибка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information); return; }
 
             }
-            classes[TimeRow, clasIndex] = sClas;
+            classesTable[TimeRow, clasIndex] = sClas;
             foreach (var grop in sClas.SubGroups)
             {
                 for (int i = 0; i < Groups.Length; i++)

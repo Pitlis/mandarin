@@ -14,14 +14,13 @@ namespace MandarinCore
     //в классы Domain.Model
     public static class DataConvertor
     {
-        public static DomainData ConvertData(
+        public static EntityStorage ConvertData(
             IEnumerable<DBTeacher> DBTeachers,
             IEnumerable<DBStudentSubGroup> DBGroups,
             IEnumerable<DBClassRoomType> DBRoomTypes,
             IEnumerable<DBClassRoom> DBRooms,
             IEnumerable<DBStudentsClass> DBStudentsClasses)
         {
-            DomainData data = new DomainData();
             List<ClassRoomType> classRoomsTypes = new List<ClassRoomType>();
             foreach (DBClassRoomType item in DBRoomTypes)
             {
@@ -56,7 +55,6 @@ namespace MandarinCore
                 subGroups.Add(new StudentSubGroup(item.Id, item.NameGroup, item.NumberSubGroup));
             }
 
-            data.eStorage = new EntityStorage(classRoomsTypes, subGroups, teachers, classRooms);
 
             List<StudentsClass> sClasses = new List<StudentsClass>();
             foreach (DBStudentsClass item in DBStudentsClasses)
@@ -94,17 +92,11 @@ namespace MandarinCore
 
                 sClasses.Add(new StudentsClass(item.Id, groupList, teacherList, item.Name, typesList));
             }
+            
+            EntityStorage EStorage = new EntityStorage(sClasses, classRoomsTypes, subGroups, teachers, classRooms);
+            DataValidator.Validate(EStorage);
 
-            data.sClasses = sClasses.ToArray();
-            DataValidator.Validate(data.sClasses, data.eStorage);
-
-            return data;
-        }
-
-        public struct DomainData
-        {
-            public EntityStorage eStorage;
-            public StudentsClass[] sClasses;
+            return EStorage;
         }
 
     }

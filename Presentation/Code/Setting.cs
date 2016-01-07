@@ -10,6 +10,7 @@ using Domain;
 using Domain.Model;
 using Domain.Services;
 using MandarinCore;
+using Domain.Service;
 
 namespace Presentation.Code
 {
@@ -17,24 +18,22 @@ namespace Presentation.Code
     {
         public IRepository Repo { get; private set; }
         public List<VIPClasesBin> LVIPB { get; set; }
-        public List<VIPClases> LVIP { get; set; }
+        public List<FixedClasses> LVIP { get; set; }
         public EntityStorage storage { get; set; }
         public StudentsClass[] Clases { get; set; }
 
 
         public Setting()
         {
-            LVIP = new List<VIPClases>();
+            LVIP = new List<FixedClasses>();
             //Repo = new MockDataBase.MockRepository();
             //Repo.Init(null);
             Repo = new Data.DataRepository();
             Repo.Init(new string[] { @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=C:\USERS\СЕРГЕЙ\DOCUMENTS\ESPROJECT\ESPROJECT\BIN\DEBUG\BD4.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" });
 
-            DataConvertor.DomainData data = DataConvertor.ConvertData(Repo.GetTeachers(), Repo.GetStudentsGroups(), Repo.GetClassRoomsTypes(), Repo.GetClassRooms(), Repo.GetStudentsClasses());
-
+            storage = DataConvertor.ConvertData(Repo.GetTeachers(), Repo.GetStudentsGroups(), Repo.GetClassRoomsTypes(), Repo.GetClassRooms(), Repo.GetStudentsClasses());
+            this.Clases = storage.Classes;
             LVIPB = new List<VIPClasesBin>();
-            storage = data.eStorage;
-            Clases = data.sClasses;
             BinaryFormatter formatter = new BinaryFormatter();
 
 
@@ -48,7 +47,7 @@ namespace Presentation.Code
 
                 foreach (var item in LVIPB)
                 {
-                    VIPClases n = new VIPClases(Clases[item.Cla], item.Time, storage.ClassRooms[item.Aud]);
+                    FixedClasses n = new FixedClasses(Clases[item.Cla], item.Time, storage.ClassRooms[item.Aud]);
                     LVIP.Add(n);
                 }
 
@@ -59,7 +58,7 @@ namespace Presentation.Code
         }
         public Setting(EntityStorage storage, StudentsClass[] Clases)
         {
-            LVIP = new List<VIPClases>();
+            LVIP = new List<FixedClasses>();
             LVIPB = new List<VIPClasesBin>();
             this.storage = storage;
             this.Clases = Clases;
@@ -76,7 +75,7 @@ namespace Presentation.Code
 
                 foreach (var item in LVIPB)
                 {
-                    VIPClases n = new VIPClases(Clases[item.Cla], item.Time, storage.ClassRooms[item.Aud]);
+                    FixedClasses n = new FixedClasses(Clases[item.Cla], item.Time, storage.ClassRooms[item.Aud]);
                     LVIP.Add(n);
                 }
 

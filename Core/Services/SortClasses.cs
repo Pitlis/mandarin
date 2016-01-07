@@ -11,16 +11,16 @@ namespace MandarinCore
     static class SortClasses
     {
         static Random rand = new Random(DateTime.Now.Millisecond);
-        public static StudentsClass[] Sort(StudentsClass[] classes, EntityStorage eStorage, StudentsClass[] fixedClasses, int sortType = 0, bool returnNewArray = false)
+        public static StudentsClass[] Sort(EntityStorage eStorage, StudentsClass[] fixedClasses, int sortType = 0, bool returnNewArray = false)
         {
             StudentsClass[] classArray;
             if (returnNewArray)
             {
-                classArray = (StudentsClass[])classes.Clone();
+                classArray = (StudentsClass[])eStorage.Classes.Clone();
             }
             else
             {
-                classArray = classes;
+                classArray = eStorage.Classes;
             }
             if (fixedClasses != null)
             {

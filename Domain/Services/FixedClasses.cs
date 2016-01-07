@@ -1,17 +1,18 @@
-﻿using System;
+﻿using Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Model
+namespace Domain.Service
 {
-    public class VIPClases
+    public class FixedClasses
     {
         public StudentsClass sClass { get; set; }
         public int Time { get; set; }
         public ClassRoom Room { get; set; }
-        public VIPClases(StudentsClass sClass, int time, ClassRoom room)
+        public FixedClasses(StudentsClass sClass, int time, ClassRoom room)
         {
             this.sClass = sClass;
             this.Time = time;

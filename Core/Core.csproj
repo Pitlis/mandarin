@@ -52,11 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataConvertor.cs" />
+    <Compile Include="Services\DataConvertor.cs" />
     <Compile Include="ESProjectCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rollback.cs" />
-    <Compile Include="SortClasses.cs" />
+    <Compile Include="Services\DataValidator.cs" />
+    <Compile Include="Services\Rollback.cs" />
+    <Compile Include="Services\SortClasses.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj">

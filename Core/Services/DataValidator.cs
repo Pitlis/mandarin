@@ -5,8 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+using Domain.Services;
+using Domain;
 
-namespace Domain.Services
+namespace MandarinCore
 {
     public static class DataValidator
     {
@@ -14,11 +16,11 @@ namespace Domain.Services
         //проверяет существование дублирующихся или отсутствующих в хранилище объектов
         //для маленьких объемов данных!
 
-        public static void Validate(IEnumerable<StudentsClass> classes, EntityStorage storage)
+        public static void Validate(EntityStorage storage)
         {
             Dublicats(storage);
-            IncorrectReferences(classes, storage);
-            UniqueId(classes, storage);
+            IncorrectReferences(storage);
+            UniqueId(storage);
         }
         static void Dublicats(EntityStorage storage)
         {
@@ -47,10 +49,10 @@ namespace Domain.Services
                     throw new Exception("Дубликат объекта ClassRooms в хранилище");
             }
         }
-        static void UniqueId(IEnumerable<StudentsClass> classes, EntityStorage storage)
+        static void UniqueId(EntityStorage storage)
         {
             List<int> classesId = new List<int>();
-            foreach (StudentsClass item in classes)
+            foreach (StudentsClass item in storage.Classes)
             {
                 int id = ((IDomainIdentity<StudentsClass>)item).ID;
                 if(classesId.Contains(id))
@@ -116,7 +118,7 @@ namespace Domain.Services
             }
         }
 
-        static void IncorrectReferences(IEnumerable<StudentsClass> classes, EntityStorage storage)
+        static void IncorrectReferences(EntityStorage storage)
         {
             foreach (var cl in storage.ClassRooms)
             {
@@ -128,7 +130,7 @@ namespace Domain.Services
                     }
                 }
             }
-            foreach (var cl in classes)
+            foreach (var cl in storage.Classes)
             {
                 foreach (var item in cl.SubGroups)
                 {

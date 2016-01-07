@@ -28,14 +28,16 @@ namespace Domain.Services
         public StudentSubGroup[] StudentSubGroups { get; private set; }
         public Teacher[] Teachers { get; private set; }
         public ClassRoom[] ClassRooms { get; private set; }
+        public StudentsClass[] Classes { get; private set; }
 
 
-        public EntityStorage(IEnumerable<ClassRoomType> classRoomsTypes, IEnumerable<StudentSubGroup> studentSubGroups, IEnumerable<Teacher> teachers, IEnumerable<ClassRoom> classRooms)
+        public EntityStorage(IEnumerable<StudentsClass> classes, IEnumerable<ClassRoomType> classRoomsTypes, IEnumerable<StudentSubGroup> studentSubGroups, IEnumerable<Teacher> teachers, IEnumerable<ClassRoom> classRooms)
         {
             ClassRoomsTypes = classRoomsTypes.ToArray<ClassRoomType>();
             StudentSubGroups = studentSubGroups.ToArray<StudentSubGroup>();
             Teachers = teachers.ToArray<Teacher>();
             ClassRooms = classRooms.ToArray<ClassRoom>();
+            Classes = classes.ToArray<StudentsClass>();
         }
 
     }

@@ -16,6 +16,7 @@ using Domain.Model;
 using Domain.Services;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using Domain.Service;
 
 namespace Presentation
 {
@@ -84,7 +85,7 @@ namespace Presentation
                 comboBox1.Items.Add("17.45-19.20");
 
 
-                foreach (VIPClases item in vip.LVIP)
+                foreach (FixedClasses item in vip.LVIP)
                 {
                     if (cl == item.sClass)
                     {
@@ -186,7 +187,7 @@ namespace Presentation
                         {
                             if (!factor1)
                             {
-                                VIPClases vi = new VIPClases(clas, z, sub);
+                                FixedClasses vi = new FixedClasses(clas, z, sub);
                                 vip.LVIP.Add(vi);
                                 MessageBox.Show("Всё ок");
                             }

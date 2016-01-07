@@ -1,4 +1,5 @@
 ﻿using Domain.Model;
+using Domain.Service;
 using SimpleLogging.Core;
 using System;
 using System.Collections.Generic;
