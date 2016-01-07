@@ -32,7 +32,7 @@ namespace MandarinCore
             DataValidator.Validate(storage);
         }
 
-        public IEnumerable<ISchedule> Run()
+        public IEnumerable<FullSchedule> Run()
         {
             int sortCount = 2;
             FullSchedule[] schedules = new FullSchedule[sortCount];
@@ -56,7 +56,7 @@ namespace MandarinCore
                     fines[sortIndex] = Constants.BLOCK_FINE;
                 }
             }
-            return new List<ISchedule>() { schedules[Array.IndexOf(fines, Array.FindAll(fines, (f) => f != Constants.BLOCK_FINE).Min())] };
+            return new List<FullSchedule>() { schedules[Array.IndexOf(fines, Array.FindAll(fines, (f) => f != Constants.BLOCK_FINE).Min())] };
         }
 
         FullSchedule CreateSchedule(StudentsClass[] sortedStudentsClasses)
@@ -71,7 +71,7 @@ namespace MandarinCore
 
             for (int classIndex = 1; classIndex < sortedStudentsClasses.Length; classIndex++)
             {
-                FullSchedule.StudentsClassPosition[] positionsForClass = resultSchedule.GetSuitableClassRooms(sortedStudentsClasses[classIndex]);
+                StudentsClassPosition[] positionsForClass = resultSchedule.GetSuitableClassRooms(sortedStudentsClasses[classIndex]);
                 int[] fines = new int[positionsForClass.Length];
 
                 Parallel.For(0, positionsForClass.Length, (positionIndex) =>
@@ -104,7 +104,7 @@ namespace MandarinCore
         }
         void InsertFirstClass(StudentsClass[] sortedStudentsClasses, FullSchedule resultSchedule, IFactor[] factors)
         {
-            FullSchedule.StudentsClassPosition[] positions = resultSchedule.GetSuitableClassRooms(sortedStudentsClasses[0]);
+            StudentsClassPosition[] positions = resultSchedule.GetSuitableClassRooms(sortedStudentsClasses[0]);
             int[] fines = new int[positions.Length];
             for (int positionIndex = 0; positionIndex < positions.Length; positionIndex++)
             {
@@ -119,7 +119,7 @@ namespace MandarinCore
         }
 
 
-        int GetSumFine(FullSchedule.StudentsClassPosition position, IFactor[] factors, FullSchedule scheduleForCreateTemp, StudentsClass sClass)
+        int GetSumFine(StudentsClassPosition position, IFactor[] factors, FullSchedule scheduleForCreateTemp, StudentsClass sClass)
         {
             FullSchedule schedule = new FullSchedule(scheduleForCreateTemp);
             schedule.SetClass(sClass, position);
@@ -188,13 +188,13 @@ namespace MandarinCore
         }
 
         #region Logger
-        void Logger_ClassInstalled(StudentsClass sClass, FullSchedule.StudentsClassPosition position, int indexInList, int listLength, int fine)
+        void Logger_ClassInstalled(StudentsClass sClass, StudentsClassPosition position, int indexInList, int listLength, int fine)
         {
             logger.Trace("----- Выбрана позиция: " + SClassPositionToString(position) + ", штраф: " + fine);
             logger.Info("Пара <" + sClass.Name + " " + TeatherNameToString(sClass) + 
                         "> установлена (" + (indexInList + 1) + "/" + listLength + ")");
         }
-        void Logger_StartInstallClass(StudentsClass sClass, FullSchedule.StudentsClassPosition[] positionsForClass, int[] fines)
+        void Logger_StartInstallClass(StudentsClass sClass, StudentsClassPosition[] positionsForClass, int[] fines)
         {
             logger.Trace("Попытка установки пары " + sClass.Name + " " + TeatherNameToString(sClass));
             logger.Trace("----- Доступны позиции для установки (" + Array.FindAll<int>(fines, f => f != Constants.BLOCK_FINE).Length + "):");
@@ -220,7 +220,7 @@ namespace MandarinCore
                 return "";
             }
         }
-        string SClassPositionToString(FullSchedule.StudentsClassPosition position)
+        string SClassPositionToString(StudentsClassPosition position)
         {
             string week = (Constants.GetWeekOfClass(position.Time) == 0 ? "Верхняя" : "Нижняя") + " неделя";
             int day = Constants.GetDayOfClass(position.Time);
@@ -228,7 +228,7 @@ namespace MandarinCore
             string dayString = ((DayOfWeek)(day + 1)).ToString();
 
             string time = "пара " + (Constants.GetTimeOfClass(position.Time) + 1).ToString();
-            ClassRoom room = EStorage.ClassRooms[position.Classroom];
+            ClassRoom room = EStorage.ClassRooms[position.ClassRoom];
             string classRoom = room.Number + "/" + room.Housing;
             return week + ", " + dayString + ", " + time + ", " + classRoom;
         }

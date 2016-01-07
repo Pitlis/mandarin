@@ -24,7 +24,7 @@ namespace OtherFactors
                 {
                     if (sClasses[rowClass, classIndex] == null)
                         continue;
-                    FullSchedule.StudentsClassPosition? position = schedule.GetClassPosition(sClasses[rowClass, classIndex]);
+                    StudentsClassPosition? position = schedule.GetClassPosition(sClasses[rowClass, classIndex]);
                     if (position.HasValue)//если пара установлена
                     {
                         if (Constants.GetWeekOfClass(position.Value.Time) == 0)//если пара располагается на первой неделе
@@ -53,7 +53,7 @@ namespace OtherFactors
                 {
                     if (sClasses[rowClass, classIndex] == null)
                         continue;
-                    FullSchedule.StudentsClassPosition? position = schedule.GetClassPosition(sClasses[rowClass, classIndex]);
+                    StudentsClassPosition? position = schedule.GetClassPosition(sClasses[rowClass, classIndex]);
                     if (position.HasValue)//если пара установлена
                     {
                         if (dayOfSpecialClass == Constants.GetDayOfClass(position.Value.Time))

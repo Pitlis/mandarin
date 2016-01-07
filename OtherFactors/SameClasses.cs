@@ -14,8 +14,8 @@ namespace OtherFactors
     {
         public static bool CheckClassesHasSameTime(ISchedule schedule, int classRow, StudentsClass[,] sClasses)
         {
-            FullSchedule.StudentsClassPosition? firstClassPosition = schedule.GetClassPosition(sClasses[classRow, 0]);
-            FullSchedule.StudentsClassPosition? secondClassPosition = schedule.GetClassPosition(sClasses[classRow, 1]);
+            StudentsClassPosition? firstClassPosition = schedule.GetClassPosition(sClasses[classRow, 0]);
+            StudentsClassPosition? secondClassPosition = schedule.GetClassPosition(sClasses[classRow, 1]);
             if (firstClassPosition.HasValue && secondClassPosition.HasValue)
             {
                 if (firstClassPosition.Value.Time > secondClassPosition.Value.Time)
@@ -40,8 +40,8 @@ namespace OtherFactors
 
         public static bool CheckClassesHasSameTime(StudentsClass c1, StudentsClass c2, ISchedule schedule)
         {
-            FullSchedule.StudentsClassPosition? firstClassPosition = schedule.GetClassPosition(c1);
-            FullSchedule.StudentsClassPosition? secondClassPosition = schedule.GetClassPosition(c2);
+            StudentsClassPosition? firstClassPosition = schedule.GetClassPosition(c1);
+            StudentsClassPosition? secondClassPosition = schedule.GetClassPosition(c2);
             if (firstClassPosition.HasValue && secondClassPosition.HasValue)
             {
                 if (firstClassPosition.Value.Time > secondClassPosition.Value.Time)
@@ -66,11 +66,11 @@ namespace OtherFactors
 
         public static bool CheckClassesHasSameRoom(ISchedule schedule, int classRow, StudentsClass[,] sClasses)
         {
-            FullSchedule.StudentsClassPosition? firstClassPosition = schedule.GetClassPosition(sClasses[classRow, 0]);
-            FullSchedule.StudentsClassPosition? secondClassPosition = schedule.GetClassPosition(sClasses[classRow, 1]);
+            StudentsClassPosition? firstClassPosition = schedule.GetClassPosition(sClasses[classRow, 0]);
+            StudentsClassPosition? secondClassPosition = schedule.GetClassPosition(sClasses[classRow, 1]);
             if (firstClassPosition.HasValue && secondClassPosition.HasValue)
             {
-                if (firstClassPosition.Value.Classroom != secondClassPosition.Value.Classroom)
+                if (firstClassPosition.Value.ClassRoom != secondClassPosition.Value.ClassRoom)
                 {
                     return false;
                 }
@@ -80,11 +80,11 @@ namespace OtherFactors
 
         public static bool CheckClassesHasSameRoom(StudentsClass c1, StudentsClass c2, ISchedule schedule)
         {
-            FullSchedule.StudentsClassPosition? firstClassPosition = schedule.GetClassPosition(c1);
-            FullSchedule.StudentsClassPosition? secondClassPosition = schedule.GetClassPosition(c2);
+            StudentsClassPosition? firstClassPosition = schedule.GetClassPosition(c1);
+            StudentsClassPosition? secondClassPosition = schedule.GetClassPosition(c2);
             if (firstClassPosition.HasValue && secondClassPosition.HasValue)
             {
-                if (firstClassPosition.Value.Classroom != secondClassPosition.Value.Classroom)
+                if (firstClassPosition.Value.ClassRoom != secondClassPosition.Value.ClassRoom)
                 {
                     return false;
                 }

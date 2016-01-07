@@ -20,7 +20,7 @@ namespace OtherFactors
         {
             int fineResult = 0;
             int classTime = schedule.GetTimeOfTempClass();
-            int roomIndex = schedule.GetClassPosition(schedule.GetTempClass()).Value.Classroom;
+            int roomIndex = schedule.GetClassPosition(schedule.GetTempClass()).Value.ClassRoom;
             int weekOfClass = Constants.GetWeekOfClass(classTime);
             if (Array.FindAll<StudentsClass>(sClasses, (c) => c == schedule.GetTempClass()).Count() > 0)
             {
@@ -69,8 +69,8 @@ namespace OtherFactors
                     {
                         if (Array.FindAll<StudentsClass>(sClasses, (c) => c == sClass[classIndex]).Count() > 0)
                         {
-                            FullSchedule.StudentsClassPosition? firstClassPosition = schedule.GetClassPosition(sClass[classIndex]);
-                            StudentsClass secondClass = schedule.GetClassByRoomAndPosition(firstClassPosition.Value.Classroom, 
+                            StudentsClassPosition? firstClassPosition = schedule.GetClassPosition(sClass[classIndex]);
+                            StudentsClass secondClass = schedule.GetClassByRoomAndPosition(firstClassPosition.Value.ClassRoom, 
                                 firstClassPosition.Value.Time + Constants.CLASSES_IN_DAY * Constants.DAYS_IN_WEEK);
                             if (secondClass != null)
                             {

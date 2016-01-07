@@ -1,4 +1,5 @@
-﻿using Domain.Model;
+﻿using Domain.DataFiles;
+using Domain.Model;
 using Domain.Service;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Presentation.Code
 {
     static class Save
     {
-        public static void SaveSchedule(FullSchedule schedule)
+        public static void SaveSchedule(Schedule schedule)
         {
             BinaryFormatter formatter = new BinaryFormatter();
             using (FileStream fs = new FileStream("schedule.dat", FileMode.OpenOrCreate))
@@ -20,7 +21,7 @@ namespace Presentation.Code
                 formatter.Serialize(fs, schedule);
             }
         }
-        public static void SaveSchedule(FullSchedule schedule, string path)
+        public static void SaveSchedule(Schedule schedule, string path)
         {
             BinaryFormatter formatter = new BinaryFormatter();
             using (FileStream fs = new FileStream(path + @"\schedule.dat", FileMode.OpenOrCreate))
@@ -29,13 +30,13 @@ namespace Presentation.Code
             }
         }
 
-        public static FullSchedule LoadSchedule()
+        public static Schedule LoadSchedule()
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            FullSchedule schedule = null;
+            Schedule schedule = null;
             using (FileStream fs = new FileStream("schedule.dat", FileMode.OpenOrCreate))
             {
-                schedule = (FullSchedule)formatter.Deserialize(fs);
+                schedule = (Schedule)formatter.Deserialize(fs);
             }
             return schedule;
         }

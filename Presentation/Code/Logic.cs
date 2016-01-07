@@ -14,6 +14,7 @@ using SimpleLogging.Core;
 using System.Runtime.InteropServices;
 using System.IO;
 using Domain.Service;
+using Domain.DataFiles;
 
 namespace Presentation.Code
 {
@@ -22,18 +23,17 @@ namespace Presentation.Code
         public IRepository Repo { get; private set; }
         public Dictionary<Type, DataFactor> FactorTypes { get; private set; }
         EntityStorage storage;
-        StudentsClass[] classes;
         ILoggingService loggingService;
         Setting vip;
 
         //TODO Заглушка для Dependency Inversion
         public void DI()
         {
-            Repo = new Data.DataRepository();
-            Repo.Init(new string[] { @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=C:\USERS\СЕРГЕЙ\DOCUMENTS\ESPROJECT\ESPROJECT\BIN\DEBUG\BD4.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" });
+            //Repo = new Data.DataRepository();
+            //Repo.Init(new string[] { @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=C:\USERS\СЕРГЕЙ\DOCUMENTS\ESPROJECT\ESPROJECT\BIN\DEBUG\BD4.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" });
 
-            //Repo = new MockDataBase.MockRepository();
-            //Repo.Init(null);
+            Repo = new MockDataBase.MockRepository();
+            Repo.Init(null);
             FactorTypes = new Dictionary<Type, DataFactor>();
 
             AllocConsole();
@@ -41,7 +41,7 @@ namespace Presentation.Code
 
             storage = DataConvertor.ConvertData(Repo.GetTeachers(), Repo.GetStudentsGroups(), Repo.GetClassRoomsTypes(), Repo.GetClassRooms(), Repo.GetStudentsClasses());
 
-            vip = new Setting(storage, classes);
+            vip = new Setting(storage, storage.Classes);
             loggingService.Info("Загружены данные");
 
             Assembly asm = Assembly.Load("FactorsWindows");
@@ -112,27 +112,27 @@ namespace Presentation.Code
                             break;
                         case "TwoClassesInWeek":
                             fine = 10;
-                            obj = GetGroupFourSameClasses(classes);
+                            obj = GetGroupFourSameClasses(storage.Classes);
                             break;
                         case "OnlyOneClassInDay":
                             fine = 100;
-                            obj = GetGroupSameClasses(classes);
+                            obj = GetGroupSameClasses(storage.Classes);
                             break;
                         case "SameClassesInSameTime":
                             fine = 99;
-                            obj = GetGroupSameClassesMoreTwoInTwoWeeks(classes);
+                            obj = GetGroupSameClassesMoreTwoInTwoWeeks(storage.Classes);
                             break;
                         case "SameClassesInSameRoom":
                             fine = 20;
-                            obj = GetGroupSameClassesMoreTwoInTwoWeeks(classes);
+                            obj = GetGroupSameClassesMoreTwoInTwoWeeks(storage.Classes);
                             break;
                         case "OneClassInWeek":
                             fine = 99;
-                            obj = GetGroupTwoSameClasses(classes);
+                            obj = GetGroupTwoSameClasses(storage.Classes);
                             break;
                         case "LectureClassesInDay":
                             fine = 6;
-                            obj = GetLectureClasses(classes);
+                            obj = GetLectureClasses(storage.Classes);
                             break;
                         case "MoreThreeClassesInDay":
                             fine = 4;
@@ -145,22 +145,22 @@ namespace Presentation.Code
                             break;
                         case "SameLecturesInSameTime":
                             fine = 100;
-                            obj = GetLecturePairs(classes);
+                            obj = GetLecturePairs(storage.Classes);
                             break;
                         case "FifthClass":
                             fine = 8;
                             break;
                         case "ClassInSameTimeOnOtherWeek":
                             fine = 100;
-                            obj = GetGroupSameClassesMoreTwoInTwoWeeks(classes);
+                            obj = GetGroupSameClassesMoreTwoInTwoWeeks(storage.Classes);
                             break;
                         case "SameRoomIfClassesInSameTime":
                             fine = 100;
-                            obj = GetGroupSameClassesMoreTwoInTwoWeeks(classes);
+                            obj = GetGroupSameClassesMoreTwoInTwoWeeks(storage.Classes);
                             break;
                         case "PairClassesInSameRoom":
                             fine = 100;
-                            obj = GetGroupSameClassesMoreTwoInTwoWeeks(classes);
+                            obj = GetGroupSameClassesMoreTwoInTwoWeeks(storage.Classes);
                             break;
                         case "VIPClasses":
                             fine = 100;
@@ -195,7 +195,7 @@ namespace Presentation.Code
             core.FixedClasses = vip.GetVipClasses();
             loggingService.Info("Загружено ядро. Запуск...");
 
-            List<ISchedule> schedules = core.Run().ToList<ISchedule>();
+            List<FullSchedule> schedules = core.Run().ToList<FullSchedule>();
 
             loggingService.Info("Итоговое расписание готово");
 
@@ -215,7 +215,7 @@ namespace Presentation.Code
                 loggingService.Info("Расписание преподавателей выгружено в Excel");
             });
 
-            Save.SaveSchedule((FullSchedule)schedules[0]);
+            Save.SaveSchedule(new Schedule((FullSchedule)schedules[0]));
         }
 
 
@@ -402,7 +402,7 @@ namespace Presentation.Code
             excelTeach.LoadToExcel();
             loggingService.Info("Расписание преподавателей выгружено в Excel");
 
-            Save.SaveSchedule((FullSchedule)schedule, path);
+            Save.SaveSchedule(new Schedule(schedule), path);
         }
     }
 }

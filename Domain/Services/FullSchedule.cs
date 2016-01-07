@@ -21,7 +21,7 @@ namespace Domain.Service
         }
         public FullSchedule(FullSchedule schedule)
         {
-            this.TempClass = new StudentsClassPosition(schedule.TempClass.Time, schedule.TempClass.Classroom);
+            this.TempClass = new StudentsClassPosition(schedule.TempClass.Time, schedule.TempClass.ClassRoom);
             this.eStorage = schedule.eStorage;
             this.classesTable = new StudentsClass[schedule.classesTable.GetLength(0), schedule.classesTable.GetLength(1)];
             for (int timeIndex = 0; timeIndex < this.classesTable.GetLength(0); timeIndex++)
@@ -58,7 +58,7 @@ namespace Domain.Service
         }
         public void SetClass(StudentsClass sClass, StudentsClassPosition position)
         {
-            classesTable[position.Time, position.Classroom] = sClass;
+            classesTable[position.Time, position.ClassRoom] = sClass;
             TempClass = position;
         }
         public void RemoveClass(StudentsClass sClass)
@@ -66,7 +66,7 @@ namespace Domain.Service
             StudentsClassPosition? position = this.GetClassPosition(sClass);
             if(position.HasValue)
             {
-                classesTable[position.Value.Time, position.Value.Classroom] = null;
+                classesTable[position.Value.Time, position.Value.ClassRoom] = null;
             }
         }
 
@@ -78,27 +78,27 @@ namespace Domain.Service
         //чтобы классы факторов могли получить информацию по последней добавленной паре
         //чтобы не проверять расписание целиком при каждом добавлении пары
 
-        public StudentsClass GetTempClass()
+        StudentsClass ISchedule.GetTempClass()
         {
-            if (classesTable[TempClass.Time, TempClass.Classroom] == null)
+            if (classesTable[TempClass.Time, TempClass.ClassRoom] == null)
             {
-                throw new Exception("В объекте расписания исчезла временная пара");
+                throw new Exception("В объекте расписания отсутствует временная пара");
             }
-            return classesTable[TempClass.Time, TempClass.Classroom];
+            return classesTable[TempClass.Time, TempClass.ClassRoom];
         }
-        public ClassRoom GetTempClassRooom()
+        ClassRoom ISchedule.GetTempClassRooom()
         {
-            if (classesTable[TempClass.Time, TempClass.Classroom] == null)
+            if (classesTable[TempClass.Time, TempClass.ClassRoom] == null)
             {
-                throw new Exception("В объекте расписания исчезла временная пара");
+                throw new Exception("В объекте расписания отсутствует временная пара");
             }
-            return eStorage.ClassRooms[TempClass.Classroom];
+            return eStorage.ClassRooms[TempClass.ClassRoom];
         }
-        public int GetTimeOfTempClass()//время последней добавленной пары
+        int ISchedule.GetTimeOfTempClass()//время последней добавленной пары
         {
-            if (classesTable[TempClass.Time, TempClass.Classroom] == null)
+            if (classesTable[TempClass.Time, TempClass.ClassRoom] == null)
             {
-                throw new Exception("В объекте расписания исчезла временная пара");
+                throw new Exception("В объекте расписания отсутствует временная пара");
             }
             return TempClass.Time;
         }
@@ -172,21 +172,6 @@ namespace Domain.Service
             return classesTable[timeIndex, roomIndex];
         }
         #endregion
-        
-        [Serializable]
-        public struct StudentsClassPosition
-        {
-            public StudentsClassPosition(int time, int classroom, int fine = 0) : this()
-            {
-                Time = time;
-                Classroom = classroom;
-                Fine = fine;
-            }
-
-            public int Time { get; private set; }
-            public int Classroom { get; private set; }
-            public int Fine { get; private set; }
-        }
 
         #region Service
         bool StudentsBusy(StudentSubGroup[] students, int Time)

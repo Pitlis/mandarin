@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Domain.DataFiles;
 using Domain.Model;
 using Domain.Service;
 using Presentation;
@@ -42,7 +43,7 @@ namespace ESProject
 
         private void btnEditSchedule_Click(object sender, RoutedEventArgs e)
         {
-            FullSchedule schedule = Save.LoadSchedule();
+            Schedule schedule = Save.LoadSchedule();
             EditSchedule form = new EditSchedule(new ScheduleForEdit(schedule));
             form.Show();
         }

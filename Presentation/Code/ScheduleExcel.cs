@@ -306,7 +306,6 @@ namespace Presentation.Code
 
         public static void CreatTemplate(Application ObjExcel, Workbook ObjWorkBook, Worksheet ObjWorkSheet)
         {
-            int k = 3;
             //---------------------------------------------------------
             //Creat template
             Range exelcells;
