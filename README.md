@@ -7,6 +7,7 @@
 
 ## Документация
 * [Интерфейсы](docs/interfaces.md)
+* [Типы данных анализаторов](docs/factorDataTypes.md)
 
 ## Команда
 
