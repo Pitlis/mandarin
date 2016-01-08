@@ -21,7 +21,7 @@ namespace Presentation.Code
     class Logic
     {
         public IRepository Repo { get; private set; }
-        public Dictionary<Type, DataFactor> FactorTypes { get; private set; }
+        public List<FactorSettings> Factors { get; private set; }
         EntityStorage storage;
         ILoggingService loggingService;
         Setting vip;
@@ -34,7 +34,7 @@ namespace Presentation.Code
 
             Repo = new MockDataBase.MockRepository();
             Repo.Init(null);
-            FactorTypes = new Dictionary<Type, DataFactor>();
+            Factors = new List<FactorSettings>();
 
             AllocConsole();
             loggingService = new NLogLoggingService();
@@ -79,7 +79,7 @@ namespace Presentation.Code
                         default:
                             break;
                     }
-                    FactorTypes.Add(factor, new DataFactor(fine));
+                    Factors.Add(new FactorSettings(fine, factor));
                 }
             }
 
@@ -172,7 +172,7 @@ namespace Presentation.Code
                         default:
                             break;
                     }
-                    FactorTypes.Add(factor, new DataFactor(fine, obj));
+                    Factors.Add(new FactorSettings(fine, factor, null, obj));
                 }
             }
         }
@@ -189,7 +189,7 @@ namespace Presentation.Code
         {
             pathToScheduleFolder = Directory.CreateDirectory(DateTime.Now.ToString("dd.MM.yyyy(HH.mm)")).FullName;
 
-            Core core = new Core(storage, FactorTypes);
+            Core core = new Core(storage, Factors);
             core.SaveCreatedSchedule = SaveCreatedSchedule;
             core.logger = loggingService;
             core.FixedClasses = vip.GetVipClasses();

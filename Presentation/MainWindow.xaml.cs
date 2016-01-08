@@ -2,6 +2,7 @@
 using Domain.DataFiles;
 using Domain.Model;
 using Domain.Service;
+using Domain.Services;
 using Presentation;
 using Presentation.Code;
 using System;
@@ -50,7 +51,7 @@ namespace ESProject
 
         private void FactorSetting_Click(object sender, RoutedEventArgs e)
         {
-            FactorSettings fsett = new FactorSettings(new Dictionary<Type, DataFactor>());
+            FactorSettingsForm fsett = new FactorSettingsForm(new List<FactorSettings>());
             fsett.Show();
         }
 

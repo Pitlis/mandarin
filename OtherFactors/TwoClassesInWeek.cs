@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Services;
 using Domain.Model;
+using Domain.FactorInterfaces;
 
 namespace OtherFactors
 {
@@ -84,12 +85,12 @@ namespace OtherFactors
             }
             catch(Exception ex)
             {
-                new Exception("Неверный формат данных. Требуется двумерный массив Nx2 типа StudentsClass. " + ex.Message);
+                new Exception("Неверный формат данных. Требуется двумерный массив Nx4 типа StudentsClass. " + ex.Message);
             }
         }
-        public object GetDataType()
+        public Guid? GetDataTypeGuid()
         {
-            return typeof(StudentsClass[,]);
+            return new Guid("CF2B2F17-D8D0-4848-878C-DE9B9B988392");
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Domain;
 using Domain.Model;
 using Domain.Services;
+using Domain.FactorInterfaces;
 
 namespace OtherFactors
 {
@@ -90,7 +91,7 @@ namespace OtherFactors
                     this.isBlock = true;
             }
         }
-        public object GetDataType()
+        public Guid? GetDataTypeGuid()
         {
             return null;
         }

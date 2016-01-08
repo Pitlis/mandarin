@@ -43,13 +43,16 @@
     <Compile Include="DataFiles\Base.cs" />
     <Compile Include="DataBaseTypes.cs" />
     <Compile Include="DataFiles\Schedule.cs" />
+    <Compile Include="FactorInterfaces\IFactorFormData.cs" />
+    <Compile Include="FactorInterfaces\IFactorProgramData.cs" />
     <Compile Include="IDomainIdentity.cs" />
-    <Compile Include="IFactor.cs" />
+    <Compile Include="FactorInterfaces\IFactor.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="ISchedule.cs" />
     <Compile Include="Model\ClassRoom.cs" />
     <Compile Include="Model\ClassRoomType.cs" />
     <Compile Include="Model\StudentsClass.cs" />
+    <Compile Include="Services\FactorSettings.cs" />
     <Compile Include="Services\FullSchedule.cs" />
     <Compile Include="Model\StudentSubGroup.cs" />
     <Compile Include="Services\PartialSchedule.cs" />

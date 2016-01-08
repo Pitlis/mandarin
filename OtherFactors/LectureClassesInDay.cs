@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Domain.FactorInterfaces;
 using Domain.Model;
 using Domain.Services;
 using System;
@@ -111,9 +112,10 @@ namespace OtherFactors
                 new Exception("Неверный формат данных. Требуется двумерный массив Nx2 типа StudentsClass. " + ex.Message);
             }
         }
-        public object GetDataType()
+        public Guid? GetDataTypeGuid()
         {
-            return typeof(List<StudentsClass>);
+            //Список лекций
+            return new Guid("459A38B8-E6AC-4185-BCD9-F9024B3FEE8E");
         }
     }
 }

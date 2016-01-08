@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Domain;
 using Domain.Services;
 using Domain.Model;
+using Domain.FactorInterfaces;
 
 namespace FactorsWindows
 {
@@ -78,7 +79,7 @@ namespace FactorsWindows
                     this.isBlock = true;
             }
         }
-        public object GetDataType()
+        public Guid? GetDataTypeGuid()
         {
             return null;
         }

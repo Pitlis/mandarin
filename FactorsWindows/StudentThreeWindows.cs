@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Domain.FactorInterfaces;
 using Domain.Model;
 using Domain.Services;
 using System;
@@ -76,7 +77,7 @@ namespace FactorsWindows
                     this.isBlock = true;
             }
         }
-        public object GetDataType()
+        public Guid? GetDataTypeGuid()
         {
             return null;
         }

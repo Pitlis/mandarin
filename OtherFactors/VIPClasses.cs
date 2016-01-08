@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Domain.FactorInterfaces;
 using Domain.Model;
 using Domain.Service;
 using Domain.Services;
@@ -101,9 +102,9 @@ namespace OtherFactors
                 new Exception("Неверный формат данных. Требуется список объектов типа VIPClases. " + ex.Message);
             }
         }
-        public object GetDataType()
+        public Guid? GetDataTypeGuid()
         {
-            return typeof(List<FixedClasses>);
+            return new Guid("37DCA975-0CB9-4DEC-9DAD-93CDBC0D0599");
         }
     }
 }

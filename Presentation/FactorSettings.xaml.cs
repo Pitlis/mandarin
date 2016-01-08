@@ -11,6 +11,7 @@ using System.Reflection;
 using System.IO;
 using System.Xml.Serialization;
 using MandarinCore;
+using Domain.FactorInterfaces;
 
 namespace Presentation
 {
@@ -18,26 +19,26 @@ namespace Presentation
     /// Логика взаимодействия для FactorSettings.xaml
     /// </summary>
     [Serializable]
-    public partial class FactorSettings : Window
+    public partial class FactorSettingsForm : Window
     {
-        Dictionary<Type, DataFactor> Factors;
+        List<FactorSettings> Factors;
         // private List<Fac> Lfac { get; set; }
         private ObservableCollection<Fac> Lfac = new ObservableCollection<Fac>();
 
-        public FactorSettings(Dictionary<Type, DataFactor> factors)
+        public FactorSettingsForm(List<FactorSettings> factors)
         {
             this.Factors = factors;
             InitializeComponent();
 
         }
-        public FactorSettings()
+        public FactorSettingsForm()
         {
             this.Factors = null;
 
         }
 
         #region FillFactor;
-        private void FillFactor(ref Dictionary<Type, DataFactor> Factors)
+        private void FillFactor(ref List<FactorSettings> Factors)
         {
             EntityStorage storage;
             StudentsClass[] classes;
@@ -85,7 +86,7 @@ namespace Presentation
                         default:
                             break;
                     }
-                    Factors.Add(factor, new DataFactor(fine));
+                    Factors.Add(new FactorSettings(fine, factor));
                 }
             }
 
@@ -145,7 +146,7 @@ namespace Presentation
                         default:
                             break;
                     }
-                    Factors.Add(factor, new DataFactor(fine, obj));
+                    Factors.Add(new FactorSettings(fine, factor, null, obj));
                 }
             }
 
@@ -318,8 +319,8 @@ namespace Presentation
             int factorIndex = 0;
             foreach (var factor in Factors)
             {
-                factors[factorIndex] = (IFactor)Activator.CreateInstance(factor.Key);
-                factors[factorIndex].Initialize(fine: factor.Value.Fine, data: factor.Value.Data);
+                factors[factorIndex] = (IFactor)Activator.CreateInstance(factor.Factor);
+                factors[factorIndex].Initialize(fine: factor.Fine, data: factor.Data);
                 bool contain = false;
                 for (int i = 0; i < Lfac.Count; i++)
                 {

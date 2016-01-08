@@ -9,12 +9,13 @@ using Domain.Services;
 using System.Threading;
 using SimpleLogging.Core;
 using Domain.Service;
+using Domain.FactorInterfaces;
 
 namespace MandarinCore
 {
     public class Core
     {
-        Dictionary<Type, DataFactor> Factors;
+        List<FactorSettings> Factors;
         public static EntityStorage EStorage { get; private set; }
 
         #region Options
@@ -25,9 +26,9 @@ namespace MandarinCore
 
         #endregion
 
-        public Core(EntityStorage storage, Dictionary<Type, DataFactor> factors)
+        public Core(EntityStorage storage, IEnumerable<FactorSettings> factors)
         {
-            Factors = SortFactors(factors);
+            Factors = SortFactors(factors).ToList();
             EStorage = storage;
             DataValidator.Validate(storage);
         }
@@ -145,8 +146,8 @@ namespace MandarinCore
             int factorIndex = 0;
             foreach(var factor in Factors)
             {
-                factors[factorIndex] = (IFactor)Activator.CreateInstance(factor.Key);
-                factors[factorIndex].Initialize(fine: factor.Value.Fine, data: factor.Value.Data);
+                factors[factorIndex] = (IFactor)Activator.CreateInstance(factor.Factor);
+                factors[factorIndex].Initialize(fine: factor.Fine, data: factor.Data);
                 factorIndex++;
             }
             return factors;
@@ -168,20 +169,18 @@ namespace MandarinCore
         }
 
         //первыми проверяются факторы с блокирующими штрафами
-        Dictionary<Type, DataFactor> SortFactors(Dictionary<Type, DataFactor> factors)
+        IEnumerable<FactorSettings> SortFactors(IEnumerable<FactorSettings> factors)
         {
-            Dictionary<Type, DataFactor> sortedFactors = new Dictionary<Type, DataFactor>();
-            List<KeyValuePair<Type, DataFactor>> factorList = factors.ToList();
-
-            factorList.Sort((firstPair, nextPair) =>
+            List<FactorSettings> sortedFactors = factors.ToList();
+            sortedFactors.Sort((firstPair, nextPair) =>
             {
-                return -firstPair.Value.Fine.CompareTo(nextPair.Value.Fine);
+                return -firstPair.Fine.CompareTo(nextPair.Fine);
             });
 
-            foreach (var factor in factorList)
+            for (int factorIndex = 0; factorIndex < factors.Count(); factorIndex++)
             {
-                if(factor.Value.Fine > 0)
-                    sortedFactors.Add(factor.Key, factor.Value);
+                if (sortedFactors[factorIndex].Fine <= 0)
+                    sortedFactors.Remove(sortedFactors[factorIndex]);
             }
 
             return sortedFactors;

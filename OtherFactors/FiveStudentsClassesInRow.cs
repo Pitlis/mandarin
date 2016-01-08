@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Services;
 using Domain.Model;
+using Domain.FactorInterfaces;
 
 namespace OtherFactors
 {
@@ -73,11 +74,7 @@ namespace OtherFactors
                     this.isBlock = true;
             }
         }
-        public object GetDataType()
-        {
-            return null;
-        }
-
+        
         int GetCountClassesInRow(StudentsClass[] classesInDay)
         {
             int RowMax = 0;
@@ -96,6 +93,11 @@ namespace OtherFactors
                 }
             }
             return RowMax;
+        }
+
+        public Guid? GetDataTypeGuid()
+        {
+            return null;
         }
     }
 }

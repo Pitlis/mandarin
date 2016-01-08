@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Services;
 using Domain.Model;
+using Domain.FactorInterfaces;
 
 namespace OtherFactors
 {
@@ -49,11 +50,7 @@ namespace OtherFactors
         {
             return "Только одна пара в день";
         }
-        public object GetDataType()
-        {
-            return typeof(List<StudentsClass>[]);
-        }
-
+        
         public string GetDescription()
         {
             return "В день может быть не больше одной пары из списка";
@@ -96,6 +93,12 @@ namespace OtherFactors
             {
                 new Exception("Неверный формат данных. Требуется массив списков типа StudentsClass. " + ex.Message);
             }
+        }
+
+        public Guid? GetDataTypeGuid()
+        {
+            //Массив списков
+            return new Guid("5CD997CE-3499-470E-8299-24AC7F18AF8C");
         }
     }
 }
