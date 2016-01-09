@@ -18,14 +18,13 @@ namespace OtherFactors
 
         public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
         {
-            StudentSubGroup[] groups = schedule.GetTempClass().SubGroups;
             int classTime = schedule.GetTimeOfTempClass();
             //Считаем день недели последней добавленной пары
             int dayOfWeek = Constants.GetDayOfClass(classTime);
             //Считаем номер пары в этот день
-            int classOfDay = classTime - (6 * (dayOfWeek) - 1) - 1;
+            int classOfDay = Constants.GetTimeOfClass(classTime);
             int fineResult = 0;
-            if (!SameClasses.CheckClassInSameTimeOnOtherWeek(schedule, sClasses, dayOfWeek, classOfDay))
+            if (!SameClasses.ClassAtTheSameTimeOnOtherWeek(schedule, sClasses, dayOfWeek, classOfDay))
             {
                 if (isBlock)
                     return Constants.BLOCK_FINE;
@@ -45,7 +44,7 @@ namespace OtherFactors
                 {
                     for (int classIndex = 0; classIndex < Constants.CLASSES_IN_DAY; classIndex++)
                     {
-                        if (!SameClasses.CheckClassInSameTimeOnOtherWeek(schedule, sClasses, dayIndex, classIndex))
+                        if (!SameClasses.ClassAtTheSameTimeOnOtherWeek(schedule, sClasses, dayIndex, classIndex))
                         {
                             if (isBlock)
                                 return Constants.BLOCK_FINE;
@@ -57,9 +56,7 @@ namespace OtherFactors
                 }
             }
             return fineResult;
-        }
-
-        
+        }        
 
         public string GetName()
         {

@@ -1,5 +1,5 @@
 ﻿using Domain.Model;
-using Domain.Service;
+using Domain.Services;
 using SimpleLogging.Core;
 using System;
 using System.Collections.Generic;

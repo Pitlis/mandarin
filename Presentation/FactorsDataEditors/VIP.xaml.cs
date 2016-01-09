@@ -16,7 +16,6 @@ using Domain.Model;
 using Domain.Services;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
-using Domain.Service;
 
 namespace Presentation
 {

@@ -1,6 +1,5 @@
 ﻿using Domain;
 using Domain.Model;
-using Domain.Service;
 using Domain.Services;
 using System;
 using System.Collections.Generic;
@@ -12,7 +11,7 @@ namespace OtherFactors
 {
     class SameClasses
     {
-        public static bool CheckClassesHasSameTime(ISchedule schedule, int classRow, StudentsClass[,] sClasses)
+        public static bool ClassesAtSameTime(ISchedule schedule, int classRow, StudentsClass[,] sClasses)
         {
             StudentsClassPosition? firstClassPosition = schedule.GetClassPosition(sClasses[classRow, 0]);
             StudentsClassPosition? secondClassPosition = schedule.GetClassPosition(sClasses[classRow, 1]);
@@ -23,7 +22,7 @@ namespace OtherFactors
                     if (secondClassPosition.Value.Time + Constants.CLASSES_IN_DAY * Constants.DAYS_IN_WEEK
                         != firstClassPosition.Value.Time)
                     {
-                        return true;
+                        return false;
                     }
                 }
                 else if (secondClassPosition.Value.Time > firstClassPosition.Value.Time)
@@ -31,14 +30,14 @@ namespace OtherFactors
                     if (firstClassPosition.Value.Time + Constants.CLASSES_IN_DAY * Constants.DAYS_IN_WEEK
                         != secondClassPosition.Value.Time)
                     {
-                        return true;
+                        return false;
                     }
                 }
             }
-            return false;
+            return true;
         }
 
-        public static bool CheckClassesHasSameTime(StudentsClass c1, StudentsClass c2, ISchedule schedule)
+        public static bool ClassesAtSameTime(StudentsClass c1, StudentsClass c2, ISchedule schedule)
         {
             StudentsClassPosition? firstClassPosition = schedule.GetClassPosition(c1);
             StudentsClassPosition? secondClassPosition = schedule.GetClassPosition(c2);
@@ -49,7 +48,7 @@ namespace OtherFactors
                     if (secondClassPosition.Value.Time + Constants.CLASSES_IN_DAY * Constants.DAYS_IN_WEEK
                         != firstClassPosition.Value.Time)
                     {
-                        return true;
+                        return false;
                     }
                 }
                 else if (secondClassPosition.Value.Time > firstClassPosition.Value.Time)
@@ -57,14 +56,14 @@ namespace OtherFactors
                     if (firstClassPosition.Value.Time + Constants.CLASSES_IN_DAY * Constants.DAYS_IN_WEEK
                         != secondClassPosition.Value.Time)
                     {
-                        return true;
+                        return false;
                     }
                 }
             }
-            return false;
+            return true;
         }
 
-        public static bool CheckClassesHasSameRoom(ISchedule schedule, int classRow, StudentsClass[,] sClasses)
+        public static bool ClassesHasSameRoom(ISchedule schedule, int classRow, StudentsClass[,] sClasses)
         {
             StudentsClassPosition? firstClassPosition = schedule.GetClassPosition(sClasses[classRow, 0]);
             StudentsClassPosition? secondClassPosition = schedule.GetClassPosition(sClasses[classRow, 1]);
@@ -78,7 +77,7 @@ namespace OtherFactors
             return true;
         }
 
-        public static bool CheckClassesHasSameRoom(StudentsClass c1, StudentsClass c2, ISchedule schedule)
+        public static bool ClassesHasSameRoom(StudentsClass c1, StudentsClass c2, ISchedule schedule)
         {
             StudentsClassPosition? firstClassPosition = schedule.GetClassPosition(c1);
             StudentsClassPosition? secondClassPosition = schedule.GetClassPosition(c2);
@@ -92,42 +91,44 @@ namespace OtherFactors
             return true;
         }
 
-        public static bool CheckClassInSameTimeOnOtherWeek(ISchedule schedule, StudentsClass[] sClasses, int dayOfWeek, int classOfDay)
+        public static bool ClassAtTheSameTimeOnOtherWeek(ISchedule schedule, StudentsClass[] sClasses, int dayOfWeek, int classOfDay)
         {
-            StudentSubGroup[] groups = schedule.GetTempClass().SubGroups;
-            if (dayOfWeek < 6)
+            StudentsClass tempClass = schedule.GetTempClass();
+            if (dayOfWeek < Constants.DAYS_IN_WEEK)
             {
-                foreach (StudentSubGroup subGroup in groups)
+                foreach (StudentSubGroup subGroup in tempClass.SubGroups)
                 {
-                    if (schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek + 6)[classOfDay] != null)
+                    StudentsClass secondClass = schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek + Constants.DAYS_IN_WEEK)[classOfDay];
+                    if (!IsSameClassesAtTheSameTimeOnOtherWeek(sClasses, tempClass, secondClass))
                     {
-                        StudentsClass secondClass = schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek + 6)[classOfDay];
-                        if (!StudentsClass.StudentClassEquals(schedule.GetTempClass(), secondClass))
-                        {
-                            if (Array.FindAll<StudentsClass>(sClasses, (c) => c == secondClass).Count() == 0
-                                && Array.FindAll<StudentsClass>(sClasses, (c) => c == schedule.GetTempClass()).Count() > 0)
-                            {
-                                return false;
-                            }
-                        }
+                        return false;
                     }
                 }
             }
             else
             {
-                foreach (StudentSubGroup subGroup in groups)
+                foreach (StudentSubGroup subGroup in tempClass.SubGroups)
                 {
-                    if (schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek - 6)[classOfDay] != null)
+                    StudentsClass secondClass = schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek - Constants.DAYS_IN_WEEK)[classOfDay];
+                    if (!IsSameClassesAtTheSameTimeOnOtherWeek(sClasses, tempClass, secondClass))
                     {
-                        StudentsClass secondClass = schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek - 6)[classOfDay];
-                        if (!StudentsClass.StudentClassEquals(schedule.GetTempClass(), secondClass))
-                        {
-                            if (Array.FindAll<StudentsClass>(sClasses, (c) => c == secondClass).Count() == 0
-                                && Array.FindAll<StudentsClass>(sClasses, (c) => c == schedule.GetTempClass()).Count() > 0)
-                            {
-                                return false;
-                            }
-                        }
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        private static bool IsSameClassesAtTheSameTimeOnOtherWeek(StudentsClass[] sClasses, StudentsClass tempClass, StudentsClass secondClass)
+        {
+            if (secondClass != null)
+            {
+                if (!StudentsClass.StudentClassEquals(tempClass, secondClass))
+                {
+                    if (Array.FindAll<StudentsClass>(sClasses, (c) => c == secondClass).Count() == 0
+                        && Array.FindAll<StudentsClass>(sClasses, (c) => c == tempClass).Count() > 0)
+                    {
+                        return false;
                     }
                 }
             }

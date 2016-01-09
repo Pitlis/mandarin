@@ -16,14 +16,12 @@ namespace OtherFactors
         bool isBlock;
         StudentsClass[,] sClasses;
 
-
-
         public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
         {
             int classRow = -1;
             if ((classRow = ClassesInWeek.GetRow(sClasses, schedule.GetTempClass())) != -1)
             {
-                if (SameClasses.CheckClassesHasSameTime(schedule, classRow, sClasses))
+                if (!SameClasses.ClassesAtSameTime(schedule, classRow, sClasses))
                 {
                     if (isBlock)
                         return Constants.BLOCK_FINE;
@@ -39,7 +37,7 @@ namespace OtherFactors
             int fineResult = 0;
             for (int classIndex = 0; classIndex < sClasses.GetLength(0); classIndex++)
             {
-                if (SameClasses.CheckClassesHasSameTime(schedule, classIndex, sClasses))
+                if (!SameClasses.ClassesAtSameTime(schedule, classIndex, sClasses))
                 {
                     if (isBlock)
                         return Constants.BLOCK_FINE;

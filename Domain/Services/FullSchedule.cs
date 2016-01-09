@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Service
+namespace Domain.Services
 {
     [Serializable]
     public class FullSchedule : ISchedule

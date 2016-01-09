@@ -13,7 +13,6 @@ using SimpleLogging.NLog;
 using SimpleLogging.Core;
 using System.Runtime.InteropServices;
 using System.IO;
-using Domain.Service;
 using Domain.DataFiles;
 
 namespace Presentation.Code

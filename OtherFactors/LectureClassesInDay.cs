@@ -14,9 +14,7 @@ namespace OtherFactors
     {
         int fine;
         bool isBlock;
-        List<StudentsClass> sClasses;
-
-
+        List<StudentsClass> lClasses;
 
         public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
         {
@@ -26,7 +24,7 @@ namespace OtherFactors
             int fineCount = 0;
             foreach (StudentSubGroup subGroup in schedule.GetTempClass().SubGroups)
             {
-                lectureCount = CountLectureClassesInDay(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek), sClasses);
+                lectureCount = CountLectureClassesInDay(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek), lClasses);
                 if (lectureCount > 3)
                 {
                     fineCount++;
@@ -39,7 +37,7 @@ namespace OtherFactors
                 else
                     return fineCount * fine;
             }
-            return 0;
+            return fineCount;
         }
 
         public int GetFineOfFullSchedule(ISchedule schedule, EntityStorage eStorage)
@@ -48,10 +46,10 @@ namespace OtherFactors
             int fineCount = 0;
             foreach (StudentSubGroup subGroup in eStorage.StudentSubGroups)
             {
-                for (int i = 0; i < Constants.DAYS_IN_WEEK * Constants.WEEKS_IN_SCHEDULE; i++)
+                for (int dayIndex = 0; dayIndex < Constants.DAYS_IN_WEEK * Constants.WEEKS_IN_SCHEDULE; dayIndex++)
                 {
 
-                    lectureCount = CountLectureClassesInDay(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(i), sClasses);
+                    lectureCount = CountLectureClassesInDay(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayIndex), lClasses);
                     if (lectureCount > 3)
                     {
                         fineCount++;
@@ -65,22 +63,18 @@ namespace OtherFactors
                 else
                     return fineCount * fine;
             }
-            return 0;
+            return fineCount;
         }
 
         private static int CountLectureClassesInDay(StudentsClass[] sClasses, List<StudentsClass> lClasses)
         {
             int lectureCount = 0;
-            for (int k = 0; k < Constants.CLASSES_IN_DAY - 1; k++)
+            for (int classIndex = 0; classIndex < Constants.CLASSES_IN_DAY - 1; classIndex++)
             {
-                foreach (StudentsClass sClass in lClasses)
+                if (lClasses.Find((c) => c == sClasses[classIndex]) != null)
                 {
-                    if (sClasses[k] == sClass)
-                    {
-                        lectureCount++;
-                    }
+                    lectureCount++;
                 }
-
             }
             return lectureCount;
         }
@@ -105,7 +99,7 @@ namespace OtherFactors
             }
             try
             {
-                sClasses = (List<StudentsClass>)data;
+                lClasses = (List<StudentsClass>)data;
             }
             catch (Exception ex)
             {
