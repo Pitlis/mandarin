@@ -1,7 +1,6 @@
 ﻿using Domain;
 using Domain.FactorInterfaces;
 using Domain.Model;
-using Domain.Service;
 using Domain.Services;
 using System;
 using System.Collections.Generic;
@@ -15,42 +14,33 @@ namespace OtherFactors
     {
         int fine;
         bool isBlock;
-        StudentsClass[] sClasses;
+        StudentsClass[,] sClasses;
+        List<StudentsClass> sClassesList;
 
         public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
         {
             int fineResult = 0;
+            StudentsClass tempClass = schedule.GetTempClass();
             int classTime = schedule.GetTimeOfTempClass();
             int roomIndex = schedule.GetClassPosition(schedule.GetTempClass()).Value.ClassRoom;
             int weekOfClass = Constants.GetWeekOfClass(classTime);
-            if (Array.FindAll<StudentsClass>(sClasses, (c) => c == schedule.GetTempClass()).Count() > 0)
+            if (Array.Find(sClassesList.ToArray(), (c) => c == schedule.GetTempClass()) != null)
             {
+                StudentsClass secondClass;
                 if (weekOfClass == 0)
-                {
-                    StudentsClass secondClass = schedule.GetClassByRoomAndPosition(roomIndex, classTime + Constants.CLASSES_IN_DAY * Constants.DAYS_IN_WEEK);
-                    if (secondClass != null)
-                    {
-                        if (!StudentsClass.StudentClassEquals(schedule.GetTempClass(), secondClass))
-                        {
-                            if (isBlock)
-                                return Constants.BLOCK_FINE;
-                            else
-                                fineResult += fine;
-                        }
-                    }
-                }
+                    secondClass = schedule.GetClassByRoomAndPosition(roomIndex, classTime + Constants.CLASSES_IN_DAY * Constants.DAYS_IN_WEEK);
                 else
+                    secondClass = schedule.GetClassByRoomAndPosition(roomIndex, classTime - Constants.CLASSES_IN_DAY * Constants.DAYS_IN_WEEK);
+                if (secondClass != null)
                 {
-                    StudentsClass secondClass = schedule.GetClassByRoomAndPosition(roomIndex, classTime - Constants.CLASSES_IN_DAY * Constants.DAYS_IN_WEEK);
-                    if (secondClass != null)
+                    int firstClassRow = ClassesInWeek.GetRow(sClasses, tempClass);
+                    int secondClassRow = ClassesInWeek.GetRow(sClasses, secondClass);
+                    if (secondClassRow == -1 || secondClassRow != firstClassRow)
                     {
-                        if (!StudentsClass.StudentClassEquals(schedule.GetTempClass(), secondClass))
-                        {
-                            if (isBlock)
-                                return Constants.BLOCK_FINE;
-                            else
-                                fineResult += fine;
-                        }
+                        if (isBlock)
+                            return Constants.BLOCK_FINE;
+                        else
+                            fineResult += fine;
                     }
                 }
             }
@@ -60,22 +50,23 @@ namespace OtherFactors
         public int GetFineOfFullSchedule(ISchedule schedule, EntityStorage eStorage)
         {
             int fineResult = 0;
-            for (int groupIndex = 0; groupIndex < eStorage.StudentSubGroups.Length; groupIndex++)
+            foreach (StudentSubGroup subGroup in eStorage.StudentSubGroups)
             {
-                PartialSchedule groupSchedule = schedule.GetPartialSchedule(eStorage.StudentSubGroups[groupIndex]);
                 for (int dayIndex = 0; dayIndex < Constants.DAYS_IN_WEEK; dayIndex++)
                 {
-                    StudentsClass[] sClass = groupSchedule.GetClassesOfDay(dayIndex);
-                    for (int classIndex = 0; classIndex < sClass.Length; classIndex++)
+                    StudentsClass[] subGroupDay = schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayIndex);
+                    for (int classIndex = 0; classIndex < subGroupDay.Length; classIndex++)
                     {
-                        if (Array.FindAll<StudentsClass>(sClasses, (c) => c == sClass[classIndex]).Count() > 0)
+                        if (Array.Find<StudentsClass>(sClassesList.ToArray(), (c) => c == subGroupDay[classIndex]) != null)
                         {
-                            StudentsClassPosition? firstClassPosition = schedule.GetClassPosition(sClass[classIndex]);
-                            StudentsClass secondClass = schedule.GetClassByRoomAndPosition(firstClassPosition.Value.ClassRoom, 
+                            StudentsClassPosition? firstClassPosition = schedule.GetClassPosition(subGroupDay[classIndex]);
+                            StudentsClass secondClass = schedule.GetClassByRoomAndPosition(firstClassPosition.Value.ClassRoom,
                                 firstClassPosition.Value.Time + Constants.CLASSES_IN_DAY * Constants.DAYS_IN_WEEK);
                             if (secondClass != null)
                             {
-                                if (!StudentsClass.StudentClassEquals(sClass[classIndex], secondClass))
+                                int firstClassRow = ClassesInWeek.GetRow(sClasses, subGroupDay[classIndex]);
+                                int secondClassRow = ClassesInWeek.GetRow(sClasses, secondClass);
+                                if (secondClassRow == -1 || secondClassRow != firstClassRow)
                                 {
                                     if (isBlock)
                                         return Constants.BLOCK_FINE;
@@ -112,18 +103,20 @@ namespace OtherFactors
             try
             {
                 StudentsClass[,] tempArray = (StudentsClass[,])data;
-                sClasses = new StudentsClass[tempArray.GetLength(0) * tempArray.GetLength(1)];
-                int sClassesIndex = 0;
+                sClasses = new StudentsClass[tempArray.GetLength(0), tempArray.GetLength(1)];
+                sClassesList = new List<StudentsClass>();
                 for (int rowIndex = 0; rowIndex < tempArray.GetLength(0); rowIndex++)
                 {
                     //в получаемом массиве, в каждой строке должно быть по 2 пары - по одной на каждую неделю
                     for (int classIndex = 0; classIndex < 2; classIndex++)
                     {
                         if (tempArray[rowIndex, classIndex] != null)
-                            sClasses[sClassesIndex] = tempArray[rowIndex, classIndex];
+                        {
+                            sClassesList.Add(tempArray[rowIndex, classIndex]);
+                            sClasses[rowIndex, classIndex] = tempArray[rowIndex, classIndex];
+                        }
                         else
                             throw new NullReferenceException();
-                        sClassesIndex++;
                     }
                 }
             }
