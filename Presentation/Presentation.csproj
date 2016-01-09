@@ -72,14 +72,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Code\Setting.cs" />
-    <Compile Include="VIP.xaml.cs">
+    <Compile Include="FactorsDataEditors\VIP.xaml.cs">
       <DependentUpon>VIP.xaml</DependentUpon>
     </Compile>
-    <Page Include="ChooseClassRoom.xaml">
+    <Page Include="ScheduleEditor\ChooseClassRoom.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="EditSchedule.xaml">
+    <Page Include="ScheduleEditor\EditSchedule.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -91,7 +91,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="MandarinForm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -99,15 +99,15 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ChooseClassRoom.xaml.cs">
+    <Compile Include="ScheduleEditor\ChooseClassRoom.xaml.cs">
       <DependentUpon>ChooseClassRoom.xaml</DependentUpon>
     </Compile>
     <Compile Include="Code\FacultAndGroop.cs" />
     <Compile Include="Code\Logic.cs" />
     <Compile Include="Code\Save.cs" />
     <Compile Include="Code\ScheduleExcel.cs" />
-    <Compile Include="Code\ScheduleForEdit.cs" />
-    <Compile Include="EditSchedule.xaml.cs">
+    <Compile Include="ScheduleEditor\ScheduleForEdit.cs" />
+    <Compile Include="ScheduleEditor\EditSchedule.xaml.cs">
       <DependentUpon>EditSchedule.xaml</DependentUpon>
     </Compile>
     <Compile Include="FactorSettings.xaml.cs">
@@ -116,11 +116,11 @@
     <Compile Include="FacultyAndGroops.xaml.cs">
       <DependentUpon>FacultyAndGroops.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="MandarinForm.xaml.cs">
+      <DependentUpon>MandarinForm.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="VIP.xaml">
+    <Page Include="FactorsDataEditors\VIP.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
