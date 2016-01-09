@@ -134,29 +134,19 @@ namespace MandarinCore
                 }
                 sClasses.Add(new StudentClassScores(classes[classIndex], a[classIndex] / (g[classIndex] * p[classIndex])));
             }
+            List<StudentClassPair> pairClasses = GetGroupSameClassesMoreTwoInTwoWeeks(classes);
             sClasses.Sort((s1, s2) =>
             {
-                bool sOne = false, sTwo = false;
                 int result;
-                foreach (ClassRoomType cRoomType in s1.sClass.RequireForClassRoom)
-                {
-                    if (cRoomType.Description.Contains("Лекция") || cRoomType.Description.Contains("СпортЗал"))
-                    {
-                        sOne = true;
-                    }
-                }
-                foreach (ClassRoomType cRoomType in s2.sClass.RequireForClassRoom)
-                {
-                    if (cRoomType.Description.Contains("Лекция") || cRoomType.Description.Contains("СпортЗал"))
-                    {
-                        sTwo = true;
-                    }
-                }
-                if ((sOne && sTwo) || (!sOne && !sTwo))
+                if ((pairClasses.Find((c) => c.c1 == s1.sClass || c.c2 == s1.sClass) != null &&
+                    pairClasses.Find((c) => c.c1 == s2.sClass || c.c2 == s2.sClass) != null) ||
+                    (pairClasses.Find((c) => c.c1 == s1.sClass || c.c2 == s1.sClass) == null &&
+                    pairClasses.Find((c) => c.c1 == s2.sClass || c.c2 == s2.sClass) == null))
                 {
                     result = 0;
                 }
-                else if (sOne && !sTwo)
+                else if (pairClasses.Find((c) => c.c1 == s1.sClass || c.c2 == s1.sClass) != null &&
+                        pairClasses.Find((c) => c.c1 == s2.sClass || c.c2 == s2.sClass) == null)
                 {
                     result = -1;
                 }
@@ -164,19 +154,47 @@ namespace MandarinCore
                     result = 1;
                 if (result == 0)
                 {
-                    result = s1.fPosScore.CompareTo(s2.fPosScore);
+                    bool sOne = false, sTwo = false;
+                    foreach (ClassRoomType cRoomType in s1.sClass.RequireForClassRoom)
+                    {
+                        if (cRoomType.Description.Contains("Лекция") || cRoomType.Description.Contains("СпортЗал"))
+                        {
+                            sOne = true;
+                        }
+                    }
+                    foreach (ClassRoomType cRoomType in s2.sClass.RequireForClassRoom)
+                    {
+                        if (cRoomType.Description.Contains("Лекция") || cRoomType.Description.Contains("СпортЗал"))
+                        {
+                            sTwo = true;
+                        }
+                    }
+                    if ((sOne && sTwo) || (!sOne && !sTwo))
+                    {
+                        result = 0;
+                    }
+                    else if (sOne && !sTwo)
+                    {
+                        result = -1;
+                    }
+                    else
+                        result = 1;
                     if (result == 0)
                     {
-                        result = -s1.sClass.SubGroups.Length.CompareTo(s2.sClass.SubGroups.Length);
+                        result = s1.fPosScore.CompareTo(s2.fPosScore);
                         if (result == 0)
                         {
-                            result = s1.sClass.SubGroups[0].NameGroup.CompareTo(s2.sClass.SubGroups[0].NameGroup);
+                            result = -s1.sClass.SubGroups.Length.CompareTo(s2.sClass.SubGroups.Length);
                             if (result == 0)
                             {
-                                result = s1.sClass.SubGroups[0].NumberSubGroup.CompareTo(s2.sClass.SubGroups[0].NumberSubGroup);
+                                result = s1.sClass.SubGroups[0].NameGroup.CompareTo(s2.sClass.SubGroups[0].NameGroup);
                                 if (result == 0)
                                 {
-                                    result = s1.sClass.Name.CompareTo(s2.sClass.Name);
+                                    result = s1.sClass.SubGroups[0].NumberSubGroup.CompareTo(s2.sClass.SubGroups[0].NumberSubGroup);
+                                    if (result == 0)
+                                    {
+                                        result = s1.sClass.Name.CompareTo(s2.sClass.Name);
+                                    }
                                 }
                             }
                         }
