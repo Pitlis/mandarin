@@ -3,7 +3,9 @@ using Domain.Services;
 using Presentation.Code.SettingsAccess;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,6 +18,7 @@ namespace Presentation.Code
         #endregion
 
         static Base currentBase;
+        static string currentFilePath;
 
         public static IEnumerable<Faculty> Faculties
         {
@@ -56,9 +59,41 @@ namespace Presentation.Code
             currentBase.Settings.Add(FACULTIES, new List<Faculty>());
             TempInit();
         }
-        public static void LoadBase(Base loadedBase)
+        public static void LoadBase(string filePath)
         {
-            currentBase = loadedBase;
+            currentFilePath = filePath;
+            BinaryFormatter formatter = new BinaryFormatter();
+            try
+            {
+                using (FileStream fs = new FileStream(currentFilePath, FileMode.Open))
+                {
+                    currentBase = (Base)formatter.Deserialize(fs);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+
+        }
+        public static void SaveBase()
+        {
+            SaveBase(currentFilePath);
+        }
+        public static void SaveBase(string path)
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            try
+            {
+                using (FileStream fs = new FileStream(path, FileMode.Create))
+                {
+                    formatter.Serialize(fs, currentBase);
+                }
+            }
+            catch
+            {
+                throw;
+            }
         }
         public static bool BaseIsLoaded()
         {
