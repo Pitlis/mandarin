@@ -1,6 +1,7 @@
 ﻿using Domain.DataFiles;
 using Domain.Model;
 using Domain.Services;
+using Presentation.FacultyEditor;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -41,7 +42,7 @@ namespace Presentation.Code
             return schedule;
         }
 
-        public static void SaveSettings(FacultAndGroop sett)
+        public static void SaveSettings(FacultiesAndGroups sett)
         {
             BinaryFormatter formatter = new BinaryFormatter();
             using (FileStream fs = new FileStream("Settings.dat", FileMode.Create))
@@ -49,15 +50,15 @@ namespace Presentation.Code
                 formatter.Serialize(fs, sett);
             }
         }
-        public static FacultAndGroop LoadSettings()
+        public static FacultiesAndGroups LoadSettings()
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            FacultAndGroop sett = null;
-            using (FileStream fs = new FileStream("Settings.dat", FileMode.OpenOrCreate))
-            {
-                sett = (FacultAndGroop)formatter.Deserialize(fs);
-            }
-            return sett;
+            //BinaryFormatter formatter = new BinaryFormatter();
+            //FacultiesAndGroups sett = null;
+            //using (FileStream fs = new FileStream("Settings.dat", FileMode.OpenOrCreate))
+            //{
+            //    sett = (FacultiesAndGroups)formatter.Deserialize(fs);
+            //}
+            return new FacultiesAndGroups();
         }
     }
 }
