@@ -29,5 +29,6 @@
         <Button x:Name="btnAdd" Content="=&gt;" HorizontalAlignment="Left" Margin="269,120,0,0" VerticalAlignment="Top" Width="37" RenderTransformOrigin="0.541,-0.05" Click="button2_Click" IsEnabled="False"/>
         <Label x:Name="label" Content="Нераспределенные группы" HorizontalAlignment="Left" Margin="27,11,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.5"/>
         <Label x:Name="label_Copy" Content="Группы входящие в факультет" HorizontalAlignment="Left" Margin="311,51,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.5"/>
+        <Button x:Name="button1" Content="Создать факультеты (ТЕСТ!!!)" HorizontalAlignment="Left" Margin="280,269,0,0" VerticalAlignment="Top" Width="173" Click="button1_Click"/>
     </Grid>
 </Window>
