@@ -1,6 +1,7 @@
 ﻿using Domain.DataFiles;
 using Domain.Model;
 using Domain.Services;
+using Presentation.FacultyEditor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Presentation.Code
         public StudentsClass[,] partSchedule { get; private set; }
         public StudentSubGroup[] Groups { get; private set; }
         public List<StudentsClass> RemoveClases = new List<StudentsClass>();
-        private FacultAndGroop Sett {get; set;}
+        private FacultiesAndGroups Sett {get; set;}
         public EntityStorage store { get; private set; }
 
         public ScheduleForEdit(Schedule schedule) : base(schedule)
@@ -42,17 +43,17 @@ namespace Presentation.Code
             Sett = Save.LoadSettings();
             int classesInSchedule = Constants.WEEKS_IN_SCHEDULE * Constants.DAYS_IN_WEEK * Constants.CLASSES_IN_DAY;
             ClassRoom cl = GetClassRoom(ClassesTable[0, 0]);
-            partSchedule = new StudentsClass[classesInSchedule, Sett.GetGroops(name, cours).Count];
-            Groups = new StudentSubGroup[Sett.GetGroops(name, cours).Count];
-            for (int groupIndex = 0; groupIndex < Sett.GetGroops(name, cours).Count; groupIndex++)
+            partSchedule = new StudentsClass[classesInSchedule, Sett.GetGroups(name, cours).Count];
+            Groups = new StudentSubGroup[Sett.GetGroups(name, cours).Count];
+            for (int groupIndex = 0; groupIndex < Sett.GetGroups(name, cours).Count; groupIndex++)
             {
-                Groups[groupIndex] = Sett.GetGroops(name, cours)[groupIndex];
+                Groups[groupIndex] = Sett.GetGroups(name, cours)[groupIndex];
             }
             Array.Sort(Groups, new GroupsComparer());
 
-            for (int groupIndex = 0; groupIndex < Sett.GetGroops(name, cours).Count; groupIndex++)
+            for (int groupIndex = 0; groupIndex < Sett.GetGroups(name, cours).Count; groupIndex++)
             {
-                StudentsClass[] groupClasses = this.GetPartialSchedule(FacultAndGroop.GetClassGroupStorage(Groups[groupIndex], eStorage)).GetClasses();
+                StudentsClass[] groupClasses = this.GetPartialSchedule(Groups[groupIndex]).GetClasses();//WTF???
                 for (int classIndex = 0; classIndex < classesInSchedule; classIndex++)
                 {
                     partSchedule[classIndex, groupIndex] = groupClasses[classIndex];

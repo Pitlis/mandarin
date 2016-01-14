@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.IO;
 using Domain.Services;
+using Presentation.FacultyEditor;
 
 namespace Presentation
 {
@@ -19,7 +20,7 @@ namespace Presentation
     public partial class EditSchedule : Window
     {
         ScheduleForEdit schedule;
-        FacultAndGroop Sett;
+        FacultiesAndGroups Sett;
         bool[] position;
         Label[] time;
 
@@ -41,7 +42,7 @@ namespace Presentation
                 MessageBox.Show("Не найден файл с настройками.Будет выведено расписанния для всех групп.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 comboBoxCours.IsEnabled = false; comboBoxFacult.IsEnabled = false;
             }
-            if (Sett.UGroops.Count !=0)
+            if (Sett.GroupsWithoutFacultyExists())
             { MessageBox.Show("Внимание есть группы не относящееся ни к 1 факультету. Зайдите в настройки чтобы отнести группы к факультету!","Warning", MessageBoxButton.OK, MessageBoxImage.Warning); }
             gdData.Children.Clear();
             btnExcel.IsEnabled = true;
@@ -516,10 +517,10 @@ namespace Presentation
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Sett = new Code.FacultAndGroop();
-            foreach (string item in Sett.NameFacult)
+            Sett = new FacultiesAndGroups();
+            foreach (Faculty faculty in Sett.Faculties)
             {
-                comboBoxFacult.Items.Add(item);
+                comboBoxFacult.Items.Add(faculty.Name);
             }
             comboBoxFacult.SelectedIndex = 0;
             for (int i = 1; i <= 5; i++)

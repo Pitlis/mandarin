@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Services
 {
+    [Serializable]
     public class FactorSettings
     {
         public int Fine { get; private set; }

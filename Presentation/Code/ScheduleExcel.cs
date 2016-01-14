@@ -7,6 +7,7 @@ using Microsoft.Office.Interop.Excel;
 using Domain;
 using Domain.Services;
 using Domain.Model;
+using Presentation.FacultyEditor;
 
 namespace Presentation.Code
 {
@@ -187,7 +188,8 @@ namespace Presentation.Code
             foreach (StudentSubGroup groop in Groups)
             {
                 PartialSchedule partSchedule;
-                partSchedule = schedule.GetPartialSchedule(FacultAndGroop.GetClassGroupStorage(groop, eStorage));
+                //partSchedule = schedule.GetPartialSchedule(FacultiesAndGroups.GetClassGroupStorage(groop, eStorage));WTF???
+                partSchedule = schedule.GetPartialSchedule(groop);
                 StudentsClass[] sched;
                 ClassRoom clas;
                 sched = partSchedule.GetClasses();

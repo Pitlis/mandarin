@@ -71,6 +71,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Code\CurrentBase.cs" />
+    <Compile Include="Code\FactorsLoader.cs" />
     <Compile Include="Code\Setting.cs" />
     <Compile Include="FactorsDataEditors\VIP.xaml.cs">
       <DependentUpon>VIP.xaml</DependentUpon>
@@ -87,7 +89,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FacultyAndGroops.xaml">
+    <Page Include="FacultyEditor\FacultyAndGroops.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -102,7 +104,7 @@
     <Compile Include="ScheduleEditor\ChooseClassRoom.xaml.cs">
       <DependentUpon>ChooseClassRoom.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Code\FacultAndGroop.cs" />
+    <Compile Include="FacultyEditor\FacultiesAndGroups.cs" />
     <Compile Include="Code\Logic.cs" />
     <Compile Include="Code\Save.cs" />
     <Compile Include="Code\ScheduleExcel.cs" />
@@ -113,7 +115,7 @@
     <Compile Include="FactorSettings.xaml.cs">
       <DependentUpon>FactorSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FacultyAndGroops.xaml.cs">
+    <Compile Include="FacultyEditor\FacultyAndGroops.xaml.cs">
       <DependentUpon>FacultyAndGroops.xaml</DependentUpon>
     </Compile>
     <Compile Include="MandarinForm.xaml.cs">

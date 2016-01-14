@@ -12,6 +12,7 @@ using System.IO;
 using System.Xml.Serialization;
 using MandarinCore;
 using Domain.FactorInterfaces;
+using Presentation.Code;
 
 namespace Presentation
 {
@@ -48,8 +49,8 @@ namespace Presentation
             //Repo = new Data.DataRepository();
             //Repo.Init(new string[] { @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=C:\USERS\СЕРГЕЙ\DOCUMENTS\ESPROJECT\ESPROJECT\BIN\DEBUG\BD4.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" });
 
-            storage = DataConvertor.ConvertData(Repo.GetTeachers(), Repo.GetStudentsGroups(), Repo.GetClassRoomsTypes(), Repo.GetClassRooms(), Repo.GetStudentsClasses());
-
+            //storage = DataConvertor.ConvertData(Repo.GetTeachers(), Repo.GetStudentsGroups(), Repo.GetClassRoomsTypes(), Repo.GetClassRooms(), Repo.GetStudentsClasses());
+            storage = CurrentBase.EStorage;
             classes = storage.Classes;
             Assembly asm = Assembly.Load("FactorsWindows");
             foreach (var factor in asm.GetTypes())
