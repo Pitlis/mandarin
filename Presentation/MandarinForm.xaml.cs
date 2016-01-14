@@ -112,11 +112,11 @@ namespace ESProject
             }
             catch(Exception ex)
             {
-                //Repo = new Data.DataRepository();
-                //Repo.Init(new string[] { @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=C:\USERS\СЕРГЕЙ\DOCUMENTS\ESPROJECT\ESPROJECT\BIN\DEBUG\BD4.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" });
+                //IRepository Repo = new Data.DataRepository();
+                //EntityStorage storage = StorageLoader.CreateEntityStorage(Repo, new string[] { @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=C:\USERS\СЕРГЕЙ\DOCUMENTS\ESPROJECT\ESPROJECT\BIN\DEBUG\BD4.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" });
+
                 IRepository Repo = new MockDataBase.MockRepository();
-                Repo.Init(null);
-                EntityStorage storage = DataConvertor.ConvertData(Repo.GetTeachers(), Repo.GetStudentsGroups(), Repo.GetClassRoomsTypes(), Repo.GetClassRooms(), Repo.GetStudentsClasses());
+                EntityStorage storage = StorageLoader.CreateEntityStorage(Repo, null);
 
                 CurrentBase.CreateBase(storage);
                 CurrentBase.SaveBase("testBase.dat");
