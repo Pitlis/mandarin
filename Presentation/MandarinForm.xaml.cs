@@ -2,6 +2,7 @@
 using Domain.DataFiles;
 using Domain.Model;
 using Domain.Services;
+using MandarinCore;
 using Presentation;
 using Presentation.Code;
 using System;
@@ -100,6 +101,28 @@ namespace ESProject
         {
             VIP form = new VIP();
             form.ShowDialog();
+        }
+
+        private void button3_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                CurrentBase.LoadBase("testBase.dat");
+                MessageBox.Show("База загружена");
+            }
+            catch(Exception ex)
+            {
+                //Repo = new Data.DataRepository();
+                //Repo.Init(new string[] { @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=C:\USERS\СЕРГЕЙ\DOCUMENTS\ESPROJECT\ESPROJECT\BIN\DEBUG\BD4.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" });
+                IRepository Repo = new MockDataBase.MockRepository();
+                Repo.Init(null);
+                EntityStorage storage = DataConvertor.ConvertData(Repo.GetTeachers(), Repo.GetStudentsGroups(), Repo.GetClassRoomsTypes(), Repo.GetClassRooms(), Repo.GetStudentsClasses());
+
+                CurrentBase.CreateBase(storage);
+                CurrentBase.SaveBase("testBase.dat");
+
+                MessageBox.Show("Создана новая база");
+            }
         }
     }
 }

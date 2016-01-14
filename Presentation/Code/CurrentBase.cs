@@ -1,6 +1,6 @@
 ﻿using Domain.DataFiles;
 using Domain.Services;
-using Presentation.Code.SettingsAccess;
+using Presentation.Code;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using Presentation.FacultyEditor;
 
 namespace Presentation.Code
 {
@@ -28,7 +29,7 @@ namespace Presentation.Code
             }
             set
             {
-                currentBase.Settings.Add(FACULTIES, value);
+                currentBase.Settings[FACULTIES] = value;
             }
         }
         public static EntityStorage EStorage
@@ -57,7 +58,6 @@ namespace Presentation.Code
             currentBase.Settings = new Dictionary<string, object>();
 
             currentBase.Settings.Add(FACULTIES, new List<Faculty>());
-            TempInit();
         }
         public static void LoadBase(string filePath)
         {
@@ -98,12 +98,6 @@ namespace Presentation.Code
         public static bool BaseIsLoaded()
         {
             return currentBase != null;
-        }
-
-        //тут инициализируются данные, пока не будут готовы подходящие формы
-        static void TempInit()
-        {
-
         }
 
     }
