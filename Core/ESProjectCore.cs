@@ -176,10 +176,14 @@ namespace MandarinCore
                 return -firstPair.Fine.CompareTo(nextPair.Fine);
             });
 
-            for (int factorIndex = 0; factorIndex < factors.Count(); factorIndex++)
+            int factorsCount = factors.Count();
+            for (int factorIndex = 0; factorIndex < factorsCount; factorIndex++)
             {
                 if (sortedFactors[factorIndex].Fine <= 0)
+                {
                     sortedFactors.Remove(sortedFactors[factorIndex]);
+                    factorsCount--;
+                }
             }
 
             return sortedFactors;
