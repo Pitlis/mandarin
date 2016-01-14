@@ -108,6 +108,7 @@ namespace ESProject
             try
             {
                 CurrentBase.LoadBase("testBase.dat");
+                CurrentBase.Factors = FactorsLoader.GetFactors().ToList();
                 MessageBox.Show("База загружена");
             }
             catch(Exception ex)
@@ -119,6 +120,7 @@ namespace ESProject
                 EntityStorage storage = StorageLoader.CreateEntityStorage(Repo, null);
 
                 CurrentBase.CreateBase(storage);
+                CurrentBase.Factors = FactorsLoader.GetFactors().ToList();
                 CurrentBase.SaveBase("testBase.dat");
 
                 MessageBox.Show("Создана новая база");

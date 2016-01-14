@@ -52,104 +52,8 @@ namespace Presentation
             //storage = DataConvertor.ConvertData(Repo.GetTeachers(), Repo.GetStudentsGroups(), Repo.GetClassRoomsTypes(), Repo.GetClassRooms(), Repo.GetStudentsClasses());
             storage = CurrentBase.EStorage;
             classes = storage.Classes;
-            Assembly asm = Assembly.Load("FactorsWindows");
-            foreach (var factor in asm.GetTypes())
-            {
-                if (factor.GetInterface("IFactor") != null)
-                {
-                    int fine = 0;
-                    switch (factor.Name)
-                    {
-                        case "StudentFourWindows":
-                            fine = 100;
-                            break;
-                        case "StudentsOneWindow":
-                            fine = 100;
-                            break;
-                        case "StudentThreeWindows":
-                            fine = 100;
-                            break;
-                        case "StudentTwoWindows":
-                            fine = 100;
-                            break;
-                        case "TeachersFourWindows":
-                            fine = 49;
-                            break;
-                        case "TeacherssOneWindow":
-                            fine = 40;
-                            break;
-                        case "TeachersThreeWindows":
-                            fine = 48;
-                            break;
-                        case "TeachersTwoWindows":
-                            fine = 47;
-                            break;
-                        default:
-                            break;
-                    }
-                    Factors.Add(new FactorSettings(fine, factor));
-                }
-            }
 
-            asm = Assembly.Load("OtherFactors");
-            foreach (var factor in asm.GetTypes())
-            {
-                object obj = null;
-                if (factor.GetInterface("IFactor") != null)
-                {
-                    int fine = 0;
-                    switch (factor.Name)
-                    {
-                        case "SixStudentsClasses":
-                            fine = 100;
-                            break;
-                        case "TeacherDayOff":
-                            fine = 100;
-                            break;
-                        case "FiveStudentsClassesInRow":
-                            fine = 100;
-                            break;
-                        case "FiveStudentsClassesInDay":
-                            fine = 50;
-                            break;
-                        case "SixthClass":
-                            fine = 70;
-                            break;
-                        case "SaturdayTwoClasses":
-                            fine = 40;
-                            break;
-                        case "TwoClassesInWeek":
-                            fine = 100;
-                            StudentsClass[] c = Array.FindAll(classes, (cl) => cl.Name == "ФИЗРА");
-                            obj = new StudentsClass[,] { { c[0], c[1], c[2], c[3] } };
-                            break;
-                        case "OnlyOneClassInDay":
-                            fine = 100;
-                            StudentsClass[] c1 = Array.FindAll(classes, (cl) => cl.Name == "ФИЗРА");
-                            obj = new StudentsClass[,] { { c1[0], c1[1], c1[2], c1[3] } };
-                            break;
-                        case "SameClassesInSameTime":
-                            fine = 100;
-                            obj = GetGroupSameClasses(classes);
-                            break;
-                        case "SameClassesInSameRoom":
-                            fine = 99;
-                            obj = GetGroupSameClasses(classes);
-                            break;
-                        case "OneClassInWeek":
-                            fine = 100;
-                            obj = GetGroupTwoSameClasses(classes);
-                            break;
-                        case "TwoLectureClassesInDay":
-                            fine = 99;
-                            obj = GetLectureClasses(classes);
-                            break;
-                        default:
-                            break;
-                    }
-                    Factors.Add(new FactorSettings(fine, factor, null, obj));
-                }
-            }
+            Factors = CurrentBase.Factors;
 
 
         }
@@ -320,7 +224,7 @@ namespace Presentation
             int factorIndex = 0;
             foreach (var factor in Factors)
             {
-                factors[factorIndex] = (IFactor)Activator.CreateInstance(factor.Factor);
+                factors[factorIndex] = factor.CreateInstance(true);
                 factors[factorIndex].Initialize(fine: factor.Fine, data: factor.Data);
                 bool contain = false;
                 for (int i = 0; i < Lfac.Count; i++)

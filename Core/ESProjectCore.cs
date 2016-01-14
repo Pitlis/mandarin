@@ -145,7 +145,7 @@ namespace MandarinCore
             int factorIndex = 0;
             foreach(var factor in Factors)
             {
-                factors[factorIndex] = (IFactor)Activator.CreateInstance(factor.Factor);
+                factors[factorIndex] = factor.CreateInstance(true);
                 factors[factorIndex].Initialize(fine: factor.Fine, data: factor.Data);
                 factorIndex++;
             }

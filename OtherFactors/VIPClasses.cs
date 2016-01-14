@@ -98,7 +98,7 @@ namespace OtherFactors
             }
             catch (Exception ex)
             {
-                new Exception("Неверный формат данных. Требуется список объектов типа VIPClases. " + ex.Message);
+                new Exception("Неверный формат данных. Требуется список объектов типа FixedClasses. " + ex.Message);
             }
         }
         public Guid? GetDataTypeGuid()
