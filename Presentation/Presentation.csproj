@@ -73,6 +73,7 @@
     </ApplicationDefinition>
     <Compile Include="Code\CurrentBase.cs" />
     <Compile Include="Code\FactorsLoader.cs" />
+    <Compile Include="Code\ScheduleLoader.cs" />
     <Compile Include="Code\Setting.cs" />
     <Compile Include="Code\StorageLoader.cs" />
     <Compile Include="FactorsDataEditors\VIP.xaml.cs">

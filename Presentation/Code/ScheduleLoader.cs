@@ -26,7 +26,7 @@ namespace Presentation.Code
         public static void SaveSchedule(string filePath, Schedule schedule)
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            using (FileStream fs = new FileStream(filePath, FileMode.CreateNew))
+            using (FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate))
             {
                 formatter.Serialize(fs, schedule);
             }
