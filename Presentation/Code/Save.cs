@@ -14,34 +14,6 @@ namespace Presentation.Code
 {
     static class Save
     {
-        public static void SaveSchedule(Schedule schedule)
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            using (FileStream fs = new FileStream("schedule.dat", FileMode.OpenOrCreate))
-            {
-                formatter.Serialize(fs, schedule);
-            }
-        }
-        public static void SaveSchedule(Schedule schedule, string path)
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            using (FileStream fs = new FileStream(path + @"\schedule.dat", FileMode.OpenOrCreate))
-            {
-                formatter.Serialize(fs, schedule);
-            }
-        }
-
-        public static Schedule LoadSchedule()
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            Schedule schedule = null;
-            using (FileStream fs = new FileStream("schedule.dat", FileMode.OpenOrCreate))
-            {
-                schedule = (Schedule)formatter.Deserialize(fs);
-            }
-            return schedule;
-        }
-
         public static void SaveSettings(FacultiesAndGroups sett)
         {
             BinaryFormatter formatter = new BinaryFormatter();

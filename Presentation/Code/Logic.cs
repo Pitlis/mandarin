@@ -68,23 +68,23 @@ namespace Presentation.Code
 
             loggingService.Info("Итоговое расписание готово");
 
-            ScheduleExcel excel = new ScheduleExcel(schedules[0], storage);
-            ScheduleExcelTeacher excelTeach = new ScheduleExcelTeacher(schedules[0], storage);
-            Parallel.Invoke(
-            () =>
-            {
-                loggingService.Info("Выгрузка в Excel расписания студентов...");
-                excel.LoadToExcel();
-                loggingService.Info("Расписание студентов выгружено в Excel");
-            },
-            () =>
-            {
-                loggingService.Info("Выгрузка в Excel расписания преподавателей...");
-                excelTeach.LoadToExcel();
-                loggingService.Info("Расписание преподавателей выгружено в Excel");
-            });
+            //ScheduleExcel excel = new ScheduleExcel(schedules[0], storage);
+            //ScheduleExcelTeacher excelTeach = new ScheduleExcelTeacher(schedules[0], storage);
+            //Parallel.Invoke(
+            //() =>
+            //{
+            //    loggingService.Info("Выгрузка в Excel расписания студентов...");
+            //    excel.LoadToExcel();
+            //    loggingService.Info("Расписание студентов выгружено в Excel");
+            //},
+            //() =>
+            //{
+            //    loggingService.Info("Выгрузка в Excel расписания преподавателей...");
+            //    excelTeach.LoadToExcel();
+            //    loggingService.Info("Расписание преподавателей выгружено в Excel");
+            //});
 
-            Save.SaveSchedule(new Schedule((FullSchedule)schedules[0]));
+            //ScheduleLoader.SaveSchedule("schedule.dat", new Schedule(schedules[0]));
         }
 
 
@@ -93,18 +93,16 @@ namespace Presentation.Code
         void SaveCreatedSchedule(FullSchedule schedule, int fine, int sort)
         {
             string path = Directory.CreateDirectory(pathToScheduleFolder + String.Format(@"\fine {0} -- sort {1}", fine, sort)).FullName;
-            ScheduleExcel excel = new ScheduleExcel(path + @"\Расписание студентов.xlsx", schedule, storage);
-            ScheduleExcelTeacher excelTeach = new ScheduleExcelTeacher(path + @"\Расписание преподавателей.xlsx", schedule, storage);
 
             loggingService.Info("Выгрузка в Excel расписания студентов...");
-            excel.LoadToExcel();
+            ScheduleLoader.ExportScheduleToExcel(path + @"\Расписание студентов.xlsx", schedule, storage.StudentSubGroups.ToList());
             loggingService.Info("Расписание студентов выгружено в Excel");
 
             loggingService.Info("Выгрузка в Excel расписания преподавателей...");
-            excelTeach.LoadToExcel();
+            ScheduleLoader.ExportScheduleToExcel(path + @"\Расписание преподавателей.xlsx", schedule, storage.Teachers.ToList());
             loggingService.Info("Расписание преподавателей выгружено в Excel");
 
-            Save.SaveSchedule(new Schedule(schedule), path);
+            ScheduleLoader.SaveSchedule("schedule.dat", new Schedule(schedule));
         }
     }
 }

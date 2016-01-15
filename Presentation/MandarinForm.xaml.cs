@@ -44,7 +44,7 @@ namespace ESProject
 
         private void btnEditSchedule_Click(object sender, RoutedEventArgs e)
         {
-            Schedule schedule = Save.LoadSchedule();
+            Schedule schedule = ScheduleLoader.LoadSchedule("schedule.dat");
             EditSchedule form = new EditSchedule(new ScheduleForEdit(schedule));
             form.Show();
         }
