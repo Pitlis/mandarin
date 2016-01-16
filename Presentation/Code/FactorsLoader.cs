@@ -139,6 +139,10 @@ namespace Presentation.Code
                         case "SaturdayClassOneAtWeek":
                             fine = 5;
                             break;
+                        case "FavoriteTeachersClassRooms":
+                            fine = 15;
+                            obj = new List<FavoriteTeacherClassRooms>();
+                            break;
                         default:
                             break;
                     }
