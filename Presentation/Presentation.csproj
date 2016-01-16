@@ -73,12 +73,20 @@
     </ApplicationDefinition>
     <Compile Include="Code\CurrentBase.cs" />
     <Compile Include="Code\FactorsLoader.cs" />
+    <Compile Include="Code\FavoriteTeachersClassRoomsSettings.cs" />
     <Compile Include="Code\ScheduleLoader.cs" />
     <Compile Include="Code\Setting.cs" />
     <Compile Include="Code\StorageLoader.cs" />
+    <Compile Include="FactorsDataEditors\FavoriteTeacherClassRoomForm.xaml.cs">
+      <DependentUpon>FavoriteTeacherClassRoomForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FactorsDataEditors\VIP.xaml.cs">
       <DependentUpon>VIP.xaml</DependentUpon>
     </Compile>
+    <Page Include="FactorsDataEditors\FavoriteTeacherClassRoomForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ScheduleEditor\ChooseClassRoom.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -5,6 +5,7 @@ using Domain.Services;
 using MandarinCore;
 using Presentation;
 using Presentation.Code;
+using Presentation.FactorsDataEditors;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -125,6 +126,12 @@ namespace ESProject
 
                 MessageBox.Show("Создана новая база");
             }
+        }
+
+        private void button4_Click(object sender, RoutedEventArgs e)
+        {
+            FavoriteTeacherClassRoomForm favTeacherClassRoomForm = new FavoriteTeacherClassRoomForm();
+            favTeacherClassRoomForm.ShowDialog();
         }
     }
 }
