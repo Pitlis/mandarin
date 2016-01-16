@@ -38,7 +38,8 @@ namespace Presentation.Code
             AllocConsole();
             loggingService = new NLogLoggingService();
 
-            storage = DataConvertor.ConvertData(Repo.GetTeachers(), Repo.GetStudentsGroups(), Repo.GetClassRoomsTypes(), Repo.GetClassRooms(), Repo.GetStudentsClasses());
+            //storage = DataConvertor.ConvertData(Repo.GetTeachers(), Repo.GetStudentsGroups(), Repo.GetClassRoomsTypes(), Repo.GetClassRooms(), Repo.GetStudentsClasses());
+            storage = CurrentBase.EStorage;
 
             vip = new Setting(storage, storage.Classes);
             loggingService.Info("Загружены данные");
@@ -58,7 +59,7 @@ namespace Presentation.Code
         {
             pathToScheduleFolder = Directory.CreateDirectory(DateTime.Now.ToString("dd.MM.yyyy(HH.mm)")).FullName;
 
-            Core core = new Core(storage, CurrentBase.Factors);
+            Core core = new Core(CurrentBase.EStorage, CurrentBase.Factors);
             core.SaveCreatedSchedule = SaveCreatedSchedule;
             core.logger = loggingService;
             core.FixedClasses = vip.GetVipClasses();
