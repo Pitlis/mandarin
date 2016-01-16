@@ -204,7 +204,8 @@ namespace Presentation
                 vip.LVIPB = new List<VIPClasesBin>();
                 foreach (var item in vip.LVIP)
                 {
-                    VIPClasesBin a = new VIPClasesBin(vip.GetPosClas(item.sClass), item.Time, vip.GetAudPos(item.Room));
+                    VIPClasesBin a =
+                        new VIPClasesBin(Array.FindIndex(CurrentBase.EStorage.Classes, c => c == item.sClass), item.Time, Array.FindIndex(CurrentBase.EStorage.ClassRooms, c => c == item.Room));
                     vip.LVIPB.Add(a);
 
                 }
@@ -242,7 +243,8 @@ namespace Presentation
                 vip.LVIPB = new List<VIPClasesBin>();
                 foreach (var item in vip.LVIP)
                 {
-                    VIPClasesBin a = new VIPClasesBin(vip.GetPosClas(item.sClass), item.Time, vip.GetAudPos(item.Room));
+                    VIPClasesBin a = 
+                        new VIPClasesBin(Array.FindIndex(CurrentBase.EStorage.Classes, c => c == item.sClass), item.Time, Array.FindIndex(CurrentBase.EStorage.ClassRooms, c => c == item.Room));
                     vip.LVIPB.Add(a);
 
                 }

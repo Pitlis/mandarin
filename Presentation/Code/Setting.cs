@@ -20,7 +20,6 @@ namespace Presentation.Code
         public EntityStorage storage { get; set; }
         public StudentsClass[] Clases { get; set; }
 
-
         public Setting()
         {
             LVIP = new List<FixedClasses>();
@@ -51,10 +50,8 @@ namespace Presentation.Code
                 }
 
             }
-
-
-
         }
+
         public Setting(EntityStorage storage, StudentsClass[] Clases)
         {
             LVIP = new List<FixedClasses>();
@@ -79,29 +76,9 @@ namespace Presentation.Code
                 }
 
             }
-
-
-
-        }
-        public int GetPosClas(StudentsClass sc)
-        {
-            for (int i = 0; i < Clases.Length; i++)
-            {
-                if (Clases[i] == sc)
-                    return i;
-            }
-            return -1;
         }
 
-        public int GetAudPos(ClassRoom cl)
-        {
-            for (int i = 0; i < storage.ClassRooms.Length; i++)
-            {
-                if (storage.ClassRooms[i] == cl)
-                    return i;
-            }
-            return -1;
-        }
+       
 
         public List<StudentsClass> GetListClases(Teacher teach)
         {
@@ -128,8 +105,9 @@ namespace Presentation.Code
             {
                 return new StudentsClass[0];
             }
-        }
+        }        
     }
+
     [Serializable]
     class VIPClasesBin
     {
@@ -143,5 +121,5 @@ namespace Presentation.Code
             this.Time = time;
             this.Aud = aud;
         }
-    }
+    }    
 }
