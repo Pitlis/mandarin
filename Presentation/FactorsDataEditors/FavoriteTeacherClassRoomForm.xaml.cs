@@ -4,10 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using Presentation.Code;
 using Domain.Model;
-using Domain.Services;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
-using System;
 
 namespace Presentation.FactorsDataEditors
 {
@@ -36,10 +32,9 @@ namespace Presentation.FactorsDataEditors
 
         private void SelectTeacherClassRooms(Teacher teacher)
         {
-            FavoriteTeacherClassRooms favTeacherClassRooms = settings.favTeachersClassRooms.Find((c) => c.Teacher == teacher);
-            if (favTeacherClassRooms != null)
+            if (settings.favTeachersClassRooms.ContainsKey(teacher))
             {
-                favClassRoomsListView.ItemsSource = favTeacherClassRooms.FavoriteClassRooms;
+                favClassRoomsListView.ItemsSource = settings.favTeachersClassRooms[teacher];
                 List<ClassRoom> unfavClassRooms = settings.GetUnfavoriteClassRooms(teacher);
                 classRoomsListView.ItemsSource = unfavClassRooms;
             }
@@ -54,30 +49,16 @@ namespace Presentation.FactorsDataEditors
         private void SetClassRoomsListViewItems(Teacher teacher)
         {
             favClassRoomsListView.ItemsSource = null;
-            favClassRoomsListView.ItemsSource = settings.GetFavoriteClassRooms(teacher);
+            favClassRoomsListView.ItemsSource = settings.favTeachersClassRooms[teacher];
             List<ClassRoom> unfavClassRooms = settings.GetUnfavoriteClassRooms(teacher);
             classRoomsListView.ItemsSource = unfavClassRooms;
         }
 
         private void SaveFavoriteTeachersClassRooms()
         {
-            settings.favTeachersClassRoomsBinary = new List<FavoriteTeacherClassRoomsBinary>();
-            foreach (FavoriteTeacherClassRooms favTeacherClassRoom in settings.favTeachersClassRooms)
-            {
-                int teacherBinary = Array.FindIndex(CurrentBase.EStorage.Teachers, t => t == favTeacherClassRoom.Teacher);
-                List<int> classRoomsBinary = new List<int>();
-                foreach (ClassRoom cRoom in favTeacherClassRoom.FavoriteClassRooms)
-                {
-                    classRoomsBinary.Add(Array.FindIndex(CurrentBase.EStorage.ClassRooms, c => c == cRoom));
-                }
-                FavoriteTeacherClassRoomsBinary favTeacherClassRoomBinary = new FavoriteTeacherClassRoomsBinary(teacherBinary, classRoomsBinary);
-                settings.favTeachersClassRoomsBinary.Add(favTeacherClassRoomBinary);
-            }
-            BinaryFormatter formatter = new BinaryFormatter();
-            using (FileStream fs = new FileStream(FavoriteTeachersClassRoomsSettings.FILENAME, FileMode.Create))
-            {
-                formatter.Serialize(fs, settings.favTeachersClassRoomsBinary);
-            }
+            int factorIndex = CurrentBase.Factors.FindIndex(c => c.FactorName == "FavoriteTeachersClassRooms");
+            CurrentBase.Factors[factorIndex].Data = settings.favTeachersClassRooms;
+            CurrentBase.SaveBase();
         }
 
         #endregion
@@ -156,8 +137,6 @@ namespace Presentation.FactorsDataEditors
             }
         }
 
-        #endregion
-
         private void classRoomsListView_GotFocus(object sender, RoutedEventArgs e)
         {
             deleteFromFavBtn.IsEnabled = false;
@@ -169,5 +148,7 @@ namespace Presentation.FactorsDataEditors
             addToFavBtn.IsEnabled = false;
             classRoomsListView.SelectedIndex = -1;
         }
+
+        #endregion
     }
 }

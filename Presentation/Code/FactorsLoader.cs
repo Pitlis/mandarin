@@ -1,4 +1,5 @@
-﻿using Domain.Services;
+﻿using Domain.Model;
+using Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,7 +53,6 @@ namespace Presentation.Code
                     Factors.Add(new FactorSettings(fine, factor, "FactorsWindows"));
                 }
             }
-            
             asm = Assembly.Load("OtherFactors");
             foreach (var factor in asm.GetTypes())
             {
@@ -141,7 +141,7 @@ namespace Presentation.Code
                             break;
                         case "FavoriteTeachersClassRooms":
                             fine = 15;
-                            obj = new List<FavoriteTeacherClassRooms>();
+                            obj = new Dictionary<Teacher, List<ClassRoom>>();
                             break;
                         default:
                             break;

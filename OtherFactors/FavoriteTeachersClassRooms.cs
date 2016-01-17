@@ -14,7 +14,7 @@ namespace OtherFactors
     {
         int fine;
         bool isBlock;
-        List<FavoriteTeacherClassRooms> favClassRooms;
+        Dictionary<Teacher, List<ClassRoom>> favClassRooms;
 
         #region IFactor
 
@@ -23,10 +23,9 @@ namespace OtherFactors
             int fineResult = 0;
             foreach (Teacher teacher in schedule.GetTempClass().Teacher)
             {
-                int favTeacherClassRoomsIndex = favClassRooms.FindIndex((c) => c.Teacher == teacher);
-                if (favTeacherClassRoomsIndex != -1)
+                if (favClassRooms.ContainsKey(teacher))
                 {
-                    if (favClassRooms[favTeacherClassRoomsIndex].FavoriteClassRooms.Find((c) => c == schedule.GetTempClassRooom()) == null)
+                    if (favClassRooms[teacher].Find((c) => c == schedule.GetTempClassRooom()) == null)
                     {
                         if (isBlock)
                             return Constants.BLOCK_FINE;
@@ -45,10 +44,9 @@ namespace OtherFactors
             {
                 foreach (Teacher teacher in sClass.Teacher)
                 {
-                    int favTeacherClassRoomsIndex = favClassRooms.FindIndex((c) => c.Teacher == teacher);
-                    if (favTeacherClassRoomsIndex != -1)
+                    if (favClassRooms.ContainsKey(teacher))
                     {
-                        if (favClassRooms[favTeacherClassRoomsIndex].FavoriteClassRooms.Find((c) => c == schedule.GetClassRoom(sClass)) == null)
+                        if (favClassRooms[teacher].Find((c) => c == schedule.GetTempClassRooom()) == null)
                         {
                             if (isBlock)
                                 return Constants.BLOCK_FINE;
@@ -82,7 +80,7 @@ namespace OtherFactors
             }
             try
             {
-                favClassRooms = (List<FavoriteTeacherClassRooms>)data;
+                favClassRooms = (Dictionary<Teacher, List<ClassRoom>>)data;
             }
             catch (Exception ex)
             {

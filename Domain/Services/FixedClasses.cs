@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Services
 {
+    [Serializable]
     public class FixedClasses
     {
         public StudentsClass sClass { get; set; }
