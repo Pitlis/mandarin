@@ -1,4 +1,4 @@
-﻿<Window x:Class="Presentation.FacultyAndGroops"
+﻿<Window x:Class="Presentation.FacultyAndGroupsForm"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="FacultyAndGroops" Height="336.538" Width="601.923" Loaded="Window_Loaded">
     <Grid RenderTransformOrigin="0.476,0.458">
-        <ListView x:Name="UGroopView" HorizontalAlignment="Left" Height="247" Margin="10,37,0,0" VerticalAlignment="Top" Width="254" SelectionChanged="UGroopView_SelectionChanged" SelectionMode="Single">
+        <ListView x:Name="UnallocatedGroupsView" HorizontalAlignment="Left" Height="247" Margin="10,37,0,0" VerticalAlignment="Top" Width="254" SelectionChanged="SelectGroupWithoutFaculty" SelectionMode="Single">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Группа" Width="125" DisplayMemberBinding="{Binding NameGroup}" />
@@ -15,8 +15,8 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="311,24,0,0" VerticalAlignment="Top" Width="237" SelectionChanged="comboBox_SelectionChanged"/>
-        <ListView x:Name="DisplayGroopView" HorizontalAlignment="Left" Height="168" Margin="311,77,0,0" VerticalAlignment="Top" Width="249" SelectionChanged="DisplayGroopView_SelectionChanged" SelectionMode="Single">
+        <ComboBox x:Name="SelectFacultycomboBox" HorizontalAlignment="Left" Margin="311,24,0,0" VerticalAlignment="Top" Width="237" SelectionChanged="SelectFaculty"/>
+        <ListView x:Name="DisplayGroupsView" HorizontalAlignment="Left" Height="168" Margin="311,77,0,0" VerticalAlignment="Top" Width="249" SelectionChanged="SelectGroupWithFaculty" SelectionMode="Single">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Группа" Width="125" DisplayMemberBinding="{Binding NameGroup}" />
@@ -24,11 +24,11 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="button" Content="Сохранить" HorizontalAlignment="Left" Margin="469,269,0,0" VerticalAlignment="Top" Width="79" Click="button_Click"/>
-        <Button x:Name="btnRemove" Content="&lt;=" HorizontalAlignment="Left" Margin="269,159,0,0" VerticalAlignment="Top" Width="37" RenderTransformOrigin="0.486,0.5" IsEnabled="False" Click="btnRemove_Click"/>
-        <Button x:Name="btnAdd" Content="=&gt;" HorizontalAlignment="Left" Margin="269,120,0,0" VerticalAlignment="Top" Width="37" RenderTransformOrigin="0.541,-0.05" Click="button2_Click" IsEnabled="False"/>
+        <Button x:Name="btnSave" Content="Сохранить" HorizontalAlignment="Left" Margin="469,269,0,0" VerticalAlignment="Top" Width="79" Click="Save"/>
+        <Button x:Name="btnRemove" Content="&lt;=" HorizontalAlignment="Left" Margin="269,159,0,0" VerticalAlignment="Top" Width="37" RenderTransformOrigin="0.486,0.5" IsEnabled="False" Click="RemoveGroupFromFaculty"/>
+        <Button x:Name="btnAdd" Content="=&gt;" HorizontalAlignment="Left" Margin="269,120,0,0" VerticalAlignment="Top" Width="37" RenderTransformOrigin="0.541,-0.05" Click="AddGroupInFaculty" IsEnabled="False"/>
         <Label x:Name="label" Content="Нераспределенные группы" HorizontalAlignment="Left" Margin="27,11,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.5"/>
         <Label x:Name="label_Copy" Content="Группы входящие в факультет" HorizontalAlignment="Left" Margin="311,51,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.5"/>
-        <Button x:Name="button1" Content="Создать факультеты (ТЕСТ!!!)" HorizontalAlignment="Left" Margin="280,269,0,0" VerticalAlignment="Top" Width="173" Click="button1_Click"/>
+        <Button x:Name="btnCreate" Content="Создать факультеты (ТЕСТ!!!)" HorizontalAlignment="Left" Margin="280,269,0,0" VerticalAlignment="Top" Width="173" Click="CreateFaculty"/>
     </Grid>
 </Window>

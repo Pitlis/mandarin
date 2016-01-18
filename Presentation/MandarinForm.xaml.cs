@@ -58,7 +58,7 @@ namespace ESProject
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            Presentation.FacultyAndGroops facult = new Presentation.FacultyAndGroops();
+            Presentation.FacultyAndGroupsForm facult = new Presentation.FacultyAndGroupsForm();
             facult.Show();
         }
 
