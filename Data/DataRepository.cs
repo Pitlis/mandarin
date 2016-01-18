@@ -14,6 +14,7 @@ namespace Data
     public class DataRepository : IRepository
     {
         SqlConnection connection;
+       
         public List<string> GetParametersNames()
         {
             return new List<string>() { "Строка подключения" };
@@ -21,9 +22,9 @@ namespace Data
 
         public bool Init(string[] connectionStrings)
         {
-            connection = new SqlConnection(connectionStrings[0]);
             try
             {
+                connection = new SqlConnection(connectionStrings[0]);
                 connection.Open();
                 return true; // инициализация прошла успешно
             }
