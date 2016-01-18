@@ -1,0 +1,65 @@
+﻿<Window x:Class="Presentation.BaseWizard.BaseWizard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Presentation.BaseWizard"
+        mc:Ignorable="d"
+        Title="BaseWizard" Height="348" Width="523" ResizeMode="CanMinimize" Closing="FormWizard_Closing" WindowStartupLocation="CenterScreen">
+    <Grid Background="#FFE5E5E5">
+        <TabControl x:Name="tabControl" Margin="0,0,10,10" BorderThickness="0" Background="#FFE5E5E5">
+            <TabItem Header="Шаг1" Name="tiStep1" Visibility="Collapsed" IsTabStop="False" >
+                <Grid Background="#FFE5E5E5" Margin="0,0,1,1">
+                    <Button x:Name="btnStep1Next" Content="Далее" HorizontalAlignment="Right" Margin="0,0,90,10" VerticalAlignment="Bottom" Width="75" Click="btnStep1Next_Click" TabIndex="1"/>
+                    <Button x:Name="btnStep1Cancel" Content="Отмена" HorizontalAlignment="Right"  Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" Click="btnCancel_Click" TabIndex="0"/>
+                    <Label x:Name="labelmandarin1" Content="mandarin"  HorizontalAlignment="Left" Margin="0,225,0,0" VerticalAlignment="Top" Width="70" IsEnabled="False" FontWeight="Bold" TextOptions.TextHintingMode="Fixed"/>
+                    <Label x:Name="label1" Content="Вас приветствует мастер создания базы для mandarin" HorizontalAlignment="Left" Margin="84,10,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                    <Label x:Name="label3" Content="Создание базы состоит из нескольких этапов:" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="label4" Content="1.Указание пути к репозиторию" HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="label5" Content="2.Настройка репозитория" HorizontalAlignment="Left" Margin="10,88,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="label6" Content="3.Извлечение данных" HorizontalAlignment="Left" Margin="10,114,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="label7" Content="Для продолжения нажмите Далее" HorizontalAlignment="Left" Margin="10,140,0,0" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Шаг2" Name="tiStep2" Visibility="Collapsed" IsTabStop="False" >
+                <Grid Background="#FFE5E5E5" Margin="0,0,1,1">
+                    <RadioButton x:Name="rbStep2new" Content="Создать новую базу данных" HorizontalAlignment="Left" Margin="10,56,0,0" VerticalAlignment="Top" TabIndex="1"/>
+                    <RadioButton x:Name="rbStep2my" Content="Имеется своя база" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.924,-1.2" Checked="rbStep2my_Checked" Unchecked="rbStep2my_Unchecked" TabIndex="0"/>
+                    <Label x:Name="label2" Content="Выберите способ подключения базы данных" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold" HorizontalContentAlignment="Center" Width="482"/>
+                    <Label x:Name="step2L3" Content="Путь" HorizontalAlignment="Left" Margin="8,120,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="step2tbSelect" HorizontalAlignment="Left" Height="23" Margin="48,123,0,0" Text="" VerticalAlignment="Top" Width="375" TextChanged="step2tbSelect_TextChanged" MaxLength="200" TabIndex="2"/>
+                    <Button x:Name="step2btnSelect" Content="Выбрать" HorizontalAlignment="Left" Margin="428,123,0,0" VerticalAlignment="Top" Width="58" Height="23" Click="step2btnSelect_Click" TabIndex="3"/>
+                    <Label x:Name="step2L1" Content="Укажите путь к библиотеке репозитория" HorizontalAlignment="Left" Margin="10,97,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="482" HorizontalContentAlignment="Center"/>
+                    <Label x:Name="labelmandarin2" Content="mandarin"  HorizontalAlignment="Left" Margin="0,225,0,0" VerticalAlignment="Top" Width="70" IsEnabled="False" FontWeight="Bold" TextOptions.TextHintingMode="Fixed"/>
+                    <Button x:Name="btnStep2Next" Content="Далее" HorizontalAlignment="Right"  Margin="0,0,89,10"  VerticalAlignment="Bottom" Width="75" Click="btnStep2Next_Click" IsEnabled="False" TabIndex="5" />
+                    <Button x:Name="btnStep2Cancel" Content="Отмена" HorizontalAlignment="Right"  Margin="0,0,10,10"  VerticalAlignment="Bottom" Width="75" Click="btnCancel_Click" TabIndex="6"/>
+                    <Button x:Name="btnStep2Back" Content="Назад" HorizontalAlignment="Right" Margin="0,0,169,10"  VerticalAlignment="Bottom" Width="75" Click="btnStep2Back_Click" TabIndex="4" />
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Шаг3" Name="tiStep3" Visibility="Collapsed" >
+                <Grid Background="#FFE5E5E5" Margin="0,0,1,1">
+                    <Label x:Name="labelmandarin3" Content="mandarin"  HorizontalAlignment="Left" Margin="0,225,0,0" VerticalAlignment="Top" Width="70" IsEnabled="False" FontWeight="Bold" TextOptions.TextHintingMode="Fixed"/>
+                    <Button x:Name="btnStep3Next" Content="Далее" HorizontalAlignment="Right" Margin="0,0,89,10" VerticalAlignment="Bottom" Width="75" Click="btnStep3Next_Click" />
+                    <Button x:Name="btnStep3Cancel" Content="Отмена" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" Click="btnCancel_Click"/>
+                    <Button x:Name="btnStep3Back" Content="Назад" HorizontalAlignment="Right" Margin="0,0,169,10"  VerticalAlignment="Bottom" Width="75" Click="btnStep3Back_Click" />
+                    <Label x:Name="label" Content="Настройка репозитория" HorizontalAlignment="Center" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="482" HorizontalContentAlignment="Center"/>
+                    <ScrollViewer Name="scrvConStr" HorizontalAlignment="Left" Height="179" Margin="10,41,0,0" VerticalAlignment="Top" Width="482" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" BorderBrush="#FF212020"/>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Шаг4" Name="tiStep4" Visibility="Collapsed" >
+                <Grid Background="#FFE5E5E5" Margin="0,0,1,1">
+                    <Label x:Name="labelmandarin4" Content="mandarin"  HorizontalAlignment="Left" Margin="0,225,0,0" VerticalAlignment="Top" Width="70" IsEnabled="False" FontWeight="Bold" TextOptions.TextHintingMode="Fixed"/>
+                    <Button x:Name="btnStep4Next" Content="Готово" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" IsEnabled="False" Click="btnStep4Next_Click" Visibility="Visible" />
+                    <Label x:Name="step4label" Content="Ход выполнения" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-4.132,-2.154" Width="482" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                    <Label x:Name="step4lbstart" Content="" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" Width="482"/>
+                    <Label x:Name="step4lbfinish" Content="" HorizontalAlignment="Left" Margin="10,93,0,0" VerticalAlignment="Top" Width="482"/>
+                    <Label x:Name="step4lbrezult" Content=""   HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="482"/>
+
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+
+</Window>

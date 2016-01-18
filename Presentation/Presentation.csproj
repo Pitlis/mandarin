@@ -71,6 +71,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BaseWizard\BaseWizard.xaml.cs">
+      <DependentUpon>BaseWizard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Code\CurrentBase.cs" />
     <Compile Include="Code\FactorsLoader.cs" />
     <Compile Include="Code\FavoriteTeachersClassRoomsSettings.cs" />
@@ -83,6 +86,10 @@
     <Compile Include="FactorsDataEditors\VIPForm.xaml.cs">
       <DependentUpon>VIPForm.xaml</DependentUpon>
     </Compile>
+    <Page Include="BaseWizard\BaseWizard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="FactorsDataEditors\FavoriteTeacherClassRoomForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -232,6 +239,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
