@@ -133,5 +133,11 @@ namespace ESProject
             FavoriteTeacherClassRoomForm favTeacherClassRoomForm = new FavoriteTeacherClassRoomForm();
             favTeacherClassRoomForm.ShowDialog();
         }
+
+        private void button5_Click(object sender, RoutedEventArgs e)
+        {
+            Presentation.BaseWizard.BaseWizard wizard = new Presentation.BaseWizard.BaseWizard();
+            wizard.ShowDialog();
+        }
     }
 }
