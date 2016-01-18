@@ -5,6 +5,7 @@ using Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -37,7 +38,7 @@ namespace Presentation.Code
 
                 storage = MandarinCore.DataConvertor.ConvertData(teachers, groups, roomTypes, rooms, classes);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw;
             }
@@ -45,10 +46,29 @@ namespace Presentation.Code
             return storage;
         }
 
-        //public static IRepository GetRepository(string filePath)
-        //{
-        //попытка загрузки dll, создание экземпляра репозитория
-        //}
-        
+        public static IRepository GetRepository(string filePath)
+        {
+            // попытка загрузки dll, создание экземпляра репозитория
+            try
+            {
+                Assembly assembly = Assembly.LoadFrom(filePath);
+                Type[] types = assembly.GetTypes();
+                for (int indextype = 0; indextype < types.Count(); indextype++)
+                {
+                    if (types[indextype].GetInterface("IRepository") != null)
+                    {
+                        Type type = assembly.GetType(types[indextype].FullName, true, true);
+                        object obj = Activator.CreateInstance(type, true);
+                        return (IRepository)obj;
+                    }
+                }
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
     }
 }
