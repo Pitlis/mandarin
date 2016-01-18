@@ -152,11 +152,11 @@ namespace Presentation
             }
             else
             {
-                VIP main = this.Owner as VIP;
+                VIPForm main = this.Owner as VIPForm;
                 if (main != null)
                 {
-                    main.listViewClassRoom.Items.Clear();
-                    main.listViewClassRoom.Items.Add(listViewClassRoom.SelectedItem);
+                    main.ClassRoomlistView.Items.Clear();
+                    main.ClassRoomlistView.Items.Add(listViewClassRoom.SelectedItem);
                 }
                 this.Close();
             }

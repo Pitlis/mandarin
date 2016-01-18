@@ -100,7 +100,7 @@ namespace ESProject
 
         private void button2_Click(object sender, RoutedEventArgs e)
         {
-            VIP form = new VIP();
+            VIPForm form = new VIPForm();
             form.ShowDialog();
         }
 

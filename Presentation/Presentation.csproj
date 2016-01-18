@@ -80,8 +80,8 @@
     <Compile Include="FactorsDataEditors\FavoriteTeacherClassRoomForm.xaml.cs">
       <DependentUpon>FavoriteTeacherClassRoomForm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FactorsDataEditors\VIP.xaml.cs">
-      <DependentUpon>VIP.xaml</DependentUpon>
+    <Compile Include="FactorsDataEditors\VIPForm.xaml.cs">
+      <DependentUpon>VIPForm.xaml</DependentUpon>
     </Compile>
     <Page Include="FactorsDataEditors\FavoriteTeacherClassRoomForm.xaml">
       <SubType>Designer</SubType>
@@ -99,7 +99,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FacultyEditor\FacultyAndGroops.xaml">
+    <Page Include="FacultyEditor\FacultyAndGroupsForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -125,14 +125,14 @@
     <Compile Include="FactorSettings.xaml.cs">
       <DependentUpon>FactorSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FacultyEditor\FacultyAndGroops.xaml.cs">
-      <DependentUpon>FacultyAndGroops.xaml</DependentUpon>
+    <Compile Include="FacultyEditor\FacultyAndGroupsForm.xaml.cs">
+      <DependentUpon>FacultyAndGroupsForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="MandarinForm.xaml.cs">
       <DependentUpon>MandarinForm.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="FactorsDataEditors\VIP.xaml">
+    <Page Include="FactorsDataEditors\VIPForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
