@@ -46,7 +46,7 @@ namespace OtherFactors
                 {
                     if (favClassRooms.ContainsKey(teacher))
                     {
-                        if (favClassRooms[teacher].Find((c) => c == schedule.GetTempClassRooom()) == null)
+                        if (favClassRooms[teacher].Find((c) => c == schedule.GetClassRoom(sClass)) == null)
                         {
                             if (isBlock)
                                 return Constants.BLOCK_FINE;
@@ -84,7 +84,7 @@ namespace OtherFactors
             }
             catch (Exception ex)
             {
-                new Exception("Неверный формат данных. Требуется список объектов типа FavoriteTeacherClassRooms. " + ex.Message);
+                new Exception("Неверный формат данных. Требуется список объектов типа IDictionary < Teacher, IEnumerable < ClassRoom > >. " + ex.Message);
             }
         }
         public Guid? GetDataTypeGuid()

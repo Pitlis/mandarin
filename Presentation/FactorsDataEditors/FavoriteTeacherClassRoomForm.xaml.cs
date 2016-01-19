@@ -41,7 +41,7 @@ namespace Presentation.FactorsDataEditors
             else
             {
                 favClassRoomsListView.ItemsSource = null;
-                classRoomsListView.ItemsSource = CurrentBase.EStorage.ClassRooms;
+                classRoomsListView.ItemsSource = CurrentBase.EStorage.ClassRooms.OrderBy(c => c.Number).OrderBy(c => c.Housing);
             }
             classRoomsListView.SelectedIndex = DEFAULT_INDEX;
         }
