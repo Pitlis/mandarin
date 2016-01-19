@@ -88,6 +88,7 @@ namespace Presentation.FactorsDataEditors
             teachersListBox.SelectedIndex = -1;
             string filter = filterTeachersTextBox.Text.ToLower();
             teachersListBox.ItemsSource = FilterTeachers(filter);
+            teachersListBox.SelectedIndex = DEFAULT_INDEX;
         }
 
         private void addToFavBtn_Click(object sender, RoutedEventArgs e)
