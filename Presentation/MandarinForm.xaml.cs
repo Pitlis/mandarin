@@ -136,7 +136,7 @@ namespace ESProject
 
         private void button5_Click(object sender, RoutedEventArgs e)
         {
-            Presentation.BaseWizard.BaseWizard wizard = new Presentation.BaseWizard.BaseWizard();
+            Presentation.BaseWizard.BaseWizardForm wizard = new Presentation.BaseWizard.BaseWizardForm();
             wizard.ShowDialog();
         }
 

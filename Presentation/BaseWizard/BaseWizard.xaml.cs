@@ -20,14 +20,14 @@ namespace Presentation.BaseWizard
     /// <summary>
     /// Логика взаимодействия для BaseWizard.xaml
     /// </summary>
-    public partial class BaseWizard : Window
+    public partial class BaseWizardForm : Window
     {
         TextBox[] tbConnectString;
         Domain.IRepository repository;
         Domain.Services.EntityStorage estorage;
         string[] connectString;
         Thread thread;
-        public BaseWizard()
+        public BaseWizardForm()
         {
             InitializeComponent();
             rbStep2my.IsChecked = true;
