@@ -139,5 +139,11 @@ namespace ESProject
             Presentation.BaseWizard.BaseWizard wizard = new Presentation.BaseWizard.BaseWizard();
             wizard.ShowDialog();
         }
+
+        private void button6_Click(object sender, RoutedEventArgs e)
+        {
+            FavoriteTeacherBuildingForm favTeacherBuildingForm = new FavoriteTeacherBuildingForm();
+            favTeacherBuildingForm.ShowDialog();
+        }
     }
 }

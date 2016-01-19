@@ -27,6 +27,9 @@
             <TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="Преподаватель - аудитории"/>
         </Button>
         <Button x:Name="button5" Content="BaseWizard" HorizontalAlignment="Left" Margin="249,142,0,0" VerticalAlignment="Top" Width="75" Click="button5_Click"/>
+        <Button x:Name="button6" HorizontalAlignment="Left" Margin="51,261,0,0" VerticalAlignment="Top" Width="113" Height="36" Click="button6_Click">
+            <TextBlock x:Name="textBlock1" TextWrapping="Wrap" Text="Преподаватель - корпуса"/>
+        </Button>
 
     </Grid>
 </Window>
