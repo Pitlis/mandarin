@@ -76,10 +76,14 @@
     </Compile>
     <Compile Include="Code\CurrentBase.cs" />
     <Compile Include="Code\FactorsLoader.cs" />
+    <Compile Include="Code\FavoriteTeacherBuildingsSettings.cs" />
     <Compile Include="Code\FavoriteTeachersClassRoomsSettings.cs" />
     <Compile Include="Code\ScheduleLoader.cs" />
     <Compile Include="Code\Setting.cs" />
     <Compile Include="Code\StorageLoader.cs" />
+    <Compile Include="FactorsDataEditors\FavoriteTeacherBuildingForm.xaml.cs">
+      <DependentUpon>FavoriteTeacherBuildingForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FactorsDataEditors\FavoriteTeacherClassRoomForm.xaml.cs">
       <DependentUpon>FavoriteTeacherClassRoomForm.xaml</DependentUpon>
     </Compile>
@@ -87,6 +91,10 @@
       <DependentUpon>VIPForm.xaml</DependentUpon>
     </Compile>
     <Page Include="BaseWizard\BaseWizard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FactorsDataEditors\FavoriteTeacherBuildingForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
