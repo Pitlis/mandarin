@@ -143,6 +143,10 @@ namespace Presentation.Code
                             fine = 15;
                             obj = new Dictionary<Teacher, List<ClassRoom>>();
                             break;
+                        case "FavoriteTeachersBuildings":
+                            fine = 15;
+                            obj = new Dictionary<Teacher, List<int>>();
+                            break;
                         default:
                             break;
                     }

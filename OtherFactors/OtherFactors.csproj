@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="ClassesInWeek.cs" />
     <Compile Include="ClassInSameTimeOnOtherWeek.cs" />
+    <Compile Include="FavoriteTeachersBuildings.cs" />
     <Compile Include="FavoriteTeachersClassRooms.cs" />
     <Compile Include="FifthClass.cs" />
     <Compile Include="GroupClasses.cs" />
