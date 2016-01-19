@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Presentation"
         mc:Ignorable="d"
-        Title="Предпочтительные корпуса преподавателей" Height="350" Width="670.779" Loaded="Window_Loaded" ResizeMode="CanMinimize" WindowStartupLocation="CenterOwner">
+        Title="Предпочтительные корпуса преподавателей" Height="350" Width="670.779" Loaded="Window_Loaded" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="226*"/>

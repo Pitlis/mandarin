@@ -120,6 +120,8 @@ namespace Presentation.FactorsDataEditors
                 Teacher currentTeacher = (Teacher)teachersListBox.SelectedItem;
                 SelectTeacherBuildings(currentTeacher);
             }
+            else
+                buildingsListBox.ItemsSource = null;
         }
 
         private void buildingsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -112,6 +112,8 @@ namespace Presentation.FactorsDataEditors
                 Teacher currentTeacher = (Teacher)teachersListBox.SelectedItem;
                 SelectTeacherClassRooms(currentTeacher);
             }
+            else
+                classRoomsListView.ItemsSource = null;
         }
 
         private void classRoomsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
