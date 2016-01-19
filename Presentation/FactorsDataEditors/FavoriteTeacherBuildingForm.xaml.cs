@@ -43,9 +43,9 @@ namespace Presentation.FactorsDataEditors
         {
             if (settings.favTeachersBuildings.ContainsKey(teacher))
             {
-                favBuildingsListBox.ItemsSource = settings.favTeachersBuildings[teacher];
+                favBuildingsListBox.ItemsSource = settings.favTeachersBuildings[teacher].OrderBy(h => h);
                 List<int> unfavClassRooms = settings.GetUnfavoriteBuildings(teacher);
-                buildingsListBox.ItemsSource = unfavClassRooms;
+                buildingsListBox.ItemsSource = unfavClassRooms.OrderBy(h => h);
             }
             else
             {
@@ -59,9 +59,9 @@ namespace Presentation.FactorsDataEditors
         private void SetBuildingssListViewItems(Teacher teacher)
         {
             favBuildingsListBox.ItemsSource = null;
-            favBuildingsListBox.ItemsSource = settings.favTeachersBuildings[teacher];
+            favBuildingsListBox.ItemsSource = settings.favTeachersBuildings[teacher].OrderBy(h => h);
             List<int> unfavClassRooms = settings.GetUnfavoriteBuildings(teacher);
-            buildingsListBox.ItemsSource = unfavClassRooms;
+            buildingsListBox.ItemsSource = unfavClassRooms.OrderBy(h => h);
         }
 
         private void SaveFavoriteTeachersBuildings()
