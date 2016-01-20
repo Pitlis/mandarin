@@ -30,6 +30,14 @@
         <Button x:Name="button6" HorizontalAlignment="Left" Margin="51,261,0,0" VerticalAlignment="Top" Width="113" Height="36" Click="button6_Click">
             <TextBlock x:Name="textBlock1" TextWrapping="Wrap" Text="Преподаватель - корпуса"/>
         </Button>
+        <Menu x:Name="menu" HorizontalAlignment="Left" Height="20" Margin="10,0,0,0" VerticalAlignment="Top" Width="497">
+            <MenuItem Header="_База" Name="miDB">
+                <MenuItem Header="Созд_ать" Name="miDBCreate" HorizontalAlignment="Left" Width="auto" Click="miDBCreate_Click"/>
+                <MenuItem Header="_Открыть" Name="miDBOpen" HorizontalAlignment="Left" Width="auto" Click="miDBOpen_Click"/>
+                <MenuItem Header="Сохранит_ь" Name="miDBSave" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miDBSave_Click"/>
+                <MenuItem Header="Сохранить _как" Name="miDBSaveAs" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miDBSaveAs_Click"/>
+            </MenuItem>
+        </Menu>
 
     </Grid>
 </Window>

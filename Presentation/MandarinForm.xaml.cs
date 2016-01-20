@@ -3,6 +3,7 @@ using Domain.DataFiles;
 using Domain.Model;
 using Domain.Services;
 using MandarinCore;
+using Microsoft.Win32;
 using Presentation;
 using Presentation.Code;
 using Presentation.FactorsDataEditors;
@@ -38,7 +39,7 @@ namespace ESProject
         {
             Logic core = new Logic();
             core.DI();
-            
+
             core.Start();
             MessageBox.Show("Та да");
         }
@@ -112,7 +113,7 @@ namespace ESProject
                 CurrentBase.Factors = FactorsLoader.GetFactors().ToList();
                 MessageBox.Show("База загружена");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 //IRepository Repo = new Data.DataRepository();
                 //EntityStorage storage = StorageLoader.CreateEntityStorage(Repo, new string[] { @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=C:\USERS\СЕРГЕЙ\DOCUMENTS\ESPROJECT\ESPROJECT\BIN\DEBUG\BD4.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" });
@@ -144,6 +145,84 @@ namespace ESProject
         {
             FavoriteTeacherBuildingForm favTeacherBuildingForm = new FavoriteTeacherBuildingForm();
             favTeacherBuildingForm.ShowDialog();
+        }
+
+        private void miDBCreate_Click(object sender, RoutedEventArgs e)
+        {
+            //открытие формы создания BaseWizard
+            Presentation.BaseWizard.BaseWizardForm baseWizardform = new Presentation.BaseWizard.BaseWizardForm();
+            baseWizardform.ShowDialog();
+            if (CurrentBase.BaseIsLoaded())
+            {
+                miDBSave.IsEnabled = true;
+                miDBSaveAs.IsEnabled = true;
+            }
+        }
+
+        private void miDBOpen_Click(object sender, RoutedEventArgs e)
+        {
+            //здесь сделать окно для открытия
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.Filter = "DB files (*.mandarin)|*.mandarin";
+            if (openFile.ShowDialog() == false)
+            {
+                return;
+            }
+            try
+            {
+                CurrentBase.LoadBase(openFile.FileName);
+                miDBSave.IsEnabled = true;
+                miDBSaveAs.IsEnabled = true;
+            }
+            catch
+            {
+                MessageBox.Show("Не удалось открыть",
+                                "Ошибка",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+                return;
+            }
+
+        }
+
+        private void miDBSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentBase.BaseIsLoaded())
+            {
+                try
+                {
+                    CurrentBase.SaveBase();
+                    MessageBox.Show("Сохранение прошло успешно",
+                                    "Успешно",
+                                    MessageBoxButton.OK,
+                                    MessageBoxImage.Information);
+                }
+                catch
+                {
+                    MessageBox.Show("Не сохранено, попробуйте еще раз",
+                                    "Ошибка",
+                                    MessageBoxButton.OK,
+                                    MessageBoxImage.Error);
+                }
+
+            }
+        }
+
+        private void miDBSaveAs_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "DB files (*.mandarin|*.mandarin";
+            saveFileDialog.FilterIndex = 2;
+            saveFileDialog.RestoreDirectory = true;
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                CurrentBase.SaveBase(saveFileDialog.FileName);
+                MessageBox.Show("Сохранение прошло успешно",
+                                 "Успешно",
+                                 MessageBoxButton.OK,
+                                 MessageBoxImage.Information);
+            }
+
         }
     }
 }
