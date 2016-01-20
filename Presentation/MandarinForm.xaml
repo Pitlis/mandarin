@@ -4,40 +4,94 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ESProject"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="216,243,0,0" VerticalAlignment="Top" Width="75" Click="button_Click">
-            <Button.LayoutTransform>
-                <TransformGroup>
-                    <ScaleTransform CenterX="10"/>
-                    <SkewTransform CenterX="10"/>
-                    <RotateTransform CenterX="10"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Button.LayoutTransform>
-        </Button>
-        <Button x:Name="btnEditSchedule" Content="Открыть расписание" HorizontalAlignment="Left" Margin="51,53,0,0" VerticalAlignment="Top" Width="145" Click="btnEditSchedule_Click"/>
-        <Button x:Name="FactorSetting" Content="FactorSetting" HorizontalAlignment="Left" Margin="340,58,0,0" VerticalAlignment="Top" Width="113" Click="FactorSetting_Click"/>
-        <Button x:Name="button1" Content="FacultySettings" HorizontalAlignment="Left" Margin="51,104,0,0" VerticalAlignment="Top" Width="135" Click="button1_Click"/>
-        <Button x:Name="btn_filedb" Content="Путь к БД" HorizontalAlignment="Left" Margin="340,142,0,0" VerticalAlignment="Top" Width="75" Click="btn_filedb_Click"/>
-        <Button x:Name="button2" Content="VIP" HorizontalAlignment="Left" Margin="89,162,0,0" VerticalAlignment="Top" Width="75" Click="button2_Click"/>
-        <Button x:Name="button3" Content="Открыть базу (ТЕСТ)" HorizontalAlignment="Left" Margin="340,227,0,0" VerticalAlignment="Top" Width="141" Height="70" Click="button3_Click"/>
-        <Button x:Name="button4" HorizontalAlignment="Left" Margin="51,212,0,0" VerticalAlignment="Top" Width="113" Height="36" Click="button4_Click">
-            <TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="Преподаватель - аудитории"/>
-        </Button>
-        <Button x:Name="button5" Content="BaseWizard" HorizontalAlignment="Left" Margin="249,142,0,0" VerticalAlignment="Top" Width="75" Click="button5_Click"/>
-        <Button x:Name="button6" HorizontalAlignment="Left" Margin="51,261,0,0" VerticalAlignment="Top" Width="113" Height="36" Click="button6_Click">
-            <TextBlock x:Name="textBlock1" TextWrapping="Wrap" Text="Преподаватель - корпуса"/>
-        </Button>
-        <Menu x:Name="menu" HorizontalAlignment="Left" Height="20" Margin="10,0,0,0" VerticalAlignment="Top" Width="497">
-            <MenuItem Header="_База" Name="miDB">
-                <MenuItem Header="Созд_ать" Name="miDBCreate" HorizontalAlignment="Left" Width="auto" Click="miDBCreate_Click"/>
-                <MenuItem Header="_Открыть" Name="miDBOpen" HorizontalAlignment="Left" Width="auto" Click="miDBOpen_Click"/>
-                <MenuItem Header="Сохранит_ь" Name="miDBSave" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miDBSave_Click"/>
-                <MenuItem Header="Сохранить _как" Name="miDBSaveAs" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miDBSaveAs_Click"/>
-            </MenuItem>
-        </Menu>
+        Title="MainWindow" Height="700" Width="700"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto">
+    <DockPanel>
+        <materialDesign:ColorZone Padding="3" materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                                          Mode="PrimaryMid"  DockPanel.Dock="Top">
+            <DockPanel>
+                <Menu IsMainMenu="True" DockPanel.Dock="Top" Background="#FFFFEB3B">
+                    <MenuItem Header="_База" Foreground="#DD000000" FontSize="16" Name="miDB">
+                        <MenuItem Header="Созд_ать" Name="miDBCreate" HorizontalAlignment="Left" Width="auto" Click="miDBCreate_Click">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Cube" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="_Открыть" Name="miDBOpen" HorizontalAlignment="Left" Width="auto" Click="miDBOpen_Click">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Openid" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Сохранит_ь" Name="miDBSave" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miDBSave_Click">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="ContentSave" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Сохранить _как" Name="miDBSaveAs" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miDBSaveAs_Click">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="ContentSave" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        
+                        <Separator />
+                        <MenuItem Header="Excellent" IsCheckable="True" IsChecked="True" />
+                        <MenuItem Header="Rubbish" IsCheckable="True" />
+                        <MenuItem Header="Dig Deeper" InputGestureText="Ctrl+D">
+                            <MenuItem Header="Enlightenment?" IsCheckable="True" />
+                            <MenuItem Header="Disappointment" IsCheckable="True" />
+                        </MenuItem>
+                        <MenuItem Header="Look Deeper" InputGestureText="Ctrl+D">
+                            <MenuItem Header="Plain" />
+                            <MenuItem Header="Ice Cream" />
+                        </MenuItem>
+                    </MenuItem>
+                    <MenuItem Header="_Edit" Foreground="#DD000000" FontSize="16">
+                        <MenuItem Header="_Cut" Command="Cut">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="ContentCut" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="_Copy" Command="Copy">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="ContentCopy" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="_Paste" Command="Paste">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="ContentPaste" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                </Menu>
+            </DockPanel>
+        </materialDesign:ColorZone>
+        <ContentControl Margin="16">
+            <Grid>
 
-    </Grid>
+                <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
+                        Margin="234,366,0,86" HorizontalAlignment="Left"
+                        ToolTip="Начать составление расписания"
+                        Click="button_Click" RenderTransformOrigin="4.714,2.429" Height="100" Width="100" FontSize="26.667"
+                        >Старт
+                </Button>
+                <Button x:Name="btnEditSchedule" Content="Открыть расписание" HorizontalAlignment="Left" Margin="51,53,0,0" VerticalAlignment="Top" Width="206" Click="btnEditSchedule_Click"/>
+                <Button x:Name="FactorSetting" Content="FactorSetting" HorizontalAlignment="Left" Margin="368,88,0,0" VerticalAlignment="Top" Width="184" Click="FactorSetting_Click"/>
+                <Button x:Name="button1" Content="FacultySettings" HorizontalAlignment="Left" Margin="51,104,0,0" VerticalAlignment="Top" Width="135" Click="button1_Click"/>
+                <Button x:Name="btn_filedb" Content="Путь к БД" HorizontalAlignment="Left" Margin="340,142,0,0" VerticalAlignment="Top" Width="193" Click="btn_filedb_Click"/>
+                <Button x:Name="button2" Content="VIP" HorizontalAlignment="Left" Margin="89,162,0,0" VerticalAlignment="Top" Width="75" Click="button2_Click"/>
+                <Button x:Name="button3" Content="Открыть базу (ТЕСТ)" HorizontalAlignment="Left" Margin="340,227,0,0" VerticalAlignment="Top" Width="224" Height="95" Click="button3_Click"/>
+                <Button x:Name="button4" HorizontalAlignment="Left" Margin="51,212,0,0" VerticalAlignment="Top" Width="151" Height="44" Click="button4_Click">
+                    <TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="Преподаватель - аудитории"/>
+                </Button>
+                <Button x:Name="button5" Content="BaseWizard" HorizontalAlignment="Left" Margin="201,142,0,0" VerticalAlignment="Top" Width="121" Click="button5_Click"/>
+                <Button x:Name="button6" HorizontalAlignment="Left" Margin="51,295,0,0" VerticalAlignment="Top" Width="151" Height="61" Click="button6_Click">
+                    <TextBlock x:Name="textBlock1" TextWrapping="Wrap" Text="Преподаватель - корпуса"/>
+                </Button>
+            </Grid>
+        </ContentControl>
+    </DockPanel>
 </Window>
