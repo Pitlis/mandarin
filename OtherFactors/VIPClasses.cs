@@ -10,11 +10,13 @@ using System.Threading.Tasks;
 
 namespace OtherFactors
 {
-    class VIPClasses : IFactor
+    class VIPClasses : IFactor, IFactorFormData
     {
         int fine;
         bool isBlock;
         List<FixedClasses> sClasses;
+
+        #region IFactor
 
         public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
         {
@@ -105,5 +107,21 @@ namespace OtherFactors
         {
             return new Guid("37DCA975-0CB9-4DEC-9DAD-93CDBC0D0599");
         }
+
+        #endregion
+
+        #region IFactorFormData
+
+        public string GetUserInstructions()
+        {
+            return "Выберите пару преподавателя и укажите в какой день, в какое время и в какую аудиторию её ставить";
+        }
+
+        public EntityStorage FilterStorage(EntityStorage eStorage)
+        {
+            return eStorage;
+        }
+
+        #endregion
     }
 }
