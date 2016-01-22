@@ -10,13 +10,13 @@ using Domain.FactorInterfaces;
 
 namespace OtherFactors
 {
-    class TwoClassesInWeek : IFactor
+    class TwoClassesInWeek : IFactor, IFactorProgramData
     {
         int fine;
         bool isBlock;
         StudentsClass[,] sClasses;
 
-
+        #region IFactor
 
         public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
         {
@@ -92,5 +92,16 @@ namespace OtherFactors
         {
             return new Guid("CF2B2F17-D8D0-4848-878C-DE9B9B988392");
         }
+
+        #endregion
+
+        #region IFactorProgramData
+
+        public object CreateAndReturnData(EntityStorage eStorage)
+        {
+            return GroupClasses.GetGroupFourSameClasses(eStorage.Classes);
+        }
+
+        #endregion
     }
 }

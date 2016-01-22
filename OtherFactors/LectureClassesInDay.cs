@@ -10,11 +10,13 @@ using System.Threading.Tasks;
 
 namespace OtherFactors
 {
-    class LectureClassesInDay : IFactor
+    class LectureClassesInDay : IFactor, IFactorProgramData
     {
         int fine;
         bool isBlock;
         List<StudentsClass> lClasses;
+
+        #region IFactor
 
         public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
         {
@@ -111,5 +113,16 @@ namespace OtherFactors
             //Список лекций
             return new Guid("459A38B8-E6AC-4185-BCD9-F9024B3FEE8E");
         }
+
+        #endregion
+
+        #region IFactorProgramData
+
+        public object CreateAndReturnData(EntityStorage eStorage)
+        {
+            return GroupClasses.GetLectureClasses(eStorage.Classes);
+        }
+
+        #endregion
     }
 }

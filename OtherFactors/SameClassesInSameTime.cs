@@ -10,11 +10,13 @@ using System.Threading.Tasks;
 
 namespace OtherFactors
 {
-    class SameClassesInSameTime : IFactor
+    class SameClassesInSameTime : IFactor, IFactorProgramData
     {
         int fine;
         bool isBlock;
         StudentsClass[,] sClasses;
+
+        #region IFactor
 
         public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
         {
@@ -95,5 +97,16 @@ namespace OtherFactors
             //Требуется двумерный массив Nx2 типа StudentsClass.
             return new Guid("535BA69C-E25F-4F7D-A7C3-E13D17B70988");
         }
+
+        #endregion
+
+        #region IFactorProgramData
+
+        public object CreateAndReturnData(EntityStorage eStorage)
+        {
+            return GroupClasses.GetGroupSameClassesMoreTwoInTwoWeeks(eStorage.Classes);
+        }
+
+        #endregion
     }
 }

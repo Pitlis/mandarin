@@ -10,11 +10,13 @@ using Domain.FactorInterfaces;
 
 namespace OtherFactors
 {
-    public class OnlyOneClassInDay : IFactor
+    public class OnlyOneClassInDay : IFactor, IFactorProgramData
     {
         int fine;
         bool isBlock;
         StudentsClass[,] sClasses;
+
+        #region IFactor
 
         public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
         {
@@ -43,8 +45,6 @@ namespace OtherFactors
             }
             return fineResult;
         }
-
-
 
         public string GetName()
         {
@@ -100,5 +100,16 @@ namespace OtherFactors
             //Массив списков
             return new Guid("5CD997CE-3499-470E-8299-24AC7F18AF8C");
         }
+
+        #endregion
+
+        #region IFactorProgramData
+
+        public object CreateAndReturnData(EntityStorage eStorage)
+        {
+            return GroupClasses.GetGroupSameClasses(eStorage.Classes);
+        }
+
+        #endregion
     }
 }
