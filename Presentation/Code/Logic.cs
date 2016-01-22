@@ -28,17 +28,11 @@ namespace Presentation.Code
         //TODO Заглушка для Dependency Inversion
         public void DI()
         {
-            //Repo = new Data.DataRepository();
-            //Repo.Init(new string[] { @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=C:\USERS\СЕРГЕЙ\DOCUMENTS\ESPROJECT\ESPROJECT\BIN\DEBUG\BD4.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" });
-
-            Repo = new MockDataBase.MockRepository();
-            Repo.Init(null);
             Factors = new List<FactorSettings>();
 
             AllocConsole();
             loggingService = new NLogLoggingService();
 
-            //storage = DataConvertor.ConvertData(Repo.GetTeachers(), Repo.GetStudentsGroups(), Repo.GetClassRoomsTypes(), Repo.GetClassRooms(), Repo.GetStudentsClasses());
             storage = CurrentBase.EStorage;
 
             vip = new Setting(storage, storage.Classes);

@@ -23,12 +23,6 @@ namespace Presentation.Code
         public Setting()
         {
             LVIP = new List<FixedClasses>();
-            Repo = new MockDataBase.MockRepository();
-            Repo.Init(null);
-            //Repo = new Data.DataRepository();
-            //Repo.Init(new string[] { @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=C:\USERS\СЕРГЕЙ\DOCUMENTS\ESPROJECT\ESPROJECT\BIN\DEBUG\BD4.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" });
-
-            //storage = DataConvertor.ConvertData(Repo.GetTeachers(), Repo.GetStudentsGroups(), Repo.GetClassRoomsTypes(), Repo.GetClassRooms(), Repo.GetStudentsClasses());
             storage = CurrentBase.EStorage;
             this.Clases = storage.Classes;
             LVIPB = new List<VIPClasesBin>();
