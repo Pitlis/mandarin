@@ -84,16 +84,16 @@
     </Compile>
     <Compile Include="Code\CurrentBase.cs" />
     <Compile Include="Code\FactorsLoader.cs" />
-    <Compile Include="Code\FavoriteTeacherBuildingsSettings.cs" />
-    <Compile Include="Code\FavoriteTeachersClassRoomsSettings.cs" />
+    <Compile Include="Code\TeachersBuildingsSettings.cs" />
+    <Compile Include="Code\TeachersClassRoomsSettings.cs" />
     <Compile Include="Code\ScheduleLoader.cs" />
     <Compile Include="Code\Setting.cs" />
     <Compile Include="Code\StorageLoader.cs" />
-    <Compile Include="FactorsDataEditors\FavoriteTeacherBuildingForm.xaml.cs">
-      <DependentUpon>FavoriteTeacherBuildingForm.xaml</DependentUpon>
+    <Compile Include="FactorsDataEditors\TeacherBuildingsForm.xaml.cs">
+      <DependentUpon>TeacherBuildingsForm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FactorsDataEditors\FavoriteTeacherClassRoomForm.xaml.cs">
-      <DependentUpon>FavoriteTeacherClassRoomForm.xaml</DependentUpon>
+    <Compile Include="FactorsDataEditors\TeacherClassRoomForm.xaml.cs">
+      <DependentUpon>TeacherClassRoomForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="FactorsDataEditors\VIPForm.xaml.cs">
       <DependentUpon>VIPForm.xaml</DependentUpon>
@@ -102,11 +102,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FactorsDataEditors\FavoriteTeacherBuildingForm.xaml">
+    <Page Include="FactorsDataEditors\TeacherBuildingsForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FactorsDataEditors\FavoriteTeacherClassRoomForm.xaml">
+    <Page Include="FactorsDataEditors\TeacherClassRoomForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
