@@ -18,10 +18,10 @@
                 <RadioButton x:Name="LowerWeekradioButton" Content="Нижняя неделя" HorizontalAlignment="Left" Margin="135,44,0,0" VerticalAlignment="Top"/>
             </Grid>
         </GroupBox>
-        <Button x:Name="btnAdd" Content="Добавить" HorizontalAlignment="Left" Margin="632,289,0,0" VerticalAlignment="Top" Width="98" RenderTransformOrigin="0.509,0" Click="AddClasses"/>
+        <Button x:Name="btnAdd" Content="Добавить" HorizontalAlignment="Left" Margin="632,289,0,0" VerticalAlignment="Top" Width="98" RenderTransformOrigin="0.509,0" Click="btnAdd_Click"/>
         <TextBox x:Name="SearchTeachertextBox" HorizontalAlignment="Left" Height="23" Margin="30,16,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="153" TextChanged="EnterTextInTeacherslistBox"/>
         <Label x:Name="lable_Copy2" Content="Группы:" HorizontalAlignment="Left" Margin="474,57,0,0" VerticalAlignment="Top"/>
-        <ListView x:Name="InfoGrooplistView" Height="81" Margin="480,88,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Width="259" SelectionChanged="SelectGroup">
+        <ListView x:Name="InfoGrouplistView" Height="81" Margin="480,88,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Width="259" SelectionChanged="SelectGroup">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Группа" Width="125" DisplayMemberBinding="{Binding NameGroup}" />
@@ -37,6 +37,6 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="btnRemove" Content="Снять" HorizontalAlignment="Left" Margin="512,289,0,0" VerticalAlignment="Top" Width="98" RenderTransformOrigin="0.509,0" Click="RemoveClasses"/>
+        <Button x:Name="btnRemove" Content="Снять" HorizontalAlignment="Left" Margin="512,289,0,0" VerticalAlignment="Top" Width="98" RenderTransformOrigin="0.509,0" Click="btnRemove_Click"/>
     </Grid>
 </Window>

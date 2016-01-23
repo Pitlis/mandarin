@@ -33,14 +33,7 @@ namespace Presentation
             TeacherslistBox.ItemsSource = setting.storage.Teachers;
 
         }
-        private void FilterTeachers(string s)
-        {
 
-
-            teachers = new List<Teacher>(setting.storage.Teachers.OrderBy(i => !i.Name.ToLower().StartsWith(s)).
-                Where(item => item.Name.ToLower().Contains(s)));
-            TeacherslistBox.ItemsSource = teachers;
-        }
 
         private void EnterTextInTeacherslistBox(object sender, TextChangedEventArgs e)
         {
@@ -51,6 +44,69 @@ namespace Presentation
 
         private void SelectTeacher(object sender, SelectionChangedEventArgs e)
         {
+            FillClassesListBox();
+        }
+
+        private void SelectClass(object sender, SelectionChangedEventArgs e)
+        {
+            FillInfoGroupsClassroomTime();
+        }
+
+        private void SelectGroup(object sender, SelectionChangedEventArgs e)
+        {
+            InfoGrouplistView.SelectedIndex = -1;
+        }
+
+        private void ChooseClassRoom(object sender, RoutedEventArgs e)
+        {
+            CallChooseClassRoomForm();
+        }
+
+        private void SelectClassRoom(object sender, SelectionChangedEventArgs e)
+        {
+            ClassRoomlistView.SelectedIndex = -1;
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            AddClasses();
+        }
+
+        private void btnRemove_Click(object sender, RoutedEventArgs e)
+        {
+            RemoveClasses();
+        }
+
+        #region Methods
+        private void FillDayAndTimeCombobox()
+        {
+            DaycomboBox.Items.Clear(); TimecomboBox.Items.Clear();
+            DaycomboBox.Items.Add("Понедельник");
+            DaycomboBox.Items.Add("Вторник");
+            DaycomboBox.Items.Add("Среда");
+            DaycomboBox.Items.Add("Четверг");
+            DaycomboBox.Items.Add("Пятница");
+            DaycomboBox.Items.Add("Суббота");
+
+            TimecomboBox.Items.Add("8.30-10.05");
+            TimecomboBox.Items.Add("10.25-12.00");
+            TimecomboBox.Items.Add("12.20-13.55");
+            TimecomboBox.Items.Add("14.15-15.50");
+            TimecomboBox.Items.Add("16.00-17.35");
+            TimecomboBox.Items.Add("17.45-19.20");
+        }
+
+        private void FilterTeachers(string s)
+        {
+
+
+            teachers = new List<Teacher>(setting.storage.Teachers.OrderBy(i => !i.Name.ToLower().StartsWith(s)).
+                Where(item => item.Name.ToLower().Contains(s)));
+            TeacherslistBox.ItemsSource = teachers;
+        }
+
+        private void FillClassesListBox()
+        {
             if (TeacherslistBox.SelectedIndex != -1)
             {
                 ClasseslistBox.ItemsSource = setting.GetListClases((Teacher)TeacherslistBox.SelectedItem);
@@ -58,7 +114,7 @@ namespace Presentation
             else { ClasseslistBox.ItemsSource = null; }
         }
 
-        private void SelectClass(object sender, SelectionChangedEventArgs e)
+        private void FillInfoGroupsClassroomTime()
         {
             if (ClasseslistBox.SelectedIndex != -1)
             {
@@ -66,21 +122,8 @@ namespace Presentation
                 ClassRoomlistView.Items.Clear();
                 StudentsClass sClass;
                 sClass = (StudentsClass)ClasseslistBox.SelectedItem;
-                InfoGrooplistView.ItemsSource = sClass.SubGroups;
-                DaycomboBox.Items.Clear(); TimecomboBox.Items.Clear();
-                DaycomboBox.Items.Add("Понедельник");
-                DaycomboBox.Items.Add("Вторник");
-                DaycomboBox.Items.Add("Среда");
-                DaycomboBox.Items.Add("Четверг");
-                DaycomboBox.Items.Add("Пятница");
-                DaycomboBox.Items.Add("Суббота");
-
-                TimecomboBox.Items.Add("8.30-10.05");
-                TimecomboBox.Items.Add("10.25-12.00");
-                TimecomboBox.Items.Add("12.20-13.55");
-                TimecomboBox.Items.Add("14.15-15.50");
-                TimecomboBox.Items.Add("16.00-17.35");
-                TimecomboBox.Items.Add("17.45-19.20");
+                InfoGrouplistView.ItemsSource = sClass.SubGroups;
+                FillDayAndTimeCombobox();
 
 
                 foreach (FixedClasses item in setting.LVIP)
@@ -108,31 +151,11 @@ namespace Presentation
             else
             {
                 btnClassRoom.IsEnabled = false;
-                InfoGrooplistView.ItemsSource = null; DaycomboBox.Items.Clear(); TimecomboBox.Items.Clear(); ClassRoomlistView.Items.Clear();
+                InfoGrouplistView.ItemsSource = null; DaycomboBox.Items.Clear(); TimecomboBox.Items.Clear(); ClassRoomlistView.Items.Clear();
             }
         }
 
-        private void SelectGroup(object sender, SelectionChangedEventArgs e)
-        {
-            InfoGrooplistView.SelectedIndex = -1;
-        }
-
-        private void ChooseClassRoom(object sender, RoutedEventArgs e)
-        {
-            StudentsClass sClass;
-            sClass = (StudentsClass)ClasseslistBox.SelectedItem;
-            ChooseClassRoom form = new ChooseClassRoom(-1, setting.storage, sClass);
-            form.Owner = this;
-            form.ShowDialog();
-        }
-
-
-        private void SelectClassRoom(object sender, SelectionChangedEventArgs e)
-        {
-            ClassRoomlistView.SelectedIndex = -1;
-        }
-
-        private void AddClasses(object sender, RoutedEventArgs e)
+        private void AddClasses()
         {
             try
             {
@@ -162,41 +185,31 @@ namespace Presentation
                     if (item.Room == classRoom && item.Time == timeIndex)
                     { freeClassroom = false; break; }
                 }
-                if (sClass != null)
+                if (sClass != null && classRoom != null && timeIndex != -1)
                 {
-                    if (classRoom != null && timeIndex != -1)
+                    if (freeClassroom)
                     {
-                        if (freeClassroom)
+                        foreach (var item in setting.LVIP)
                         {
-                            foreach (var item in setting.LVIP)
+
+                            if (item.sClass == sClass)
                             {
-
-                                if (item.sClass == sClass)
-                                {
-                                    item.Room = classRoom;
-                                    item.Time = timeIndex;
-                                    existAddClassInLVIP = true;
-                                    MessageBox.Show("Всё ок");
-                                }
-
-                            }
-                        }
-                        else { MessageBox.Show("В это время в этой аудитории уже стоит пара"); }
-
-                        if (freeClassroom)
-                        {
-                            if (!existAddClassInLVIP)
-                            {
-                                FixedClasses vi = new FixedClasses(sClass, timeIndex, classRoom);
-                                setting.LVIP.Add(vi);
+                                item.Room = classRoom;
+                                item.Time = timeIndex;
+                                existAddClassInLVIP = true;
                                 MessageBox.Show("Всё ок");
                             }
 
                         }
-                        else { MessageBox.Show("В это время в этой аудитории уже стоит пара"); }
-
-
+                        if (!existAddClassInLVIP)
+                        {
+                            FixedClasses vi = new FixedClasses(sClass, timeIndex, classRoom);
+                            setting.LVIP.Add(vi);
+                            MessageBox.Show("Всё ок");
+                        }
                     }
+                    else { MessageBox.Show("В это время в этой аудитории уже стоит пара"); }
+
                 }
                 setting.LVIPB = new List<VIPClasesBin>();
                 foreach (var item in setting.LVIP)
@@ -217,8 +230,7 @@ namespace Presentation
 
             }
         }
-
-        private void RemoveClasses(object sender, RoutedEventArgs e)
+        private void RemoveClasses()
         {
             StudentsClass sClass;
             sClass = (StudentsClass)ClasseslistBox.SelectedItem;
@@ -231,7 +243,7 @@ namespace Presentation
                         setting.LVIP.RemoveAt(indexVip);
                         DaycomboBox.SelectedIndex = -1;
                         TimecomboBox.SelectedIndex = -1;
-                        InfoGrooplistView.ItemsSource = null;
+                        InfoGrouplistView.ItemsSource = null;
                         ClassRoomlistView.Items.Clear();
                         indexVip--;
 
@@ -240,7 +252,7 @@ namespace Presentation
                 setting.LVIPB = new List<VIPClasesBin>();
                 foreach (var item in setting.LVIP)
                 {
-                    VIPClasesBin vipClasesBin = 
+                    VIPClasesBin vipClasesBin =
                         new VIPClasesBin(Array.FindIndex(CurrentBase.EStorage.Classes, c => c == item.sClass), item.Time, Array.FindIndex(CurrentBase.EStorage.ClassRooms, c => c == item.Room));
                     setting.LVIPB.Add(vipClasesBin);
 
@@ -252,5 +264,15 @@ namespace Presentation
                 }
             }
         }
+        private void CallChooseClassRoomForm()
+        {
+            StudentsClass sClass;
+            sClass = (StudentsClass)ClasseslistBox.SelectedItem;
+            ChooseClassRoom form = new ChooseClassRoom(-1, setting.storage, sClass);
+            form.Owner = this;
+            form.ShowDialog();
+        }
+
+        #endregion
     }
 }
