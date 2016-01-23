@@ -54,10 +54,10 @@ namespace Presentation
             else
             {
                 radioButtonFree.IsEnabled = true;
-                int k = schedule.GetListClasRoom(TimeRows, clas).Count;
+                int k = schedule.GetListClasRoom(clas).Count;
                 bool[] free = new bool[k];
                 int z = 0;
-                foreach (ClassRoom item in schedule.GetListClasRoom(TimeRows, clas))
+                foreach (ClassRoom item in schedule.GetListClasRoom(clas))
                 {
                     free[z] = schedule.ClassRoomFree(item, TimeRows);
                     z++;
@@ -118,7 +118,7 @@ namespace Presentation
         private void radioButtonFree_Checked(object sender, RoutedEventArgs e)
         {
             
-            listViewClassRoom.ItemsSource = schedule.GetListFreeClasRoom(TimeRows, schedule.GetListClasRoom(TimeRows, clas));
+            listViewClassRoom.ItemsSource = schedule.GetListFreeClasRoom(TimeRows, schedule.GetListClasRoom(clas));
             listViewClassRoom.SelectedIndex = -1;
             button.IsEnabled = false;
         }
@@ -126,7 +126,7 @@ namespace Presentation
         {
             if(schedule != null )
             {
-                listViewClassRoom.ItemsSource = schedule.GetListClasRoom(TimeRows, clas);
+                listViewClassRoom.ItemsSource = schedule.GetListClasRoom(clas);
             }
            else
             {

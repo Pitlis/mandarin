@@ -38,20 +38,20 @@ namespace Presentation.Code
         /// <summary>
         /// Метод для создания частичного рассписания для задоного факультета и курса
         /// </summary>
-        public void CretScheduleForFacult(string name, int cours)
+        public void CretScheduleForFacult(string nameFaculty, int cours)
         {
             Sett = Save.LoadSettings();
             int classesInSchedule = Constants.WEEKS_IN_SCHEDULE * Constants.DAYS_IN_WEEK * Constants.CLASSES_IN_DAY;
-            ClassRoom cl = GetClassRoom(ClassesTable[0, 0]);
-            partSchedule = new StudentsClass[classesInSchedule, Sett.GetGroups(name, cours).Count];
-            Groups = new StudentSubGroup[Sett.GetGroups(name, cours).Count];
-            for (int groupIndex = 0; groupIndex < Sett.GetGroups(name, cours).Count; groupIndex++)
+            ClassRoom clasRoom = GetClassRoom(ClassesTable[0, 0]);
+            partSchedule = new StudentsClass[classesInSchedule, Sett.GetGroups(nameFaculty, cours).Count];
+            Groups = new StudentSubGroup[Sett.GetGroups(nameFaculty, cours).Count];
+            for (int groupIndex = 0; groupIndex < Sett.GetGroups(nameFaculty, cours).Count; groupIndex++)
             {
-                Groups[groupIndex] = Sett.GetGroups(name, cours)[groupIndex];
+                Groups[groupIndex] = Sett.GetGroups(nameFaculty, cours)[groupIndex];
             }
             Array.Sort(Groups, new GroupsComparer());
 
-            for (int groupIndex = 0; groupIndex < Sett.GetGroups(name, cours).Count; groupIndex++)
+            for (int groupIndex = 0; groupIndex < Sett.GetGroups(nameFaculty, cours).Count; groupIndex++)
             {
                 StudentsClass[] groupClasses = this.GetPartialSchedule(Groups[groupIndex]).GetClasses();//WTF???
                 for (int classIndex = 0; classIndex < classesInSchedule; classIndex++)
@@ -66,73 +66,70 @@ namespace Presentation.Code
         /// <summary>
         /// Метод для удаления пары из "большого" расписания
         /// </summary>
-        public void RemoveFromClasses(StudentsClass clas, int row)
+        public void RemoveFromClasses(StudentsClass sClass, int timeIndex)
         {
             for (int colIndex = 0; colIndex < ClassesTable.GetLength(1); colIndex++)
             {
-                if (ClassesTable[row, colIndex] == clas)
-                    ClassesTable[row, colIndex] = null;
+                if (ClassesTable[timeIndex, colIndex] == sClass)
+                    ClassesTable[timeIndex, colIndex] = null;
             }
            
         }
         /// <summary>
         /// Метод для получения списка аудитории подходящих паре
         /// </summary>
-        public List<ClassRoom> GetListClasRoom(int TimeRows, StudentsClass clas)
+        public List<ClassRoom> GetListClasRoom(StudentsClass sClass)
         {
-            List<ClassRoom> clasR = new List<ClassRoom>();
+            List<ClassRoom> classRooms = new List<ClassRoom>();
 
-            foreach (ClassRoom items in eStorage.ClassRooms)
+            foreach (ClassRoom classRoom in eStorage.ClassRooms)
             {
-                int k = 0;
-                foreach (ClassRoomType type in clas.RequireForClassRoom)
+                int countEquallyProperty = 0;
+                foreach (ClassRoomType type in sClass.RequireForClassRoom)
                 {
-                    if (items.Types.Contains(type))
+                    if (classRoom.Types.Contains(type))
                     {
-                        k++;
+                        countEquallyProperty++;
                     }
                 }
-                if (k == clas.RequireForClassRoom.Length)
-                { clasR.Add(items); }
+                if (countEquallyProperty == sClass.RequireForClassRoom.Length)
+                { classRooms.Add(classRoom); }
 
 
             }
-            clasR.Sort(new ClassRoomComparer());
-            return clasR;
+            classRooms.Sort(new ClassRoomComparer());
+            return classRooms;
         }
-
-        public static List<ClassRoom> GetListClasRoom(EntityStorage storage, StudentsClass clas)
+        public static List<ClassRoom> GetListClasRoom(EntityStorage storage, StudentsClass sClass)
         {
-            List<ClassRoom> clasR = new List<ClassRoom>();
+            List<ClassRoom> classRooms = new List<ClassRoom>();
 
             foreach (ClassRoom items in storage.ClassRooms)
             {
-                int k = 0;
-                foreach (ClassRoomType type in clas.RequireForClassRoom)
+                int countEquallyProperty = 0;
+                foreach (ClassRoomType type in sClass.RequireForClassRoom)
                 {
                     if (items.Types.Contains(type))
                     {
-                        k++;
+                        countEquallyProperty++;
                     }
                 }
-                if (k == clas.RequireForClassRoom.Length)
-                { clasR.Add(items); }
+                if (countEquallyProperty == sClass.RequireForClassRoom.Length)
+                { classRooms.Add(items); }
 
 
             }
-            clasR.Sort(new ClassRoomComparer());
-            return clasR;
+            classRooms.Sort(new ClassRoomComparer());
+            return classRooms;
         }
         /// <summary>
         /// Метод который узнает свободна ли аудитория в данное время(если да то true,TimeRows строка в расписании)
         /// </summary>
-        public bool ClassRoomFree(ClassRoom item, int TimeRows)
+        public bool ClassRoomFree(ClassRoom classRoom, int TimeRows)
         {
-            ClassRoom cl;
             for (int colIndex = 0; colIndex < ClassesTable.GetLength(1); colIndex++)
             {
-                cl = GetClassRoom(ClassesTable[TimeRows, colIndex]);
-                if (ClassesTable[TimeRows, colIndex] != null && cl == item)
+                if (ClassesTable[TimeRows, colIndex] != null && GetClassRoom(ClassesTable[TimeRows, colIndex]) == classRoom)
                     return false;
             }
             return true;
@@ -141,13 +138,11 @@ namespace Presentation.Code
         /// <summary>
         /// Метод который возврощяет пару если занятия идут в получаемой аудитории, и NULL если нет(TimeRows строка в расписании)
         /// </summary>
-        public StudentsClass GetStudentsClass(ClassRoom item, int TimeRows)
+        public StudentsClass GetStudentsClass(ClassRoom classRoom, int TimeRows)
         {
-            ClassRoom cl;
             for (int colIndex = 0; colIndex < ClassesTable.GetLength(1); colIndex++)
             {
-                cl = GetClassRoom(ClassesTable[TimeRows, colIndex]);
-                if (ClassesTable[TimeRows, colIndex] != null && cl == item)
+                if (ClassesTable[TimeRows, colIndex] != null && GetClassRoom(ClassesTable[TimeRows, colIndex]) == classRoom)
                     return ClassesTable[TimeRows, colIndex];
             }
             return null;
@@ -155,211 +150,165 @@ namespace Presentation.Code
         /// <summary>
         /// Метод который возврощяет список свободных аудиторий(TimeRows строка в расписании)
         /// </summary>
-        public List<ClassRoom> GetListFreeClasRoom(int TimeRows, List<ClassRoom> clas)
+        public List<ClassRoom> GetListFreeClasRoom(int TimeRows, List<ClassRoom> classRooms)
         {
-            int[] k = new int[clas.Count];
-            int z = 0, im = 0;
-            foreach (ClassRoom items in clas)
+            for (int classRoomIndex = 0; classRoomIndex < classRooms.Count; classRoomIndex++)
             {
                 for (int colIndex = 0; colIndex < ClassesTable.GetLength(1); colIndex++)
                 {
-                    if (ClassesTable[TimeRows, colIndex] != null && GetClassRoom(ClassesTable[TimeRows, colIndex]) == items)
-                    { k[z] = -1; }
+                    if (ClassesTable[TimeRows, colIndex] != null && GetClassRoom(ClassesTable[TimeRows, colIndex]) == classRooms[classRoomIndex])
+                    { classRooms.RemoveAt(classRoomIndex); classRoomIndex--; break; }
                 }
-                z++;
             }
-            for (int i = 0; i < clas.Count; i++)
-            {
-                if (k[im] == -1) { clas.RemoveAt(i); i--; }
-                im++;
-            }
-            return clas;
+       
+            return classRooms;
         }
         /// <summary>
-        /// Метод для постановки пары в "большое" рассписание
+        /// Метод для постановки пар
         /// </summary>
-        public void SetClass(ClassRoom clas, StudentsClass sClas, int TimeRow)
+        public void SetClass(ClassRoom classRoom, StudentsClass sClass, int TimeRow)
         {
-            int clasIndex = -1;
-            for (int i = 0; i < eStorage.ClassRooms.Length; i++)
+            //Вставка в полном расписании
+            for (int classRoomIndex = 0; classRoomIndex < eStorage.ClassRooms.Length; classRoomIndex++)
             {
-                if (eStorage.ClassRooms[i] == clas) clasIndex = i;
-            }
-            string s = "";
-
-            #region OtherCalses
-            //Есть ли у этих групп другие занятия в это время?
-            foreach (StudentSubGroup groop in sClas.SubGroups)
-            {
-                for (int colIndex = 0; colIndex < ClassesTable.GetLength(1); colIndex++)
+                if (eStorage.ClassRooms[classRoomIndex] == classRoom)
                 {
-                    if (ClassesTable[TimeRow, colIndex] != null && ClassesTable[TimeRow, colIndex].SubGroups.Contains(groop))
-                    {
-                        s += "\n" + groop.NameGroup + ": " + ClassesTable[TimeRow, colIndex].Name;
-                        break;
-                    }
+                    ClassesTable[TimeRow, classRoomIndex] = sClass;
                 }
             }
-            if (s != "")
-            {
-                System.Windows.MessageBoxResult result = System.Windows.MessageBox.Show("В этот момент идут занятия в группах: \n" + s + "\n Хотите снять данные пары?", "Вопрос", System.Windows.MessageBoxButton.OKCancel, System.Windows.MessageBoxImage.Question);
-                if (result == System.Windows.MessageBoxResult.OK)
-                {
-                    foreach (StudentSubGroup groop in sClas.SubGroups)
-                    {
-                        for (int colIndex = 0; colIndex < ClassesTable.GetLength(1); colIndex++)
-                        {
-                            if (ClassesTable[TimeRow, colIndex] != null && ClassesTable[TimeRow, colIndex].SubGroups.Contains(groop))
-                            {
-                                RemoveClases.Add(ClassesTable[TimeRow, colIndex]);
-                                ClassesTable[TimeRow, colIndex] = null;
-                                break;
-                            }
-                        }
-                        for (int colIndex = 0; colIndex < partSchedule.GetLength(1); colIndex++)
-                        {
-                            if (partSchedule[TimeRow, colIndex] != null && partSchedule[TimeRow, colIndex].SubGroups.Contains(groop))
-                            {
-                                partSchedule[TimeRow, colIndex] = null;
-                            }
-                        }
-
-                    }
-                }
-                else { System.Windows.MessageBox.Show("Выбранну пару невозможно поставить из за накладки в расписании", "Ошибка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information); return; }
-            }
-            //-------------------------
-            #endregion
-            s = "";
-
-            #region TeacherClasses
-            //Есть ли у преподавателей другие пары в это время?
-            foreach (Teacher teach in sClas.Teacher)
-            {
-                for (int colIndex = 0; colIndex < ClassesTable.GetLength(1); colIndex++)
-                {
-                    if (ClassesTable[TimeRow, colIndex] != null && ClassesTable[TimeRow, colIndex].Teacher.Contains(teach))
-                    {
-                        s += "\n" + teach.Name + ": " + ClassesTable[TimeRow, colIndex].Name;
-                        break;
-                    }
-                }
-            }
-            if (s != "")
-            {
-                System.Windows.MessageBoxResult result = System.Windows.MessageBox.Show("В этот момент идут занятия у преподавателей: \n" + s + "\n Хотите снять данные пары?", "Вопрос", System.Windows.MessageBoxButton.OKCancel, System.Windows.MessageBoxImage.Question);
-                if (result == System.Windows.MessageBoxResult.OK)
-                {
-                    foreach (Teacher teach in sClas.Teacher)
-                    {
-                        for (int colIndex = 0; colIndex < ClassesTable.GetLength(1); colIndex++)
-                        {
-                            if (ClassesTable[TimeRow, colIndex] != null && ClassesTable[TimeRow, colIndex].Teacher.Contains(teach))
-                            {
-                                RemoveClases.Add(ClassesTable[TimeRow, colIndex]);
-                                ClassesTable[TimeRow, colIndex] = null;
-                                break;
-                            }
-                        }
-                        for (int colIndex = 0; colIndex < partSchedule.GetLength(1); colIndex++)
-                        {
-                            if (partSchedule[TimeRow, colIndex] != null && partSchedule[TimeRow, colIndex].Teacher.Contains(teach))
-                            {
-                                partSchedule[TimeRow, colIndex] = null;
-                            }
-                        }
-                    }
-                }
-                else { System.Windows.MessageBox.Show("Выбранну пару невозможно поставить из за накладки в расписании", "Ошибка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information); return; }
-            }
-            //------------------
-            #endregion
-
-            s = "";
-            if (ClassesTable[TimeRow, clasIndex] != null)
-            {
-                ClassRoom audit;
-                audit = GetClassRoom(ClassesTable[TimeRow, clasIndex]);
-                s = audit.Number + "Корпус: " + audit.Housing;
-                System.Windows.MessageBoxResult result = System.Windows.MessageBox.Show("В аудитории: " + s + " уже ведутся занятия.\n Хотите снять данную пары?", "Вопрос", System.Windows.MessageBoxButton.OKCancel, System.Windows.MessageBoxImage.Question);
-                if (result == System.Windows.MessageBoxResult.OK)
-                {
-                    RemoveClases.Add(ClassesTable[TimeRow, clasIndex]);
-                    for (int colIndex = 0; colIndex < partSchedule.GetLength(1); colIndex++)
-                    {
-                        if (partSchedule[TimeRow, colIndex] != null && GetClassRoom(partSchedule[TimeRow, colIndex]) == audit)
-                        {
-                            partSchedule[TimeRow, colIndex] = null;
-                        }
-
-                    }
-                    ClassesTable[TimeRow, clasIndex] = null;
-                }
-                else { System.Windows.MessageBox.Show("Выбранну пару невозможно поставить из за накладки в расписании", "Ошибка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information); return; }
-
-            }
-            ClassesTable[TimeRow, clasIndex] = sClas;
-            foreach (var grop in sClas.SubGroups)
+            //Вставка в частичном расписании
+            foreach (var grop in sClass.SubGroups)
             {
                 for (int i = 0; i < Groups.Length; i++)
                 {
                     if (grop == Groups[i])
                     {
-                        partSchedule[TimeRow, i] = sClas;
+                        partSchedule[TimeRow, i] = sClass;
                         break;
                     }
                 }
                 
             }
-            RemoveClases.Remove(sClas);
+            RemoveClases.Remove(sClass);
 
+        }
+        /// <summary>
+        /// Метод возврощающий список пар которые пересикаются с той которую хотим поставить
+        /// </summary>
+        public List<StudentsClass> GetCrossClasses(ClassRoom classRoom, StudentsClass sClass, int TimeRow)
+        {
+            List<StudentsClass> crossClasses = new List<StudentsClass>();
+            //Есть ли у этих групп другие занятия в это время?
+            foreach (StudentSubGroup groop in sClass.SubGroups)
+            {
+                for (int colIndex = 0; colIndex < ClassesTable.GetLength(1); colIndex++)
+                {
+                    if (ClassesTable[TimeRow, colIndex] != null && ClassesTable[TimeRow, colIndex].SubGroups.Contains(groop))
+                    {
+                        crossClasses.Add(ClassesTable[TimeRow, colIndex]);
+                        break;
+                    }
+                }
+            }
+                //Есть ли у преподавателей другие пары в это время?
+                foreach (Teacher teach in sClass.Teacher)
+                {
+                    for (int colIndex = 0; colIndex < ClassesTable.GetLength(1); colIndex++)
+                    {
+                        if (ClassesTable[TimeRow, colIndex] != null && ClassesTable[TimeRow, colIndex].Teacher.Contains(teach))
+                        {
+                            crossClasses.Add(ClassesTable[TimeRow, colIndex]);
+                            break;
+                        }
+                    }
+                }
+                for (int classRoomIndex = 0; classRoomIndex < eStorage.ClassRooms.Length; classRoomIndex++)
+                {
+                    if (eStorage.ClassRooms[classRoomIndex] == classRoom && ClassesTable[TimeRow, classRoomIndex] != null)
+                    {
+                       crossClasses.Add(ClassesTable[TimeRow, classRoomIndex]);
+                    }
+                }
+            return crossClasses;
+
+            }
+        /// <summary>
+        /// Метод снимающий пересикающие пары из расписания
+        /// </summary>
+        public void RemoveCrossClasses(List<StudentsClass> crossClasses, int TimeRow)
+        {
+            for (int classIndex = 0; classIndex < crossClasses.Count; classIndex++)
+            {
+                //Снятия пар из полног расписания
+                for (int colIndex = 0; colIndex < ClassesTable.GetLength(1); colIndex++)
+                {
+                    if(ClassesTable[TimeRow, colIndex] == crossClasses[classIndex])
+                    {
+                        RemoveClases.Add(ClassesTable[TimeRow, colIndex]);
+                        ClassesTable[TimeRow, colIndex] = null; 
+                    }
+                }
+                //Снятия пар из частичного расписания
+                for (int colIndex = 0; colIndex < partSchedule.GetLength(1); colIndex++)
+                {
+                    if (partSchedule[TimeRow, colIndex] != null && partSchedule[TimeRow, colIndex] == crossClasses[classIndex])
+                    { partSchedule[TimeRow, colIndex] = null; }
+
+                }
+            }
         }
         /// <summary>
         /// Метод для расчета "хороших" позиций
         /// </summary>
-        public bool[] GetFinePosition(StudentsClass sClas)
+        public bool[] GetFinePosition(StudentsClass sClass)
         {
             int classesInSchedule = Constants.WEEKS_IN_SCHEDULE * Constants.DAYS_IN_WEEK * Constants.CLASSES_IN_DAY;
             bool[] position = new bool[classesInSchedule];
-            #region Аудитории
+            CheckClassRooms(position, classesInSchedule, sClass);
+            CheckTeachers(position, classesInSchedule, sClass);
+            CheckClasses(position, classesInSchedule, sClass);
+            return position;            
+        }    
+        private void CheckClassRooms(bool[] position, int classesInSchedule, StudentsClass sClass)
+        {
             List<ClassRoom> Lcals;
-            for (int i = 0; i < classesInSchedule; i++)
+            for (int timeIndex = 0; timeIndex < classesInSchedule; timeIndex++)
             {
-               Lcals = GetListClasRoom(i, sClas);
-               foreach(ClassRoom item in Lcals)
+                Lcals = GetListClasRoom(sClass);
+                foreach (ClassRoom item in Lcals)
                 {
-                    position[i] = ClassRoomFree(item, i);
-                    if (position[i]) break;
+                    position[timeIndex] = ClassRoomFree(item, timeIndex);
+                    if (position[timeIndex]) break;
                 }
             }
-            #endregion
-            #region Учителя
-            StudentsClass[] classes;
-            foreach (Teacher item in sClas.Teacher)
-            {
-                classes = GetPartialSchedule(item).GetClasses();
-                for (int i = 0; i < classesInSchedule; i++)
-                {
-                    if (classes[i] != null)
-                        position[i] = false;
-                }
-            }
-            #endregion
-            #region Пары 
-            foreach (StudentSubGroup item in sClas.SubGroups)
-            {              
-                classes = GetPartialSchedule(item).GetClasses();
-                for (int i = 0; i < classesInSchedule; i++)
-                {
-                    if (classes[i] != null)
-                        position[i] = false;
-                }
-            }
-            #endregion
-            return position;
-
-            
         }
+        private void CheckTeachers(bool[] position, int classesInSchedule, StudentsClass sClass)
+        {
+            StudentsClass[] classes;
+            foreach (Teacher item in sClass.Teacher)
+            {
+                classes = GetPartialSchedule(item).GetClasses();
+                for (int timeIndex = 0; timeIndex < classesInSchedule; timeIndex++)
+                {
+                    if (classes[timeIndex] != null)
+                        position[timeIndex] = false;
+                }
+            }
+        }
+        private void CheckClasses(bool[] position, int classesInSchedule, StudentsClass sClass)
+        {
+            StudentsClass[] classes;
+            foreach (StudentSubGroup item in sClass.SubGroups)
+            {
+                classes = GetPartialSchedule(item).GetClasses();
+                for (int timeIndex = 0; timeIndex < classesInSchedule; timeIndex++)
+                {
+                    if (classes[timeIndex] != null)
+                        position[timeIndex] = false;
+                }
+            }
+        }
+   
 
         public class ClassRoomComparer : IComparer<ClassRoom>
         {

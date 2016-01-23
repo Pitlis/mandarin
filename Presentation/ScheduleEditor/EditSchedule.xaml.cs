@@ -502,13 +502,30 @@ namespace Presentation
 
 
         public void btnSet_Click(object sender, RoutedEventArgs e)
-        {          
-            schedule.SetClass((ClassRoom)listViewClassRoom.Items.GetItemAt(0), (StudentsClass)RemovelistBox.SelectedItem, TimeRows);
+        {
+            SetClasses();
             RemovelistBox.ItemsSource = null;
             RemovelistBox.ItemsSource = schedule.RemoveClases;
             btnShow_Click(Type.Missing, e);
             btnSet.IsEnabled = false;
            // btnClass.IsEnabled = false;
+        }
+
+        private void SetClasses()
+        {
+            if (schedule.GetCrossClasses((ClassRoom)listViewClassRoom.Items.GetItemAt(0), (StudentsClass)RemovelistBox.SelectedItem, TimeRows).Count != 0)
+            {
+                System.Windows.MessageBoxResult result = System.Windows.MessageBox.Show("Есть накладки в расписании. Хотите снять пересекающееся пары?", "Вопрос", System.Windows.MessageBoxButton.OKCancel, System.Windows.MessageBoxImage.Question);
+                if (result == System.Windows.MessageBoxResult.OK)
+                {
+                    schedule.RemoveCrossClasses(schedule.GetCrossClasses((ClassRoom)listViewClassRoom.Items.GetItemAt(0), (StudentsClass)RemovelistBox.SelectedItem, TimeRows), TimeRows);
+                    schedule.SetClass((ClassRoom)listViewClassRoom.Items.GetItemAt(0), (StudentsClass)RemovelistBox.SelectedItem, TimeRows);
+                }
+            }
+            else
+            {
+                schedule.SetClass((ClassRoom)listViewClassRoom.Items.GetItemAt(0), (StudentsClass)RemovelistBox.SelectedItem, TimeRows);
+            }
         }
 
 
