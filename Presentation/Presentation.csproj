@@ -110,7 +110,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ScheduleEditor\ChooseClassRoom.xaml">
+    <Page Include="ScheduleEditor\ChoseClassRoomForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -134,8 +134,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ScheduleEditor\ChooseClassRoom.xaml.cs">
-      <DependentUpon>ChooseClassRoom.xaml</DependentUpon>
+    <Compile Include="ScheduleEditor\ChoseClassRoomForm.xaml.cs">
+      <DependentUpon>ChoseClassRoomForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="FacultyEditor\FacultiesAndGroups.cs" />
     <Compile Include="Code\Logic.cs" />
