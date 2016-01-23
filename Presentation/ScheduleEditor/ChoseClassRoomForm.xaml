@@ -7,13 +7,13 @@
         mc:Ignorable="d"
         Title="ChooseClassRoom" Height="363.159" Width="493.651" Loaded="Window_Loaded">
     <Grid>
-        <RadioButton x:Name="radioButtonAll" Content="Все" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="radioButtonAll_Checked_1"/>
+        <RadioButton x:Name="radioButtonAll" Content="Все" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="radioButtonAll_Checked"/>
         <RadioButton x:Name="radioButtonFree" Content="Сейчас свободные" HorizontalAlignment="Left" Margin="65,10,0,0" VerticalAlignment="Top" IsEnabled="False" Checked="radioButtonFree_Checked"/>
         <ListBox x:Name="listClassRoomProp" HorizontalAlignment="Left" Height="99" Margin="221,30,0,0" VerticalAlignment="Top" Width="245"/>
         <Label x:Name="label" Content="Особенности аудитории:" HorizontalAlignment="Left" Margin="221,4,0,0" VerticalAlignment="Top" Width="151"/>
-        <Button x:Name="button" Content="Поставить" HorizontalAlignment="Left" Margin="221,145,0,0" VerticalAlignment="Top" Width="83" Click="button_Click" IsEnabled="False"/>
+        <Button x:Name="btnChoseClassroom" Content="Поставить" HorizontalAlignment="Left" Margin="221,145,0,0" VerticalAlignment="Top" Width="83" Click="btnChoseClassRoom_Click" IsEnabled="False"/>
         <TextBox x:Name="textClass" HorizontalAlignment="Left" Height="23" Margin="221,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="245" IsReadOnly="True"/>
-        <TextBox x:Name="textGroop" HorizontalAlignment="Left" Height="23" Margin="221,291,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="245" IsReadOnly="True"/>
+        <TextBox x:Name="textGroup" HorizontalAlignment="Left" Height="23" Margin="221,291,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="245" IsReadOnly="True"/>
         <TextBox x:Name="textTeacher" HorizontalAlignment="Left" Height="23" Margin="221,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="245" IsReadOnly="True"/>
         <Label x:Name="label_Copy" Content="Пара:" HorizontalAlignment="Left" Margin="221,172,0,0" VerticalAlignment="Top" Width="151"/>
         <Label x:Name="label_Copy1" Content="Преподаватель:" HorizontalAlignment="Left" Margin="221,221,0,0" VerticalAlignment="Top" Width="151"/>
