@@ -85,7 +85,6 @@ namespace Presentation.BaseWizard
         private void rbStep2my_Checked(object sender, RoutedEventArgs e)
         {
             step2L1.Visibility = Visibility.Visible;
-            step2L3.Visibility = Visibility.Visible;
             step2tbSelect.Visibility = Visibility.Visible;
             step2btnSelect.Visibility = Visibility.Visible;
             if (step2tbSelect.Text == "") btnStep2Next.IsEnabled = false;
@@ -93,8 +92,7 @@ namespace Presentation.BaseWizard
         }
         private void rbStep2my_Unchecked(object sender, RoutedEventArgs e)
         {
-            step2L1.Visibility = Visibility.Hidden;
-            step2L3.Visibility = Visibility.Hidden;
+            step2L1.Visibility = Visibility.Hidden;           
             step2tbSelect.Visibility = Visibility.Hidden;
             step2btnSelect.Visibility = Visibility.Hidden;
             btnStep2Next.IsEnabled = false;
@@ -150,7 +148,7 @@ namespace Presentation.BaseWizard
                     MaxLength = 200,
                     HorizontalAlignment = HorizontalAlignment.Left,
                     VerticalAlignment = VerticalAlignment.Top,
-
+                    Background = new SolidColorBrush(Color.FromRgb(247,238,238)),
                 };
                 tbConnectString[indexconnectString].TextChanged += tbConnectString_TextChanged;
                 grid.Children.Add(lblConnectString);
