@@ -1,7 +1,10 @@
-﻿using Domain.Model;
+﻿using Domain.FactorInterfaces;
+using Domain.Model;
 using Domain.Services;
+using Presentation.FactorsDataEditors;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -11,149 +14,98 @@ namespace Presentation.Code
 {
     static class FactorsLoader
     {
-        public static IEnumerable<FactorSettings> GetFactors()
+        public static IEnumerable<FactorSettings> GetFactorSettings()
         {
+            List<Type> factorTypes = GetFactorsTypes(System.AppDomain.CurrentDomain.BaseDirectory).ToList();
+            Dictionary<string, int> defaultFines = GetDefaultFines();
             List<FactorSettings> Factors = new List<FactorSettings>();
-            Assembly asm = Assembly.Load("FactorsWindows");
-            EntityStorage storage = CurrentBase.EStorage;
-            foreach (var factor in asm.GetTypes())
+
+            foreach (Type factorType in factorTypes)
             {
-                if (factor.GetInterface("IFactor") != null)
-                {
-                    int fine = 0;
-                    switch (factor.Name)
-                    {
-                        case "StudentFourWindows":
-                            fine = 12;
-                            break;
-                        case "StudentsOneWindow":
-                            fine = 2;
-                            break;
-                        case "StudentThreeWindows":
-                            fine = 8;
-                            break;
-                        case "StudentTwoWindows":
-                            fine = 4;
-                            break;
-                        case "TeachersFourWindows":
-                            fine = 12;
-                            break;
-                        case "TeacherssOneWindow":
-                            fine = 1;
-                            break;
-                        case "TeachersThreeWindows":
-                            fine = 6;
-                            break;
-                        case "TeachersTwoWindows":
-                            fine = 3;
-                            break;
-                        default:
-                            break;
-                    }
-                    Factors.Add(new FactorSettings(fine, factor, "FactorsWindows"));
-                }
-            }
-            asm = Assembly.Load("OtherFactors");
-            foreach (var factor in asm.GetTypes())
-            {
-                object obj = null;
-                if (factor.GetInterface("IFactor") != null)
-                {
-                    int fine = 0;
-                    switch (factor.Name)
-                    {
-                        case "SixStudentsClasses":
-                            fine = 10;
-                            break;
-                        case "TeacherDayOff":
-                            fine = 100;
-                            break;
-                        case "FiveStudentsClassesInRow":
-                            fine = 10;
-                            break;
-                        case "FiveStudentsClassesInDay":
-                            fine = 8;
-                            break;
-                        case "SixthClass":
-                            fine = 8;
-                            break;
-                        case "SaturdayTwoClasses":
-                            fine = 8;
-                            break;
-                        case "TwoClassesInWeek":
-                            fine = 10;
-                            obj = OtherFactors.GroupClasses.GetGroupFourSameClasses(storage.Classes);
-                            break;
-                        case "OnlyOneClassInDay":
-                            fine = 100;
-                            obj = OtherFactors.GroupClasses.GetGroupSameClasses(storage.Classes);
-                            break;
-                        case "SameClassesInSameTime":
-                            fine = 99;
-                            obj = OtherFactors.GroupClasses.GetGroupSameClassesMoreTwoInTwoWeeks(storage.Classes);
-                            break;
-                        case "SameClassesInSameRoom":
-                            fine = 20;
-                            obj = OtherFactors.GroupClasses.GetGroupSameClassesMoreTwoInTwoWeeks(storage.Classes);
-                            break;
-                        case "OneClassInWeek":
-                            fine = 99;
-                            obj = OtherFactors.GroupClasses.GetGroupTwoSameClasses(storage.Classes);
-                            break;
-                        case "LectureClassesInDay":
-                            fine = 6;
-                            obj = OtherFactors.GroupClasses.GetLectureClasses(storage.Classes);
-                            break;
-                        case "MoreThreeClassesInDay":
-                            fine = 4;
-                            break;
-                        case "SaturdayClass":
-                            fine = 4;
-                            break;
-                        case "TeacherBalanceClasses":
-                            fine = 100;
-                            break;
-                        case "SameLecturesInSameTime":
-                            fine = 100;
-                            obj = OtherFactors.GroupClasses.GetLecturePairs(storage.Classes);
-                            break;
-                        case "FifthClass":
-                            fine = 8;
-                            break;
-                        case "ClassInSameTimeOnOtherWeek":
-                            fine = 100;
-                            obj = OtherFactors.GroupClasses.GetGroupSameClassesMoreTwoInTwoWeeks(storage.Classes);
-                            break;
-                        case "SameRoomIfClassesInSameTime":
-                            fine = 100;
-                            obj = OtherFactors.GroupClasses.GetGroupSameClassesMoreTwoInTwoWeeks(storage.Classes);
-                            break;
-                        case "PairClassesInSameRoom":
-                            fine = 100;
-                            obj = OtherFactors.GroupClasses.GetGroupSameClassesMoreTwoInTwoWeeks(storage.Classes);
-                            break;
-                        case "VIPClasses":
-                            fine = 0;
-                            obj = new List<FixedClasses>();
-                            break;
-                        case "SaturdayClassOneAtWeek":
-                            fine = 5;
-                            break;
-                        case "FavoriteTeachersClassRooms":
-                            fine = 15;
-                            obj = new Dictionary<Teacher, List<ClassRoom>>();
-                            break;
-                        case "FavoriteTeachersBuildings":
-                            fine = 15;
-                            obj = new Dictionary<Teacher, List<int>>();
-                            break;
-                        default:
-                            break;
-                    }
-                    Factors.Add(new FactorSettings(fine, factor, "OtherFactors", null, obj));
-                }
+                string pathToDll = factorType.Assembly.Location;
+
+                IFactor factorInstance = (IFactor)Activator.CreateInstance(factorType);
+                Guid? dataTypeGuid = factorInstance.GetDataTypeGuid();
+                int defaultFine = defaultFines.ContainsKey(factorType.Name) ? defaultFines[factorType.Name] : 0;
+
+                FactorSettings factorSettings = new FactorSettings(defaultFine, factorType, pathToDll, dataTypeGuid);
+                Factors.Add(factorSettings);
             }
             return Factors;
+        }
+        public static void SetDefaultSettings()
+        {
+            Dictionary<string, int> defaultFines = GetDefaultFines();
+            foreach (FactorSettings factor in CurrentBase.Factors)
+            {
+                IFactor factorInstance = factor.CreateInstance();
+                int defaultFine = defaultFines.ContainsKey(factor.FactorName) ? defaultFines[factor.FactorName] : 0;
+
+                if (factorInstance is IFactorFormData && factor.DataTypeGuid.HasValue && FactorsEditors.GetFactorEditors().ContainsKey(factor.DataTypeGuid.Value))
+                {
+                    factor.Data = null;
+                }
+                if(factorInstance is IFactorProgramData && factor.DataTypeGuid.HasValue)
+                {
+                    Object factorData = ((IFactorProgramData)factorInstance).CreateAndReturnData(CurrentBase.EStorage);
+                }
+            }
+        }
+
+        static IEnumerable<Type> GetFactorsTypes(string path)
+        {
+            List<Type> factorTypes = new List<Type>();
+
+            foreach (string dll in Directory.GetFiles(path, "*.dll"))
+            {
+                Assembly assembly = Assembly.LoadFile(dll);
+                foreach (var typeInAssembly in assembly.GetTypes())
+                {
+                    if (typeInAssembly.GetInterface("IFactor") != null)
+                    {
+                        factorTypes.Add(typeInAssembly);
+                    }
+                }
+            }
+            return factorTypes;
+        }
+        
+        static Dictionary<string, int> GetDefaultFines()
+        {
+            Dictionary<string, int> fines = new Dictionary<string, int>();
+            fines.Add("StudentFourWindows", 12);
+            fines.Add("StudentsOneWindow", 2);
+            fines.Add("StudentThreeWindows", 8);
+            fines.Add("StudentTwoWindows", 4);
+            fines.Add("TeachersFourWindows", 12);
+            fines.Add("TeacherssOneWindow", 1);
+            fines.Add("TeachersThreeWindows", 6);
+            fines.Add("TeachersTwoWindows", 3);
+            fines.Add("SixStudentsClasses", 10);
+            fines.Add("TeacherDayOff", 100);
+            fines.Add("FiveStudentsClassesInRow", 10);
+            fines.Add("FiveStudentsClassesInDay", 8);
+            fines.Add("SixthClass", 8);
+            fines.Add("SaturdayTwoClasses", 8);
+            fines.Add("TwoClassesInWeek", 10);
+            fines.Add("OnlyOneClassInDay", 100);
+            fines.Add("SameClassesInSameTime", 99);
+            fines.Add("SameClassesInSameRoom", 20);
+            fines.Add("OneClassInWeek", 99);
+            fines.Add("LectureClassesInDay", 6);
+            fines.Add("MoreThreeClassesInDay", 4);
+            fines.Add("SaturdayClass", 4);
+            fines.Add("TeacherBalanceClasses", 100);
+            fines.Add("SameLecturesInSameTime", 100);
+            fines.Add("FifthClass", 8);
+            fines.Add("ClassInSameTimeOnOtherWeek", 100);
+            fines.Add("SameRoomIfClassesInSameTime", 100);
+            fines.Add("PairClassesInSameRoom", 100);
+            fines.Add("VIPClasses", 0);
+            fines.Add("SaturdayClassOneAtWeek", 5);
+            fines.Add("FavoriteTeachersClassRooms", 15);
+            fines.Add("FavoriteTeachersBuildings", 15);
+            return fines;
         }
     }
 }
