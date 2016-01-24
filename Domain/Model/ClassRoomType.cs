@@ -15,6 +15,7 @@ namespace Domain.Model
             Description = description;
             ((IDomainIdentity<ClassRoomType>)this).ID = Id;
         }
+        public ClassRoomType() { }
 
         public string Description { get; private set; }
 

@@ -16,6 +16,7 @@ namespace Domain.Model
             this.Name = Name;
             ((IDomainIdentity<Teacher>)this).ID = Id;
         }
+        public Teacher() { }
 
 
         #region IDomainIdentity

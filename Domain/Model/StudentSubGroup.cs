@@ -17,7 +17,7 @@ namespace Domain.Model
             this.NumberSubGroup = NumberSubGroup;
             ((IDomainIdentity<StudentSubGroup>)this).ID = Id;
         }
-
+        public StudentSubGroup() { }
 
         #region IDomainIdentity
         int IDomainIdentity<StudentSubGroup>.ID { get; set; }

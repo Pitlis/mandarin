@@ -27,6 +27,8 @@ namespace Domain.Model
             RequireForClassRoom = requireForClassRoom.ToArray<ClassRoomType>();
             ((IDomainIdentity<StudentsClass>)this).ID = Id;
         }
+        public StudentsClass() { }
+
 
         //Отличается от реализации IDomainIdentity, т.к. вложенные классы
         //сравниваются по ссылкам, а не параметрам.
