@@ -81,5 +81,20 @@ namespace OtherFactors
             }
             return -1;
         }
+
+        public static int GetColumn(StudentsClass[,] sClasses, StudentsClass sClass)
+        {
+            if (sClass == null)
+                return -1;
+            for (int rowIndex = 0; rowIndex < sClasses.GetLength(0); rowIndex++)
+            {
+                for (int colIndex = 0; colIndex < sClasses.GetLength(1); colIndex++)
+                {
+                    if (sClasses[rowIndex, colIndex] == sClass)
+                        return colIndex;
+                }
+            }
+            return -1;
+        }
     }
 }
