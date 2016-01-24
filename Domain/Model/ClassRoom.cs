@@ -13,9 +13,9 @@ namespace Domain.Model
     {
         public int Number { get; private set; }//аудитория
         public int Housing { get; private set; }//корпус
-        ClassRoomType[] crTypes;
+        public ClassRoomType[] ClassRoomTypes { get; private set; }
 
-        BitArray secondTypesMask;//маска вторичных типов аудиторий
+        public BitArray SecondTypesMask { get; private set; }//маска вторичных типов аудиторий
         //индексы соответстуют положению типа в crTypes
         //true - данный тип является для аудитории вторичным. При установке в нее пары с таким типом - начисляется штраф
         //по умолчанию - все типы первичные
@@ -25,21 +25,22 @@ namespace Domain.Model
         {
             Number = number;
             Housing = housing;
-            crTypes = types.ToArray<ClassRoomType>();
-            secondTypesMask = new BitArray(crTypes.Length, false);
+            ClassRoomTypes = types.ToArray<ClassRoomType>();
+            SecondTypesMask = new BitArray(ClassRoomTypes.Length, false);
             if (mask != null)
             {
-                for (int maskIndex = 0; maskIndex < crTypes.Length; maskIndex++)
+                for (int maskIndex = 0; maskIndex < ClassRoomTypes.Length; maskIndex++)
                 {
-                    secondTypesMask[maskIndex] = mask[maskIndex];
+                    SecondTypesMask[maskIndex] = mask[maskIndex];
                 }
             }
             ((IDomainIdentity<ClassRoom>)this).ID = Id;
         }
+        public ClassRoom() { }
 
         public IEnumerable<ClassRoomType> Types
         {
-            get { return Array.AsReadOnly<ClassRoomType>(crTypes); }
+            get { return Array.AsReadOnly<ClassRoomType>(ClassRoomTypes); }
             private set { }
         }
 
@@ -48,7 +49,7 @@ namespace Domain.Model
             ClassRoomType[] requiredTypes = types.ToArray<ClassRoomType>();
             for (int i = 0; i < requiredTypes.Length; i++)
             {
-                if (!crTypes.Contains<ClassRoomType>(requiredTypes[i]))
+                if (!ClassRoomTypes.Contains<ClassRoomType>(requiredTypes[i]))
                 {
                     return false;
                 }
@@ -62,7 +63,7 @@ namespace Domain.Model
             int fineResult = 0;
             for (int i = 0; i < requiredTypes.Length; i++)
             {
-                if (secondTypesMask[Array.IndexOf<ClassRoomType>(crTypes, requiredTypes[i])])
+                if (SecondTypesMask[Array.IndexOf<ClassRoomType>(ClassRoomTypes, requiredTypes[i])])
                 {
                     fineResult += Constants.FINE_FOR_SECOND_CLASSROOM;
                 }
@@ -81,19 +82,19 @@ namespace Domain.Model
         bool IDomainIdentity<ClassRoom>.EqualsByParams(ClassRoom obj)
         {
             bool crTypesAreEquels = true;
-            if (obj.crTypes.Length == crTypes.Length)
+            if (obj.ClassRoomTypes.Length == ClassRoomTypes.Length)
             {
-                for (int typeIndex = 0; typeIndex < crTypes.Length; typeIndex++)
+                for (int typeIndex = 0; typeIndex < ClassRoomTypes.Length; typeIndex++)
                 {
-                    if (Array.Find(obj.crTypes, t => ((IDomainIdentity<ClassRoomType>)crTypes[typeIndex]).EqualsByParams(t)) == null)
+                    if (Array.Find(obj.ClassRoomTypes, t => ((IDomainIdentity<ClassRoomType>)ClassRoomTypes[typeIndex]).EqualsByParams(t)) == null)
                     {
                         crTypesAreEquels = false;
                         break;
                     }
                 }
-                for (int typeIndex = 0; typeIndex < obj.crTypes.Length; typeIndex++)
+                for (int typeIndex = 0; typeIndex < obj.ClassRoomTypes.Length; typeIndex++)
                 {
-                    if (Array.Find(crTypes, t => ((IDomainIdentity<ClassRoomType>)obj.crTypes[typeIndex]).EqualsByParams(t)) == null)
+                    if (Array.Find(ClassRoomTypes, t => ((IDomainIdentity<ClassRoomType>)obj.ClassRoomTypes[typeIndex]).EqualsByParams(t)) == null)
                     {
                         crTypesAreEquels = false;
                         break;
