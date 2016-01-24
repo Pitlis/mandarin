@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="Presentation.Controls.Main"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ESProject"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Height="700" Width="700"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto">
+    <DockPanel>
+
+        <ContentControl Margin="16">
+            <Grid>
+
+                <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
+                        Margin="234,366,0,86" HorizontalAlignment="Left"
+                        ToolTip="Начать составление расписания"
+                        Click="button_Click" RenderTransformOrigin="4.714,2.429" Height="100" Width="100" FontSize="26.667"
+                        >Старт
+                </Button>
+                <Button x:Name="btnEditSchedule" Content="Открыть расписание" HorizontalAlignment="Left" Margin="51,53,0,0" VerticalAlignment="Top" Width="206" Click="btnEditSchedule_Click"/>
+                <Button x:Name="FactorSetting" Content="FactorSetting" HorizontalAlignment="Left" Margin="368,88,0,0" VerticalAlignment="Top" Width="184" Click="FactorSetting_Click"/>
+                <Button x:Name="button1" Content="FacultySettings" HorizontalAlignment="Left" Margin="51,104,0,0" VerticalAlignment="Top" Width="135" Click="button1_Click"/>
+                <Button x:Name="btn_filedb" Content="Путь к БД" HorizontalAlignment="Left" Margin="340,142,0,0" VerticalAlignment="Top" Width="193" Click="btn_filedb_Click"/>
+                <Button x:Name="button2" Content="VIP" HorizontalAlignment="Left" Margin="89,162,0,0" VerticalAlignment="Top" Width="75" Click="button2_Click"/>
+                <Button x:Name="button3" Content="Открыть базу (ТЕСТ)" HorizontalAlignment="Left" Margin="340,227,0,0" VerticalAlignment="Top" Width="224" Height="95" Click="button3_Click"/>
+                <Button x:Name="button4" HorizontalAlignment="Left" Margin="51,212,0,0" VerticalAlignment="Top" Width="151" Height="44" Click="button4_Click">
+                    <TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="Преподаватель - аудитории"/>
+                </Button>
+                <Button x:Name="button5" Content="BaseWizard" HorizontalAlignment="Left" Margin="201,142,0,0" VerticalAlignment="Top" Width="121" Click="button5_Click"/>
+                <Button x:Name="button6" HorizontalAlignment="Left" Margin="51,295,0,0" VerticalAlignment="Top" Width="151" Height="61" Click="button6_Click">
+                    <TextBlock x:Name="textBlock1" TextWrapping="Wrap" Text="Преподаватель - корпуса"/>
+                </Button>
+                <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="554,508,0,0" VerticalAlignment="Top" Width="76" Click="button_Click_1"/>
+            </Grid>
+        </ContentControl>
+    </DockPanel>
+</UserControl>
