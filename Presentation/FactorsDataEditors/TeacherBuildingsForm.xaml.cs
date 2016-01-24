@@ -4,16 +4,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using Domain.Services;
+using System;
 
 namespace Presentation.FactorsDataEditors
 {
     /// <summary>
     /// Interaction logic for FavoriteTeacherBuildingForm.xaml
     /// </summary>
-    public partial class FavoriteTeacherBuildingForm : Window
+    public partial class FavoriteTeacherBuildingForm : Window, IFactorEditor
     {
         const int DEFAULT_INDEX = 0;
         TeachersBuildingsSettings settings;
+        EntityStorage storage;
+        FactorSettings factorSettings;
+
+        public void Init(string factorName, string factorDescription, string userInstruction, EntityStorage storage, FactorSettings factorSettings)
+        {
+            this.storage = storage;
+            this.factorSettings = factorSettings;
+            if (this.factorSettings.Data != null)
+            {
+                settings = (TeachersBuildingsSettings)this.factorSettings.Data;
+            }
+        }
 
         public FavoriteTeacherBuildingForm()
         {
@@ -25,7 +39,7 @@ namespace Presentation.FactorsDataEditors
 
         private List<Teacher> FilterTeachers(string filter)
         {
-            return new List<Teacher>(CurrentBase.EStorage.Teachers.OrderBy(t => !t.Name.ToLower().StartsWith(filter)).
+            return new List<Teacher>(storage.Teachers.OrderBy(t => !t.Name.ToLower().StartsWith(filter)).
                 Where(t => t.Name.ToLower().Contains(filter)));
         }
 
@@ -52,7 +66,7 @@ namespace Presentation.FactorsDataEditors
                 else
                 {
                     teacherBuildingsListBox.ItemsSource = null;
-                    List<int> buildings = new List<int>(CurrentBase.EStorage.ClassRooms.Select(c => c.Housing).Distinct().OrderBy(h => h));
+                    List<int> buildings = new List<int>(storage.ClassRooms.Select(c => c.Housing).Distinct().OrderBy(h => h));
                     buildingsListBox.ItemsSource = buildings;
                 }
                 buildingsListBox.SelectedIndex = DEFAULT_INDEX;
@@ -75,7 +89,8 @@ namespace Presentation.FactorsDataEditors
 
         private void SaveFavoriteTeachersBuildings()
         {
-
+            factorSettings.Data = settings;
+            FactorsEditors.BeforeCloseFactorEditor(factorSettings);
         }
         
         private void SetAvailabilityAddButton()
@@ -110,7 +125,6 @@ namespace Presentation.FactorsDataEditors
             settings.RemoveBuilding(currentTeacher, currentBuilding);
             SetBuildingssListViewItems(currentTeacher);
             teacherBuildingsListBox.SelectedIndex = currentIndex;
-            SaveFavoriteTeachersBuildings();
         }
 
         private void AddTeacherBuilding()
@@ -121,14 +135,13 @@ namespace Presentation.FactorsDataEditors
             settings.AddBuilding(currentTeacher, currentBuilding);
             SetBuildingssListViewItems(currentTeacher);
             buildingsListBox.SelectedIndex = currentIndex;
-            SaveFavoriteTeachersBuildings();
         }
 
         private void SetTeachersListBox()
         {
             if (CurrentBase.BaseIsLoaded())
             {
-                teachersListBox.ItemsSource = CurrentBase.EStorage.Teachers;
+                teachersListBox.ItemsSource = storage.Teachers;
                 if (teachersListBox.ItemsSource != null)
                 {
                     teachersListBox.SelectedIndex = DEFAULT_INDEX;
@@ -184,6 +197,11 @@ namespace Presentation.FactorsDataEditors
         {
             deleteFromTeacherBuildingsBtn.IsEnabled = false;
             buildingsListBox.SelectedIndex = -1;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            SaveFavoriteTeachersBuildings();
         }
     }
 }
