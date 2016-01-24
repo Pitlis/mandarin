@@ -100,6 +100,9 @@
     <Compile Include="FactorsDataEditors\VIPForm.xaml.cs">
       <DependentUpon>VIPForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ScheduleEditor\ScheduleTeacherExcelForm.xaml.cs">
+      <DependentUpon>ScheduleTeacherExcelForm.xaml</DependentUpon>
+    </Compile>
     <Page Include="BaseWizard\BaseWizard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -160,6 +163,10 @@
     <Page Include="FactorsDataEditors\VIPForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ScheduleEditor\ScheduleTeacherExcelForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
