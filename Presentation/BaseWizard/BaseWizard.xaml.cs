@@ -15,6 +15,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
+using Presentation.Controls;
+using System.Windows.Controls.Primitives;
+using MaterialDesignThemes.Wpf;
 namespace Presentation.BaseWizard
 {
     /// <summary>
@@ -33,20 +36,20 @@ namespace Presentation.BaseWizard
             rbStep2my.IsChecked = true;
             Title = "Mandarin";
         }
-        private void FormWizard_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            MessageBoxResult result = MessageBox.Show("Вы действительно хотите прервать настройку?", "Внимание!",
-                                                       MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (result == MessageBoxResult.No)
-            {
-                e.Cancel = true;
 
-            }
-            if(thread!=null)   thread.Abort();
-        }
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        private async void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            var dialogWindow = new DialogWindow
+            {
+                Message = { Text = "Вы действительно хотите прервать настройку?" }
+            };
+
+            object result = await DialogHost.Show(dialogWindow, "BaseWizardHost");
+            if (result != null && (bool)result == true)
+            {
+                Close();
+            }
+            if (thread != null) thread.Abort();
         }
 
         #region Step1
@@ -101,26 +104,41 @@ namespace Presentation.BaseWizard
         {
             tabControl.SelectedIndex = 0;
         }
-        private void btnStep2Next_Click(object sender, RoutedEventArgs e)
+        private async void btnStep2Next_Click(object sender, RoutedEventArgs e)
         {
             if (rbStep2my.IsChecked == true)
             {
                 repository = Code.StorageLoader.GetRepository(step2tbSelect.Text);
                 if (repository == null)
                 {
-                    MessageBox.Show("Данный dll файл не подходит!!!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Error);
+                    var infoWindow = new InfoWindow
+                    {
+                        Message = { Text = "Данный dll файл не подходит!!!" }
+                    };
+
+                    await DialogHost.Show(infoWindow, "BaseWizardHost");
                     return;
                 }
                 if (!FillingConnectString())
                 {
-                    MessageBox.Show("Проблема с формированием строк подключения!!!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Error);
+                    var infoWindow = new InfoWindow
+                    {
+                        Message = { Text = "Проблема с формированием строк подключения!!!" }
+                    };
+
+                    await DialogHost.Show(infoWindow, "BaseWizardHost");
                     return;
                 }
                 tabControl.SelectedIndex = 2;
             }
             else
             {
-                MessageBox.Show("Данная функция будет реализована позже");
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Данная функция будет реализована позже" }
+                };
+
+                await DialogHost.Show(infoWindow, "BaseWizardHost");
                 return;
             }
         }
@@ -160,22 +178,37 @@ namespace Presentation.BaseWizard
         }
         #endregion
         #region Step3
-        private void btnStep3Next_Click(object sender, RoutedEventArgs e)
+        private async void btnStep3Next_Click(object sender, RoutedEventArgs e)
         {
             if (!VerifyTBConnectString())
             {
-                MessageBox.Show("Вы не заполнили строки подключения", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Вы не заполнили строки подключения" }
+                };
+
+                await DialogHost.Show(infoWindow, "BaseWizardHost");
                 return;
             }
             if (!VerifyConnectString())
             {
-                MessageBox.Show("Возникли проблемы с подключением", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Возникли проблемы с подключением" }
+                };
+
+                await DialogHost.Show(infoWindow, "BaseWizardHost");
                 return;
             }
             tabControl.SelectedIndex = 3;
             if (!CreateEstorage())
             {
-                MessageBox.Show("Возникли проблемы с преобразованием данных", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Возникли проблемы с преобразованием данных" }
+                };
+
+                await DialogHost.Show(infoWindow, "BaseWizardHost");
                 tabControl.SelectedIndex = 2;
                 return;
             }
@@ -225,12 +258,16 @@ namespace Presentation.BaseWizard
         }
         #endregion
         #region Step4
-        private void btnStep4Next_Click(object sender, RoutedEventArgs e)
+        private async void btnStep4Next_Click(object sender, RoutedEventArgs e)
         {
             Code.CurrentBase.CreateBase(estorage);
-            MessageBoxResult result = MessageBox.Show("Хотите сохранить результат?", "Внимание!",
-                                                      MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (result == MessageBoxResult.Yes)
+            var dialogWindow = new DialogWindow
+            {
+                Message = { Text = "Хотите сохранить результат?" }
+            };
+
+            object result = await DialogHost.Show(dialogWindow, "BaseWizardHost");
+            if ((bool)result == true)
             {
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
                 saveFileDialog1.Filter = "DB files (*.mandarin|*.mandarin";
@@ -241,7 +278,6 @@ namespace Presentation.BaseWizard
                     Code.CurrentBase.SaveBase(saveFileDialog1.FileName);
                 }
             }
-            this.Closing -= FormWizard_Closing;
             Close();
         }
         bool CreateEstorage()

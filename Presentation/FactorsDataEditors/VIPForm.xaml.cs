@@ -16,6 +16,8 @@ using Domain.Model;
 using Domain.Services;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using Presentation.Controls;
+using MaterialDesignThemes.Wpf;
 
 namespace Presentation
 {
@@ -155,7 +157,7 @@ namespace Presentation
             }
         }
 
-        private void AddClasses()
+        private async void AddClasses()
         {
             try
             {
@@ -197,7 +199,12 @@ namespace Presentation
                                 item.Room = classRoom;
                                 item.Time = timeIndex;
                                 existAddClassInLVIP = true;
-                                MessageBox.Show("Всё ок");
+                                var infoWindow = new InfoWindow
+                                {
+                                    Message = { Text = "Всё ок" }
+                                };
+
+                                await DialogHost.Show(infoWindow, "VIPHost");
                             }
 
                         }
@@ -205,10 +212,23 @@ namespace Presentation
                         {
                             FixedClasses vi = new FixedClasses(sClass, timeIndex, classRoom);
                             setting.LVIP.Add(vi);
-                            MessageBox.Show("Всё ок");
+                            var infoWindow = new InfoWindow
+                            {
+                                Message = { Text = "Всё ок" }
+                            };
+
+                            await DialogHost.Show(infoWindow, "VIPHost");
                         }
                     }
-                    else { MessageBox.Show("В это время в этой аудитории уже стоит пара"); }
+                    else
+                    {
+                        var infoWindow = new InfoWindow
+                        {
+                            Message = { Text = "В это время в этой аудитории уже стоит пара" }
+                        };
+
+                        await DialogHost.Show(infoWindow, "VIPHost");
+                    }
 
                 }
                 setting.LVIPB = new List<VIPClasesBin>();
@@ -269,8 +289,13 @@ namespace Presentation
             StudentsClass sClass;
             sClass = (StudentsClass)ClasseslistBox.SelectedItem;
             ChooseClassRoom form = new ChooseClassRoom(-1, setting.storage, sClass);
-            form.Owner = this;
+            //form.Owner = this;
             form.ShowDialog();
+            if (form.DialogResult == true)
+            {
+                ClassRoomlistView.Items.Clear();
+                ClassRoomlistView.Items.Add(form.classRoom);
+            }
         }
 
         #endregion

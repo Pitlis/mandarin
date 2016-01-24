@@ -11,6 +11,9 @@ using Domain.Model;
 using MandarinCore;
 using Presentation.Code;
 using Presentation.FacultyEditor;
+using Presentation.Controls;
+using MaterialDesignThemes.Wpf;
+using System.Threading.Tasks;
 
 namespace Presentation
 {
@@ -95,37 +98,51 @@ namespace Presentation
             }
         }
 
-        private void btnAddFacult_Click(object sender, RoutedEventArgs e)
+        private async void btnAddFacult_Click(object sender, RoutedEventArgs e)
         {
-            if (ExistFacult()) return;
+            bool existFacult = await ExistFacult();
+            if (existFacult) return;
             List<Faculty> t = CurrentBase.Faculties.ToList();
             t.Add(new Faculty(tbADDFaculty.Text.ToUpper()));
             CurrentBase.Faculties = t;
             CurrentBase.SaveBase();
-            MessageBox.Show("Запись добавлена", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+            var infoWindow = new InfoWindow
+            {
+                Message = { Text = "Запись добавлена" }
+            };
+            await DialogHost.Show(infoWindow, "FacultyAndGroupsHost");
             tbADDFaculty.Text = "";
             btnAddFacult.IsEnabled = false;
             CreateLocalCopy();
             FillingDisplayFacultyView();
         }
 
-        private void btnEditFaculty_Click(object sender, RoutedEventArgs e)
+        private async void btnEditFaculty_Click(object sender, RoutedEventArgs e)
         {
             if (DisplayFacultyView.SelectedIndex != -1)
             {
-                if (ExistFacult()) return;
+                bool existFacult = await ExistFacult();
+                if (existFacult) return;
                 int index = DisplayFacultyView.SelectedIndex;
                 string selectedName = DisplayFacultyView.SelectedItem.ToString();
                 int indexReal = RealIndexFacult();                  
                 FacultiesAndGroups.Faculties[indexReal].Name = tbADDFaculty.Text.ToUpper();
-                MessageBox.Show("Редактирование прошло успешно", "Успешно", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Редактирование прошло успешно" }
+                };
+                await DialogHost.Show(infoWindow, "FacultyAndGroupsHost");
                 flagEdit = true;
                 btnSaveFaculty.Visibility = Visibility.Visible;
                 FillingDisplayFacultyView();
             }
             else
             {
-                MessageBox.Show("Выберите факультет");
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Выберите факультет" }
+                };
+                await DialogHost.Show(infoWindow, "FacultyAndGroupsHost");
             }
 
         }
@@ -147,7 +164,7 @@ namespace Presentation
             }
         }
   
-        private void btnDelFaculty_Click(object sender, RoutedEventArgs e)
+        private async void btnDelFaculty_Click(object sender, RoutedEventArgs e)
         {
             if (DisplayFacultyView.SelectedIndex != -1)
             {
@@ -162,32 +179,47 @@ namespace Presentation
                         indexFacult = FacultiesAndGroups.Faculties.Count;
                     }
                 }
-                MessageBox.Show("Удаление прошло успешно", "Успешно", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Удаление прошло успешно" }
+                };
+                await DialogHost.Show(infoWindow, "FacultyAndGroupsHost");
                 FillingDisplayFacultyView();
                 tbADDFaculty.Text = "";
                 btnSaveFaculty.Visibility = Visibility.Visible;
             }
             else
             {
-                MessageBox.Show("Выберите факультет");
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Выберите факультет" }
+                };
+                await DialogHost.Show(infoWindow, "FacultyAndGroupsHost");
             }
         }
 
-        private void btnSaveFaculty_Click(object sender, RoutedEventArgs e)
+        private async void btnSaveFaculty_Click(object sender, RoutedEventArgs e)
         {
             SaveBase();
             btnSaveFaculty.Visibility = Visibility.Hidden;
-            MessageBox.Show("Сохранено", "Успешно", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+            var infoWindow = new InfoWindow
+            {
+                Message = { Text = "Сохранено" }
+            };
+            await DialogHost.Show(infoWindow, "FacultyAndGroupsHost");
             flagEdit = false;
         }
 
-        private void miGroups_Click(object sender, RoutedEventArgs e)
+        private async void miGroups_Click(object sender, RoutedEventArgs e)
         {
             if (flagEdit)
             {
-                MessageBoxResult result = MessageBox.Show("Имеются не зафикированные изменения!\nЖелаете сохранить их?", "Внимание!",
-                                                       MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                if (result == MessageBoxResult.Yes)
+                var dialogWindow = new DialogWindow
+                {
+                    Message = { Text = "Имеются не зафикированные изменения!\nЖелаете сохранить их?" }
+                };
+                object result = await DialogHost.Show(dialogWindow, "FacultyAndGroupsHost");
+                if ((bool)result == true)
                 {
                     SaveBase();
                 }
@@ -220,11 +252,15 @@ namespace Presentation
             flagEdit = false;
             tabControl.SelectedIndex = 1;
         }
-        bool ExistFacult()
+        async Task<bool> ExistFacult()
         {
             if (FacultiesAndGroups.FacultyExists(tbADDFaculty.Text.ToUpper()))
             {
-                MessageBox.Show("К сожалению данный факультет уже есть", "Внимание", MessageBoxButton.OK, MessageBoxImage.Error);
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "К сожалению данный факультет уже есть" }
+                };
+                await DialogHost.Show(infoWindow, "FacultyAndGroupsHost");
                 tbADDFaculty.Focus();
                 return true;
             }
@@ -321,7 +357,7 @@ namespace Presentation
             }
             else { btnRemove.IsEnabled = false; }
         }
-        private void AddGroupInFaculty(object sender, RoutedEventArgs e)
+        private async void AddGroupInFaculty(object sender, RoutedEventArgs e)
         {
             if (SelectFacultycomboBox.SelectedIndex != -1)
             {
@@ -335,7 +371,14 @@ namespace Presentation
                 UnallocatedGroupsView.SelectedIndex = index;                
                 SaveBase();
             }
-            else { MessageBox.Show("Выберите факультет"); }
+            else
+            {
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Выберите факультет" }
+                };
+                await DialogHost.Show(infoWindow, "FacultyAndGroupsHost");
+            }
         }
 
         private void RemoveGroupFromFaculty(object sender, RoutedEventArgs e)

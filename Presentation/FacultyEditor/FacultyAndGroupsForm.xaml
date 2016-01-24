@@ -3,59 +3,64 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:Presentation"
         mc:Ignorable="d"
         Title="Формирование факультетов" Height="400.538" Width="628.423" Loaded="Window_Loaded" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
-    <Grid Margin="0,0,4,0" >
-        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="326" Margin="10,38,0,0" VerticalAlignment="Top" Width="609">
-            <TabItem Header="TabItem" Name="tiGroups" Visibility="Collapsed">
-                   <Grid Background="#FFE5E5E5" Margin="0,5,0,0">
-                    <ListView x:Name="UnallocatedGroupsView" HorizontalAlignment="Left" Height="238" Margin="10,46,0,0" VerticalAlignment="Top" Width="229"  SelectionMode="Single" SelectionChanged="SelectGroupWithoutFaculty">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="Группа" Width="125" DisplayMemberBinding="{Binding NameGroup}" />
-                                    <GridViewColumn Header="№ подгруппы" DisplayMemberBinding="{Binding NumberSubGroup}" Width="93" />
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                    <ListView x:Name="DisplayGroupsView" HorizontalAlignment="Left" Height="206" Margin="311,77,0,0" VerticalAlignment="Top" Width="282"  SelectionMode="Single" SelectionChanged="SelectGroupWithFaculty">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="Группа" Width="125" DisplayMemberBinding="{Binding NameGroup}" />
-                                    <GridViewColumn Header="№ подгруппы" DisplayMemberBinding="{Binding NumberSubGroup}" Width="142" />
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                        <Label x:Name="label" Content="Нераспределенные группы " HorizontalAlignment="Center" Margin="36,10,390,257" VerticalAlignment="Center" Width="177" FontWeight="Bold"/>
-                    <ComboBox x:Name="SelectFacultycomboBox" HorizontalAlignment="Left" Margin="311,11,0,0" VerticalAlignment="Top" Width="282"  ToolTip="Выбор факультета" FontWeight="Bold" Background="#FFF7EDED" SelectionChanged="SelectFaculty"/>
-                        <Label x:Name="label1" Content="Группы входящие в факультет" HorizontalAlignment="Left" Margin="356,49,0,0" VerticalAlignment="Top" Width="189" FontWeight="Bold"/>
-                    <Button x:Name="btnRemove" Content="&lt;=" HorizontalAlignment="Left" Margin="239,159,0,0" VerticalAlignment="Top" Width="67" RenderTransformOrigin="0.486,0.5" IsEnabled="False"  ToolTip="Удалить группу" Click="RemoveGroupFromFaculty"/>
-                    <Button x:Name="btnAdd" Content="=&gt;" HorizontalAlignment="Left" Margin="239,120,0,0" VerticalAlignment="Top" Width="67" RenderTransformOrigin="0.541,-0.05"  IsEnabled="False" ToolTip="Добавить группу" Click="AddGroupInFaculty"/>
+    <materialDesign:DialogHost Identifier="FacultyAndGroupsHost">
+        <materialDesign:DrawerHost>
+            <Grid Margin="0,0,4,0" >
+                <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="326" Margin="10,38,0,0" VerticalAlignment="Top" Width="609">
+                    <TabItem Header="TabItem" Name="tiGroups" Visibility="Collapsed">
+                        <Grid Background="#FFE5E5E5" Margin="0,5,0,0">
+                            <ListView x:Name="UnallocatedGroupsView" HorizontalAlignment="Left" Height="238" Margin="10,46,0,0" VerticalAlignment="Top" Width="229"  SelectionMode="Single" SelectionChanged="SelectGroupWithoutFaculty">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Группа" Width="125" DisplayMemberBinding="{Binding NameGroup}" />
+                                        <GridViewColumn Header="№ подгруппы" DisplayMemberBinding="{Binding NumberSubGroup}" Width="93" />
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                            <ListView x:Name="DisplayGroupsView" HorizontalAlignment="Left" Height="206" Margin="311,77,0,0" VerticalAlignment="Top" Width="282"  SelectionMode="Single" SelectionChanged="SelectGroupWithFaculty">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Группа" Width="125" DisplayMemberBinding="{Binding NameGroup}" />
+                                        <GridViewColumn Header="№ подгруппы" DisplayMemberBinding="{Binding NumberSubGroup}" Width="142" />
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                            <Label x:Name="label" Content="Нераспределенные группы " HorizontalAlignment="Center" Margin="36,10,390,257" VerticalAlignment="Center" Width="177" FontWeight="Bold"/>
+                            <ComboBox x:Name="SelectFacultycomboBox" HorizontalAlignment="Left" Margin="311,11,0,0" VerticalAlignment="Top" Width="282"  ToolTip="Выбор факультета" FontWeight="Bold" Background="#FFF7EDED" SelectionChanged="SelectFaculty"/>
+                            <Label x:Name="label1" Content="Группы входящие в факультет" HorizontalAlignment="Left" Margin="356,49,0,0" VerticalAlignment="Top" Width="189" FontWeight="Bold"/>
+                            <Button x:Name="btnRemove" Content="&lt;=" HorizontalAlignment="Left" Margin="239,159,0,0" VerticalAlignment="Top" Width="67" RenderTransformOrigin="0.486,0.5" IsEnabled="False"  ToolTip="Удалить группу" Click="RemoveGroupFromFaculty"/>
+                            <Button x:Name="btnAdd" Content="=&gt;" HorizontalAlignment="Left" Margin="239,120,0,0" VerticalAlignment="Top" Width="67" RenderTransformOrigin="0.541,-0.05"  IsEnabled="False" ToolTip="Добавить группу" Click="AddGroupInFaculty"/>
 
-                    </Grid>
-                
-            </TabItem>
-            <TabItem Header="TabItem" Name="tiFacult" Visibility="Collapsed">
-                <Grid Background="#FFE5E5E5">
-                    <Label x:Name="label2" Content="Введите новый факультет" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold" Height="32"/>
-                    <TextBox x:Name="tbADDFaculty" HorizontalAlignment="Left" Height="32" Margin="178,10,0,0" VerticalAlignment="Top" Width="272" Background="#FFFBF1F1" MaxLength="50" FontSize="13.333" TextChanged="tbADDFaculty_TextChanged" />
-                    <Button x:Name="btnAddFacult" Content="Добавить" HorizontalAlignment="Left" Margin="455,10,0,0" VerticalAlignment="Top" Width="138" IsEnabled="False" Click="btnAddFacult_Click"/>
-                    <ListView x:Name="DisplayFacultyView" HorizontalAlignment="Left" Height="241" Margin="10,47,0,0" VerticalAlignment="Top" Width="440" SelectionMode="Single" SelectionChanged="DisplayFacultyView_SelectionChanged" >
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Название факультета" Width="429"  />
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    <Button x:Name="btnEditFaculty" Content="Редактировать" HorizontalAlignment="Left" Margin="455,47,0,0" VerticalAlignment="Top" Width="138" Click="btnEditFaculty_Click" IsEnabled="False" />
-                    <Button x:Name="btnDelFaculty" Content="Удалить" HorizontalAlignment="Left" Margin="455,84,0,0" VerticalAlignment="Top" Width="138" IsEnabled="False" Click="btnDelFaculty_Click"/>
-                    <Button x:Name="btnSaveFaculty" Content="Сохранить" HorizontalAlignment="Left" Margin="455,121,0,0" VerticalAlignment="Top" Width="138" Click="btnSaveFaculty_Click" Visibility="Hidden"/>
-                </Grid>
-            </TabItem>
-        </TabControl>
-        <Menu x:Name="menu" HorizontalAlignment="Left" Height="29" Margin="10,4,0,0" VerticalAlignment="Top" Width="608">
-            <MenuItem x:Name="miFacultets" Header="Перейти к факультетам" Height="29" Click="miFacultets_Click" />
-            <MenuItem x:Name="miGroups" Header="Перейти к распределению групп" Height="29" Click="miGroups_Click" />
-        </Menu>
-    </Grid>
+                        </Grid>
+
+                    </TabItem>
+                    <TabItem Header="TabItem" Name="tiFacult" Visibility="Collapsed">
+                        <Grid Background="#FFE5E5E5">
+                            <Label x:Name="label2" Content="Введите новый факультет" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold" Height="32"/>
+                            <TextBox x:Name="tbADDFaculty" HorizontalAlignment="Left" Height="32" Margin="178,10,0,0" VerticalAlignment="Top" Width="272" Background="#FFFBF1F1" MaxLength="50" FontSize="13.333" TextChanged="tbADDFaculty_TextChanged" />
+                            <Button x:Name="btnAddFacult" Content="Добавить" HorizontalAlignment="Left" Margin="455,10,0,0" VerticalAlignment="Top" Width="138" IsEnabled="False" Click="btnAddFacult_Click"/>
+                            <ListView x:Name="DisplayFacultyView" HorizontalAlignment="Left" Height="241" Margin="10,47,0,0" VerticalAlignment="Top" Width="440" SelectionMode="Single" SelectionChanged="DisplayFacultyView_SelectionChanged" >
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Название факультета" Width="429"  />
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                            <Button x:Name="btnEditFaculty" Content="Редактировать" HorizontalAlignment="Left" Margin="455,47,0,0" VerticalAlignment="Top" Width="138" Click="btnEditFaculty_Click" IsEnabled="False" />
+                            <Button x:Name="btnDelFaculty" Content="Удалить" HorizontalAlignment="Left" Margin="455,84,0,0" VerticalAlignment="Top" Width="138" IsEnabled="False" Click="btnDelFaculty_Click"/>
+                            <Button x:Name="btnSaveFaculty" Content="Сохранить" HorizontalAlignment="Left" Margin="455,121,0,0" VerticalAlignment="Top" Width="138" Click="btnSaveFaculty_Click" Visibility="Hidden"/>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+                <Menu x:Name="menu" HorizontalAlignment="Left" Height="29" Margin="10,4,0,0" VerticalAlignment="Top" Width="608">
+                    <MenuItem x:Name="miFacultets" Header="Перейти к факультетам" Height="29" Click="miFacultets_Click" />
+                    <MenuItem x:Name="miGroups" Header="Перейти к распределению групп" Height="29" Click="miGroups_Click" />
+                </Menu>
+            </Grid>
+        </materialDesign:DrawerHost>
+    </materialDesign:DialogHost>
 </Window>
