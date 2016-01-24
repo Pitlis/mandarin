@@ -16,34 +16,21 @@ namespace OtherFactors
         bool isBlock;
         StudentsClass[,] sClasses;
         List<StudentsClass> sClassesList;
-
+              
         #region IFactor
 
         public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
         {
             int fineResult = 0;
-            StudentsClass tempClass = schedule.GetTempClass();
-            int classTime = schedule.GetTimeOfTempClass();
-            int roomIndex = schedule.GetClassPosition(schedule.GetTempClass()).Value.ClassRoom;
-            int weekOfClass = Constants.GetWeekOfClass(classTime);
-            if (Array.Find(sClassesList.ToArray(), (c) => c == schedule.GetTempClass()) != null)
+            StudentsClass tempClass = schedule.GetTempClass();            
+            if (Array.Find(sClassesList.ToArray(), (c) => c == tempClass) != null)
             {
-                StudentsClass secondClass;
-                if (weekOfClass == 0)
-                    secondClass = schedule.GetClassByRoomAndPosition(roomIndex, classTime + Constants.CLASSES_IN_DAY * Constants.DAYS_IN_WEEK);
-                else
-                    secondClass = schedule.GetClassByRoomAndPosition(roomIndex, classTime - Constants.CLASSES_IN_DAY * Constants.DAYS_IN_WEEK);
-                if (secondClass != null)
+                if (!SameClasses.PairClassesAtSameTimeInSameRoom(schedule, sClasses, sClassesList, tempClass))
                 {
-                    int firstClassRow = ClassesInWeek.GetRow(sClasses, tempClass);
-                    int secondClassRow = ClassesInWeek.GetRow(sClasses, secondClass);
-                    if (secondClassRow == -1 || secondClassRow != firstClassRow)
-                    {
-                        if (isBlock)
-                            return Constants.BLOCK_FINE;
-                        else
-                            fineResult += fine;
-                    }
+                    if (isBlock)
+                        return Constants.BLOCK_FINE;
+                    else
+                        fineResult += fine;
                 }
             }
             return fineResult;
@@ -52,31 +39,18 @@ namespace OtherFactors
         public int GetFineOfFullSchedule(ISchedule schedule, EntityStorage eStorage)
         {
             int fineResult = 0;
-            foreach (StudentSubGroup subGroup in eStorage.StudentSubGroups)
+            foreach (StudentsClass sClass in eStorage.Classes)
             {
-                for (int dayIndex = 0; dayIndex < Constants.DAYS_IN_WEEK; dayIndex++)
+                StudentsClassPosition? firstClassPosition = schedule.GetClassPosition(sClass);
+                int weekOfClass = Constants.GetWeekOfClass(firstClassPosition.Value.Time);
+                if (Array.Find<StudentsClass>(sClassesList.ToArray(), (c) => c == sClass) != null)
                 {
-                    StudentsClass[] subGroupDay = schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayIndex);
-                    for (int classIndex = 0; classIndex < subGroupDay.Length; classIndex++)
+                    if (!SameClasses.PairClassesAtSameTimeInSameRoom(schedule, sClasses, sClassesList, sClass))
                     {
-                        if (Array.Find<StudentsClass>(sClassesList.ToArray(), (c) => c == subGroupDay[classIndex]) != null)
-                        {
-                            StudentsClassPosition? firstClassPosition = schedule.GetClassPosition(subGroupDay[classIndex]);
-                            StudentsClass secondClass = schedule.GetClassByRoomAndPosition(firstClassPosition.Value.ClassRoom,
-                                firstClassPosition.Value.Time + Constants.CLASSES_IN_DAY * Constants.DAYS_IN_WEEK);
-                            if (secondClass != null)
-                            {
-                                int firstClassRow = ClassesInWeek.GetRow(sClasses, subGroupDay[classIndex]);
-                                int secondClassRow = ClassesInWeek.GetRow(sClasses, secondClass);
-                                if (secondClassRow == -1 || secondClassRow != firstClassRow)
-                                {
-                                    if (isBlock)
-                                        return Constants.BLOCK_FINE;
-                                    else
-                                        fineResult += fine;
-                                }
-                            }
-                        }
+                        if (isBlock)
+                            return Constants.BLOCK_FINE;
+                        else
+                            fineResult += fine;
                     }
                 }
             }

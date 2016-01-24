@@ -134,5 +134,55 @@ namespace OtherFactors
             }
             return true;
         }
+
+        public static bool PairClassesAtSameTimeInSameRoom(ISchedule schedule, StudentsClass[,] sClasses, List<StudentsClass> sClassesList, StudentsClass firstClass)
+        {
+            
+            StudentsClassPosition? firstClassPosition = schedule.GetClassPosition(firstClass);
+            int weekOfClass = Constants.GetWeekOfClass(firstClassPosition.Value.Time);
+            if (Array.Find(sClassesList.ToArray(), (c) => c == firstClass) != null)
+            {
+                int classRow = ClassesInWeek.GetRow(sClasses, firstClass);
+                int firstClassCol = ClassesInWeek.GetColumn(sClasses, firstClass);
+                int secondClassCol = -1;
+                switch (firstClassCol)
+                {
+                    case 0:
+                        secondClassCol = 1;
+                        break;
+                    case 1:
+                        secondClassCol = 0;
+                        break;
+                    default:
+                        break;
+                }
+                StudentsClass secondClass = sClasses[classRow, secondClassCol];
+                StudentsClassPosition? secondClassPosition = schedule.GetClassPosition(secondClass);
+                int probablySecondClassTime;
+                if (weekOfClass == 0)
+                    probablySecondClassTime = firstClassPosition.Value.Time + Constants.CLASSES_IN_DAY * Constants.DAYS_IN_WEEK;
+                else
+                    probablySecondClassTime = firstClassPosition.Value.Time - Constants.CLASSES_IN_DAY * Constants.DAYS_IN_WEEK;
+                if (secondClassPosition.HasValue)
+                {
+                    if (probablySecondClassTime == secondClassPosition.Value.Time)
+                    {
+                        if (firstClassPosition.Value.ClassRoom != secondClassPosition.Value.ClassRoom)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                else
+                {
+                    secondClass = schedule.GetClassByRoomAndPosition(firstClassPosition.Value.ClassRoom, probablySecondClassTime);
+                    if (secondClass != null)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
     }
 }

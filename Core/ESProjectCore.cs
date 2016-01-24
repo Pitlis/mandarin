@@ -45,8 +45,8 @@ namespace MandarinCore
                 schedules[sortIndex] = schedule;
                 if (schedule != null)
                 {
-                    //fines[sortIndex] = ScanFullSchedule(schedule);
-                    fines[sortIndex] = 0;
+                    fines[sortIndex] = ScanFullSchedule(schedule);
+                    //fines[sortIndex] = 0;
                     logger.Info("Расписание " + (sortIndex + 1).ToString() + " сформировано");
                     if (SaveCreatedSchedule != null)
                         SaveCreatedSchedule(schedule, fines[sortIndex], sortIndex);
