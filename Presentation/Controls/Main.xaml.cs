@@ -49,7 +49,6 @@ namespace Presentation.Controls
             };
 
             await DialogHost.Show(infoWindow, "MandarinHost");
-            //MessageBox.Show("Та да");
         }
 
         private void btnEditSchedule_Click(object sender, RoutedEventArgs e)
@@ -125,7 +124,6 @@ namespace Presentation.Controls
                 };
 
                 await DialogHost.Show(infoWindow, "MandarinHost");
-                //MessageBox.Show("База загружена");
             }
             catch (Exception ex)
             {
@@ -144,7 +142,6 @@ namespace Presentation.Controls
                 };
 
                 await DialogHost.Show(infoWindow, "MandarinHost");
-                //MessageBox.Show("Создана новая база");
             }
         }
 
@@ -164,87 +161,9 @@ namespace Presentation.Controls
 
         private void button6_Click(object sender, RoutedEventArgs e)
         {
-            FavoriteTeacherBuildingForm favTeacherBuildingForm = new FavoriteTeacherBuildingForm();
+            TeacherBuildingForm favTeacherBuildingForm = new TeacherBuildingForm();
             favTeacherBuildingForm.ShowDialog();
         }
-
-        //private void miDBCreate_Click(object sender, RoutedEventArgs e)
-        //{
-        //    //открытие формы создания BaseWizard
-        //    Presentation.BaseWizard.BaseWizardForm baseWizardform = new Presentation.BaseWizard.BaseWizardForm();
-        //    baseWizardform.ShowDialog();
-        //    if (CurrentBase.BaseIsLoaded())
-        //    {
-        //        miDBSave.IsEnabled = true;
-        //        miDBSaveAs.IsEnabled = true;
-        //    }
-        //}
-
-        //private void miDBOpen_Click(object sender, RoutedEventArgs e)
-        //{
-        //    //здесь сделать окно для открытия
-        //    OpenFileDialog openFile = new OpenFileDialog();
-        //    openFile.Filter = "DB files (*.mandarin)|*.mandarin";
-        //    if (openFile.ShowDialog() == false)
-        //    {
-        //        return;
-        //    }
-        //    try
-        //    {
-        //        CurrentBase.LoadBase(openFile.FileName);
-        //        miDBSave.IsEnabled = true;
-        //        miDBSaveAs.IsEnabled = true;
-        //    }
-        //    catch
-        //    {
-        //        MessageBox.Show("Не удалось открыть",
-        //                        "Ошибка",
-        //                        MessageBoxButton.OK,
-        //                        MessageBoxImage.Error);
-        //        return;
-        //    }
-
-        //}
-
-        //private void miDBSave_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (CurrentBase.BaseIsLoaded())
-        //    {
-        //        try
-        //        {
-        //            CurrentBase.SaveBase();
-        //            MessageBox.Show("Сохранение прошло успешно",
-        //                            "Успешно",
-        //                            MessageBoxButton.OK,
-        //                            MessageBoxImage.Information);
-        //        }
-        //        catch
-        //        {
-        //            MessageBox.Show("Не сохранено, попробуйте еще раз",
-        //                            "Ошибка",
-        //                            MessageBoxButton.OK,
-        //                            MessageBoxImage.Error);
-        //        }
-
-        //    }
-        //}
-
-        //private void miDBSaveAs_Click(object sender, RoutedEventArgs e)
-        //{
-        //    SaveFileDialog saveFileDialog = new SaveFileDialog();
-        //    saveFileDialog.Filter = "DB files (*.mandarin|*.mandarin";
-        //    saveFileDialog.FilterIndex = 2;
-        //    saveFileDialog.RestoreDirectory = true;
-        //    if (saveFileDialog.ShowDialog() == true)
-        //    {
-        //        CurrentBase.SaveBase(saveFileDialog.FileName);
-        //        MessageBox.Show("Сохранение прошло успешно",
-        //                         "Успешно",
-        //                         MessageBoxButton.OK,
-        //                         MessageBoxImage.Information);
-        //    }
-
-        //}
 
         private void button_Click_1(object sender, RoutedEventArgs e)
         {

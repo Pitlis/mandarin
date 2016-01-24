@@ -14,15 +14,20 @@ using MandarinCore;
 using Domain.FactorInterfaces;
 using Presentation.Code;
 using Presentation.FactorsDataEditors;
+using MaterialDesignThemes.Wpf;
+using Presentation.Controls;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Presentation
 {
     /// <summary>
     /// Логика взаимодействия для FactorSettingsForm.xaml
     /// </summary>
-    public partial class FactorSettingsForm : Window
+    public partial class FactorSettingsForm : UserControl
     {
         List<FactorSettingRecord> FactorRecords;
+        public ContentControl contentControl { get; set; }
 
         public FactorSettingsForm()
         {
@@ -40,25 +45,39 @@ namespace Presentation
         {
             SaveFactorSettings();
         }
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        private async void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите завершить настройку?\n" +
-                "Все несохраненные изменения будут потеряны!", "Mandarin",
-                MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
-
-            if (result == MessageBoxResult.Yes)
+            var infoWindow = new DialogWindow
             {
-                this.Close();
+                Message = { Text = "Вы уверены, что хотите завершить настройку?\n" +
+                                    "Все несохраненные изменения будут потеряны!" }
+            };
+
+            object result = await DialogHost.Show(infoWindow, "FactorSettingsHost");
+
+            if ((bool)result == true)
+            {
+                if (this.contentControl != null)
+                {
+                    Main main = new Main();
+                    contentControl.Content = main;
+                    FactorRecords = LoadFactorSettingRecords().ToList();
+                    this.DataContext = this;
+                }
             }
         }
 
-        private void btnDefault_Click(object sender, RoutedEventArgs e)
+        private async void btnDefault_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите сбросить все настройки анализаторов?\n" +
-                "Все введенные данные (например предпочтения преподавателей по корпусам) будут потеряны!", "Mandarin",
-                MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+            var infoWindow = new DialogWindow
+            {
+                Message = { Text = "Вы уверены, что хотите сбросить все настройки анализаторов?\n" +
+                "Все введенные данные (например предпочтения преподавателей по корпусам) будут потеряны!" }
+            };
 
-            if (result == MessageBoxResult.Yes)
+            object result = await DialogHost.Show(infoWindow, "FactorSettingsHost");
+
+            if ((bool)result == true)
             {
                 FactorsLoader.SetDefaultSettings();
                 FactorRecords = LoadFactorSettingRecords().ToList();

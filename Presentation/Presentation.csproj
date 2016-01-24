@@ -90,6 +90,12 @@
     <Compile Include="Code\ScheduleLoader.cs" />
     <Compile Include="Code\Setting.cs" />
     <Compile Include="Code\StorageLoader.cs" />
+    <Compile Include="Controls\DialogWindow.xaml.cs">
+      <DependentUpon>DialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\InfoWindow.xaml.cs">
+      <DependentUpon>InfoWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FactorsDataEditors\IFactorEditor.cs" />
     <Compile Include="FactorsDataEditors\TeacherBuildingsForm.xaml.cs">
       <DependentUpon>TeacherBuildingsForm.xaml</DependentUpon>
@@ -100,10 +106,21 @@
     <Compile Include="FactorsDataEditors\VIPForm.xaml.cs">
       <DependentUpon>VIPForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MandarinForm.xaml.cs">
+      <DependentUpon>MandarinForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ScheduleEditor\ScheduleTeacherExcelForm.xaml.cs">
       <DependentUpon>ScheduleTeacherExcelForm.xaml</DependentUpon>
     </Compile>
     <Page Include="BaseWizard\BaseWizard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\InfoWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -114,6 +131,14 @@
     <Page Include="FactorsDataEditors\TeacherClassRoomForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Main.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MandarinForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="ScheduleEditor\ChoseClassRoomForm.xaml">
       <SubType>Designer</SubType>
@@ -131,13 +156,12 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MandarinForm.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controls\Main.xaml.cs">
+      <DependentUpon>Main.xaml</DependentUpon>
     </Compile>
     <Compile Include="ScheduleEditor\ChoseClassRoomForm.xaml.cs">
       <DependentUpon>ChoseClassRoomForm.xaml</DependentUpon>
@@ -155,10 +179,6 @@
     </Compile>
     <Compile Include="FacultyEditor\FacultyAndGroupsForm.xaml.cs">
       <DependentUpon>FacultyAndGroupsForm.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MandarinForm.xaml.cs">
-      <DependentUpon>MandarinForm.xaml</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
     <Page Include="FactorsDataEditors\VIPForm.xaml">
       <SubType>Designer</SubType>

@@ -26,6 +26,7 @@ namespace Presentation
         ScheduleForEdit schedule;
         EntityStorage store;
         private StudentsClass sClass;
+        public object classRoom { get; set; }
 
         public ChooseClassRoom(int TimeRows, ScheduleForEdit schedule, StudentsClass sClass)
         {
@@ -130,28 +131,9 @@ namespace Presentation
         }
         private void ChoseCassRoom()
         {
-            if (schedule != null)
-            {
-                EditSchedule main = this.Owner as EditSchedule;
-                if (main != null)
-                {
-                    main.ClassRoomlistView.Items.Clear();
-                    main.ClassRoomlistView.Items.Add(listViewClassRoom.SelectedItem);
-                    main.SetClasses();
-                }
-                
-                this.Close();
-            }
-            else
-            {
-                VIPForm main = this.Owner as VIPForm;
-                if (main != null)
-                {
-                    main.ClassRoomlistView.Items.Clear();
-                    main.ClassRoomlistView.Items.Add(listViewClassRoom.SelectedItem);
-                }
-                this.Close();
-            }
+            this.DialogResult = true;
+            this.classRoom = listViewClassRoom.SelectedItem;
+            this.Close();
         }
         private void SetAvailableButton()
         {

@@ -11,13 +11,17 @@ using System.Windows.Media;
 using System.IO;
 using Domain.Services;
 using Presentation.FacultyEditor;
+using Domain.DataFiles;
+using Presentation.Controls;
+using System.Windows.Controls.Primitives;
+using MaterialDesignThemes.Wpf;
 
 namespace Presentation
 {
     /// <summary>
     /// Interaction logic for EditSchedule.xaml
     /// </summary>
-    public partial class EditSchedule : Window
+    public partial class EditSchedule : UserControl
     {
         ScheduleForEdit schedule;
         FacultiesAndGroups facultiesAndGroups;
@@ -32,16 +36,21 @@ namespace Presentation
             schedule = s;
             InitializeComponent();
         }
-             
+
+        public EditSchedule()
+        {            
+            InitializeComponent();
+        }
+
         #region Events        
         private void btnShow_Click(object sender, RoutedEventArgs e)
         {
             CreateTimeTable();
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
-        {       
+        {
+            LoadSchedule();
             FillFacultyAndCoursCombobox();
-            LoadFacultyAndGroups();
         }     
         private void btnExcel_Click(object sender, RoutedEventArgs e)
         {
@@ -75,21 +84,37 @@ namespace Presentation
         #endregion
 
         #region Method
-        private void LoadFacultyAndGroups()
+        private async void LoadSchedule()
         {
-            if (File.Exists("Settings.dat"))
+            if (File.Exists(Directory.GetCurrentDirectory() + "/" + "schedule.dat"))
             {
-                facultiesAndGroups = Code.Save.LoadSettings();
-                schedule.CretScheduleForFacult((string)facultComboBox.SelectedItem, (int)coursComboBox.SelectedItem);
+                Schedule s = ScheduleLoader.LoadSchedule(Directory.GetCurrentDirectory() + "/" + "schedule.dat");
+                this.schedule = new ScheduleForEdit(s);
+                btnShow.IsEnabled = true;
             }
             else
             {
-                MessageBox.Show("Не найден файл с настройками.Будет выведено расписанния для всех групп.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                coursComboBox.IsEnabled = false; facultComboBox.IsEnabled = false;
-            }
-            if (facultiesAndGroups.GroupsWithoutFacultyExists())
-            { MessageBox.Show("Внимание есть группы не относящееся ни к 1 факультету. Зайдите в настройки чтобы отнести группы к факультету!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning); }
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Не найден файл с расписанием." }
+                };
 
+                await DialogHost.Show(infoWindow, "MandarinHost");
+                coursComboBox.IsEnabled = false; facultComboBox.IsEnabled = false;
+                btnShow.IsEnabled = false;
+            }
+            LoadFacultyAndGroups();
+        }
+        private async void LoadFacultyAndGroups()
+        {
+            if (facultiesAndGroups.GroupsWithoutFacultyExists())
+            {
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Внимание есть группы не относящееся ни к 1 факультету. Зайдите в настройки чтобы отнести группы к факультету!" }
+                };
+                await DialogHost.Show(infoWindow, "MandarinHost");
+            }
         }
         private void CreateTimeTable()
         {
@@ -144,7 +169,7 @@ namespace Presentation
             }
             coursComboBox.SelectedIndex = 0;
         }
-        private void CreateExcelDocument()
+        private async void CreateExcelDocument()
         {
             if (schedule.RemoveClases.Count == 0)
             {
@@ -152,7 +177,14 @@ namespace Presentation
                 excel.LoadPartScheduleExcel(schedule.Groups);
             }
             else
-            { MessageBox.Show("Nope"); }
+            {
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Nope" }
+                };
+
+                await DialogHost.Show(infoWindow, "MandarinHost");
+            }
         }
         private void RemoveClasses()
         {
@@ -175,20 +207,30 @@ namespace Presentation
             InfoTeachersListbox.Items.Clear();
             InfoGrouplistView.Items.Clear();
         }
-        private void CheckRemoveClasses(System.ComponentModel.CancelEventArgs e)
+        private async void CheckRemoveClasses(System.ComponentModel.CancelEventArgs e)
         {
             if (schedule.RemoveClases.Count != 0)
             {
-                MessageBox.Show("Остались непоставленные пары");
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Остались непоставленные пары" }
+                };
+
+                await DialogHost.Show(infoWindow, "MandarinHost");
                 e.Cancel = true;
             }
         }
-        public void SetClasses()
+        public async void SetClasses()
         {
             if (schedule.GetCrossClasses((ClassRoom)ClassRoomlistView.Items.GetItemAt(0), (StudentsClass)RemoveClasseslistBox.SelectedItem, TimeRows).Count != 0)
             {
-                System.Windows.MessageBoxResult result = System.Windows.MessageBox.Show("Есть накладки в расписании. Хотите снять пересекающееся пары?", "Вопрос", System.Windows.MessageBoxButton.OKCancel, System.Windows.MessageBoxImage.Question);
-                if (result == System.Windows.MessageBoxResult.OK)
+                var dialogWindow = new DialogWindow
+                {
+                    Message = { Text = "Есть накладки в расписании. Хотите снять пересекающееся пары?" }
+                };
+
+                object result = await DialogHost.Show(dialogWindow, "MandarinHost");
+                if ((bool)result == true)
                 {
                     schedule.RemoveCrossClasses(schedule.GetCrossClasses((ClassRoom)ClassRoomlistView.Items.GetItemAt(0), (StudentsClass)RemoveClasseslistBox.SelectedItem, TimeRows), TimeRows);
                     schedule.SetClass((ClassRoom)ClassRoomlistView.Items.GetItemAt(0), (StudentsClass)RemoveClasseslistBox.SelectedItem, TimeRows);
@@ -327,7 +369,7 @@ namespace Presentation
             prevLabel.Width = CELL_WIDTH * mergeCount;
         }
 
-        private void ShowCellValue(object sender, MouseButtonEventArgs e)
+        private async void ShowCellValue(object sender, MouseButtonEventArgs e)
         {
             Label cell = (Label)sender;
             int col = (int)cell.GetValue(Grid.ColumnProperty);
@@ -338,14 +380,24 @@ namespace Presentation
                 string teacher = schedule.partSchedule[row - ROW_HEADER, col - COLUMN_HEADER].Teacher.Length > 0 ?
                     schedule.partSchedule[row - ROW_HEADER, col - COLUMN_HEADER].Teacher[0].Name :
                     "";
-                MessageBox.Show(String.Format("Пара: {0}\nАудитория: {1} (корпус {2})\nПреподаватель: {3}",
-                    schedule.partSchedule[row - ROW_HEADER, col - COLUMN_HEADER].Name,
-                    room.Number, room.Housing,
-                    teacher));
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = String.Format("Пара: {0}\nАудитория: {1} (корпус {2})\nПреподаватель: {3}",
+                                        schedule.partSchedule[row - ROW_HEADER, col - COLUMN_HEADER].Name,
+                                        room.Number, room.Housing,
+                                        teacher) }
+                };
+
+                await DialogHost.Show(infoWindow, "MandarinHost");
             }
             else
             {
-                MessageBox.Show("Пусто");
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Пусто" }
+                };
+
+                await DialogHost.Show(infoWindow, "MandarinHost");
             }
         }
 
@@ -548,8 +600,14 @@ namespace Presentation
                 StudentsClass clas;
                 clas = (StudentsClass)RemoveClasseslistBox.SelectedItem;
                 ChooseClassRoom form = new ChooseClassRoom(TimeRows, schedule, clas);
-                form.Owner = this;
+                //form.Owner = this;
                 form.ShowDialog();
+                if (form.DialogResult == true)
+                {
+                    ClassRoomlistView.Items.Clear();
+                    ClassRoomlistView.Items.Add(form.classRoom);
+                    SetClasses();
+                }
             }
         }
         #endregion

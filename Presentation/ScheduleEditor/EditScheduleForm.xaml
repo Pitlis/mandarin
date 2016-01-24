@@ -1,32 +1,32 @@
-﻿<Window x:Class="Presentation.EditSchedule"
+﻿<UserControl x:Class="Presentation.EditSchedule"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Presentation"
         mc:Ignorable="d"
-        Title="EditSchedule" Height="700" Width="1300" Closing="Window_Closing" Loaded="Window_Loaded">
+        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="14*"/>
-            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="btnShow" Content="Показать" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="btnShow_Click"/>
+        <Button x:Name="btnShow" Content="Показать" Grid.Column="1" HorizontalAlignment="Left" Margin="29,4,0,0" VerticalAlignment="Top" Width="98" Click="btnShow_Click"/>
 
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Column="0" Grid.Row="0">
             <Grid Name="gdData" Margin="10"/>
         </ScrollViewer>
-        <Button x:Name="btnRemove" Content="Снять" Grid.Column="1" HorizontalAlignment="Left" Margin="42,69,0,0" VerticalAlignment="Top" Width="255" Click="btnRemove_Click" IsEnabled="False"/>
-        <ListBox x:Name="RemoveClasseslistBox"  Grid.Column="1" HorizontalAlignment="Left" Height="122" Margin="29,525,0,0" VerticalAlignment="Top" Width="291" DisplayMemberPath="Name" SelectionChanged="RemovelistBox_SelectionChanged"/>
-        <Label x:Name="lable" Content="Неустановленные пары:" Grid.Column="1" HorizontalAlignment="Left" Margin="29,494,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="infoClassTextbox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="29,132,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" IsReadOnly="True"/>
-        <Label x:Name="lable_Copy" Content="Предмет" Grid.Column="1" HorizontalAlignment="Left" Margin="29,101,0,0" VerticalAlignment="Top"/>
-        <ListBox x:Name="InfoTeachersListbox" Grid.Column="1" HorizontalAlignment="Left" Height="74" Margin="29,184,0,0" VerticalAlignment="Top" Width="265" DisplayMemberPath="Name" SelectionChanged="InfoTeachers_SelectionChanged"/>
-        <Label x:Name="lable_Copy1" Content="Преподаватели:" Grid.Column="1" HorizontalAlignment="Left" Margin="29,153,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="lable_Copy2" Content="Группы:" Grid.Column="1" HorizontalAlignment="Left" Margin="29,267,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="TimeTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="29,473,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" IsReadOnly="True"/>
-        <Label x:Name="lable_Copy4" Content="Время" Grid.Column="1" HorizontalAlignment="Left" Margin="29,447,0,0" VerticalAlignment="Top"/>
-        <ListView x:Name="ClassRoomlistView" Height="44" Margin="32,396,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Grid.Column="1" SelectionChanged="listViewClassRoom_SelectionChanged" Width="195">
+        <Button x:Name="btnRemove" Content="Снять" Grid.Column="1" HorizontalAlignment="Left" Margin="29,71,0,0" VerticalAlignment="Top" Width="273" Click="btnRemove_Click" IsEnabled="False"/>
+        <ListBox x:Name="RemoveClasseslistBox"  Grid.Column="1" HorizontalAlignment="Left" Height="122" Margin="29,480,0,0" VerticalAlignment="Top" Width="273" DisplayMemberPath="Name" SelectionChanged="RemovelistBox_SelectionChanged"/>
+        <Label x:Name="lable" Content="Неустановленные пары:" Grid.Column="1" HorizontalAlignment="Left" Margin="29,449,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="infoClassTextbox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="107,108,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" IsReadOnly="True"/>
+        <Label x:Name="lable_Copy" Content="Предмет" Grid.Column="1" HorizontalAlignment="Left" Margin="29,105,0,0" VerticalAlignment="Top"/>
+        <ListBox x:Name="InfoTeachersListbox" Grid.Column="1" HorizontalAlignment="Left" Height="74" Margin="29,167,0,0" VerticalAlignment="Top" Width="273" DisplayMemberPath="Name" SelectionChanged="InfoTeachers_SelectionChanged"/>
+        <Label x:Name="lable_Copy1" Content="Преподаватели:" Grid.Column="1" HorizontalAlignment="Left" Margin="29,136,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lable_Copy2" Content="Группы:" Grid.Column="1" HorizontalAlignment="Left" Margin="29,246,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TimeTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="107,421,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" IsReadOnly="True"/>
+        <Label x:Name="lable_Copy4" Content="Время" Grid.Column="1" HorizontalAlignment="Left" Margin="29,418,0,0" VerticalAlignment="Top"/>
+        <ListView x:Name="ClassRoomlistView" Height="44" Margin="29,369,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Grid.Column="1" SelectionChanged="listViewClassRoom_SelectionChanged" Width="273">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Корпус" Width="90" DisplayMemberBinding="{Binding Housing}" />
@@ -34,18 +34,18 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListView x:Name="InfoGrouplistView" Height="81" Margin="32,298,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Grid.Column="1" SelectionChanged="InfoGroop_SelectionChanged" Width="265">
+        <ListView x:Name="InfoGrouplistView" Height="81" Margin="29,277,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Grid.Column="1" SelectionChanged="InfoGroop_SelectionChanged" Width="273">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Группа" Width="145" DisplayMemberBinding="{Binding NameGroup}" />
-                    <GridViewColumn Header="№ подгруппы" DisplayMemberBinding="{Binding NumberSubGroup}" Width="93" />
+                    <GridViewColumn Header="Группа" Width="165" DisplayMemberBinding="{Binding NameGroup}" />
+                    <GridViewColumn Header="№ подгруппы" DisplayMemberBinding="{Binding NumberSubGroup}" Width="80" />
                 </GridView>
             </ListView.View>
         </ListView>
-        <ComboBox x:Name="facultComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="32,36,0,0" VerticalAlignment="Top" Width="164"/>
-        <ComboBox x:Name="coursComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="230,36,0,0" VerticalAlignment="Top" Width="90"/>
-        <Button x:Name="btnExcel" Content="В Excel" Grid.Column="1" HorizontalAlignment="Left" Margin="230,10,0,0" VerticalAlignment="Top" Width="75" Click="btnExcel_Click" IsEnabled="False"/>
+        <ComboBox x:Name="facultComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="29,41,0,0" VerticalAlignment="Top" Width="164"/>
+        <ComboBox x:Name="coursComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="212,41,0,0" VerticalAlignment="Top" Width="90"/>
+        <Button x:Name="btnExcel" Content="В Excel" Grid.Column="1" HorizontalAlignment="Left" Margin="212,4,0,0" VerticalAlignment="Top" Width="90" Click="btnExcel_Click" IsEnabled="False"/>
 
 
     </Grid>
-</Window>
+</UserControl>

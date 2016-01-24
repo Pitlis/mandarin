@@ -1,152 +1,41 @@
-﻿using Domain;
-using Domain.DataFiles;
-using Domain.Model;
-using Domain.Services;
-using MandarinCore;
-using Microsoft.Win32;
-using Presentation;
-using Presentation.Code;
-using Presentation.FactorsDataEditors;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Presentation.Controls;
+using MaterialDesignThemes.Wpf;
+using Presentation.Code;
+using Microsoft.Win32;
 
-namespace ESProject
+namespace Presentation
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for newMandarinForm.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MandarinForm : Window
     {
-        public MainWindow()
+        Main main;
+        EditSchedule editSchedule;
+        FactorSettingsForm fsett;
+        public ContentControl ContentCtrl { get; set; }
+
+        public MandarinForm()
         {
             InitializeComponent();
+            main = new Main();
+            editSchedule = new EditSchedule();
+            this.ContentCtrl = contentControl;
+            contentControl.Content = main;
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private async void MenuPopupButton_OnClick(object sender, RoutedEventArgs e)
         {
-            Logic core = new Logic();
-            core.DI();
-
-            core.Start();
-            MessageBox.Show("Та да");
-        }
-
-        private void btnEditSchedule_Click(object sender, RoutedEventArgs e)
-        {
-            Schedule schedule = ScheduleLoader.LoadSchedule("schedule.dat");
-            EditSchedule form = new EditSchedule(new ScheduleForEdit(schedule));
-            form.Show();
-        }
-
-        private void FactorSetting_Click(object sender, RoutedEventArgs e)
-        {
-            FactorSettingsForm fsett = new FactorSettingsForm();
-            fsett.Show();
-        }
-
-        private void button1_Click(object sender, RoutedEventArgs e)
-        {
-            Presentation.FacultyAndGroupsForm facult = new Presentation.FacultyAndGroupsForm();
-            facult.Show();
-        }
-
-        private void btn_filedb_Click(object sender, RoutedEventArgs e)
-        {
-            string path = System.Environment.CurrentDirectory + "\\filepath.txt";
-            string filepath_db = System.Environment.CurrentDirectory + "\\bd4.mdf";
-            FileInfo fi1;
-            if (System.IO.File.Exists(path))//проверка на существование файла настроек
+            var dialogWindow = new DialogWindow
             {
-                fi1 = new FileInfo(path);
-                using (StreamReader sr = fi1.OpenText())
-                {
-                    string s = sr.ReadLine();
-                    if (System.IO.File.Exists(s))//проверка на путь в нем
-                    {
-                        filepath_db = s;
-                    }
-                }
-            }
-            if (!System.IO.File.Exists(filepath_db))
-            {
-                filepath_db = @"C:\";
-            }
-            System.Windows.Forms.OpenFileDialog dialog = new System.Windows.Forms.OpenFileDialog();
-            dialog.InitialDirectory = filepath_db;
-            dialog.Filter = "DB File |*.mdf";
-            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                filepath_db = dialog.FileName;
-            }
-            else filepath_db = System.Environment.CurrentDirectory + "\\bd4.mdf";
-            fi1 = new FileInfo(path);
-            using (StreamWriter sr = fi1.CreateText())
-            {
-                sr.WriteLine(filepath_db);
-            }
-        }
+                Message = { Text = ((ButtonBase)sender).Content.ToString() }
+            };
 
-        private void button2_Click(object sender, RoutedEventArgs e)
-        {
-            VIPForm form = new VIPForm();
-            form.ShowDialog();
-        }
-
-        private void button3_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                CurrentBase.LoadBase("testBase.dat");
-                CurrentBase.Factors = FactorsLoader.GetFactorSettings().ToList();
-                MessageBox.Show("База загружена");
-            }
-            catch (Exception ex)
-            {
-                //IRepository Repo = new Data.DataRepository();
-                //EntityStorage storage = StorageLoader.CreateEntityStorage(Repo, new string[] { @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=C:\USERS\СЕРГЕЙ\DOCUMENTS\ESPROJECT\ESPROJECT\BIN\DEBUG\BD4.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" });
-
-                IRepository Repo = new MockDataBase.MockRepository();
-                EntityStorage storage = StorageLoader.CreateEntityStorage(Repo, null);
-
-                CurrentBase.CreateBase(storage);
-                CurrentBase.Factors = FactorsLoader.GetFactorSettings().ToList();
-                CurrentBase.SaveBase("testBase.dat");
-
-                MessageBox.Show("Создана новая база");
-            }
-        }
-
-        private void button4_Click(object sender, RoutedEventArgs e)
-        {
-            FavoriteTeacherClassRoomForm favTeacherClassRoomForm = new FavoriteTeacherClassRoomForm();
-            favTeacherClassRoomForm.ShowDialog();
-        }
-
-        private void button5_Click(object sender, RoutedEventArgs e)
-        {
-
-            var tt = FactorsEditors.GetDeepCopy();
-            Presentation.BaseWizard.BaseWizardForm wizard = new Presentation.BaseWizard.BaseWizardForm();
-            wizard.ShowDialog();
-        }
-
-        private void button6_Click(object sender, RoutedEventArgs e)
-        {
-            FavoriteTeacherBuildingForm favTeacherBuildingForm = new FavoriteTeacherBuildingForm();
-            favTeacherBuildingForm.ShowDialog();
+            object result = await DialogHost.Show(dialogWindow, "MandarinHost");
         }
 
         private void miDBCreate_Click(object sender, RoutedEventArgs e)
@@ -161,7 +50,7 @@ namespace ESProject
             }
         }
 
-        private void miDBOpen_Click(object sender, RoutedEventArgs e)
+        private async void miDBOpen_Click(object sender, RoutedEventArgs e)
         {
             //здесь сделать окно для открытия
             OpenFileDialog openFile = new OpenFileDialog();
@@ -178,39 +67,42 @@ namespace ESProject
             }
             catch
             {
-                MessageBox.Show("Не удалось открыть",
-                                "Ошибка",
-                                MessageBoxButton.OK,
-                                MessageBoxImage.Error);
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Не удалось открыть" }
+                };
+                await DialogHost.Show(infoWindow, "MandarinHost");
                 return;
             }
 
         }
 
-        private void miDBSave_Click(object sender, RoutedEventArgs e)
+        private async void miDBSave_Click(object sender, RoutedEventArgs e)
         {
             if (CurrentBase.BaseIsLoaded())
             {
                 try
                 {
                     CurrentBase.SaveBase();
-                    MessageBox.Show("Сохранение прошло успешно",
-                                    "Успешно",
-                                    MessageBoxButton.OK,
-                                    MessageBoxImage.Information);
+                    var infoWindow = new InfoWindow
+                    {
+                        Message = { Text = "Сохранение прошло успешно" }
+                    };
+                    await DialogHost.Show(infoWindow, "MandarinHost");
                 }
                 catch
                 {
-                    MessageBox.Show("Не сохранено, попробуйте еще раз",
-                                    "Ошибка",
-                                    MessageBoxButton.OK,
-                                    MessageBoxImage.Error);
+                    var infoWindow = new InfoWindow
+                    {
+                        Message = { Text = "Не сохранено, попробуйте еще раз" }
+                    };
+                    await DialogHost.Show(infoWindow, "MandarinHost");
                 }
 
             }
         }
 
-        private void miDBSaveAs_Click(object sender, RoutedEventArgs e)
+        private async void miDBSaveAs_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "DB files (*.mandarin|*.mandarin";
@@ -219,17 +111,33 @@ namespace ESProject
             if (saveFileDialog.ShowDialog() == true)
             {
                 CurrentBase.SaveBase(saveFileDialog.FileName);
-                MessageBox.Show("Сохранение прошло успешно",
-                                 "Успешно",
-                                 MessageBoxButton.OK,
-                                 MessageBoxImage.Information);
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Сохранение прошло успешно" }
+                };
+                await DialogHost.Show(infoWindow, "MandarinHost");
             }
 
         }
 
-        private void button_Click_1(object sender, RoutedEventArgs e)
+        private void Main_Click(object sender, RoutedEventArgs e)
         {
-            FactorsLoader.GetFactorSettings();
+            contentControl.Content = main;
+        }
+
+        private void Schedule_Click(object sender, RoutedEventArgs e)
+        {
+            contentControl.Content = editSchedule;
+        }
+
+        private void FactorSettings_Click(object sender, RoutedEventArgs e)
+        {
+            if (fsett == null)
+            {
+                fsett = new FactorSettingsForm();
+                fsett.contentControl = contentControl;
+            }
+            contentControl.Content = fsett;
         }
     }
 }
