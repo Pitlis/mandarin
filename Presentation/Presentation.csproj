@@ -83,12 +83,14 @@
       <DependentUpon>BaseWizard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Code\CurrentBase.cs" />
+    <Compile Include="Code\FactorsEditors.cs" />
     <Compile Include="Code\FactorsLoader.cs" />
     <Compile Include="Code\TeachersBuildingsSettings.cs" />
     <Compile Include="Code\TeachersClassRoomsSettings.cs" />
     <Compile Include="Code\ScheduleLoader.cs" />
     <Compile Include="Code\Setting.cs" />
     <Compile Include="Code\StorageLoader.cs" />
+    <Compile Include="FactorsDataEditors\IFactorEditor.cs" />
     <Compile Include="FactorsDataEditors\TeacherBuildingsForm.xaml.cs">
       <DependentUpon>TeacherBuildingsForm.xaml</DependentUpon>
     </Compile>
@@ -118,7 +120,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FactorSettings.xaml">
+    <Page Include="FactorSettingsForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -145,8 +147,8 @@
     <Compile Include="ScheduleEditor\EditSchedule.xaml.cs">
       <DependentUpon>EditSchedule.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FactorSettings.xaml.cs">
-      <DependentUpon>FactorSettings.xaml</DependentUpon>
+    <Compile Include="FactorSettingsForm.xaml.cs">
+      <DependentUpon>FactorSettingsForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="FacultyEditor\FacultyAndGroupsForm.xaml.cs">
       <DependentUpon>FacultyAndGroupsForm.xaml</DependentUpon>
