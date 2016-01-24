@@ -40,5 +40,64 @@ namespace Domain.Services
             Classes = classes.ToArray<StudentsClass>();
         }
 
+        #region Получение ссылок на объекты хранилища, совпадающие по параметрам
+
+        public ClassRoomType GetReference(ClassRoomType extObj)
+        {
+            foreach (ClassRoomType item in ClassRoomsTypes)
+            {
+                if(((IDomainIdentity<ClassRoomType>)item).EqualsByParams(extObj) && ((IDomainIdentity<ClassRoomType>)item).EqualsByID(extObj))
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+        public StudentSubGroup GetReference(StudentSubGroup extObj)
+        {
+            foreach (StudentSubGroup item in StudentSubGroups)
+            {
+                if (((IDomainIdentity<StudentSubGroup>)item).EqualsByParams(extObj) && ((IDomainIdentity<StudentSubGroup>)item).EqualsByID(extObj))
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+        public Teacher GetReference(Teacher extObj)
+        {
+            foreach (Teacher item in Teachers)
+            {
+                if (((IDomainIdentity<Teacher>)item).EqualsByParams(extObj) && ((IDomainIdentity<Teacher>)item).EqualsByID(extObj))
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+        public ClassRoom GetReference(ClassRoom extObj)
+        {
+            foreach (ClassRoom item in ClassRooms)
+            {
+                if (((IDomainIdentity<ClassRoom>)item).EqualsByParams(extObj) && ((IDomainIdentity<ClassRoom>)item).EqualsByID(extObj))
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+        public StudentsClass GetReference(StudentsClass extObj)
+        {
+            foreach (StudentsClass item in Classes)
+            {
+                if (((IDomainIdentity<StudentsClass>)item).EqualsByParams(extObj) && ((IDomainIdentity<StudentsClass>)item).EqualsByID(extObj))
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+
+        #endregion
     }
 }
