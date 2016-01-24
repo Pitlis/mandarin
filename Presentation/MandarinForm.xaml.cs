@@ -53,7 +53,7 @@ namespace ESProject
 
         private void FactorSetting_Click(object sender, RoutedEventArgs e)
         {
-            FactorSettingsForm fsett = new FactorSettingsForm(new List<FactorSettings>());
+            FactorSettingsForm fsett = new FactorSettingsForm();
             fsett.Show();
         }
 
@@ -110,7 +110,7 @@ namespace ESProject
             try
             {
                 CurrentBase.LoadBase("testBase.dat");
-                CurrentBase.Factors = FactorsLoader.GetFactors().ToList();
+                CurrentBase.Factors = FactorsLoader.GetFactorSettings().ToList();
                 MessageBox.Show("База загружена");
             }
             catch (Exception ex)
@@ -122,7 +122,7 @@ namespace ESProject
                 EntityStorage storage = StorageLoader.CreateEntityStorage(Repo, null);
 
                 CurrentBase.CreateBase(storage);
-                CurrentBase.Factors = FactorsLoader.GetFactors().ToList();
+                CurrentBase.Factors = FactorsLoader.GetFactorSettings().ToList();
                 CurrentBase.SaveBase("testBase.dat");
 
                 MessageBox.Show("Создана новая база");
@@ -137,6 +137,8 @@ namespace ESProject
 
         private void button5_Click(object sender, RoutedEventArgs e)
         {
+
+            var tt = FactorsEditors.GetDeepCopy();
             Presentation.BaseWizard.BaseWizardForm wizard = new Presentation.BaseWizard.BaseWizardForm();
             wizard.ShowDialog();
         }
@@ -223,6 +225,11 @@ namespace ESProject
                                  MessageBoxImage.Information);
             }
 
+        }
+
+        private void button_Click_1(object sender, RoutedEventArgs e)
+        {
+            FactorsLoader.GetFactorSettings();
         }
     }
 }

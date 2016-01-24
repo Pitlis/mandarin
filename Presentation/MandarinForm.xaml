@@ -91,6 +91,7 @@
                 <Button x:Name="button6" HorizontalAlignment="Left" Margin="51,295,0,0" VerticalAlignment="Top" Width="151" Height="61" Click="button6_Click">
                     <TextBlock x:Name="textBlock1" TextWrapping="Wrap" Text="Преподаватель - корпуса"/>
                 </Button>
+                <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="554,508,0,0" VerticalAlignment="Top" Width="76" Click="button_Click_1"/>
             </Grid>
         </ContentControl>
     </DockPanel>

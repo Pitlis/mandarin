@@ -11,13 +11,13 @@ namespace Domain.Services
     [Serializable]
     public class FactorSettings
     {
-        public int Fine { get; private set; }
-        public Guid? DataTypeGuid { get; private set; }
+        public int Fine { get; set; }
         public object Data { get; set; }
+        public Guid? DataTypeGuid { get; private set; }
         public string FactorName { get; private set; }
         public string PathToDll { get; private set; }
 
-        public FactorSettings(int fine, Type factor, string pathToDll, Guid? dataTypeGuid = null,object data = null)
+        public FactorSettings(int fine, Type factor, string pathToDll, Guid? dataTypeGuid = null, object data = null)
         {
             FactorName = factor.Name;
             PathToDll = pathToDll;

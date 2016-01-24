@@ -44,6 +44,10 @@ namespace Presentation.Code
         {
             get
             {
+                if(currentBase == null)
+                {
+                    currentBase.Factors = FactorsLoader.GetFactorSettings().ToList();
+                }
                 return currentBase.Factors;
             }
             set { currentBase.Factors = value; }
