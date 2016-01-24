@@ -34,10 +34,10 @@ namespace FactorsWindows
             {
                 return windowsCount;
             }
-            for (int k = first; k < last - 1; k++)
+            for (int k = first; k < last; k++)
             {
                 //Если текущей пары нет, а следующая есть, то текущая пара будет одиночной форточкой
-                if (sClasses[k] == null && sClasses[k + 1] != null)
+                if (sClasses[k] != null && sClasses[k + 1] == null && sClasses[k + 2] != null)
                 {
                     windowsCount++;
                     k++;
@@ -115,14 +115,15 @@ namespace FactorsWindows
             {
                 return 0;
             }
-            for (int k = first; k < last - 3; k++)
+            for (int classIndex = first; classIndex < last - 3; classIndex++)
             {
                 //Если текущей пары и следующей нет, а следующая после них есть, 
                 //то текущая будет форточка из двух пар
-                if (sClasses[k] == null && sClasses[k + 1] == null && sClasses[k + 2] != null)
+                if (sClasses[classIndex] != null && sClasses[classIndex + 1] == null && 
+                    sClasses[classIndex + 2] == null && sClasses[classIndex + 3] != null)
                 {
                     windowCount++;
-                    k += 2;
+                    classIndex += 2;
                 }
             }
             return windowCount;
@@ -201,7 +202,8 @@ namespace FactorsWindows
             {
                 //Если текущей пары и следующих 2 нет, а следующая после них есть, 
                 //то текущая будет форточка из трех пар
-                if (sClasses[k] == null && sClasses[k + 1] == null && sClasses[k + 2] == null && sClasses[k + 3] != null)
+                if (sClasses[k] != null && sClasses[k + 1] == null && sClasses[k + 2] == null && sClasses[k + 3] == null &&
+                    sClasses[k + 4] != null)
                 {
                     windowCount++;
                     k += 3;
@@ -287,7 +289,7 @@ namespace FactorsWindows
                 //Если текущей пары и следующих 3 нет, а следующая после них есть, 
                 //то будет форточка из четырех пар
                 if (sClasses[k] == null && sClasses[k + 1] == null && sClasses[k + 2] == null &&
-                    sClasses[k + 3] == null && sClasses[k + 4] != null)
+                    sClasses[k + 3] == null && sClasses[k + 4] == null && sClasses[k + 5] != null)
                 {
                     windowCount++;
                     k += 4;
