@@ -114,7 +114,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ScheduleEditor\EditSchedule.xaml">
+    <Page Include="ScheduleEditor\EditScheduleForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -142,8 +142,8 @@
     <Compile Include="Code\Save.cs" />
     <Compile Include="Code\ScheduleExcel.cs" />
     <Compile Include="ScheduleEditor\ScheduleForEdit.cs" />
-    <Compile Include="ScheduleEditor\EditSchedule.xaml.cs">
-      <DependentUpon>EditSchedule.xaml</DependentUpon>
+    <Compile Include="ScheduleEditor\EditScheduleForm.xaml.cs">
+      <DependentUpon>EditScheduleForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="FactorSettings.xaml.cs">
       <DependentUpon>FactorSettings.xaml</DependentUpon>

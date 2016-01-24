@@ -20,35 +20,84 @@ namespace Presentation
     public partial class EditSchedule : Window
     {
         ScheduleForEdit schedule;
-        FacultiesAndGroups Sett;
-        bool[] position;
-        Label[] time;
+        FacultiesAndGroups facultiesAndGroups;
+        bool[] finePosition;
+        Label[] timeLabels;
+        private int ColForRemove = 0;
+        private int RowForRemove = 0;
+        private int TimeRows = -1;
 
         public EditSchedule(ScheduleForEdit s)
         {
             schedule = s;
             InitializeComponent();
         }
-
+             
+        #region Events        
         private void btnShow_Click(object sender, RoutedEventArgs e)
+        {
+            CreateTimeTable();
+        }
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {       
+            FillFacultyAndCoursCombobox();
+            LoadFacultyAndGroups();
+        }     
+        private void btnExcel_Click(object sender, RoutedEventArgs e)
+        {
+            CreateExcelDocument();
+        }
+        private void btnRemove_Click(object sender, RoutedEventArgs e)
+        {
+            RemoveClasses();
+        }
+        private void RemovelistBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectRemoveClass();
+        }
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            CheckRemoveClasses(e);           
+        }
+        private void InfoTeachers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            InfoTeachersListbox.SelectedIndex = -1;
+        }
+        private void InfoGroop_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            InfoGrouplistView.SelectedIndex = -1;
+        }
+        private void listViewClassRoom_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ClassRoomlistView.SelectedIndex = -1;
+        }
+
+        #endregion
+
+        #region Method
+        private void LoadFacultyAndGroups()
         {
             if (File.Exists("Settings.dat"))
             {
-                Sett = Code.Save.LoadSettings();
-                schedule.CretScheduleForFacult((string)comboBoxFacult.SelectedItem, (int)comboBoxCours.SelectedItem);
+                facultiesAndGroups = Code.Save.LoadSettings();
+                schedule.CretScheduleForFacult((string)facultComboBox.SelectedItem, (int)coursComboBox.SelectedItem);
             }
             else
             {
                 MessageBox.Show("Не найден файл с настройками.Будет выведено расписанния для всех групп.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                comboBoxCours.IsEnabled = false; comboBoxFacult.IsEnabled = false;
+                coursComboBox.IsEnabled = false; facultComboBox.IsEnabled = false;
             }
-            if (Sett.GroupsWithoutFacultyExists())
-            { MessageBox.Show("Внимание есть группы не относящееся ни к 1 факультету. Зайдите в настройки чтобы отнести группы к факультету!","Warning", MessageBoxButton.OK, MessageBoxImage.Warning); }
+            if (facultiesAndGroups.GroupsWithoutFacultyExists())
+            { MessageBox.Show("Внимание есть группы не относящееся ни к 1 факультету. Зайдите в настройки чтобы отнести группы к факультету!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning); }
+
+        }
+        private void CreateTimeTable()
+        {
             gdData.Children.Clear();
             btnExcel.IsEnabled = true;
             gdData.ColumnDefinitions.Clear();
             gdData.RowDefinitions.Clear();
-           
+
             gdData.ColumnDefinitions.Add(CreateDayHeaderColumn());
             gdData.ColumnDefinitions.Add(CreateTimeHeaderColumn());
 
@@ -81,6 +130,140 @@ namespace Presentation
                 }
             }
         }
+        private void FillFacultyAndCoursCombobox()
+        {
+            facultiesAndGroups = new FacultiesAndGroups();
+            foreach (Faculty faculty in facultiesAndGroups.Faculties)
+            {
+                facultComboBox.Items.Add(faculty.Name);
+            }
+            facultComboBox.SelectedIndex = 0;
+            for (int i = 1; i <= 5; i++)
+            {
+                coursComboBox.Items.Add(i);
+            }
+            coursComboBox.SelectedIndex = 0;
+        }
+        private void CreateExcelDocument()
+        {
+            if (schedule.RemoveClases.Count == 0)
+            {
+                ScheduleExcel excel = new ScheduleExcel(schedule, schedule.store);
+                excel.LoadPartScheduleExcel(schedule.Groups);
+            }
+            else
+            { MessageBox.Show("Nope"); }
+        }
+        private void RemoveClasses()
+        {
+            StudentsClass sClass;
+            schedule.RemoveClases.Add(schedule.partSchedule[RowForRemove - ROW_HEADER, ColForRemove - COLUMN_HEADER]);
+            RemoveClasseslistBox.ItemsSource = null;
+            RemoveClasseslistBox.ItemsSource = schedule.RemoveClases;
+            sClass = schedule.partSchedule[RowForRemove - ROW_HEADER, ColForRemove - COLUMN_HEADER];
+            schedule.RemoveFromClasses(sClass, RowForRemove - ROW_HEADER);
+            for (int colIndex = 0; colIndex < schedule.partSchedule.GetLength(1); colIndex++)
+            {
+                if (schedule.partSchedule[RowForRemove - ROW_HEADER, colIndex] == sClass)
+                {
+                    schedule.partSchedule[RowForRemove - ROW_HEADER, colIndex] = null;
+                }
+            }
+            btnShow_Click(Type.Missing, null);
+            btnRemove.IsEnabled = false;
+            infoClassTextbox.Text = "";
+            InfoTeachersListbox.Items.Clear();
+            InfoGrouplistView.Items.Clear();
+        }
+        private void CheckRemoveClasses(System.ComponentModel.CancelEventArgs e)
+        {
+            if (schedule.RemoveClases.Count != 0)
+            {
+                MessageBox.Show("Остались непоставленные пары");
+                e.Cancel = true;
+            }
+        }
+        public void SetClasses()
+        {
+            if (schedule.GetCrossClasses((ClassRoom)ClassRoomlistView.Items.GetItemAt(0), (StudentsClass)RemoveClasseslistBox.SelectedItem, TimeRows).Count != 0)
+            {
+                System.Windows.MessageBoxResult result = System.Windows.MessageBox.Show("Есть накладки в расписании. Хотите снять пересекающееся пары?", "Вопрос", System.Windows.MessageBoxButton.OKCancel, System.Windows.MessageBoxImage.Question);
+                if (result == System.Windows.MessageBoxResult.OK)
+                {
+                    schedule.RemoveCrossClasses(schedule.GetCrossClasses((ClassRoom)ClassRoomlistView.Items.GetItemAt(0), (StudentsClass)RemoveClasseslistBox.SelectedItem, TimeRows), TimeRows);
+                    schedule.SetClass((ClassRoom)ClassRoomlistView.Items.GetItemAt(0), (StudentsClass)RemoveClasseslistBox.SelectedItem, TimeRows);
+                }
+            }
+            else
+            {
+                schedule.SetClass((ClassRoom)ClassRoomlistView.Items.GetItemAt(0), (StudentsClass)RemoveClasseslistBox.SelectedItem, TimeRows);
+            }
+            RemoveClasseslistBox.ItemsSource = null;
+            RemoveClasseslistBox.ItemsSource = schedule.RemoveClases;
+            btnShow_Click(Type.Missing, null);
+        }
+        private void SelectRemoveClass()
+        {
+            int classesInSchedule = Constants.WEEKS_IN_SCHEDULE * Constants.DAYS_IN_WEEK * Constants.CLASSES_IN_DAY;
+            if (RemoveClasseslistBox.SelectedIndex != -1)
+            {
+                StudentsClass sClass = (StudentsClass)RemoveClasseslistBox.SelectedItem;
+                FinePositionForClass(classesInSchedule, sClass);
+                FillInformationAboutClass(sClass);
+            }
+            AvailableButtonAndColor(classesInSchedule);
+
+        }
+        private void AvailableButtonAndColor(int classesInSchedule)
+        {
+            if (RemoveClasseslistBox.SelectedIndex != -1)
+            {
+                btnRemove.IsEnabled = false;
+
+                for (int i = 0; i < classesInSchedule; i++)
+                {
+                    if (finePosition[i]) { timeLabels[i].Background = new SolidColorBrush(Colors.Green); }
+                    else { timeLabels[i].Background = new SolidColorBrush(Colors.White); }
+                }
+
+
+            }
+            if (SelectedCell != null && RemoveClasseslistBox.SelectedIndex != -1)
+            {
+                SelectedCell.BorderBrush = new SolidColorBrush(Colors.Red);
+                SelectedCell.BorderThickness = new Thickness(1);
+                SelectedCell = null;
+            }
+
+            ClassRoomlistView.Items.Clear();
+            if (RemoveClasseslistBox.SelectedIndex == -1)
+            {
+                for (int i = 0; i < classesInSchedule; i++)
+                {
+                    if (finePosition[i]) { timeLabels[i].Background = new SolidColorBrush(Colors.White); }
+                }
+            }
+        }
+        private void FillInformationAboutClass(StudentsClass sClass)
+        {
+            infoClassTextbox.Text = sClass.Name;
+            InfoTeachersListbox.Items.Clear();
+            InfoGrouplistView.Items.Clear();
+            foreach (Teacher tecah in sClass.Teacher)
+            {
+                InfoTeachersListbox.Items.Add(tecah);
+            }
+            foreach (StudentSubGroup groop in sClass.SubGroups)
+            {
+                InfoGrouplistView.Items.Add(groop);
+            }
+        }
+        private void FinePositionForClass(int classesInSchedule, StudentsClass sClass)
+        {
+            finePosition = new bool[classesInSchedule];
+            finePosition = schedule.GetFinePosition(sClass);
+        }
+        #endregion
 
         #region Create Schedule
 
@@ -176,22 +359,20 @@ namespace Presentation
             {
                 SelectedCell.BorderBrush = new SolidColorBrush(Colors.Red);
                 SelectedCell.BorderThickness = new Thickness(1);
-                InfoClass.Text = "";
-                InfoTeachers.Items.Clear();
-                InfoGroop.Items.Clear();
-                RemovelistBox.SelectedIndex = -1;
-                btnSet.IsEnabled = false;
+                infoClassTextbox.Text = "";
+                InfoTeachersListbox.Items.Clear();
+                InfoGrouplistView.Items.Clear();
+                RemoveClasseslistBox.SelectedIndex = -1;
                 //btnClass.IsEnabled = false;
             }
             if (SelectedCell == cell)
             {
                 SelectedCell = null;
-                InfoClass.Text = "";
-                InfoTeachers.Items.Clear();
-                InfoGroop.Items.Clear();
+                infoClassTextbox.Text = "";
+                InfoTeachersListbox.Items.Clear();
+                InfoGrouplistView.Items.Clear();
                 btnRemove.IsEnabled = false;
-                RemovelistBox.SelectedIndex = -1;
-                btnSet.IsEnabled = false;
+                RemoveClasseslistBox.SelectedIndex = -1;
                 //btnClass.IsEnabled = false;
             }
             else
@@ -202,19 +383,18 @@ namespace Presentation
                 if (schedule.partSchedule[row - ROW_HEADER, col - COLUMN_HEADER] != null)
                 {
                     btnRemove.IsEnabled = true; RowForRemove = row; ColForRemove = col;
-                    RemovelistBox.SelectedIndex = -1;
+                    RemoveClasseslistBox.SelectedIndex = -1;
                     StudentsClass clas = schedule.partSchedule[row - ROW_HEADER, col - COLUMN_HEADER];
-                    InfoClass.Text = clas.Name;
-                    InfoTeachers.Items.Clear();
-                    InfoGroop.Items.Clear();
-                    btnSet.IsEnabled = false;
+                    infoClassTextbox.Text = clas.Name;
+                    InfoTeachersListbox.Items.Clear();
+                    InfoGrouplistView.Items.Clear();
                     foreach (Teacher tecah in clas.Teacher)
                     {
-                        InfoTeachers.Items.Add(tecah);
+                        InfoTeachersListbox.Items.Add(tecah);
                     }
                     foreach (StudentSubGroup groop in clas.SubGroups)
                     {
-                        InfoGroop.Items.Add(groop);
+                        InfoGrouplistView.Items.Add(groop);
                     }
                     //btnClass.IsEnabled = false;
 
@@ -222,15 +402,14 @@ namespace Presentation
                 else
                 {
                     btnRemove.IsEnabled = false;
-                    btnSet.IsEnabled = false;
                     //btnClass.IsEnabled = false;
-                    InfoClass.Text = "";
-                    InfoTeachers.Items.Clear();
-                    InfoGroop.Items.Clear();
+                    infoClassTextbox.Text = "";
+                    InfoTeachersListbox.Items.Clear();
+                    InfoGrouplistView.Items.Clear();
                     SelectedCell = cell;
                     SelectedCell.BorderBrush = new SolidColorBrush(Colors.Blue);
                     SelectedCell.BorderThickness = new Thickness(2);
-                    RemovelistBox.SelectedIndex = -1;
+                    RemoveClasseslistBox.SelectedIndex = -1;
                 }
             }
         }
@@ -258,7 +437,7 @@ namespace Presentation
             foreach (StudentSubGroup group in groups)
             {
                 Label groupLabel = new Label();
-                
+
                 groupLabel.Content = group.NameGroup + "/" + group.NumberSubGroup;
                 groupLabel.Height = CELL_HEIGHT;
                 groupLabel.Width = CELL_WIDTH;
@@ -299,10 +478,10 @@ namespace Presentation
             string[] times = new string[] { "8.30-10.05", "10.25-12.00", "12.20-13.55", "14.15-15.50", "16.00-17.35", "17.45-19.20" };
 
             int timeStringIndex = 0;
-            time = new Label[72];
+            timeLabels = new Label[72];
             for (int timeIndex = 0; timeIndex < 72; timeIndex++)
             {
-                
+
                 Label groupLabel = new Label();
                 groupLabel.Content = times[timeStringIndex];
                 groupLabel.Height = CELL_HEIGHT;
@@ -314,7 +493,7 @@ namespace Presentation
                 groupLabel.FontSize = 10;
                 groupLabel.HorizontalContentAlignment = HorizontalAlignment.Center;
                 gdData.Children.Add(groupLabel);
-                time[timeIndex] = groupLabel;
+                timeLabels[timeIndex] = groupLabel;
                 timeStringIndex++;
                 groupLabel.MouseLeftButtonDown += mLeft;
                 groupLabel.MouseDoubleClick += MouseDoubleClick;
@@ -323,38 +502,6 @@ namespace Presentation
                     timeStringIndex = 0;
                 }
             }
-        }
-        #endregion
-
-        #region Edit Schedule
-
-        private int ColForRemove = 0;
-        private int RowForRemove = 0;
-        private int TimeRows = -1;
-        
-
-        private void btnRemove_Click(object sender, RoutedEventArgs e)
-        {
-            StudentsClass clas;
-            schedule.RemoveClases.Add(schedule.partSchedule[RowForRemove - ROW_HEADER, ColForRemove - COLUMN_HEADER]);
-            RemovelistBox.ItemsSource = null;
-            RemovelistBox.ItemsSource = schedule.RemoveClases;
-            clas = schedule.partSchedule[RowForRemove - ROW_HEADER, ColForRemove - COLUMN_HEADER];
-            schedule.RemoveFromClasses(clas, RowForRemove - ROW_HEADER);
-            for (int colIndex = 0; colIndex < schedule.partSchedule.GetLength(1); colIndex++)
-            {
-                if (schedule.partSchedule[RowForRemove - ROW_HEADER, colIndex] == clas)
-                {
-                    schedule.partSchedule[RowForRemove - ROW_HEADER, colIndex] = null;
-                }
-            }
-            btnShow_Click(Type.Missing, e);
-            btnRemove.IsEnabled = false;
-            InfoClass.Text = "";
-            InfoTeachers.Items.Clear();
-            InfoGroop.Items.Clear();
-
-
         }
         Label SelectedTimeCell;
         private void TimeSelect(object sender, MouseButtonEventArgs e)
@@ -368,19 +515,16 @@ namespace Presentation
                 SelectedTimeCell.BorderThickness = new Thickness(1);
                 if (SelectedTimeCell.Content != null)
                 {
-                    TimeBox.Text = SelectedTimeCell.Content.ToString();
-                    TimeRows = row-1;
-                    if (RemovelistBox.SelectedItem != null && TimeRows != -1 && listViewClassRoom.Items.Count != 0)
-                    { btnSet.IsEnabled = true; }
+                    TimeTextBox.Text = SelectedTimeCell.Content.ToString();
+                    TimeRows = row - 1;
                 }
 
             }
             if (SelectedTimeCell == cell)
             {
                 SelectedTimeCell = null;
-                TimeBox.Text = "";
+                TimeTextBox.Text = "";
                 TimeRows = -1;
-                btnSet.IsEnabled = false;
             }
             else
             {
@@ -389,10 +533,8 @@ namespace Presentation
                 SelectedTimeCell.BorderThickness = new Thickness(2);
                 if (SelectedTimeCell.Content != null)
                 {
-                    TimeBox.Text = SelectedTimeCell.Content.ToString();
-                    TimeRows = row-1;
-                    if (RemovelistBox.SelectedItem != null && TimeRows != -1 && listViewClassRoom.Items.Count != 0)
-                    { btnSet.IsEnabled = true; }
+                    TimeTextBox.Text = SelectedTimeCell.Content.ToString();
+                    TimeRows = row - 1;
                 }
             }
         }
@@ -400,163 +542,16 @@ namespace Presentation
         private void DoubleClick(object sender, MouseButtonEventArgs e)
         {
             Label cell = (Label)sender;
-            TimeRows = (int)cell.GetValue(Grid.RowProperty) -1;
-            if (RemovelistBox.SelectedIndex != -1)
-            { 
-            StudentsClass clas;
-            clas = (StudentsClass)RemovelistBox.SelectedItem;
-            ChooseClassRoom form = new ChooseClassRoom(TimeRows, schedule, clas);
-            form.Owner = this;
-            form.ShowDialog();
-            }
-        }
-
-        private void RemovelistBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            int classesInSchedule = Constants.WEEKS_IN_SCHEDULE * Constants.DAYS_IN_WEEK * Constants.CLASSES_IN_DAY;
-            if (RemovelistBox.SelectedIndex != -1)
+            TimeRows = (int)cell.GetValue(Grid.RowProperty) - 1;
+            if (RemoveClasseslistBox.SelectedIndex != -1)
             {
-                position = new bool[classesInSchedule];
-                btnSet.IsEnabled = false;
-                StudentsClass clas = (StudentsClass)RemovelistBox.SelectedItem;
-                position = schedule.GetFinePosition(clas);
-                InfoClass.Text = clas.Name;
-                InfoTeachers.Items.Clear();
-                InfoGroop.Items.Clear();
-                foreach (Teacher tecah in clas.Teacher)
-                {
-                    InfoTeachers.Items.Add(tecah);
-                }
-                foreach (StudentSubGroup groop in clas.SubGroups)
-                {
-                    InfoGroop.Items.Add(groop);
-                }
-                //btnClass.IsEnabled = true;
-                btnRemove.IsEnabled = false;
-
-                for (int i = 0; i < classesInSchedule; i++)
-                {
-                    if (position[i]) { time[i].Background = new SolidColorBrush(Colors.Green); } 
-                    else { time[i].Background = new SolidColorBrush(Colors.White); }
-                }
-
-
-            }
-            if (SelectedCell != null && RemovelistBox.SelectedIndex != -1)
-            {
-                SelectedCell.BorderBrush = new SolidColorBrush(Colors.Red);
-                SelectedCell.BorderThickness = new Thickness(1);
-                SelectedCell = null;
-            }
-
-            listViewClassRoom.Items.Clear();
-            if (RemovelistBox.SelectedItem != null && TimeRows !=-1 && listViewClassRoom.Items.Count != 0)
-            { btnSet.IsEnabled = true; }
-            
-            if(RemovelistBox.SelectedIndex == -1)
-            {
-                for (int i = 0; i < classesInSchedule; i++)
-                {
-                    if (position[i]) { time[i].Background = new SolidColorBrush(Colors.White); }
-                }
-            }
-
-
-
-        }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (schedule.RemoveClases.Count !=0)
-            {
-                MessageBox.Show("Остались непоставленные пары");
-                e.Cancel = true;
-            }
-           
-        }
-
-
-        private void btnClass_Click_1(object sender, RoutedEventArgs e)
-        {
-            StudentsClass clas;
-            clas = (StudentsClass)RemovelistBox.SelectedItem;
-            ChooseClassRoom form = new ChooseClassRoom(TimeRows, schedule, clas);
-            form.Owner = this;
-            form.ShowDialog();
-
-        }
-        private void InfoTeachers_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            InfoTeachers.SelectedIndex = -1;
-        }
-
-        private void InfoGroop_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            InfoGroop.SelectedIndex = -1;
-        }
-
-        private void listViewClassRoom_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            listViewClassRoom.SelectedIndex = -1;
-        }
-
-
-        public void btnSet_Click(object sender, RoutedEventArgs e)
-        {
-            SetClasses();
-            RemovelistBox.ItemsSource = null;
-            RemovelistBox.ItemsSource = schedule.RemoveClases;
-            btnShow_Click(Type.Missing, e);
-            btnSet.IsEnabled = false;
-           // btnClass.IsEnabled = false;
-        }
-
-        private void SetClasses()
-        {
-            if (schedule.GetCrossClasses((ClassRoom)listViewClassRoom.Items.GetItemAt(0), (StudentsClass)RemovelistBox.SelectedItem, TimeRows).Count != 0)
-            {
-                System.Windows.MessageBoxResult result = System.Windows.MessageBox.Show("Есть накладки в расписании. Хотите снять пересекающееся пары?", "Вопрос", System.Windows.MessageBoxButton.OKCancel, System.Windows.MessageBoxImage.Question);
-                if (result == System.Windows.MessageBoxResult.OK)
-                {
-                    schedule.RemoveCrossClasses(schedule.GetCrossClasses((ClassRoom)listViewClassRoom.Items.GetItemAt(0), (StudentsClass)RemovelistBox.SelectedItem, TimeRows), TimeRows);
-                    schedule.SetClass((ClassRoom)listViewClassRoom.Items.GetItemAt(0), (StudentsClass)RemovelistBox.SelectedItem, TimeRows);
-                }
-            }
-            else
-            {
-                schedule.SetClass((ClassRoom)listViewClassRoom.Items.GetItemAt(0), (StudentsClass)RemovelistBox.SelectedItem, TimeRows);
+                StudentsClass clas;
+                clas = (StudentsClass)RemoveClasseslistBox.SelectedItem;
+                ChooseClassRoom form = new ChooseClassRoom(TimeRows, schedule, clas);
+                form.Owner = this;
+                form.ShowDialog();
             }
         }
-
-
-
         #endregion
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            Sett = new FacultiesAndGroups();
-            foreach (Faculty faculty in Sett.Faculties)
-            {
-                comboBoxFacult.Items.Add(faculty.Name);
-            }
-            comboBoxFacult.SelectedIndex = 0;
-            for (int i = 1; i <= 5; i++)
-            {
-                comboBoxCours.Items.Add(i);
-            }
-            comboBoxCours.SelectedIndex = 0;
-
-        }
-
-        private void btnExcel_Click(object sender, RoutedEventArgs e)
-        {
-            if(schedule.RemoveClases.Count == 0)
-            {
-                ScheduleExcel excel = new ScheduleExcel(schedule, schedule.store);
-                excel.LoadPartScheduleExcel(schedule.Groups);
-            }
-            else
-            { MessageBox.Show("Nope"); }
-        }
     }
 }
