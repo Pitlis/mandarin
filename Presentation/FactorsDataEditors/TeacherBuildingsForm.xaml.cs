@@ -10,9 +10,9 @@ using System;
 namespace Presentation.FactorsDataEditors
 {
     /// <summary>
-    /// Interaction logic for FavoriteTeacherBuildingForm.xaml
+    /// Interaction logic for TeacherBuildingForm.xaml
     /// </summary>
-    public partial class FavoriteTeacherBuildingForm : Window, IFactorEditor
+    public partial class TeacherBuildingForm : Window, IFactorEditor
     {
         const int DEFAULT_INDEX = 0;
         TeachersBuildingsSettings settings;
@@ -29,14 +29,14 @@ namespace Presentation.FactorsDataEditors
             }
         }
 
-        public FavoriteTeacherBuildingForm()
+        public TeacherBuildingForm()
         {
             InitializeComponent();
             settings = new TeachersBuildingsSettings(new Dictionary<Teacher, List<int>>());
         }
 
         #region Methods
-
+        
         private List<Teacher> FilterTeachers(string filter)
         {
             return new List<Teacher>(storage.Teachers.OrderBy(t => !t.Name.ToLower().StartsWith(filter)).

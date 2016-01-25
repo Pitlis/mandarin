@@ -47,7 +47,7 @@ namespace Presentation.Code
             if (factorEditors == null)
             {
                 factorEditors = new Dictionary<Guid, Type>();
-                factorEditors.Add(new Guid("6CF3F58B-5FA2-464B-8FF5-5B8E1724E0C9"), typeof(FavoriteTeacherBuildingForm));
+                factorEditors.Add(new Guid("6CF3F58B-5FA2-464B-8FF5-5B8E1724E0C9"), typeof(TeacherBuildingForm));
 
 
 

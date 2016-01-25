@@ -8,14 +8,14 @@ using Domain.Model;
 namespace Presentation.FactorsDataEditors
 {
     /// <summary>
-    /// Interaction logic for FavoriteTeacherClassRoomForm.xaml
+    /// Interaction logic for TeacherClassRoomForm.xaml
     /// </summary>
-    public partial class FavoriteTeacherClassRoomForm : Window
+    public partial class TeacherClassRoomForm : Window
     {
         const int DEFAULT_INDEX = 0;
         TeachersClassRoomsSettings settings;
 
-        public FavoriteTeacherClassRoomForm()
+        public TeacherClassRoomForm()
         {
             InitializeComponent();
             settings = new TeachersClassRoomsSettings(new Dictionary<Teacher, List<ClassRoom>>());
