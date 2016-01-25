@@ -152,5 +152,30 @@ namespace Presentation
                 }
             }
         }
+        private void miScheduleOpen_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.Filter = "DB files (*.mandarin)|*.mandarin";
+            if (openFile.ShowDialog() == false)
+            {
+                return;
+            }
+            try
+            {
+                CurrentBase.LoadBase(openFile.FileName);
+                miDBSave.IsEnabled = true;
+                miDBSaveAs.IsEnabled = true;
+            }
+            catch
+            {
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Не удалось открыть" }
+                };
+                //  await DialogHost.Show(infoWindow, "MandarinHost");
+                return;
+            }
+        }
+
     }
 }

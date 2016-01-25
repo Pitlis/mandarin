@@ -20,8 +20,17 @@
 
                 <Menu IsMainMenu="True" DockPanel.Dock="Top" Background="#FFFF9800" Name="MainMenu">
                         <MenuItem Header="Главная" Name="Main" FontSize="16" Click="Main_Click"/>
-                        <MenuItem Name="Schedule" Header="Расписание" Foreground="#DD000000" FontSize="16" Click="Schedule_Click"/>
-                        <MenuItem Name="FactorSettings" Header="Настройки" Foreground="#DD000000" FontSize="16" Click="FactorSettings_Click"/>
+                        <MenuItem Name="Schedule" Header="Расписание" Foreground="#DD000000" FontSize="16" Click="Schedule_Click">
+                        <MenuItem Name="miScheduleOpen" Header="_Открыть расписание" HorizontalAlignment="Left" Width="auto" Click="miScheduleOpen_Click"/>
+                        <MenuItem Name="miScheduleSave" Header="Сохранить_ расписание" HorizontalAlignment="Left" Width="auto"/>
+                        <MenuItem Header="Сохранить расписание _как" HorizontalAlignment="Left" Width="auto"/>
+                        <MenuItem Header="_Экспорт в Excel" HorizontalAlignment="Left" Width="auto">
+                            <MenuItem Header="_Расписание преподавателей" HorizontalAlignment="Left" Width="auto"/>
+                        </MenuItem>
+                    </MenuItem>
+
+
+                    <MenuItem Name="FactorSettings" Header="Настройки" Foreground="#DD000000" FontSize="16" Click="FactorSettings_Click"/>
                         <MenuItem Header="_База" Foreground="#DD000000" FontSize="16" Name="miDB">
                             <MenuItem Header="Созд_ать" Name="miDBCreate" HorizontalAlignment="Left" Width="auto" Click="miDBCreate_Click">
                                 <MenuItem.Icon>
