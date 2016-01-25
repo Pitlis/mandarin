@@ -475,7 +475,71 @@ namespace Presentation.Code
             pathToFile = fileName;
         }
 
+        public void LoadToExcel(Teacher[] teacher)
+        {
+            if (pathToFile == null) return;
+            string path = pathToFile;
+            ObjExcel = new Application();
+            ObjWorkBook = ObjExcel.Workbooks.Add();
+            ObjWorkSheet = (Worksheet)ObjWorkBook.Sheets[1];
+            ScheduleExcel.CreatTemplate(ObjExcel, ObjWorkBook, ObjWorkSheet);
+            int k = 3;
+            int indexTeacher=0;
+            foreach (Teacher teach in eStorage.Teachers)
+            {
+                if (indexTeacher<teacher.Count()&&teach == teacher[indexTeacher])
+                {
+                    PartialSchedule partSchedule;
+                    partSchedule = schedule.GetPartialSchedule(teach);
+                    StudentsClass[] sched;
+                    ClassRoom clas;
+                    sched = partSchedule.GetClasses();
+                    int ifor1 = 0, ifor2 = 32;
+                    ((Range)ObjWorkSheet.Cells[2, k]).Clear();
+                    ((Range)ObjWorkSheet.Cells[2, k]).Value2 = teach.Name;
+                    ((Range)ObjWorkSheet.Cells[2, k]).Orientation = 75;
 
+                    for (int i = 0; i < (Domain.Services.Constants.CLASSES_IN_DAY * Domain.Services.Constants.DAYS_IN_WEEK * Domain.Services.Constants.WEEKS_IN_SCHEDULE); i++)
+                    {
+                        if (sched[i] != null && i >= 0 && i <= 35)
+                        {
+                            string str;
+
+                            clas = schedule.GetClassRoom(sched[i]);
+                            str = sched[i].Name + "(" + clas.Housing + " а." + clas.Number + ")";
+
+                            ((Range)ObjWorkSheet.Cells[(i + 3 + ifor1), k]).ColumnWidth = 30;
+                            ((Range)ObjWorkSheet.Cells[(i + 3 + ifor1), k]).HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                            ((Range)ObjWorkSheet.Cells[(i + 3 + ifor1), k]).VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                            ((Range)ObjWorkSheet.Cells[(i + 3 + ifor1), k]).Value2 = str;
+                        }
+
+                        if (sched[i] != null && i >= 36 && i < 72)
+                        {
+                            string str;
+
+                            clas = schedule.GetClassRoom(sched[i]);
+                            str = sched[i].Name + "(" + clas.Housing + " а." + clas.Number + ")";
+
+                            ((Range)ObjWorkSheet.Cells[(i - ifor2), k]).ColumnWidth = 30;
+                            ((Range)ObjWorkSheet.Cells[(i - ifor2), k]).HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                            ((Range)ObjWorkSheet.Cells[(i - ifor2), k]).VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                            ((Range)ObjWorkSheet.Cells[(i - ifor2), k]).Value2 = str;
+                        }
+                        if (i >= 0 && i <= 35) ifor1++;
+                        if (i >= 36 && i <= 71) ifor2--;
+                    }
+                    k++;
+                    indexTeacher++;
+                }
+            }
+            ObjWorkBook.SaveAs(path);
+            ObjWorkBook.Close();
+            ObjExcel.Quit();
+            ObjWorkSheet = null;
+            ObjWorkBook = null;
+            ObjExcel = null;
+        }
         public void LoadToExcel()
         {
             if (pathToFile == null)
