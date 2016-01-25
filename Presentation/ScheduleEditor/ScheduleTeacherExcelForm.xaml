@@ -6,19 +6,25 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:Presentation.ScheduleEditor"
         mc:Ignorable="d"
-        Title="Расписание преподавателей в Excel" Height="380.786" Width="413.273" ResizeMode="CanMinimize" Closing="Window_Closing">
+        Title="Расписание преподавателей в Excel" Height="387.5" Width="414" Closing="Window_Closing" MinWidth="414" MaxWidth="414.1" MinHeight="381">
     <materialDesign:DialogHost Identifier="ScheduleTeacherForExcel">
         <Grid>
             <Label Content="Вы выбрали:" HorizontalAlignment="Left" Margin="0,41,0,0" VerticalAlignment="Top" Width="90" FontWeight="Bold"/>
             <Label x:Name="label1" Content="Выберите преподавателей из списка" Margin="0,13,0,0" VerticalAlignment="Top" Width="390" HorizontalAlignment="Left" HorizontalContentAlignment="Center" AllowDrop="True" FontWeight="Bold"/>
-            <ScrollViewer x:Name="scrData" HorizontalAlignment="Left" Height="172" Margin="10,132,0,0" VerticalAlignment="Top" Width="385" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
             <Label x:Name="label2" Content="Поиск" HorizontalAlignment="Left" Margin="0,67,0,0" VerticalAlignment="Top" Width="61" Height="23" FontWeight="Bold"/>
-            <TextBox x:Name="tbSearch" HorizontalAlignment="Left" Height="27" Margin="66,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="341" ToolTip="Введите фамилию" TextChanged="tbSearch_TextChanged"/>
-            <Button x:Name="btnSave" Content="Сохранить в Excel" HorizontalAlignment="Left" Margin="0,312,0,0" VerticalAlignment="Top" Width="407" Click="btnSave_Click" Height="34" IsEnabled="False"/>
+            <TextBox x:Name="tbSearch" HorizontalAlignment="Left" Height="28" Margin="66,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="341" ToolTip="Введите фамилию" TextChanged="tbSearch_TextChanged"/>
+            <Button x:Name="btnSave" Content="Сохранить в Excel" Margin="0,0,0,6" VerticalAlignment="Bottom" Click="btnSave_Click" Height="34" IsEnabled="False"/>
             <Button x:Name="btnClean" Content="Очистить выбор" HorizontalAlignment="Left" Margin="0,95,0,0" VerticalAlignment="Top" Width="154" Click="btnClean_Click"/>
             <Button x:Name="btnSelectAll" Content="Выбрать всех" HorizontalAlignment="Left" Margin="248,95,0,0" VerticalAlignment="Top" Width="159" Click="btnSelectAll_Click"/>
             <Label x:Name="lblCount" Content="0" HorizontalAlignment="Left" Margin="82,42,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="39"/>
             <Label x:Name="lblprepod" Content="преподавателей" HorizontalAlignment="Left" Margin="121,41,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="117"/>
+            <ListView x:Name="scrData" Margin="0,132,0,45">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="370"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </Grid>
     </materialDesign:DialogHost>
 </Window>

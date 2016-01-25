@@ -39,20 +39,17 @@ namespace Presentation.ScheduleEditor
         {
             List<Teacher> teachers = schedule.EStorage.Teachers.ToList();
             chTeacher = new CheckBox[teachers.Count];
-            Grid grid = new Grid();
             for (int indexchb = 0; indexchb < teachers.Count; indexchb++)
             {
                 chTeacher[indexchb] = new CheckBox()
                 {
                     Content = teachers[indexchb].Name,
-                    Margin = new Thickness(0, indexchb * 20, 0, 0),
+                 
                 };
                 chTeacher[indexchb].Checked += checkBox_Checked;
                 chTeacher[indexchb].Unchecked += checkBox_Unchecked;
-                grid.Children.Add(chTeacher[indexchb]);
-              
             }
-            scrData.Content = grid;
+            scrData.ItemsSource = chTeacher;
         }
         
         private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)
@@ -62,29 +59,25 @@ namespace Presentation.ScheduleEditor
         void Search()
         {
             string search = tbSearch.Text.ToUpper();
-            int j = 0;
-            Grid grid = new Grid();
-            scrData.Content = null;
-            for (int i = 0; i < chTeacher.Count(); i++)
+            scrData.ItemsSource = null;          
+            for (int indexTeacher = 0; indexTeacher < chTeacher.Count(); indexTeacher++)
             {
-                if (!chTeacher[i].Content.ToString().ToUpper().Contains(search))
+                if (!chTeacher[indexTeacher].Content.ToString().ToUpper().Contains(search))
                 {
-                    chTeacher[i].Visibility = Visibility.Hidden;
+                    scrData.Items.Remove(chTeacher[indexTeacher]);
+                   
                 }
                 else
                 {
-                    chTeacher[i].Visibility = Visibility.Visible;
-                    chTeacher[i].Margin = new Thickness(0, 15 + 20 * j, 0, 0);
-                    if (chTeacher[i].Parent != null)
+                    if (chTeacher[indexTeacher].Parent != null)
                     {
-                        var parent = (Panel)chTeacher[i].Parent;
-                        parent.Children.Remove(chTeacher[i]);
+                        var parent = (ListView)chTeacher[indexTeacher].Parent;
+                        parent.Items.Remove(chTeacher[indexTeacher]);
                     }
-                    grid.Children.Add(chTeacher[i]);
-                    j++;
+                    scrData.Items.Add(chTeacher[indexTeacher]);                    
                 }
             }
-            scrData.Content = grid;
+           
         }
         private void checkBox_Unchecked(object sender, RoutedEventArgs e)
         {
