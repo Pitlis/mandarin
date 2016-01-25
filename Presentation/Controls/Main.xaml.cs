@@ -51,59 +51,10 @@ namespace Presentation.Controls
             await DialogHost.Show(infoWindow, "MandarinHost");
         }
 
-        private void btnEditSchedule_Click(object sender, RoutedEventArgs e)
-        {
-            Schedule schedule = ScheduleLoader.LoadSchedule("schedule.dat");
-            EditSchedule form = new EditSchedule(new ScheduleForEdit(schedule));
-            //form.Show();
-        }
-
-        private void FactorSetting_Click(object sender, RoutedEventArgs e)
-        {
-            FactorSettingsForm fsett = new FactorSettingsForm();
-            //fsett.Show();
-        }
-
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             Presentation.FacultyAndGroupsForm facult = new Presentation.FacultyAndGroupsForm();
             facult.Show();
-        }
-
-        private void btn_filedb_Click(object sender, RoutedEventArgs e)
-        {
-            string path = System.Environment.CurrentDirectory + "\\filepath.txt";
-            string filepath_db = System.Environment.CurrentDirectory + "\\bd4.mdf";
-            FileInfo fi1;
-            if (System.IO.File.Exists(path))//проверка на существование файла настроек
-            {
-                fi1 = new FileInfo(path);
-                using (StreamReader sr = fi1.OpenText())
-                {
-                    string s = sr.ReadLine();
-                    if (System.IO.File.Exists(s))//проверка на путь в нем
-                    {
-                        filepath_db = s;
-                    }
-                }
-            }
-            if (!System.IO.File.Exists(filepath_db))
-            {
-                filepath_db = @"C:\";
-            }
-            System.Windows.Forms.OpenFileDialog dialog = new System.Windows.Forms.OpenFileDialog();
-            dialog.InitialDirectory = filepath_db;
-            dialog.Filter = "DB File |*.mdf";
-            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                filepath_db = dialog.FileName;
-            }
-            else filepath_db = System.Environment.CurrentDirectory + "\\bd4.mdf";
-            fi1 = new FileInfo(path);
-            using (StreamWriter sr = fi1.CreateText())
-            {
-                sr.WriteLine(filepath_db);
-            }
         }
 
         private void button2_Click(object sender, RoutedEventArgs e)
@@ -128,7 +79,7 @@ namespace Presentation.Controls
             catch (Exception ex)
             {
                 //IRepository Repo = new Data.DataRepository();
-                //EntityStorage storage = StorageLoader.CreateEntityStorage(Repo, new string[] { @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=C:\USERS\СЕРГЕЙ\DOCUMENTS\ESPROJECT\ESPROJECT\BIN\DEBUG\BD4.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" });
+                //EntityStorage storage = StorageLoader.CreateEntityStorage(Repo, new string[] { @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BD4.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" });
 
                 IRepository Repo = new MockDataBase.MockRepository();
                 EntityStorage storage = StorageLoader.CreateEntityStorage(Repo, null);
@@ -147,7 +98,7 @@ namespace Presentation.Controls
 
         private void button4_Click(object sender, RoutedEventArgs e)
         {
-            FavoriteTeacherClassRoomForm favTeacherClassRoomForm = new FavoriteTeacherClassRoomForm();
+            TeacherClassRoomForm favTeacherClassRoomForm = new TeacherClassRoomForm();
             favTeacherClassRoomForm.ShowDialog();
         }
 
