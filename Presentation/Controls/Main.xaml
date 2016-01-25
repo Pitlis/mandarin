@@ -5,30 +5,81 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ESProject"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        VerticalAlignment="Center" HorizontalAlignment="Center"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto">
-    <DockPanel>
+    <Grid>
+        <StackPanel>
+            <GroupBox x:Name="dbGroupBox" FontSize="13" Header="База данных" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0">
+                <StackPanel>
+                    <DockPanel>
+                        <Label Padding="0,8,0,0" HorizontalAlignment="Center">
+                            Количество пар:
+                        </Label>
+                        <TextBlock HorizontalAlignment="Right" Padding="2,8,0,0" x:Name="classesTextBlock">Не загружено</TextBlock>
+                    </DockPanel>
+                    <DockPanel>
+                        <Label Padding="0,8,0,0" HorizontalAlignment="Center">
+                            Количество подгрупп студентов:
+                        </Label>
+                        <TextBlock HorizontalAlignment="Right" Padding="2,8,0,0" x:Name="subGroupsTextBlock">Не загружено</TextBlock>
+                    </DockPanel>
+                    <DockPanel>
+                        <Label Padding="0,8,0,0" HorizontalAlignment="Center">
+                            Количество преподавателей:
+                        </Label>
+                        <TextBlock HorizontalAlignment="Right" Padding="2,8,0,0" x:Name="teachersTextBlock">Не загружено</TextBlock>
+                    </DockPanel>
+                    <DockPanel>
+                        <Label Padding="0,8,0,0" HorizontalAlignment="Center">
+                            Количество аудиторий:
+                        </Label>
+                        <TextBlock HorizontalAlignment="Right" Padding="2,8,0,0" x:Name="classRoomTextBlock">Не загружено</TextBlock>
+                    </DockPanel>
+                    <DockPanel>
+                        <Label Padding="0,8,0,0" HorizontalAlignment="Center">
+                            Количество типов аудиторий:
+                        </Label>
+                        <TextBlock HorizontalAlignment="Right" Padding="2,8,0,0" x:Name="classRoomTypesTextBlock">Не загружено</TextBlock>
+                    </DockPanel>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox x:Name="scheduleGroupBox" FontSize="13"  Header="Расписания" HorizontalAlignment="Left" VerticalAlignment="Top" Height="300">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="205"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ListBox x:Name="scheduleListBox" Grid.Row="0" Height="205" VerticalAlignment="Top" DisplayMemberPath="Key"  Margin="0,0,0,5" MouseDoubleClick="scheduleListBox_MouseDoubleClick">
 
-        <ContentControl>
-            <Grid>
-
-                <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
-                        Margin="174,300,0,152" HorizontalAlignment="Left"
+                    </ListBox>
+                    <StackPanel Grid.Row="1" VerticalAlignment="Bottom">
+                        <UniformGrid Columns="2" Rows="1">
+                            <Button x:Name="showScheduleButton" Click="showScheduleButton_Click" Margin="2">Открыть</Button>
+                            <Button x:Name="deleteScheduleButton" Click="deleteScheduleButton_Click" Margin="2">Удалить</Button>
+                        </UniformGrid>
+                        <UniformGrid Columns="2" Rows="1">
+                            <Button x:Name="saveScheduleButton" Click="saveScheduleButton_Click" Margin="2">Сохранить</Button>
+                            <Button x:Name="addScheduleButton" Click="addScheduleButton_Click" Margin="2">Добавить</Button>
+                        </UniformGrid>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+        </StackPanel>
+        <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
+                        VerticalAlignment="Bottom" HorizontalAlignment="Center"
                         ToolTip="Начать составление расписания"
-                        Click="button_Click" RenderTransformOrigin="4.714,2.429" Height="100" Width="100" FontSize="26.667"
+                        Click="button_Click" Height="100" Width="100" FontSize="27"
                         >Старт
-                </Button>
-                <Button x:Name="button1" Content="FacultySettings" HorizontalAlignment="Left" Margin="51,32,0,0" VerticalAlignment="Top" Width="135" Click="button1_Click"/>
-                <Button x:Name="button2" Content="VIP" HorizontalAlignment="Left" Margin="51,87,0,0" VerticalAlignment="Top" Width="135" Click="button2_Click"/>
-                <Button x:Name="button3" Content="Открыть базу (ТЕСТ)" HorizontalAlignment="Left" Margin="240,67,0,0" VerticalAlignment="Top" Width="224" Height="95" Click="button3_Click"/>
-                <Button x:Name="button4" HorizontalAlignment="Left" Margin="51,142,0,0" VerticalAlignment="Top" Width="135" Height="44" Click="button4_Click">
-                    <TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="Преподаватель - аудитории"/>
-                </Button>
-                <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="352,337,0,0" VerticalAlignment="Top" Width="76" Click="button_Click_1"/>
-            </Grid>
-        </ContentControl>
-    </DockPanel>
+        </Button>
+        <Button x:Name="button1" Content="FacultySettings" HorizontalAlignment="Center" Margin="0,0,280,0" VerticalAlignment="Bottom" Width="135" Click="button1_Click"/>
+        <Button x:Name="button2" Content="VIP" HorizontalAlignment="Center" Margin="0,0,280,50" VerticalAlignment="Bottom" Width="135" Click="button2_Click" Height="43"/>
+        <Button x:Name="button3" Content="Открыть базу (ТЕСТ)" HorizontalAlignment="Center" Margin="0,0,0,110" VerticalAlignment="Bottom" Width="175" Height="43" Click="button3_Click"/>
+        <Button x:Name="button4" HorizontalAlignment="Center" Margin="280,0,0,50" VerticalAlignment="Bottom" Width="135" Height="44" Click="button4_Click">
+            <TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="Преподаватель - аудитории"/>
+        </Button>
+        <Button x:Name="button" Content="Button" HorizontalAlignment="Center" Margin="280,0,0,0" VerticalAlignment="Bottom" Width="135" Click="button_Click_1"/>
+    </Grid>
 </UserControl>

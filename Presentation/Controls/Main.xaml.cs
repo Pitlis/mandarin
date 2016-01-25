@@ -32,23 +32,24 @@ namespace Presentation.Controls
     /// </summary>
     public partial class Main : UserControl
     {
+        public ContentControl contentControl { get; set; }
+
         public Main()
         {
             InitializeComponent();
         }
 
-        private async void button_Click(object sender, RoutedEventArgs e)
+        private void button_Click(object sender, RoutedEventArgs e)
         {
             Logic core = new Logic();
             core.DI();
 
-            core.Start();
-			var infoWindow = new InfoWindow
-            {
-                Message = { Text = "Та да" }
-            };
+            core.Start();            
+            CurrentBase.SaveBase();
 
-            await DialogHost.Show(infoWindow, "MandarinHost");
+            SetScheduleName();
+            LoadSchedules();
+            scheduleListBox.SelectedIndex = scheduleListBox.Items.Count - 1;
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
@@ -94,6 +95,8 @@ namespace Presentation.Controls
 
                 await DialogHost.Show(infoWindow, "MandarinHost");
             }
+            LoadDataBaseInfo();
+            LoadSchedules();
         }
 
         private void button4_Click(object sender, RoutedEventArgs e)
@@ -120,5 +123,164 @@ namespace Presentation.Controls
         {
             FactorsLoader.GetFactorSettings();
         }
+
+
+        #region Ready
+        private void showScheduleButton_Click(object sender, RoutedEventArgs e)
+        {
+            KeyValuePair<string, Schedule> schedule = (KeyValuePair<string, Schedule>)scheduleListBox.SelectedItem;
+            EditSchedule edit = new EditSchedule(schedule);
+            contentControl.Content = edit;
+        }
+
+        private void saveScheduleButton_Click(object sender, RoutedEventArgs e)
+        {
+            KeyValuePair<string, Schedule> schedule = (KeyValuePair<string, Schedule>)scheduleListBox.SelectedItem;
+            SaveFileDialog fileDialog = new SaveFileDialog();
+            fileDialog.Filter = "Mandarin Schedule File (*.msf)|*.msf";
+            fileDialog.FileName =  schedule.Key + ".msf";
+            if (fileDialog.ShowDialog() == true)
+            {
+                ScheduleLoader.SaveSchedule(fileDialog.FileName, schedule.Value);
+            }
+
+        }
+
+        private async void deleteScheduleButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dialogWindow = new DialogWindow
+            {
+                Message = { Text = "Вы уверены, что хотите удалить это расписание?" }
+            };
+
+            object result = await DialogHost.Show(dialogWindow, "MandarinHost");
+            if ((bool)result == true)
+            {
+                KeyValuePair<string, Schedule> schedule = (KeyValuePair<string, Schedule>)scheduleListBox.SelectedItem;
+                CurrentBase.Schedules.Remove(schedule.Key);
+                CurrentBase.SaveBase();
+                LoadSchedules();
+            }
+        }
+
+        private async void scheduleListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            KeyValuePair<string, Schedule> schedule = (KeyValuePair<string, Schedule>)scheduleListBox.SelectedItem;
+            var inputWindow = new InputWindow()
+            {
+                Message = { Text = "Введите название расписания" }
+            };
+
+            object result = await DialogHost.Show(inputWindow, "MandarinHost");
+            if ((bool)result == true)
+            {
+                RenameSchedule(schedule, inputWindow.scheduleTextBox.Text);
+                LoadSchedules();
+                CurrentBase.SaveBase();
+            }
+        }
+
+        private void addScheduleButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddScheduleFromFile();
+        }
+
+        #region Methods
+        private async void SetScheduleName()
+        {
+            var inputWindow = new InputWindow()
+            {
+                Message = { Text = "Введите название расписания" }
+            };
+
+            object result = await DialogHost.Show(inputWindow, "MandarinHost");
+            if ((bool)result == true)
+            {
+                int scheduleIndex = CurrentBase.Schedules.ToList().Count - 1;
+                KeyValuePair<string, Schedule> schedule = CurrentBase.Schedules.ToList()[scheduleIndex];
+                RenameSchedule(schedule, inputWindow.scheduleTextBox.Text);
+            }
+        }
+
+        private void RenameSchedule(KeyValuePair<string, Schedule> schedule, string newName)
+        {
+            CurrentBase.Schedules.Remove(schedule.Key);
+            CurrentBase.Schedules.Add(newName, schedule.Value);
+        }
+
+        private void LoadSchedules()
+        {
+            scheduleListBox.ItemsSource = null;
+            scheduleListBox.ItemsSource = CurrentBase.Schedules;
+            if (scheduleListBox.Items.Count > 0)
+            {
+                scheduleListBox.SelectedIndex = 0;
+            }
+        }
+
+        private void LoadDataBaseInfo()
+        {
+            classesTextBlock.Text = CurrentBase.EStorage.Classes.Length.ToString();
+            classRoomTextBlock.Text = CurrentBase.EStorage.ClassRooms.Length.ToString();
+            classRoomTypesTextBlock.Text = CurrentBase.EStorage.ClassRoomsTypes.Length.ToString();
+            teachersTextBlock.Text = CurrentBase.EStorage.Teachers.Length.ToString();
+            subGroupsTextBlock.Text = CurrentBase.EStorage.StudentSubGroups.Length.ToString();
+        }
+
+        private async void AddScheduleFromFile()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Mandarin Schedule File (*.msf)|*.msf";
+            openFileDialog.ShowDialog();
+            if (!String.IsNullOrWhiteSpace(openFileDialog.FileName))
+            {
+                try
+                {
+                    Schedule schedule = ScheduleLoader.LoadSchedule(openFileDialog.FileName);
+                    AddSchedule(schedule);
+                }
+                catch (Exception)
+                {
+                    var infoWindow = new InfoWindow()
+                    {
+                        Message = { Text = "Неверный файл" }
+                    };
+
+                    await DialogHost.Show(infoWindow, "MandarinHost");
+                }
+            }
+        }
+
+        private async void AddSchedule(Schedule schedule)
+        {
+            var inputWindow = new InputWindow()
+            {
+                Message = { Text = "Введите название расписания" }
+            };
+
+            object result = await DialogHost.Show(inputWindow, "MandarinHost");
+            if ((bool)result == true)
+            {
+                try
+                {
+                    CurrentBase.Schedules.Add(inputWindow.scheduleTextBox.Text, schedule);
+                    CurrentBase.SaveBase();
+                    LoadSchedules();
+                }
+                catch (Exception)
+                {
+                    var infoWindow = new InfoWindow()
+                    {
+                        Message = { Text = "Расписание с таким названием уже существует" }
+                    };
+
+                    await DialogHost.Show(infoWindow, "MandarinHost");
+                    AddSchedule(schedule);
+                }
+            }
+        }
+        #endregion
+
+        #endregion
     }
 }

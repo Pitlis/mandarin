@@ -6,6 +6,7 @@ using Presentation.Controls;
 using MaterialDesignThemes.Wpf;
 using Presentation.Code;
 using Microsoft.Win32;
+using Domain.DataFiles;
 
 namespace Presentation
 {
@@ -26,16 +27,7 @@ namespace Presentation
             editSchedule = new EditSchedule();
             this.ContentCtrl = contentControl;
             contentControl.Content = main;
-        }
-
-        private async void MenuPopupButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            var dialogWindow = new DialogWindow
-            {
-                Message = { Text = ((ButtonBase)sender).Content.ToString() }
-            };
-
-            object result = await DialogHost.Show(dialogWindow, "MandarinHost");
+            main.contentControl = contentControl;
         }
 
         private void miDBCreate_Click(object sender, RoutedEventArgs e)
@@ -122,22 +114,43 @@ namespace Presentation
 
         private void Main_Click(object sender, RoutedEventArgs e)
         {
+            GetEditScheduleContent();
             contentControl.Content = main;
         }
 
         private void Schedule_Click(object sender, RoutedEventArgs e)
         {
-            contentControl.Content = editSchedule;
+            GetEditScheduleContent();
+            if (contentControl.Content == main || contentControl.Content == fsett)
+            {
+                contentControl.Content = editSchedule;
+            }
         }
 
         private void FactorSettings_Click(object sender, RoutedEventArgs e)
         {
+            GetEditScheduleContent();
             if (fsett == null)
             {
                 fsett = new FactorSettingsForm();
                 fsett.contentControl = contentControl;
             }
             contentControl.Content = fsett;
+        }
+
+        private void GetEditScheduleContent()
+        {
+            if (contentControl.Content != main && contentControl.Content != editSchedule && contentControl.Content != fsett)
+            {
+                try
+                {
+                    editSchedule = (EditSchedule)contentControl.Content;
+                }
+                catch (System.Exception)
+                {
+                    
+                }
+            }
         }
     }
 }
