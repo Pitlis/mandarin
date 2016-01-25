@@ -96,6 +96,9 @@
     <Compile Include="Controls\InfoWindow.xaml.cs">
       <DependentUpon>InfoWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\InputWindow.xaml.cs">
+      <DependentUpon>InputWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FactorsDataEditors\IFactorEditor.cs" />
     <Compile Include="FactorsDataEditors\TeacherBuildingsForm.xaml.cs">
       <DependentUpon>TeacherBuildingsForm.xaml</DependentUpon>
@@ -121,6 +124,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\InfoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\InputWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
