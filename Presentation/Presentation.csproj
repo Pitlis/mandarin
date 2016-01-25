@@ -83,6 +83,7 @@
       <DependentUpon>BaseWizard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Code\CurrentBase.cs" />
+    <Compile Include="Code\CurrentSchedule.cs" />
     <Compile Include="Code\FactorsEditors.cs" />
     <Compile Include="Code\FactorsLoader.cs" />
     <Compile Include="Code\TeachersBuildingsSettings.cs" />
