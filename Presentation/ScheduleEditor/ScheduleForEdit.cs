@@ -35,6 +35,13 @@ namespace Presentation.Code
                 }
             }
         }
+
+        public Schedule GetCurrentSchedule()
+        {
+            Schedule schedule = new Schedule(store);
+            schedule.ClassesTable = this.ClassesTable;
+            return schedule;
+        }
         /// <summary>
         /// Метод для создания частичного рассписания для задоного факультета и курса
         /// </summary>

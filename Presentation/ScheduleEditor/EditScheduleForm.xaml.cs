@@ -24,6 +24,7 @@ namespace Presentation
     public partial class EditSchedule : UserControl
     {
         ScheduleForEdit schedule;
+        String scheduleName;
         FacultiesAndGroups facultiesAndGroups;
         bool[] finePosition;
         Label[] timeLabels;
@@ -31,9 +32,10 @@ namespace Presentation
         private int RowForRemove = 0;
         private int TimeRows = -1;
 
-        public EditSchedule(ScheduleForEdit s)
+        public EditSchedule(KeyValuePair<string, Schedule> s)
         {
-            schedule = s;
+            schedule = new ScheduleForEdit(s.Value);
+            scheduleName = s.Key;
             InitializeComponent();
         }
 
@@ -50,7 +52,12 @@ namespace Presentation
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             FillFacultyAndCoursCombobox();
-            LoadSchedule();
+            if (schedule == null)
+            {
+                LoadSchedule();
+            }
+            else
+                LoadFacultyAndGroups();
         }     
         private void btnExcel_Click(object sender, RoutedEventArgs e)
         {
@@ -80,7 +87,19 @@ namespace Presentation
         {
             ClassRoomlistView.SelectedIndex = -1;
         }
-
+        private async void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (scheduleName != null)
+            {
+                CurrentBase.Schedules[scheduleName] = schedule.GetCurrentSchedule();
+                CurrentBase.SaveBase();
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Успешно сохранено" }
+                };
+                await DialogHost.Show(infoWindow, "MandarinHost");
+            }
+        }
         #endregion
 
         #region Method
