@@ -49,8 +49,8 @@ namespace Presentation
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadSchedule();
             FillFacultyAndCoursCombobox();
+            LoadSchedule();
         }     
         private void btnExcel_Click(object sender, RoutedEventArgs e)
         {
