@@ -32,6 +32,17 @@ namespace Presentation.Code
                 currentBase.Settings[FACULTIES] = value;
             }
         }
+        public static Dictionary<string, Schedule> Schedules
+        {
+            get
+            {
+                return currentBase.Schedules;
+            }
+            set
+            {
+                currentBase.Schedules = value;
+            }
+        }
         public static EntityStorage EStorage
         {
             get
@@ -60,6 +71,7 @@ namespace Presentation.Code
             currentBase.EStorage = eStorage;
             currentBase.Factors = new List<FactorSettings>();
             currentBase.Settings = new Dictionary<string, object>();
+            currentBase.Schedules = new Dictionary<string, Schedule>();
 
             currentBase.Settings.Add(FACULTIES, new List<Faculty>());
         }

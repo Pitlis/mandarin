@@ -13,5 +13,6 @@ namespace Domain.DataFiles
         public EntityStorage EStorage { get; set; }
         public List<FactorSettings> Factors { get; set; }
         public Dictionary<string, Object> Settings { get; set; }
+        public Dictionary<string, Schedule> Schedules{ get; set; }
     }
 }
