@@ -95,7 +95,7 @@ namespace Presentation.BaseWizard
         }
         private void rbStep2my_Unchecked(object sender, RoutedEventArgs e)
         {
-            step2L1.Visibility = Visibility.Hidden;           
+            step2L1.Visibility = Visibility.Hidden;
             step2tbSelect.Visibility = Visibility.Hidden;
             step2btnSelect.Visibility = Visibility.Hidden;
             btnStep2Next.IsEnabled = false;
@@ -166,7 +166,7 @@ namespace Presentation.BaseWizard
                     MaxLength = 200,
                     HorizontalAlignment = HorizontalAlignment.Left,
                     VerticalAlignment = VerticalAlignment.Top,
-                    Background = new SolidColorBrush(Color.FromRgb(247,238,238)),
+                    Background = new SolidColorBrush(Color.FromRgb(247, 238, 238)),
                 };
                 tbConnectString[indexconnectString].TextChanged += tbConnectString_TextChanged;
                 grid.Children.Add(lblConnectString);
@@ -278,6 +278,7 @@ namespace Presentation.BaseWizard
                     Code.CurrentBase.SaveBase(saveFileDialog1.FileName);
                 }
             }
+            this.Closing -= Window_Closing;
             Close();
         }
         bool CreateEstorage()
@@ -310,11 +311,33 @@ namespace Presentation.BaseWizard
             }));
         }
 
+
+
+
+
         #endregion
 
 
+        bool isClose = true;
+        private async void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (isClose)
+            {
+                e.Cancel = true;
+            }
+            var dialogWindow = new DialogWindow
+            {
+                Message = { Text = "Вы действительно хотите прервать настройку?" }
+            };
 
-
+            object result = await DialogHost.Show(dialogWindow, "BaseWizardHost");
+            if (result != null && (bool)result == true)
+            {
+                if (thread != null) thread.Abort();
+                isClose = false;
+                Close();
+            }
+        }
 
     }
 }
