@@ -60,7 +60,11 @@ namespace Presentation.Code
             loggingService.Info("Загружено ядро. Запуск...");
 
             List<FullSchedule> schedules = core.Run().ToList<FullSchedule>();
-
+            int scheduleIndex = CurrentBase.Schedules.Count;
+            foreach (FullSchedule schedule in schedules)
+            {
+                CurrentBase.Schedules.Add("Расписание " + scheduleIndex.ToString(), new Schedule(schedule));
+            }
             loggingService.Info("Итоговое расписание готово");
 
             //ScheduleExcel excel = new ScheduleExcel(schedules[0], storage);
