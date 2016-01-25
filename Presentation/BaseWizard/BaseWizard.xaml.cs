@@ -29,6 +29,7 @@ namespace Presentation.BaseWizard
         Domain.IRepository repository;
         Domain.Services.EntityStorage estorage;
         string[] connectString;
+        bool isClose = true;
         Thread thread;
         public BaseWizardForm()
         {
@@ -47,6 +48,7 @@ namespace Presentation.BaseWizard
             object result = await DialogHost.Show(dialogWindow, "BaseWizardHost");
             if (result != null && (bool)result == true)
             {
+                isClose = false;
                 Close();
             }
             if (thread != null) thread.Abort();
@@ -153,15 +155,15 @@ namespace Presentation.BaseWizard
                 {
                     Content = connectString[indexconnectString].ToString(),
                     ToolTip = connectString[indexconnectString].ToString(),
-                    Margin = new Thickness(0, indexconnectString * 25, 0, 0),
+                    Margin = new Thickness(0, indexconnectString * 28, 0, 0),
                     MaxWidth = 482,
                     HorizontalAlignment = HorizontalAlignment.Center,
                 };
                 tbConnectString[indexconnectString] = new TextBox()
                 {
                     Text = "",
-                    Margin = new Thickness(0, (indexconnectString + 1) * 25, 0, 0),
-                    Height = 23,
+                    Margin = new Thickness(0, (indexconnectString + 1) * 28, 0, 0),
+                    Height = 28,
                     Width = 475,
                     MaxLength = 200,
                     HorizontalAlignment = HorizontalAlignment.Left,
@@ -318,7 +320,7 @@ namespace Presentation.BaseWizard
         #endregion
 
 
-        bool isClose = true;
+       
         private async void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (isClose)
