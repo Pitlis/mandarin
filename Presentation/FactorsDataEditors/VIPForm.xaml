@@ -14,14 +14,14 @@
             <Button x:Name="btnClassRoom" Content="..." HorizontalAlignment="Left" Margin="675,37,0,0" VerticalAlignment="Top" Width="55" RenderTransformOrigin="0.509,0" Click="ChooseClassRoom" IsEnabled="False"/>
             <GroupBox x:Name="groupBox" Header="Время" HorizontalAlignment="Left" Margin="480,174,0,0" VerticalAlignment="Top" Height="99" Width="259">
                 <Grid Margin="0,0,-2,1">
-                    <ComboBox x:Name="DaycomboBox" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="120"/>
-                    <ComboBox x:Name="TimecomboBox" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top" Width="120"/>
+                    <ComboBox x:Name="DaycomboBox" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="120" Height="28"/>
+                    <ComboBox x:Name="TimecomboBox" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top" Width="120" Height="28"/>
                     <RadioButton x:Name="UpperWeekradioButton" Content="Верхняя неделя" HorizontalAlignment="Left" Margin="135,17,0,0" VerticalAlignment="Top" IsChecked="True"/>
-                    <RadioButton x:Name="LowerWeekradioButton" Content="Нижняя неделя" HorizontalAlignment="Left" Margin="135,44,0,0" VerticalAlignment="Top"/>
+                    <RadioButton x:Name="LowerWeekradioButton" Content="Нижняя неделя" HorizontalAlignment="Left" Margin="135,48,0,0" VerticalAlignment="Top"/>
                 </Grid>
             </GroupBox>
             <Button x:Name="btnAdd" Content="Добавить" HorizontalAlignment="Left" Margin="632,289,0,0" VerticalAlignment="Top" Width="98" RenderTransformOrigin="0.509,0" Click="btnAdd_Click"/>
-            <TextBox x:Name="SearchTeachertextBox" HorizontalAlignment="Left" Height="23" Margin="30,16,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="153" TextChanged="EnterTextInTeacherslistBox"/>
+            <TextBox x:Name="SearchTeachertextBox" HorizontalAlignment="Left" Height="28" Margin="30,16,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="153" TextChanged="EnterTextInTeacherslistBox"/>
             <Label x:Name="lable_Copy2" Content="Группы:" HorizontalAlignment="Left" Margin="474,57,0,0" VerticalAlignment="Top"/>
             <ListView x:Name="InfoGrouplistView" Height="81" Margin="480,88,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Width="259" SelectionChanged="SelectGroup">
                 <ListView.View>

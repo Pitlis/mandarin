@@ -18,7 +18,7 @@
         <Label x:Name="teachersBuildingsLabel" Content="Корпуса преподавателя" HorizontalAlignment="Left" Margin="94.584,10,0,0" VerticalAlignment="Top" Grid.Column="2"/>
         <Button x:Name="deleteFromTeacherBuildingsBtn" Content="&lt;=" HorizontalAlignment="Left" Margin="21,177,0,0" VerticalAlignment="Top" Width="71" Grid.Column="2" Click="deleteFromTeacherBuildings_Click" IsEnabled="False"/>
         <Button x:Name="addToTeacherBuildingsBtn" Content="=&gt;" HorizontalAlignment="Left" Margin="21,135,0,0" VerticalAlignment="Top" Width="71" Grid.Column="2" Click="addToTeacherBuildings_Click" IsEnabled="False" />
-        <TextBox x:Name="filterTeachersTextBox" HorizontalAlignment="Left" Height="23" Margin="110,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="78" TextChanged="filterTeachersTextBox_TextChanged" IsEnabled="False"/>
+        <TextBox x:Name="filterTeachersTextBox" HorizontalAlignment="Left" Height="28" Margin="110,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="78" TextChanged="filterTeachersTextBox_TextChanged" IsEnabled="False"/>
         <ListBox x:Name="buildingsListBox" Height="273" Margin="216,36,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Width="178" Grid.ColumnSpan="3" SelectionChanged="buildingsListBox_SelectionChanged" GotFocus="buildingsListBox_GotFocus"/>
         <ListBox x:Name="teacherBuildingsListBox" Height="273" Margin="94.584,36,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Width="178" Grid.Column="2" SelectionChanged="teacherBuildingsListBox_SelectionChanged" GotFocus="teacherBuildingsListBox_GotFocus"/>
     </Grid>
