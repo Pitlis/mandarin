@@ -116,6 +116,9 @@
     <Compile Include="ScheduleEditor\ScheduleTeacherExcelForm.xaml.cs">
       <DependentUpon>ScheduleTeacherExcelForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ScheduleEditor\ScheduleFacultyExcelForm..xaml.cs">
+      <DependentUpon>ScheduleFacultyExcelForm..xaml</DependentUpon>
+    </Compile>
     <Page Include="BaseWizard\BaseWizard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -195,6 +198,10 @@
     <Page Include="ScheduleEditor\ScheduleTeacherExcelForm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ScheduleEditor\ScheduleFacultyExcelForm..xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

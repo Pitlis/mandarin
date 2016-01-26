@@ -261,12 +261,11 @@ namespace Presentation
             ScheduleTeacherExcel scheduleTeacherExcel = new ScheduleTeacherExcel();
             scheduleTeacherExcel.ShowDialog();
         }
-
-
-
-
-
-
+        private void misheduleExportFaculty_Click(object sender, RoutedEventArgs e)
+        {
+            ScheduleFacultyExcelForm scheduleFacultyExcel = new ScheduleFacultyExcelForm();
+            scheduleFacultyExcel.ShowDialog();
+        }
 
 
         #endregion

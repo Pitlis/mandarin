@@ -26,6 +26,7 @@
                         <MenuItem Name="miSheduleSaveAs" Header="Сохранить расписание _как" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miSheduleSaveAs_Click"/>
                         <MenuItem Name="miSheduleExport" Header="_Экспорт в Excel" HorizontalAlignment="Left" Width="auto" IsEnabled="False">
                             <MenuItem Name="misheduleExportTeacher" Header="_Расписание преподавателей" HorizontalAlignment="Left" Width="auto" Click="misheduleExportTeacher_Click"/>
+                            <MenuItem Name="misheduleExportFaculty" Header="_Расписание для курса" HorizontalAlignment="Left" Width="auto" Click="misheduleExportFaculty_Click" />
                         </MenuItem>
                     </MenuItem>
 
