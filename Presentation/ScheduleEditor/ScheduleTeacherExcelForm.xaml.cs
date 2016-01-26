@@ -10,7 +10,7 @@ using Microsoft.Win32;
 using System.Threading;
 using Presentation.Controls;
 using MaterialDesignThemes.Wpf;
-
+using Presentation.Code;
 namespace Presentation.ScheduleEditor
 {
     /// <summary>
@@ -23,17 +23,12 @@ namespace Presentation.ScheduleEditor
         Thread thread;
         string filepath;
         Teacher[] checkedteachers;
-        public ScheduleTeacherExcel(Schedule schedule)
+        public ScheduleTeacherExcel()
         {
             InitializeComponent();
-            this.schedule = schedule;
-        }
-        public ScheduleTeacherExcel(string filepath)
-        {
-            InitializeComponent();
-            this.schedule = Code.ScheduleLoader.LoadSchedule(filepath);
+            this.schedule = CurrentSchedule.Schedule;
             FillingScrData();
-        }
+        }      
 
         void FillingScrData()
         {

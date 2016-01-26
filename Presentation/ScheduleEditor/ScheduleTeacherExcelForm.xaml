@@ -6,7 +6,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:Presentation.ScheduleEditor"
         mc:Ignorable="d"
-        Title="Расписание преподавателей в Excel" Height="387.5" Width="414" Closing="Window_Closing" MinWidth="414" MaxWidth="414.1" MinHeight="381">
+        Title="Расписание преподавателей в Excel" Height="387.5" Width="414" Closing="Window_Closing" MinWidth="414" MaxWidth="414.1" MinHeight="381" WindowStartupLocation="CenterScreen">
     <materialDesign:DialogHost Identifier="ScheduleTeacherForExcel">
         <Grid>
             <Label Content="Вы выбрали:" HorizontalAlignment="Left" Margin="0,41,0,0" VerticalAlignment="Top" Width="90" FontWeight="Bold"/>
