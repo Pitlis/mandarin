@@ -19,71 +19,71 @@
                                           Mode="PrimaryMid" DockPanel.Dock="Top">
 
                 <Menu IsMainMenu="True" DockPanel.Dock="Top" Background="#FFFF9800" Name="MainMenu">
-                        <MenuItem Header="Главная" Name="Main" FontSize="16" Click="Main_Click"/>
-                        <MenuItem Name="Schedule" Header="Расписание" Foreground="#DD000000" FontSize="16" Click="Schedule_Click">
+                    <MenuItem Header="Главная" Name="Main" FontSize="16" Click="Main_Click"/>
+                    <MenuItem Name="Schedule" Header="Расписание" Foreground="#DD000000" FontSize="16" Click="Schedule_Click">
                         <MenuItem Name="miScheduleOpen" Header="_Открыть расписание" HorizontalAlignment="Left" Width="auto" Click="miScheduleOpen_Click"/>
-                        <MenuItem Name="miScheduleSave" Header="Сохранить_ расписание" HorizontalAlignment="Left" Width="auto"/>
-                        <MenuItem Header="Сохранить расписание _как" HorizontalAlignment="Left" Width="auto"/>
-                        <MenuItem Header="_Экспорт в Excel" HorizontalAlignment="Left" Width="auto">
-                            <MenuItem Header="_Расписание преподавателей" HorizontalAlignment="Left" Width="auto"/>
+                        <MenuItem Name="miScheduleSave" Header="Сохранит_ь расписание" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miScheduleSave_Click"/>
+                        <MenuItem Name="miSheduleSaveAs" Header="Сохранить расписание _как" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miSheduleSaveAs_Click"/>
+                        <MenuItem Name="miSheduleExport" Header="_Экспорт в Excel" HorizontalAlignment="Left" Width="auto" IsEnabled="False">
+                            <MenuItem Name="misheduleExportTeacher" Header="_Расписание преподавателей" HorizontalAlignment="Left" Width="auto" Click="misheduleExportTeacher_Click"/>
                         </MenuItem>
                     </MenuItem>
 
 
                     <MenuItem Name="FactorSettings" Header="Настройки" Foreground="#DD000000" FontSize="16" Click="FactorSettings_Click"/>
-                        <MenuItem Header="_База" Foreground="#DD000000" FontSize="16" Name="miDB">
-                            <MenuItem Header="Созд_ать" Name="miDBCreate" HorizontalAlignment="Left" Width="auto" Click="miDBCreate_Click">
-                                <MenuItem.Icon>
-                                    <materialDesign:PackIcon Kind="Cube" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="_Открыть" Name="miDBOpen" HorizontalAlignment="Left" Width="auto" Click="miDBOpen_Click">
-                                <MenuItem.Icon>
-                                    <materialDesign:PackIcon Kind="Openid" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Сохранит_ь" Name="miDBSave" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miDBSave_Click">
-                                <MenuItem.Icon>
-                                    <materialDesign:PackIcon Kind="ContentSave" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Сохранить _как" Name="miDBSaveAs" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miDBSaveAs_Click">
-                                <MenuItem.Icon>
-                                    <materialDesign:PackIcon Kind="ContentSave" />
-                                </MenuItem.Icon>
-                            </MenuItem>
+                    <MenuItem Header="_База" Foreground="#DD000000" FontSize="16" Name="miDB">
+                        <MenuItem Header="Созд_ать" Name="miDBCreate" HorizontalAlignment="Left" Width="auto" Click="miDBCreate_Click">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Cube" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="_Открыть" Name="miDBOpen" HorizontalAlignment="Left" Width="auto" Click="miDBOpen_Click">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Openid" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Сохранит_ь" Name="miDBSave" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miDBSave_Click">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="ContentSave" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Сохранить _как" Name="miDBSaveAs" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miDBSaveAs_Click">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="ContentSave" />
+                            </MenuItem.Icon>
+                        </MenuItem>
 
-                            <Separator />
-                            <MenuItem Header="Excellent" IsCheckable="True" IsChecked="True" />
-                            <MenuItem Header="Rubbish" IsCheckable="True" />
-                            <MenuItem Header="Dig Deeper" InputGestureText="Ctrl+D">
-                                <MenuItem Header="Enlightenment?" IsCheckable="True" />
-                                <MenuItem Header="Disappointment" IsCheckable="True" />
-                            </MenuItem>
-                            <MenuItem Header="Look Deeper" InputGestureText="Ctrl+D">
-                                <MenuItem Header="Plain" />
-                                <MenuItem Header="Ice Cream" />
-                            </MenuItem>
+                        <Separator />
+                        <MenuItem Header="Excellent" IsCheckable="True" IsChecked="True" />
+                        <MenuItem Header="Rubbish" IsCheckable="True" />
+                        <MenuItem Header="Dig Deeper" InputGestureText="Ctrl+D">
+                            <MenuItem Header="Enlightenment?" IsCheckable="True" />
+                            <MenuItem Header="Disappointment" IsCheckable="True" />
                         </MenuItem>
-                        <MenuItem Header="_Edit" Foreground="#DD000000" FontSize="16">
-                            <MenuItem Header="_Cut" Command="Cut">
-                                <MenuItem.Icon>
-                                    <materialDesign:PackIcon Kind="ContentCut" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="_Copy" Command="Copy">
-                                <MenuItem.Icon>
-                                    <materialDesign:PackIcon Kind="ContentCopy" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="_Paste" Command="Paste">
-                                <MenuItem.Icon>
-                                    <materialDesign:PackIcon Kind="ContentPaste" />
-                                </MenuItem.Icon>
-                            </MenuItem>
+                        <MenuItem Header="Look Deeper" InputGestureText="Ctrl+D">
+                            <MenuItem Header="Plain" />
+                            <MenuItem Header="Ice Cream" />
                         </MenuItem>
-                    </Menu>
-             
+                    </MenuItem>
+                    <MenuItem Header="_Edit" Foreground="#DD000000" FontSize="16">
+                        <MenuItem Header="_Cut" Command="Cut">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="ContentCut" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="_Copy" Command="Copy">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="ContentCopy" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="_Paste" Command="Paste">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="ContentPaste" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                </Menu>
+
             </materialDesign:ColorZone>
             <ContentControl Margin="10" Name="contentControl"/>
         </DockPanel>

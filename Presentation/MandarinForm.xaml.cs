@@ -7,6 +7,7 @@ using MaterialDesignThemes.Wpf;
 using Presentation.Code;
 using Microsoft.Win32;
 using Domain.DataFiles;
+using Presentation.ScheduleEditor;
 
 namespace Presentation
 {
@@ -29,7 +30,7 @@ namespace Presentation
             contentControl.Content = main;
             main.contentControl = contentControl;
         }
-
+        #region miDB
         private void miDBCreate_Click(object sender, RoutedEventArgs e)
         {
             //открытие формы создания BaseWizard
@@ -102,15 +103,30 @@ namespace Presentation
             saveFileDialog.RestoreDirectory = true;
             if (saveFileDialog.ShowDialog() == true)
             {
-                CurrentBase.SaveBase(saveFileDialog.FileName);
-                var infoWindow = new InfoWindow
+                try
                 {
-                    Message = { Text = "Сохранение прошло успешно" }
-                };
-                await DialogHost.Show(infoWindow, "MandarinHost");
+                    CurrentBase.SaveBase(saveFileDialog.FileName);
+                    var infoWindow = new InfoWindow
+                    {
+                        Message = { Text = "Сохранение прошло успешно" }
+                    };
+                    await DialogHost.Show(infoWindow, "MandarinHost");
+                    CurrentBase.LoadBase(saveFileDialog.FileName);
+                }
+                catch
+                {
+                    var infoWindow = new InfoWindow
+                    {
+                        Message = { Text = "Не удалось сохранить" }
+                    };
+                    await DialogHost.Show(infoWindow, "MandarinHost");
+                    return;
+                }
+
             }
 
         }
+        #endregion
 
         private void Main_Click(object sender, RoutedEventArgs e)
         {
@@ -120,11 +136,11 @@ namespace Presentation
 
         private void Schedule_Click(object sender, RoutedEventArgs e)
         {
-            GetEditScheduleContent();
-            if (contentControl.Content == main || contentControl.Content == fsett)
-            {
-                contentControl.Content = editSchedule;
-            }
+            //GetEditScheduleContent();
+            //if (contentControl.Content == main || contentControl.Content == fsett)
+            //{
+            //    contentControl.Content = editSchedule;
+            //}
         }
 
         private void FactorSettings_Click(object sender, RoutedEventArgs e)
@@ -152,19 +168,22 @@ namespace Presentation
                 }
             }
         }
-        private void miScheduleOpen_Click(object sender, RoutedEventArgs e)
+        #region miSchedule
+        private async void miScheduleOpen_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFile = new OpenFileDialog();
-            openFile.Filter = "DB files (*.mandarin)|*.mandarin";
+            openFile.Filter = "Mandarin Schedule File(*.msf) | *.msf";
             if (openFile.ShowDialog() == false)
             {
                 return;
             }
             try
             {
-                CurrentBase.LoadBase(openFile.FileName);
-                miDBSave.IsEnabled = true;
-                miDBSaveAs.IsEnabled = true;
+                CurrentSchedule.LoadSchedule(openFile.FileName);
+                miScheduleSave.IsEnabled= true;
+                miSheduleSaveAs.IsEnabled = true;
+                miSheduleExport.IsEnabled = true;
+
             }
             catch
             {
@@ -172,10 +191,86 @@ namespace Presentation
                 {
                     Message = { Text = "Не удалось открыть" }
                 };
-                //  await DialogHost.Show(infoWindow, "MandarinHost");
+                  await DialogHost.Show(infoWindow, "MandarinHost");
                 return;
             }
         }
+        private async void miScheduleSave_Click(object sender, RoutedEventArgs e)
+        {
+
+            try
+            {
+                CurrentSchedule.SaveSchedule();
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Сохранено" }
+                };
+                await DialogHost.Show(infoWindow, "MandarinHost");
+                return;
+
+            }
+            catch
+            {
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Не удалось сохранить" }
+                };
+                await DialogHost.Show(infoWindow, "MandarinHost");
+                return;
+            }
+
+
+
+        }
+        private async void miSheduleSaveAs_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Mandarin Schedule File(*.msf) | *.msf";
+            saveFileDialog.FilterIndex = 2;
+            saveFileDialog.RestoreDirectory = true;
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                if (CurrentSchedule.ScheduleIsLoaded())
+                {
+                    try
+                    {
+                        CurrentSchedule.SaveSchedule(saveFileDialog.FileName);
+                        var infoWindow = new InfoWindow
+                        {
+                            Message = { Text = "Сохранение прошло успешно" }
+                        };
+                        await DialogHost.Show(infoWindow, "MandarinHost");
+
+                    }
+                    catch
+                    {
+                        var infoWindow = new InfoWindow
+                        {
+                            Message = { Text = "Не удалось сохранить" }
+                        };
+                        await DialogHost.Show(infoWindow, "MandarinHost");
+                        return;
+                    }
+                    CurrentSchedule.LoadSchedule(saveFileDialog.FileName);
+                }
+            }
+        }
+
+        private void misheduleExportTeacher_Click(object sender, RoutedEventArgs e)
+        {
+            ScheduleTeacherExcel scheduleTeacherExcel = new ScheduleTeacherExcel();
+            scheduleTeacherExcel.ShowDialog();
+        }
+
+
+
+
+
+
+
+
+        #endregion
+
 
     }
 }
