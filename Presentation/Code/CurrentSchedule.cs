@@ -31,6 +31,14 @@ namespace Presentation.Code
                 throw;
             }
         }
+        public static Schedule Schedule
+        {
+            get
+            {
+                return currentSchedule;
+            }
+            set { currentSchedule = value; }
+        }
         public static void CreateSchedule(EntityStorage eStorage)
         {
             currentSchedule = new Schedule(eStorage);
