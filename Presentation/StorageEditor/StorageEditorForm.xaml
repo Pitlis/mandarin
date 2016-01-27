@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="Presentation.StorageEditor.StorageEditorForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:Presentation.StorageEditor"
+        mc:Ignorable="d" Height="327.869" Width="637.705">
+    <materialDesign:DialogHost Identifier="StorageEditorHost">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140*"/>
+                <ColumnDefinition Width="201*"/>
+                <ColumnDefinition Width="294*"/>
+                <ColumnDefinition/>                
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="9*"/>
+                <RowDefinition Height="73*"/>
+            </Grid.RowDefinitions>
+            <TabControl x:Name="tabControl" Grid.ColumnSpan="3" Margin="10,10,0,10" Grid.Row="1">
+                <TabItem Header="Типы аудиторий">
+                    <Grid Background="#FFE5E5E5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="42*"/>
+                            <RowDefinition Height="51*"/>
+                            <RowDefinition Height="53*"/>
+                            <RowDefinition Height="48*"/>
+                            <RowDefinition Height="50*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="37*"/>
+                            <ColumnDefinition Width="14*"/>
+                        </Grid.ColumnDefinitions>
+                        <ListView x:Name="tiTypesListView" Margin="10" Grid.RowSpan="5">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Тип аудитории" Width="400" DisplayMemberBinding="{Binding Description}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <Label x:Name="label" Content="Введите тип" Grid.Column="1" Margin="10,10,12,6" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="13.333"/>
+                        <TextBox x:Name="tiTypestbDescription" Grid.Column="1" Margin="10,10,12,13" Grid.Row="1" TextWrapping="Wrap"/>
+                        <Button x:Name="tiTypesbtnADD" Content="Добавить" Grid.Column="1" Margin="10,10,12,11" Grid.Row="2" Height="Auto" Click="tiTypesbtnADD_Click"/>
+                        <Button x:Name="tiTypesbtnEdit" Content="Редактировать" Grid.Column="1" Margin="10,10,12,6" Grid.Row="3" Height="Auto"/>
+                        <Button x:Name="tiTypesbtnDel" Content="Удалить" Grid.Column="1" Margin="10,8,12,10" Grid.Row="4" Height="Auto" Click="tiTypesbtnDel_Click" />
+                    </Grid>
+                </TabItem>
+                <TabItem Header="TabItem">
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+            </TabControl>
+            <Button x:Name="btnExit" Content="Выйти" Margin="10,4,10,0" Height="Auto"/>
+            <Button x:Name="btnSave" Content="Сохранить изменения" Grid.Column="1" Margin="10,4,11,0" Height="Auto" Click="btnSave_Click"/>
+
+        </Grid>
+    </materialDesign:DialogHost>
+</UserControl>

@@ -119,6 +119,10 @@
     <Compile Include="ScheduleEditor\ScheduleFacultyExcelForm..xaml.cs">
       <DependentUpon>ScheduleFacultyExcelForm..xaml</DependentUpon>
     </Compile>
+    <Compile Include="StorageEditor\StorageEditor.cs" />
+    <Compile Include="StorageEditor\StorageEditorForm.xaml.cs">
+      <DependentUpon>StorageEditorForm.xaml</DependentUpon>
+    </Compile>
     <Page Include="BaseWizard\BaseWizard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -202,6 +206,10 @@
     <Page Include="ScheduleEditor\ScheduleFacultyExcelForm..xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StorageEditor\StorageEditorForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
