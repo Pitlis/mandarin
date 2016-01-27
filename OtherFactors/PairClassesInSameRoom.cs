@@ -22,6 +22,8 @@ namespace OtherFactors
         public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
         {
             int fineResult = 0;
+            if (sClasses == null)
+            { return fineResult; }
             StudentsClass tempClass = schedule.GetTempClass();            
             if (Array.Find(sClassesList.ToArray(), (c) => c == tempClass) != null)
             {
@@ -39,6 +41,8 @@ namespace OtherFactors
         public int GetFineOfFullSchedule(ISchedule schedule, EntityStorage eStorage)
         {
             int fineResult = 0;
+            if(sClasses ==null)
+            { return fineResult; }
             foreach (StudentsClass sClass in eStorage.Classes)
             {
                 StudentsClassPosition? firstClassPosition = schedule.GetClassPosition(sClass);
@@ -76,6 +80,8 @@ namespace OtherFactors
                 if (fine == 100)
                     this.isBlock = true;
             }
+            if(data != null)
+            { 
             try
             {
                 StudentsClass[,] tempArray = (StudentsClass[,])data;
@@ -100,6 +106,8 @@ namespace OtherFactors
             {
                 new Exception("Неверный формат данных. Требуется двумерный массив Nx2 типа StudentsClass. " + ex.Message);
             }
+            }
+            else { sClasses = null; }
         }
 
         public Guid? GetDataTypeGuid()

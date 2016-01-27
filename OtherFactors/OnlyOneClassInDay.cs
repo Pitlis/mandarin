@@ -20,6 +20,8 @@ namespace OtherFactors
 
         public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
         {
+            if (sClasses == null)
+            { return 0; }
             if (ClassesInWeek.LotOfClassesInDay(1, sClasses, schedule, schedule.GetTempClass()))
             {
                 if (isBlock)
@@ -33,6 +35,8 @@ namespace OtherFactors
         public int GetFineOfFullSchedule(ISchedule schedule, EntityStorage eStorage)
         {
             int fineResult = 0;
+            if(sClasses ==null)
+            { return fineResult; }
             for (int specialClassIndex = 0; specialClassIndex < sClasses.GetLength(0); specialClassIndex++)
             {
                 if (ClassesInWeek.LotOfClassesInDay(1, sClasses, schedule, sClasses[specialClassIndex, 0]))
@@ -65,34 +69,38 @@ namespace OtherFactors
                 if (fine == 100)
                     this.isBlock = true;
             }
-            try
+            if (data != null)
             {
-                List<StudentsClass>[] tempArray = (List<StudentsClass>[])data;
-
-                //поиск максимальной длины листа - такого размера будут строки в двумерном массиве
-                //лишние значения будут заполнены Null
-                int maxListLength = 0;
-                for (int listIndex = 0; listIndex < tempArray.Length; listIndex++)
+                try
                 {
-                    if (tempArray[listIndex].Count > maxListLength)
-                        maxListLength = tempArray[listIndex].Count;
-                }
+                    List<StudentsClass>[] tempArray = (List<StudentsClass>[])data;
 
-                sClasses = new StudentsClass[tempArray.Length, maxListLength];
-
-                for (int rowIndex = 0; rowIndex < tempArray.Length; rowIndex++)
-                {
-                    //в получаемом массиве списков, каждый список - набор пар, которые нельзя вместе ставить в один день
-                    for (int classIndex = 0; classIndex < tempArray[rowIndex].Count; classIndex++)
+                    //поиск максимальной длины листа - такого размера будут строки в двумерном массиве
+                    //лишние значения будут заполнены Null
+                    int maxListLength = 0;
+                    for (int listIndex = 0; listIndex < tempArray.Length; listIndex++)
                     {
-                        sClasses[rowIndex, classIndex] = tempArray[rowIndex][classIndex];
+                        if (tempArray[listIndex].Count > maxListLength)
+                            maxListLength = tempArray[listIndex].Count;
+                    }
+
+                    sClasses = new StudentsClass[tempArray.Length, maxListLength];
+
+                    for (int rowIndex = 0; rowIndex < tempArray.Length; rowIndex++)
+                    {
+                        //в получаемом массиве списков, каждый список - набор пар, которые нельзя вместе ставить в один день
+                        for (int classIndex = 0; classIndex < tempArray[rowIndex].Count; classIndex++)
+                        {
+                            sClasses[rowIndex, classIndex] = tempArray[rowIndex][classIndex];
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    new Exception("Неверный формат данных. Требуется массив списков типа StudentsClass. " + ex.Message);
+                }
             }
-            catch (Exception ex)
-            {
-                new Exception("Неверный формат данных. Требуется массив списков типа StudentsClass. " + ex.Message);
-            }
+            else { sClasses = null; }
         }
 
         public Guid? GetDataTypeGuid()

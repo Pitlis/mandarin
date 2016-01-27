@@ -19,6 +19,8 @@ namespace OtherFactors
 
         public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
         {
+            if (sClasses == null)
+            { return 0; }
             if (ClassesInWeek.LotOfClassesInWeek(3, sClasses, schedule, schedule.GetTempClass()))
             {
                 if (isBlock)
@@ -32,6 +34,8 @@ namespace OtherFactors
         public int GetFineOfFullSchedule(ISchedule schedule, EntityStorage eStorage)
         {
             int fineResult = 0;
+            if (sClasses == null)
+            { return fineResult; }
             for (int specialClassIndex = 0; specialClassIndex < sClasses.GetLength(0); specialClassIndex++)
             {
                 if (ClassesInWeek.LotOfClassesInWeek(3, sClasses, schedule, sClasses[specialClassIndex, 0]))
@@ -65,27 +69,31 @@ namespace OtherFactors
                 if (fine == 100)
                     this.isBlock = true;
             }
-            try
+            if (data != null)
             {
-                StudentsClass[,] tempArray = (StudentsClass[,])data;
-                sClasses = new StudentsClass[tempArray.GetLength(0), tempArray.GetLength(1)];
-
-                for (int rowIndex = 0; rowIndex < tempArray.GetLength(0); rowIndex++)
+                try
                 {
-                    //в получаемом массиве, в каждой строке должно быть по 6 пар - по три на каждую неделю
-                    for (int classIndex = 0; classIndex < 6; classIndex++)
+                    StudentsClass[,] tempArray = (StudentsClass[,])data;
+                    sClasses = new StudentsClass[tempArray.GetLength(0), tempArray.GetLength(1)];
+
+                    for (int rowIndex = 0; rowIndex < tempArray.GetLength(0); rowIndex++)
                     {
-                        if (tempArray[rowIndex, classIndex] != null)
-                            sClasses[rowIndex, classIndex] = tempArray[rowIndex, classIndex];
-                        else
-                            throw new NullReferenceException();
+                        //в получаемом массиве, в каждой строке должно быть по 6 пар - по три на каждую неделю
+                        for (int classIndex = 0; classIndex < 6; classIndex++)
+                        {
+                            if (tempArray[rowIndex, classIndex] != null)
+                                sClasses[rowIndex, classIndex] = tempArray[rowIndex, classIndex];
+                            else
+                                throw new NullReferenceException();
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    new Exception("Неверный формат данных. Требуется двумерный массив Nx2 типа StudentsClass. " + ex.Message);
+                }
             }
-            catch (Exception ex)
-            {
-                new Exception("Неверный формат данных. Требуется двумерный массив Nx2 типа StudentsClass. " + ex.Message);
-            }
+            else { sClasses = null; }
         }
         public object GetDataType()
         {

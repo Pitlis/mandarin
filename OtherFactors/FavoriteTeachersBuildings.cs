@@ -18,6 +18,8 @@ namespace OtherFactors
         public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
         {
             int fineResult = 0;
+            if (favBuildings == null)
+            { return fineResult; }
             foreach (Teacher teacher in schedule.GetTempClass().Teacher)
             {
                 if (favBuildings.ContainsKey(teacher))
@@ -37,6 +39,8 @@ namespace OtherFactors
         public int GetFineOfFullSchedule(ISchedule schedule, EntityStorage eStorage)
         {
             int fineResult = 0;
+            if (favBuildings == null)
+            { return fineResult; }
             foreach (StudentsClass sClass in eStorage.Classes)
             {
                 foreach (Teacher teacher in sClass.Teacher)
@@ -75,14 +79,18 @@ namespace OtherFactors
                 if (fine == 100)
                     this.isBlock = true;
             }
-            try
+            if (data != null)
             {
-                favBuildings = (Dictionary<Teacher, List<int>>)data;
+                try
+                {
+                    favBuildings = (Dictionary<Teacher, List<int>>)data;
+                }
+                catch (Exception ex)
+                {
+                    new Exception("Неверный формат данных. Требуется список объектов типа IDictionary < Teacher, IEnumerable < int > >. " + ex.Message);
+                }
             }
-            catch (Exception ex)
-            {
-                new Exception("Неверный формат данных. Требуется список объектов типа IDictionary < Teacher, IEnumerable < int > >. " + ex.Message);
-            }
+            else { favBuildings = null; }
         }
         public Guid? GetDataTypeGuid()
         {

@@ -20,10 +20,12 @@ namespace OtherFactors
 
         public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
         {
+            int fineCount = 0;
+            if (lClasses == null)
+            { return fineCount; }
             int classTime = schedule.GetTimeOfTempClass();
             int dayOfWeek = Constants.GetDayOfClass(classTime);
             int lectureCount = 0;
-            int fineCount = 0;
             foreach (StudentSubGroup subGroup in schedule.GetTempClass().SubGroups)
             {
                 lectureCount = CountLectureClassesInDay(schedule.GetPartialSchedule(subGroup).GetClassesOfDay(dayOfWeek), lClasses);
@@ -46,6 +48,8 @@ namespace OtherFactors
         {
             int lectureCount = 0;
             int fineCount = 0;
+            if (lClasses == null)
+            { return fineCount; }
             foreach (StudentSubGroup subGroup in eStorage.StudentSubGroups)
             {
                 for (int dayIndex = 0; dayIndex < Constants.DAYS_IN_WEEK * Constants.WEEKS_IN_SCHEDULE; dayIndex++)
@@ -99,6 +103,8 @@ namespace OtherFactors
                 if (fine == 100)
                     this.isBlock = true;
             }
+            if(data != null)
+            { 
             try
             {
                 lClasses = (List<StudentsClass>)data;
@@ -107,6 +113,8 @@ namespace OtherFactors
             {
                 new Exception("Неверный формат данных. Требуется двумерный массив Nx2 типа StudentsClass. " + ex.Message);
             }
+            }
+            else { lClasses = null; }
         }
         public Guid? GetDataTypeGuid()
         {

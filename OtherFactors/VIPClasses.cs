@@ -21,6 +21,8 @@ namespace OtherFactors
         public int GetFineOfAddedClass(ISchedule schedule, EntityStorage eStorage)
         {
             int fineResult = 0;
+            if (sClasses == null)
+            { return fineResult; }
             StudentsClass tClass = schedule.GetTempClass();
             int tTime = schedule.GetClassPosition(tClass).Value.Time;
             if (sClasses.FindAll((c) => c.sClass == tClass).Count() > 0)
@@ -50,6 +52,8 @@ namespace OtherFactors
         public int GetFineOfFullSchedule(ISchedule schedule, EntityStorage eStorage)
         {
             int fineResult = 0;
+            if (sClasses == null)
+            { return fineResult; }
             for (int groupIndex = 0; groupIndex < eStorage.StudentSubGroups.Length; groupIndex++)
             {
                 PartialSchedule groupSchedule = schedule.GetPartialSchedule(eStorage.StudentSubGroups[groupIndex]);
@@ -94,6 +98,8 @@ namespace OtherFactors
                 if (fine == 100)
                     this.isBlock = true;
             }
+            if(data !=null)
+            { 
             try
             {
                 sClasses = (List<FixedClasses>)data;
@@ -102,6 +108,8 @@ namespace OtherFactors
             {
                 new Exception("Неверный формат данных. Требуется список объектов типа FixedClasses. " + ex.Message);
             }
+            }
+            else { sClasses = null; }
         }
         public Guid? GetDataTypeGuid()
         {
