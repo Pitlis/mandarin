@@ -12,7 +12,7 @@ namespace Presentation.Code
 {
    static class CurrentSchedule
     {
-        static Schedule currentSchedule;
+        static KeyValuePair<string, Schedule> currentSchedule;
         static string currentFilePath;
 
         public static void LoadSchedule(string filePath)
@@ -23,7 +23,7 @@ namespace Presentation.Code
             {
                 using (FileStream fs = new FileStream(currentFilePath, FileMode.Open))
                 {
-                    currentSchedule = (Schedule)formatter.Deserialize(fs);
+                    currentSchedule = (KeyValuePair<string, Schedule>)formatter.Deserialize(fs);
                 }
             }
             catch
@@ -31,27 +31,41 @@ namespace Presentation.Code
                 throw;
             }
         }
-        public static Schedule Schedule
+
+        public static void LoadSchedule(KeyValuePair<string, Schedule> schedule)
+        {
+            currentSchedule = schedule;
+            currentFilePath = null;
+        }
+        
+        public static KeyValuePair<string, Schedule> Schedule
         {
             get
             {
                 return currentSchedule;
             }
-            set { currentSchedule = value; }
+            private set { currentSchedule = value; }
         }
         public static void CreateSchedule(EntityStorage eStorage)
         {
-            currentSchedule = new Schedule(eStorage);
+            currentSchedule = new KeyValuePair<string, Schedule>("", new Schedule(eStorage));
 
         }
         public static void CreateSchedule(FullSchedule fullSchedule)
         {
-            currentSchedule = new Schedule(fullSchedule);
+            currentSchedule = new KeyValuePair<string, Schedule>("", new Schedule(fullSchedule));
 
         }
         public static void SaveSchedule()
         {
-            SaveSchedule(currentFilePath);
+            if (currentFilePath != null)
+            {
+                SaveSchedule(currentFilePath);
+            }
+            else
+            {
+                CurrentBase.Schedules[currentSchedule.Key] = currentSchedule.Value;
+            }
         }
         public static void SaveSchedule(string path)
         {
@@ -72,19 +86,17 @@ namespace Presentation.Code
         {
             get
             {
-                return currentSchedule.EStorage;
+                return currentSchedule.Value.EStorage;
             }
-            set { currentSchedule.EStorage = value; }
+            private set { currentSchedule.Value.EStorage = value; }
         }
         public static bool ScheduleIsLoaded()
         {
-            return currentSchedule != null;
+            return currentSchedule.Value != null;
         }
-
-
-
-
-
-
+        public static bool ScheduleIsFromFile()
+        {
+            return currentFilePath != null;
+        }
     }
 }
