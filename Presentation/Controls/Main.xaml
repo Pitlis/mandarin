@@ -65,6 +65,5 @@
                         Click="button_Click" Height="100" Width="100" FontSize="27"
                         >Старт
         </Button>
-        <Button x:Name="button3" Content="Открыть базу (ТЕСТ)" HorizontalAlignment="Center" Margin="0,0,0,110" VerticalAlignment="Bottom" Width="175" Height="43" Click="button3_Click"/>
     </Grid>
 </UserControl>
