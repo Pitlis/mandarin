@@ -28,7 +28,7 @@ namespace Presentation.Code
                 Guid? dataTypeGuid = factorInstance.GetDataTypeGuid();
                 int defaultFine = defaultFines.ContainsKey(factorType.Name) ? defaultFines[factorType.Name] : 0;
 
-                FactorSettings factorSettings = new FactorSettings(defaultFine, factorType, pathToDll, dataTypeGuid);
+                FactorSettings factorSettings = new FactorSettings(defaultFine, factorType, pathToDll, factorInstance.GetName(), dataTypeGuid);
                 Factors.Add(factorSettings);
             }
             return Factors;

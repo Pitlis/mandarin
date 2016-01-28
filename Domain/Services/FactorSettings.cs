@@ -16,14 +16,16 @@ namespace Domain.Services
         public Guid? DataTypeGuid { get; private set; }
         public string FactorName { get; private set; }
         public string PathToDll { get; private set; }
+        public string UsersFactorName { get; private set; }
 
-        public FactorSettings(int fine, Type factor, string pathToDll, Guid? dataTypeGuid = null, object data = null)
+        public FactorSettings(int fine, Type factor, string pathToDll, string usersFactorName, Guid? dataTypeGuid = null, object data = null)
         {
             FactorName = factor.Name;
             PathToDll = pathToDll;
             Fine = fine;
             DataTypeGuid = dataTypeGuid;
             Data = data;
+            UsersFactorName = usersFactorName;
         }
 
         public IFactor CreateInstance(bool isDebugMode = false)
