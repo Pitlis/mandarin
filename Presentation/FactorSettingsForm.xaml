@@ -80,7 +80,6 @@
             </DataGrid>
             <Button x:Name="btnSave" Content="Сохранить" HorizontalAlignment="Left" VerticalAlignment="Top" Width="110" Click="btnSave_Click" Grid.Column="3" Margin="10,10,0,0">
             </Button>
-            <Button x:Name="btnCancel" Content="Закрыть" HorizontalAlignment="Left" VerticalAlignment="Top" Width="110" Click="btnCancel_Click" Grid.Column="2" Margin="10" />
             <Button x:Name="btnDefault" Content="Сбросить все настройки" HorizontalAlignment="Left" VerticalAlignment="Top" Width="205" Click="btnDefault_Click" Grid.Column="0" Margin="10,10,0,0"  Style="{StaticResource MaterialDesignRaisedLightButton}" />
 
         </Grid>

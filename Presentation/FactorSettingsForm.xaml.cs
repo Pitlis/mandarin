@@ -27,7 +27,6 @@ namespace Presentation
     public partial class FactorSettingsForm : UserControl
     {
         List<FactorSettingRecord> FactorRecords;
-        public ContentControl contentControl { get; set; }
 
         public FactorSettingsForm()
         {
@@ -44,27 +43,6 @@ namespace Presentation
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             SaveFactorSettings();
-        }
-        private async void btnCancel_Click(object sender, RoutedEventArgs e)
-        {
-            var infoWindow = new DialogWindow
-            {
-                Message = { Text = "Вы уверены, что хотите завершить настройку?\n" +
-                                    "Все несохраненные изменения будут потеряны!" }
-            };
-
-            object result = await DialogHost.Show(infoWindow, "FactorSettingsHost");
-
-            if ((bool)result == true)
-            {
-                if (this.contentControl != null)
-                {
-                    Main main = new Main();
-                    contentControl.Content = main;
-                    FactorRecords = LoadFactorSettingRecords().ToList();
-                    this.DataContext = this;
-                }
-            }
         }
 
         private async void btnDefault_Click(object sender, RoutedEventArgs e)
