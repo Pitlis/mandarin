@@ -1,29 +1,16 @@
 ﻿using Domain;
 using Domain.DataFiles;
-using Domain.Model;
 using Domain.Services;
-using MandarinCore;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
-using Presentation;
 using Presentation.Code;
-using Presentation.Controls;
 using Presentation.FactorsDataEditors;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Presentation.Controls
 {
@@ -32,7 +19,7 @@ namespace Presentation.Controls
     /// </summary>
     public partial class Main : UserControl
     {
-        public ContentControl contentControl { get; set; }
+        public event EventHandler IsListBoxEmpty;
 
         public Main()
         {
@@ -44,24 +31,12 @@ namespace Presentation.Controls
             Logic core = new Logic();
             core.DI();
 
-            core.Start();            
+            core.Start();
             CurrentBase.SaveBase();
 
             SetScheduleName();
             LoadSchedules();
             scheduleListBox.SelectedIndex = scheduleListBox.Items.Count - 1;
-        }
-
-        private void button1_Click(object sender, RoutedEventArgs e)
-        {
-            Presentation.FacultyAndGroupsForm facult = new Presentation.FacultyAndGroupsForm();
-            facult.Show();
-        }
-
-        private void button2_Click(object sender, RoutedEventArgs e)
-        {
-            VIPForm form = new VIPForm();
-            form.ShowDialog();
         }
 
         private async void button3_Click(object sender, RoutedEventArgs e)
@@ -70,7 +45,7 @@ namespace Presentation.Controls
             {
                 CurrentBase.LoadBase("testBase.dat");
                 CurrentBase.Factors = FactorsLoader.GetFactorSettings().ToList();
-				var infoWindow = new InfoWindow
+                var infoWindow = new InfoWindow
                 {
                     Message = { Text = "База загружена" }
                 };
@@ -88,7 +63,7 @@ namespace Presentation.Controls
                 CurrentBase.CreateBase(storage);
                 CurrentBase.Factors = FactorsLoader.GetFactorSettings().ToList();
                 CurrentBase.SaveBase("testBase.dat");
-				var infoWindow = new InfoWindow
+                var infoWindow = new InfoWindow
                 {
                     Message = { Text = "Создана новая база" }
                 };
@@ -97,53 +72,7 @@ namespace Presentation.Controls
             }
             LoadDataBaseInfo();
             LoadSchedules();
-        }
-
-        private void button4_Click(object sender, RoutedEventArgs e)
-        {
-            TeacherClassRoomForm favTeacherClassRoomForm = new TeacherClassRoomForm();
-            favTeacherClassRoomForm.ShowDialog();
-        }
-
-        private void button5_Click(object sender, RoutedEventArgs e)
-        {
-
-            var tt = FactorsEditors.GetDeepCopy();
-            Presentation.BaseWizard.BaseWizardForm wizard = new Presentation.BaseWizard.BaseWizardForm();
-            wizard.ShowDialog();
-        }
-
-        private void button6_Click(object sender, RoutedEventArgs e)
-        {
-            TeacherBuildingForm favTeacherBuildingForm = new TeacherBuildingForm();
-            favTeacherBuildingForm.ShowDialog();
-        }
-
-        private void button_Click_1(object sender, RoutedEventArgs e)
-        {
-            FactorsLoader.GetFactorSettings();
-        }
-
-
-        #region Ready
-        private void showScheduleButton_Click(object sender, RoutedEventArgs e)
-        {
-            KeyValuePair<string, Schedule> schedule = (KeyValuePair<string, Schedule>)scheduleListBox.SelectedItem;
-            EditSchedule edit = new EditSchedule(schedule);
-            contentControl.Content = edit;
-        }
-
-        private void saveScheduleButton_Click(object sender, RoutedEventArgs e)
-        {
-            KeyValuePair<string, Schedule> schedule = (KeyValuePair<string, Schedule>)scheduleListBox.SelectedItem;
-            SaveFileDialog fileDialog = new SaveFileDialog();
-            fileDialog.Filter = "Mandarin Schedule File (*.msf)|*.msf";
-            fileDialog.FileName =  schedule.Key + ".msf";
-            if (fileDialog.ShowDialog() == true)
-            {
-                ScheduleLoader.SaveSchedule(fileDialog.FileName, schedule.Value);
-            }
-
+            IsEmptyScheduleList();
         }
 
         private async void deleteScheduleButton_Click(object sender, RoutedEventArgs e)
@@ -160,6 +89,7 @@ namespace Presentation.Controls
                 CurrentBase.Schedules.Remove(schedule.Key);
                 CurrentBase.SaveBase();
                 LoadSchedules();
+                IsEmptyScheduleList();
             }
         }
 
@@ -168,7 +98,8 @@ namespace Presentation.Controls
             KeyValuePair<string, Schedule> schedule = (KeyValuePair<string, Schedule>)scheduleListBox.SelectedItem;
             var inputWindow = new InputWindow()
             {
-                Message = { Text = "Введите название расписания" }
+                Message = { Text = "Введите название расписания" },
+                scheduleTextBox = { Text = schedule.Key }
             };
 
             object result = await DialogHost.Show(inputWindow, "MandarinHost");
@@ -180,9 +111,12 @@ namespace Presentation.Controls
             }
         }
 
-        private void addScheduleButton_Click(object sender, RoutedEventArgs e)
+        private void scheduleListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            AddScheduleFromFile();
+            KeyValuePair<string, Schedule> schedule = (KeyValuePair<string, Schedule>)scheduleListBox.SelectedItem;
+            CurrentSchedule.LoadSchedule(schedule);
+            if (this.IsListBoxEmpty != null)
+                this.IsListBoxEmpty(sender, e);
         }
 
         #region Methods
@@ -227,60 +161,17 @@ namespace Presentation.Controls
             subGroupsTextBlock.Text = CurrentBase.EStorage.StudentSubGroups.Length.ToString();
         }
 
-        private async void AddScheduleFromFile()
+        private void IsEmptyScheduleList()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Mandarin Schedule File (*.msf)|*.msf";
-            openFileDialog.ShowDialog();
-            if (!String.IsNullOrWhiteSpace(openFileDialog.FileName))
+            if (scheduleListBox.Items.Count > 0)
             {
-                try
-                {
-                    Schedule schedule = ScheduleLoader.LoadSchedule(openFileDialog.FileName);
-                    AddSchedule(schedule);
-                }
-                catch (Exception)
-                {
-                    var infoWindow = new InfoWindow()
-                    {
-                        Message = { Text = "Неверный файл" }
-                    };
-
-                    await DialogHost.Show(infoWindow, "MandarinHost");
-                }
+                deleteScheduleButton.IsEnabled = true;
+            }
+            else
+            {
+                deleteScheduleButton.IsEnabled = false;
             }
         }
-
-        private async void AddSchedule(Schedule schedule)
-        {
-            var inputWindow = new InputWindow()
-            {
-                Message = { Text = "Введите название расписания" }
-            };
-
-            object result = await DialogHost.Show(inputWindow, "MandarinHost");
-            if ((bool)result == true)
-            {
-                try
-                {
-                    CurrentBase.Schedules.Add(inputWindow.scheduleTextBox.Text, schedule);
-                    CurrentBase.SaveBase();
-                    LoadSchedules();
-                }
-                catch (Exception)
-                {
-                    var infoWindow = new InfoWindow()
-                    {
-                        Message = { Text = "Расписание с таким названием уже существует" }
-                    };
-
-                    await DialogHost.Show(infoWindow, "MandarinHost");
-                    AddSchedule(schedule);
-                }
-            }
-        }
-        #endregion
-
         #endregion
     }
 }

@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto">
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto" MinHeight="560" MinWidth="650">
     <Grid>
         <StackPanel>
             <GroupBox x:Name="dbGroupBox" FontSize="13" Header="База данных" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0">
@@ -46,25 +46,16 @@
                     </DockPanel>
                 </StackPanel>
             </GroupBox>
-            <GroupBox x:Name="scheduleGroupBox" FontSize="13"  Header="Расписания" HorizontalAlignment="Left" VerticalAlignment="Top" Height="300">
+            <GroupBox x:Name="scheduleGroupBox" FontSize="13"  Header="Расписания" HorizontalAlignment="Left" VerticalAlignment="Top" MinHeight="100" MaxHeight="300">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="205"></RowDefinition>
-                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <ListBox x:Name="scheduleListBox" Grid.Row="0" Height="205" VerticalAlignment="Top" DisplayMemberPath="Key"  Margin="0,0,0,5" MouseDoubleClick="scheduleListBox_MouseDoubleClick">
-
-                    </ListBox>
-                    <StackPanel Grid.Row="1" VerticalAlignment="Bottom">
-                        <UniformGrid Columns="2" Rows="1">
-                            <Button x:Name="showScheduleButton" Click="showScheduleButton_Click" Margin="2">Открыть</Button>
-                            <Button x:Name="deleteScheduleButton" Click="deleteScheduleButton_Click" Margin="2">Удалить</Button>
-                        </UniformGrid>
-                        <UniformGrid Columns="2" Rows="1">
-                            <Button x:Name="saveScheduleButton" Click="saveScheduleButton_Click" Margin="2">Сохранить</Button>
-                            <Button x:Name="addScheduleButton" Click="addScheduleButton_Click" Margin="2">Добавить</Button>
-                        </UniformGrid>
-                    </StackPanel>
+                    <ListBox x:Name="scheduleListBox" DisplayMemberPath="Key" Grid.Row="0" VerticalAlignment="Top"  Margin="0,0,0,5" MouseDoubleClick="scheduleListBox_MouseDoubleClick" SelectionChanged="scheduleListBox_SelectionChanged"/>
+                    <Button x:Name="deleteScheduleButton" Grid.Row="1" ToolTip="Удалить" Click="deleteScheduleButton_Click" VerticalAlignment="Bottom" Margin="2" IsEnabled="False">
+                        <materialDesign:PackIcon Kind="Delete" />
+                    </Button>
                 </Grid>
             </GroupBox>
         </StackPanel>
@@ -74,12 +65,6 @@
                         Click="button_Click" Height="100" Width="100" FontSize="27"
                         >Старт
         </Button>
-        <Button x:Name="button1" Content="FacultySettings" HorizontalAlignment="Center" Margin="0,0,280,0" VerticalAlignment="Bottom" Width="135" Click="button1_Click"/>
-        <Button x:Name="button2" Content="VIP" HorizontalAlignment="Center" Margin="0,0,280,50" VerticalAlignment="Bottom" Width="135" Click="button2_Click" Height="43"/>
         <Button x:Name="button3" Content="Открыть базу (ТЕСТ)" HorizontalAlignment="Center" Margin="0,0,0,110" VerticalAlignment="Bottom" Width="175" Height="43" Click="button3_Click"/>
-        <Button x:Name="button4" HorizontalAlignment="Center" Margin="280,0,0,50" VerticalAlignment="Bottom" Width="135" Height="44" Click="button4_Click">
-            <TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="Преподаватель - аудитории"/>
-        </Button>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Center" Margin="280,0,0,0" VerticalAlignment="Bottom" Width="135" Click="button_Click_1"/>
     </Grid>
 </UserControl>
