@@ -32,15 +32,10 @@ namespace Presentation
         private int RowForRemove = 0;
         private int TimeRows = -1;
 
-        public EditSchedule(KeyValuePair<string, Schedule> s)
-        {
-            schedule = new ScheduleForEdit(s.Value);
-            scheduleName = s.Key;
-            InitializeComponent();
-        }
-
         public EditSchedule()
-        {            
+        {
+            schedule = new ScheduleForEdit(CurrentSchedule.Schedule.Value);
+            scheduleName = CurrentSchedule.Schedule.Key;
             InitializeComponent();
         }
 
@@ -52,12 +47,6 @@ namespace Presentation
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             FillFacultyAndCoursCombobox();
-            if (schedule == null)
-            {
-                LoadSchedule();
-            }
-            else
-                LoadFacultyAndGroups();
         }     
         private void btnExcel_Click(object sender, RoutedEventArgs e)
         {
@@ -87,50 +76,17 @@ namespace Presentation
         {
             ClassRoomlistView.SelectedIndex = -1;
         }
-        private async void btnSave_Click(object sender, RoutedEventArgs e)
-        {
-            if (scheduleName != null)
-            {
-                CurrentBase.Schedules[scheduleName] = schedule.GetCurrentSchedule();
-                CurrentBase.SaveBase();
-                var infoWindow = new InfoWindow
-                {
-                    Message = { Text = "Успешно сохранено" }
-                };
-                await DialogHost.Show(infoWindow, "MandarinHost");
-            }
-        }
         #endregion
 
         #region Method
-        private async void LoadSchedule()
-        {
-            if (File.Exists(Directory.GetCurrentDirectory() + "/" + "schedule.dat"))
-            {
-                Schedule s = ScheduleLoader.LoadSchedule(Directory.GetCurrentDirectory() + "/" + "schedule.dat");
-                this.schedule = new ScheduleForEdit(s);
-                btnShow.IsEnabled = true;
-            }
-            else
-            {
-                var infoWindow = new InfoWindow
-                {
-                    Message = { Text = "Не найден файл с расписанием." }
-                };
-
-                await DialogHost.Show(infoWindow, "MandarinHost");
-                coursComboBox.IsEnabled = false; facultComboBox.IsEnabled = false;
-                btnShow.IsEnabled = false;
-            }
-            LoadFacultyAndGroups();
-        }
         private async void LoadFacultyAndGroups()
         {
             if (facultiesAndGroups.GroupsWithoutFacultyExists())
             {
                 var infoWindow = new InfoWindow
                 {
-                    Message = { Text = "Внимание есть группы не относящееся ни к 1 факультету. Зайдите в настройки чтобы отнести группы к факультету!" }
+                    Message = { Text = "Внимание есть группы не относящееся ни к 1 факультету.\n" +
+                                        "Зайдите в настройки чтобы отнести группы к факультету!" }
                 };
                 await DialogHost.Show(infoWindow, "MandarinHost");
             }
@@ -176,17 +132,21 @@ namespace Presentation
         }
         private void FillFacultyAndCoursCombobox()
         {
-            facultiesAndGroups = new FacultiesAndGroups();
-            foreach (Faculty faculty in facultiesAndGroups.Faculties)
+            if (CurrentBase.BaseIsLoaded() && !CurrentSchedule.ScheduleIsFromFile())
             {
-                facultComboBox.Items.Add(faculty.Name);
+                facultiesAndGroups = new FacultiesAndGroups();
+                foreach (Faculty faculty in facultiesAndGroups.Faculties)
+                {
+                    facultComboBox.Items.Add(faculty.Name);
+                }
+                facultComboBox.SelectedIndex = 0;
+                for (int i = 1; i <= 5; i++)
+                {
+                    coursComboBox.Items.Add(i);
+                }
+                coursComboBox.SelectedIndex = 0;
+                LoadFacultyAndGroups();
             }
-            facultComboBox.SelectedIndex = 0;
-            for (int i = 1; i <= 5; i++)
-            {
-                coursComboBox.Items.Add(i);
-            }
-            coursComboBox.SelectedIndex = 0;
         }
         private async void CreateExcelDocument()
         {
@@ -626,6 +586,7 @@ namespace Presentation
                     ClassRoomlistView.Items.Clear();
                     ClassRoomlistView.Items.Add(form.classRoom);
                     SetClasses();
+                    CurrentSchedule.LoadSchedule(new KeyValuePair<string, Schedule>(scheduleName, schedule.GetCurrentSchedule()));
                 }
             }
         }
