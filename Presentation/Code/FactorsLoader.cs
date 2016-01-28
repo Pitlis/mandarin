@@ -51,6 +51,97 @@ namespace Presentation.Code
                 }
             }
         }
+        public static IEnumerable<string> GetLostFactorsList()
+        {
+            List<string> lostFactors = new List<string>();
+            foreach (FactorSettings factor in CurrentBase.Factors)
+            {
+                try
+                {
+                    factor.CreateInstance();
+                }
+                catch(Exception ex)
+                {
+                    lostFactors.Add(factor.UsersFactorName + " (файл " + factor.PathToDll + ")");
+                }
+            }
+            return lostFactors;
+        }
+        public static IEnumerable<string> GetNewFactorsList()
+        {
+            List<string> newFactors = new List<string>();
+            List<Type> baseFactorTypes = new List<Type>();
+            foreach (FactorSettings factor in CurrentBase.Factors)
+            {
+                try
+                {
+                    IFactor factorInstance = factor.CreateInstance();
+                    baseFactorTypes.Add(factorInstance.GetType());
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            List<Type> allFactorTypes = GetFactorsTypes(System.AppDomain.CurrentDomain.BaseDirectory).ToList();
+            foreach (Type factorType in allFactorTypes)
+            {
+                bool isExistsFactor = false;
+                foreach (Type baseFactorType in baseFactorTypes)
+                {
+                    if (baseFactorType.FullName == factorType.FullName)
+                    {
+                        isExistsFactor = true;
+                        break;
+                    }
+                }
+                if (!isExistsFactor)
+                {
+                    try
+                    {
+                        IFactor newFactorInstance = (IFactor)Activator.CreateInstance(factorType);
+                        newFactors.Add(newFactorInstance.GetName() + " (файл " + factorType.Assembly.Location + ")");
+                    }
+                    catch(Exception ex)
+                    {
+
+                    }
+                }
+            }
+
+            return newFactors;
+        }
+
+        public static IEnumerable<string> GetActualFactorsList()
+        {
+            List<string> factorNames = new List<string>();
+            List<Type> factorTypes = GetFactorsTypes(System.AppDomain.CurrentDomain.BaseDirectory).ToList();
+            foreach (Type factorType in factorTypes)
+            {
+                IFactor factorInstance = (IFactor)Activator.CreateInstance(factorType);
+                factorNames.Add(factorInstance.GetName());
+            }
+            return factorNames;
+        }
+
+        public static IEnumerable<FactorSettings> GetCorrectFactors(IEnumerable<FactorSettings> factors)
+        {
+            List<FactorSettings> correctFactors = new List<FactorSettings>();
+            foreach (var factor in factors)
+            {
+                try
+                {
+                    factor.CreateInstance();
+                    correctFactors.Add(factor);
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            return correctFactors;
+        }
 
         static IEnumerable<Type> GetFactorsTypes(string path)
         {
