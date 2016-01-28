@@ -29,7 +29,7 @@ namespace Presentation.ScheduleEditor
         public ScheduleFacultyExcelForm()
         {
             InitializeComponent();
-            this.schedule = CurrentSchedule.Schedule;
+            this.schedule = CurrentSchedule.Schedule.Value;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

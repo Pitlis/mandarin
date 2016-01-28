@@ -26,7 +26,7 @@ namespace Presentation.ScheduleEditor
         public ScheduleTeacherExcel()
         {
             InitializeComponent();
-            this.schedule = CurrentSchedule.Schedule;
+            this.schedule = CurrentSchedule.Schedule.Value;
             FillingScrData();
         }      
 
