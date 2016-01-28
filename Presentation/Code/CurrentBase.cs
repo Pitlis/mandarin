@@ -55,7 +55,7 @@ namespace Presentation.Code
         {
             get
             {
-                if(currentBase == null)
+                if (currentBase == null)
                 {
                     currentBase.Factors = FactorsLoader.GetFactorSettings().ToList();
                 }
@@ -69,7 +69,7 @@ namespace Presentation.Code
         {
             currentBase = new Base();
             currentBase.EStorage = eStorage;
-            currentBase.Factors = new List<FactorSettings>();
+            currentBase.Factors = FactorsLoader.GetFactorSettings().ToList();
             currentBase.Settings = new Dictionary<string, object>();
             currentBase.Schedules = new Dictionary<string, Schedule>();
 
