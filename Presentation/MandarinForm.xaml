@@ -12,26 +12,51 @@
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto" WindowStartupLocation="CenterScreen">
-
+    
     <materialDesign:DialogHost Identifier="MandarinHost">
         <DockPanel>
             <materialDesign:ColorZone Padding="5" materialDesign:ShadowAssist.ShadowDepth="Depth2"
                                           Mode="PrimaryMid" DockPanel.Dock="Top">
 
                 <Menu IsMainMenu="True" DockPanel.Dock="Top" Background="#FFFF9800" Name="MainMenu">
-                    <MenuItem Header="Главная" Name="Main" FontSize="16" Click="Main_Click"/>
-                    <MenuItem Name="Schedule" Header="Расписание" Foreground="#DD000000" FontSize="16" Click="Schedule_Click">
-                        <MenuItem Name="miScheduleOpen" Header="_Открыть расписание" HorizontalAlignment="Left" Width="auto" Click="miScheduleOpen_Click"/>
-                        <MenuItem Name="miScheduleSave" Header="Сохранит_ь расписание" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miScheduleSave_Click"/>
-                        <MenuItem Name="miSheduleSaveAs" Header="Сохранить расписание _как" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miSheduleSaveAs_Click"/>
+                    <MenuItem Name="miMain" Header="Главная" FontSize="16" Click="Main_Click" HorizontalAlignment="Center"/>
+                    <MenuItem Header="Расписание" Foreground="#DD000000" FontSize="16">
+                        <MenuItem Name="miScheduleOpen" Header="_Открыть" HorizontalAlignment="Left" Width="auto" Click="miScheduleOpen_Click">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Openid"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Name="miScheduleEdit" Header="_Редактировать" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miScheduleEdit_Click">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="RenameBox"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Name="miScheduleSave" Header="_Сохранить" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miScheduleSave_Click">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="ContentSave"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Name="miSheduleSaveAs" Header="Сохранить _как" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miSheduleSaveAs_Click">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="ContentSave"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
                         <MenuItem Name="miSheduleExport" Header="_Экспорт в Excel" HorizontalAlignment="Left" Width="auto" IsEnabled="False">
-                            <MenuItem Name="misheduleExportTeacher" Header="_Расписание преподавателей" HorizontalAlignment="Left" Width="auto" Click="misheduleExportTeacher_Click"/>
-                            <MenuItem Name="misheduleExportFaculty" Header="_Расписание для курса" HorizontalAlignment="Left" Width="auto" Click="misheduleExportFaculty_Click" />
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="FileExcel"/>
+                            </MenuItem.Icon>
+                            <MenuItem Name="misheduleExportTeacher" Header="_Расписание преподавателей" HorizontalAlignment="Left" Width="auto" Click="misheduleExportTeacher_Click">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="FileExcelBox"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Name="misheduleExportFaculty" Header="_Расписание для курса" HorizontalAlignment="Left" Width="auto" Click="misheduleExportFaculty_Click">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="FileExcelBox"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
                         </MenuItem>
                     </MenuItem>
-
-
-                    <MenuItem Name="FactorSettings" Header="Настройки" Foreground="#DD000000" FontSize="16" Click="FactorSettings_Click"/>
                     <MenuItem Header="_База" Foreground="#DD000000" FontSize="16" Name="miDB">
                         <MenuItem Header="Созд_ать" Name="miDBCreate" HorizontalAlignment="Left" Width="auto" Click="miDBCreate_Click">
                             <MenuItem.Icon>
@@ -53,33 +78,21 @@
                                 <materialDesign:PackIcon Kind="ContentSave" />
                             </MenuItem.Icon>
                         </MenuItem>
-
-                        <Separator />
-                        <MenuItem Header="Excellent" IsCheckable="True" IsChecked="True" />
-                        <MenuItem Header="Rubbish" IsCheckable="True" />
-                        <MenuItem Header="Dig Deeper" InputGestureText="Ctrl+D">
-                            <MenuItem Header="Enlightenment?" IsCheckable="True" />
-                            <MenuItem Header="Disappointment" IsCheckable="True" />
-                        </MenuItem>
-                        <MenuItem Header="Look Deeper" InputGestureText="Ctrl+D">
-                            <MenuItem Header="Plain" />
-                            <MenuItem Header="Ice Cream" />
-                        </MenuItem>
                     </MenuItem>
-                    <MenuItem Header="_Edit" Foreground="#DD000000" FontSize="16">
-                        <MenuItem Header="_Cut" Command="Cut">
+                    <MenuItem Name="miSettings" Header="Настройки"  HorizontalAlignment="Left" Width="auto">
+                        <MenuItem Header="Анализаторы" Name="miFactorSettings" Click="miFactorSettings_Click">
                             <MenuItem.Icon>
-                                <materialDesign:PackIcon Kind="ContentCut" />
+                                <materialDesign:PackIcon Kind="Wrench" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="_Copy" Command="Copy">
+                        <MenuItem Header="Факультеты" Name="miFacultiesSettings" Click="miFacultiesSettings_Click">
                             <MenuItem.Icon>
-                                <materialDesign:PackIcon Kind="ContentCopy" />
+                                <materialDesign:PackIcon Kind="School" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="_Paste" Command="Paste">
+                        <MenuItem Header="VIP" Name="miVIPSettings" Click="miVIPSettings_Click">
                             <MenuItem.Icon>
-                                <materialDesign:PackIcon Kind="ContentPaste" />
+                                <materialDesign:PackIcon Kind="StarCircle" />
                             </MenuItem.Icon>
                         </MenuItem>
                     </MenuItem>

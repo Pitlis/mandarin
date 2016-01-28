@@ -8,6 +8,9 @@ using Presentation.Code;
 using Microsoft.Win32;
 using Domain.DataFiles;
 using Presentation.ScheduleEditor;
+using System.Collections.Generic;
+using System.Windows.Media;
+using System;
 
 namespace Presentation
 {
@@ -17,24 +20,50 @@ namespace Presentation
     public partial class MandarinForm : Window
     {
         Main main;
-        EditSchedule editSchedule;
-        FactorSettingsForm fsett;
-        public ContentControl ContentCtrl { get; set; }
 
         public MandarinForm()
         {
             InitializeComponent();
             main = new Main();
-            editSchedule = new EditSchedule();
-            this.ContentCtrl = contentControl;
             contentControl.Content = main;
-            main.contentControl = contentControl;
+            main.IsListBoxEmpty += new EventHandler(IsSchedulesEmpty);
         }
+
+        private void IsSchedulesEmpty(object sender, EventArgs e)
+        {
+            ListBox schedules = (ListBox)sender;
+            if (schedules.Items.Count > 0)
+            {
+                miScheduleEdit.IsEnabled = true;
+            }
+            else
+                miScheduleEdit.IsEnabled = false;
+        }
+
+        private async void Main_Click(object sender, RoutedEventArgs e)
+        {
+            if (miMain.Header.Equals("Закрыть"))
+            {
+                var dialogWindow = new DialogWindow
+                {
+                    Message = { Text = "Вы уверены, что хотите завершить редактирование?\n" +
+                                    "Все несохраненные изменения будут потеряны!" }
+                };
+                object result = await DialogHost.Show(dialogWindow, "MandarinHost");
+                if ((bool)result == true)
+                {
+                    ReturnToMain();
+                }
+            }
+            else
+                ReturnToMain();
+        }
+
         #region miDB
         private void miDBCreate_Click(object sender, RoutedEventArgs e)
         {
             //открытие формы создания BaseWizard
-            Presentation.BaseWizard.BaseWizardForm baseWizardform = new Presentation.BaseWizard.BaseWizardForm();
+            BaseWizard.BaseWizardForm baseWizardform = new Presentation.BaseWizard.BaseWizardForm();
             baseWizardform.ShowDialog();
             if (CurrentBase.BaseIsLoaded())
             {
@@ -127,49 +156,114 @@ namespace Presentation
 
         }
         #endregion
-
-        private void Main_Click(object sender, RoutedEventArgs e)
-        {
-            GetEditScheduleContent();
-            contentControl.Content = main;
-        }
-
-        private void Schedule_Click(object sender, RoutedEventArgs e)
-        {
-            //GetEditScheduleContent();
-            //if (contentControl.Content == main || contentControl.Content == fsett)
-            //{
-            //    contentControl.Content = editSchedule;
-            //}
-        }
-
-        private void FactorSettings_Click(object sender, RoutedEventArgs e)
-        {
-            GetEditScheduleContent();
-            if (fsett == null)
-            {
-                fsett = new FactorSettingsForm();
-                fsett.contentControl = contentControl;
-            }
-            contentControl.Content = fsett;
-        }
-
-        private void GetEditScheduleContent()
-        {
-            if (contentControl.Content != main && contentControl.Content != editSchedule && contentControl.Content != fsett)
-            {
-                try
-                {
-                    editSchedule = (EditSchedule)contentControl.Content;
-                }
-                catch (System.Exception)
-                {
-                    
-                }
-            }
-        }
+        
         #region miSchedule
-        private async void miScheduleOpen_Click(object sender, RoutedEventArgs e)
+
+        private void miScheduleOpen_Click(object sender, RoutedEventArgs e)
+        {
+            OpenSchedule();
+        }
+
+        private void miScheduleSave_Click(object sender, RoutedEventArgs e)
+        {
+            SaveSchedule();
+        }
+
+        private void miSheduleSaveAs_Click(object sender, RoutedEventArgs e)
+        {
+            SaveScheduleAs();
+        }
+
+        private void misheduleExportTeacher_Click(object sender, RoutedEventArgs e)
+        {
+            ScheduleTeacherExcel scheduleTeacherExcel = new ScheduleTeacherExcel();
+            scheduleTeacherExcel.ShowDialog();
+        }
+
+        private void misheduleExportFaculty_Click(object sender, RoutedEventArgs e)
+        {
+            ScheduleFacultyExcelForm scheduleFacultyExcel = new ScheduleFacultyExcelForm();
+            scheduleFacultyExcel.ShowDialog();
+        }
+
+        private void miScheduleEdit_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentSchedule.ScheduleIsLoaded())
+            {
+                OpenScheduleEditor();
+                misheduleExportFaculty.IsEnabled = true;
+            }                                
+        }
+
+        #endregion
+
+        #region miSettings
+
+        private void miFacultiesSettings_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFacultiesSettings();
+        }
+        
+        private async void miFactorSettings_Click(object sender, RoutedEventArgs e)
+        {
+            if (miMain.Header.Equals("Закрыть"))
+            {
+                var dialogWindow = new DialogWindow
+                {
+                    Message = { Text = "Вы уверены, что хотите завершить редактирование?\n" +
+                                    "Все несохраненные изменения будут потеряны!" }
+                };
+                object result = await DialogHost.Show(dialogWindow, "MandarinHost");
+                if ((bool)result == true)
+                {
+                    OpenFactorSettings();
+                }
+            }
+            else
+            {
+                OpenFactorSettings();
+            }
+        }
+
+        private void miVIPSettings_Click(object sender, RoutedEventArgs e)
+        {
+            OpenVIPSettings();
+        }
+
+        #endregion
+
+        #region Code
+        
+        private void ReturnToMain()
+        {
+            contentControl.Content = main;
+            miScheduleSave.IsEnabled = false;
+            miSheduleSaveAs.IsEnabled = false;
+            miSheduleExport.IsEnabled = false;
+            if (main.scheduleListBox.Items.Count > 0)
+            {
+                miScheduleEdit.IsEnabled = true;
+                if (CurrentSchedule.ScheduleIsFromFile())
+                {
+                    CurrentSchedule.LoadSchedule((KeyValuePair<string, Schedule>)main.scheduleListBox.SelectedItem);
+                }
+            }
+            miMain.Header = "Главная";
+        }
+
+        #region Schedule
+
+        private void OpenScheduleEditor()
+        {
+            contentControl.Content = new EditSchedule();
+            miScheduleSave.IsEnabled = true;
+            miSheduleSaveAs.IsEnabled = true;
+            miSheduleExport.IsEnabled = true;
+            miScheduleEdit.IsEnabled = false;
+            miMain.Header = "Закрыть";
+        }
+
+        private async void OpenScheduleFromFile()
         {
             OpenFileDialog openFile = new OpenFileDialog();
             openFile.Filter = "Mandarin Schedule File(*.msf) | *.msf";
@@ -180,10 +274,8 @@ namespace Presentation
             try
             {
                 CurrentSchedule.LoadSchedule(openFile.FileName);
-                miScheduleSave.IsEnabled= true;
-                miSheduleSaveAs.IsEnabled = true;
-                miSheduleExport.IsEnabled = true;
-
+                OpenScheduleEditor();
+                misheduleExportFaculty.IsEnabled = false;
             }
             catch
             {
@@ -191,38 +283,12 @@ namespace Presentation
                 {
                     Message = { Text = "Не удалось открыть" }
                 };
-                  await DialogHost.Show(infoWindow, "MandarinHost");
-                return;
-            }
-        }
-        private async void miScheduleSave_Click(object sender, RoutedEventArgs e)
-        {
-
-            try
-            {
-                CurrentSchedule.SaveSchedule();
-                var infoWindow = new InfoWindow
-                {
-                    Message = { Text = "Сохранено" }
-                };
-                await DialogHost.Show(infoWindow, "MandarinHost");
-                return;
-
-            }
-            catch
-            {
-                var infoWindow = new InfoWindow
-                {
-                    Message = { Text = "Не удалось сохранить" }
-                };
                 await DialogHost.Show(infoWindow, "MandarinHost");
                 return;
             }
-
-
-
         }
-        private async void miSheduleSaveAs_Click(object sender, RoutedEventArgs e)
+
+        private async void SaveScheduleAs()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Mandarin Schedule File(*.msf) | *.msf";
@@ -251,25 +317,110 @@ namespace Presentation
                         await DialogHost.Show(infoWindow, "MandarinHost");
                         return;
                     }
-                    CurrentSchedule.LoadSchedule(saveFileDialog.FileName);
                 }
             }
         }
 
-        private void misheduleExportTeacher_Click(object sender, RoutedEventArgs e)
+        private async void SaveSchedule()
         {
-            ScheduleTeacherExcel scheduleTeacherExcel = new ScheduleTeacherExcel();
-            scheduleTeacherExcel.ShowDialog();
-        }
-        private void misheduleExportFaculty_Click(object sender, RoutedEventArgs e)
-        {
-            ScheduleFacultyExcelForm scheduleFacultyExcel = new ScheduleFacultyExcelForm();
-            scheduleFacultyExcel.ShowDialog();
+            try
+            {
+                CurrentSchedule.SaveSchedule();
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Сохранено" }
+                };
+                await DialogHost.Show(infoWindow, "MandarinHost");
+                return;
+
+            }
+            catch
+            {
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Не удалось сохранить" }
+                };
+                await DialogHost.Show(infoWindow, "MandarinHost");
+                return;
+            }
         }
 
+        private async void OpenSchedule()
+        {
+            if (miMain.Header.Equals("Закрыть"))
+            {
+                var dialogWindow = new DialogWindow
+                {
+                    Message = { Text = "Вы уверены, что хотите завершить редактирование?\n" +
+                                    "Все несохраненные изменения будут потеряны!" }
+                };
+                object result = await DialogHost.Show(dialogWindow, "MandarinHost");
+                if ((bool)result == true)
+                {
+                    OpenScheduleFromFile();
+                }
+            }
+            else
+                OpenScheduleFromFile();
+        }
 
         #endregion
 
+        #region Settings
 
+        private async void OpenFactorSettings()
+        {
+            if (CurrentBase.BaseIsLoaded())
+            {
+                miMain.Header = "Закрыть";
+                contentControl.Content = new FactorSettingsForm();
+            }
+            else
+            {
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "База данных не загружена" }
+                };
+                await DialogHost.Show(infoWindow, "MandarinHost");
+            }
+        }
+
+        private async void OpenVIPSettings()
+        {
+            if (CurrentBase.BaseIsLoaded())
+            {
+                VIPForm form = new VIPForm();
+                form.ShowDialog();
+            }
+            else
+            {
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "База данных не загружена" }
+                };
+                await DialogHost.Show(infoWindow, "MandarinHost");
+            }
+        }
+
+        private async void OpenFacultiesSettings()
+        {
+            if (CurrentBase.BaseIsLoaded())
+            {
+                FacultyAndGroupsForm facult = new FacultyAndGroupsForm();
+                facult.Show();
+            }
+            else
+            {
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "База данных не загружена" }
+                };
+                await DialogHost.Show(infoWindow, "MandarinHost");
+            }
+        }
+
+        #endregion
+
+        #endregion 
     }
 }
