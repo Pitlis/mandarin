@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:Presentation"
         mc:Ignorable="d"
         Background="{DynamicResource MaterialDesignPaper}"
-        Title="Установка VIP пар" Height="382" Width="767" ResizeMode="NoResize" Loaded="Window_Loaded">
+        Title="Установка VIP пар" Height="382" Width="767" ResizeMode="NoResize" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
     <materialDesign:DialogHost Identifier="VIPHost">
         <Grid>
             <Grid.ColumnDefinitions>

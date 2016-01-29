@@ -44,9 +44,18 @@ namespace Presentation
         }
 
         #region Events        
-        private void btnShow_Click(object sender, RoutedEventArgs e)
+        private async void btnShow_Click(object sender, RoutedEventArgs e)
         {
             CreateTimeTable();
+            if (schedule.partSchedule.GetLength(1) == 0)
+            {
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Не найдено ни 1-ой группы относящихся к "+(coursComboBox.SelectedIndex+1)+" курсу " +facultComboBox.SelectedItem.ToString()+" факультета. \n"+
+                               "Убедитесь что вы правильно распредилили группы в настройках"}
+                };
+                await DialogHost.Show(infoWindow, "MandarinHost");
+            }
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -105,6 +114,7 @@ namespace Presentation
             gdData.ColumnDefinitions.Add(CreateDayHeaderColumn());
             gdData.ColumnDefinitions.Add(CreateTimeHeaderColumn());
 
+            GetScheduleForFacult();
             //+1 - заголовок с названиями групп
             for (int rowIndex = 0; rowIndex < schedule.partSchedule.GetLength(0) + 1; rowIndex++)
             {
@@ -134,6 +144,16 @@ namespace Presentation
                 }
             }
         }
+
+        private void GetScheduleForFacult()
+        {
+            if (CurrentBase.BaseIsLoaded() && !CurrentSchedule.ScheduleIsFromFile())
+            {
+                schedule.CreatScheduleForFacult(facultComboBox.SelectedItem.ToString(), (coursComboBox.SelectedIndex + 1));
+            }
+           
+        }
+
         private void FillFacultyAndCoursCombobox()
         {
             if (CurrentBase.BaseIsLoaded() && !CurrentSchedule.ScheduleIsFromFile())

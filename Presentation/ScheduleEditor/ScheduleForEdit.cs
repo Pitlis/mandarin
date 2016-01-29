@@ -15,7 +15,7 @@ namespace Presentation.Code
         public StudentsClass[,] partSchedule { get; private set; }
         public StudentSubGroup[] Groups { get; private set; }
         public List<StudentsClass> RemoveClases = new List<StudentsClass>();
-        private FacultiesAndGroups Sett {get; set;}
+        private FacultiesAndGroups facultiesAndGroups {get; set;}
         public EntityStorage store { get; private set; }
 
         public ScheduleForEdit(Schedule schedule) : base(schedule)
@@ -45,20 +45,15 @@ namespace Presentation.Code
         /// <summary>
         /// Метод для создания частичного рассписания для задоного факультета и курса
         /// </summary>
-        public void CretScheduleForFacult(string nameFaculty, int cours)
+        public void CreatScheduleForFacult(string nameFaculty, int cours)
         {
-            Sett = Save.LoadSettings();
+            facultiesAndGroups = Save.LoadSettings();
             int classesInSchedule = Constants.WEEKS_IN_SCHEDULE * Constants.DAYS_IN_WEEK * Constants.CLASSES_IN_DAY;
             ClassRoom clasRoom = GetClassRoom(ClassesTable[0, 0]);
-            partSchedule = new StudentsClass[classesInSchedule, Sett.GetGroups(nameFaculty, cours).Count];
-            Groups = new StudentSubGroup[Sett.GetGroups(nameFaculty, cours).Count];
-            for (int groupIndex = 0; groupIndex < Sett.GetGroups(nameFaculty, cours).Count; groupIndex++)
-            {
-                Groups[groupIndex] = Sett.GetGroups(nameFaculty, cours)[groupIndex];
-            }
-            Array.Sort(Groups, new GroupsComparer());
-
-            for (int groupIndex = 0; groupIndex < Sett.GetGroups(nameFaculty, cours).Count; groupIndex++)
+            partSchedule = new StudentsClass[classesInSchedule, facultiesAndGroups.GetGroups(nameFaculty, cours).Count];
+            Groups = new StudentSubGroup[facultiesAndGroups.GetGroups(nameFaculty, cours).Count];
+            GetGroups(nameFaculty, cours);
+            for (int groupIndex = 0; groupIndex < facultiesAndGroups.GetGroups(nameFaculty, cours).Count; groupIndex++)
             {
                 StudentsClass[] groupClasses = this.GetPartialSchedule(Groups[groupIndex]).GetClasses();//WTF???
                 for (int classIndex = 0; classIndex < classesInSchedule; classIndex++)
@@ -68,6 +63,28 @@ namespace Presentation.Code
             }
 
 
+        }
+
+        private void GetGroups(string nameFaculty, int cours)
+        {
+            List<StudentSubGroup> groupslocal = new List<StudentSubGroup>();
+            groupslocal = facultiesAndGroups.GetGroups(nameFaculty, cours);
+            if (groupslocal != null)
+            {
+                int groupindex = 0;
+                foreach (var group in groupslocal)
+                {
+                    foreach (var subgroup in store.StudentSubGroups)
+                    {
+                        if (group.NameGroup == subgroup.NameGroup && group.NumberSubGroup == subgroup.NumberSubGroup)
+                        {
+                            Groups[groupindex] = subgroup;
+                            groupindex++;
+                        }
+                    }
+                }
+                Array.Sort(Groups, new GroupsComparer());
+            }
         }
 
         /// <summary>
