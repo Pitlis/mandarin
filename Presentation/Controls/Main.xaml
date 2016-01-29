@@ -11,56 +11,67 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto" MinHeight="560" MinWidth="650">
     <Grid>
-        <StackPanel>
-            <GroupBox x:Name="dbGroupBox" FontSize="13" Header="База данных" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0">
-                <StackPanel>
-                    <DockPanel>
-                        <Label Padding="0,8,0,0" HorizontalAlignment="Center">
-                            Количество пар:
-                        </Label>
-                        <TextBlock HorizontalAlignment="Right" Padding="2,8,0,0" x:Name="classesTextBlock">Не загружено</TextBlock>
-                    </DockPanel>
-                    <DockPanel>
-                        <Label Padding="0,8,0,0" HorizontalAlignment="Center">
-                            Количество подгрупп студентов:
-                        </Label>
-                        <TextBlock HorizontalAlignment="Right" Padding="2,8,0,0" x:Name="subGroupsTextBlock">Не загружено</TextBlock>
-                    </DockPanel>
-                    <DockPanel>
-                        <Label Padding="0,8,0,0" HorizontalAlignment="Center">
-                            Количество преподавателей:
-                        </Label>
-                        <TextBlock HorizontalAlignment="Right" Padding="2,8,0,0" x:Name="teachersTextBlock">Не загружено</TextBlock>
-                    </DockPanel>
-                    <DockPanel>
-                        <Label Padding="0,8,0,0" HorizontalAlignment="Center">
-                            Количество аудиторий:
-                        </Label>
-                        <TextBlock HorizontalAlignment="Right" Padding="2,8,0,0" x:Name="classRoomTextBlock">Не загружено</TextBlock>
-                    </DockPanel>
-                    <DockPanel>
-                        <Label Padding="0,8,0,0" HorizontalAlignment="Center">
-                            Количество типов аудиторий:
-                        </Label>
-                        <TextBlock HorizontalAlignment="Right" Padding="2,8,0,0" x:Name="classRoomTypesTextBlock">Не загружено</TextBlock>
-                    </DockPanel>
-                </StackPanel>
-            </GroupBox>
-            <GroupBox x:Name="scheduleGroupBox" FontSize="13"  Header="Расписания" HorizontalAlignment="Left" VerticalAlignment="Top" MinHeight="100" MaxHeight="300">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <ListBox x:Name="scheduleListBox" DisplayMemberPath="Key" Grid.Row="0" VerticalAlignment="Top"  Margin="0,0,0,5" MouseDoubleClick="scheduleListBox_MouseDoubleClick" SelectionChanged="scheduleListBox_SelectionChanged"/>
-                    <Button x:Name="deleteScheduleButton" Grid.Row="1" ToolTip="Удалить" Click="deleteScheduleButton_Click" VerticalAlignment="Bottom" Margin="2" IsEnabled="False">
-                        <materialDesign:PackIcon Kind="Delete" />
-                    </Button>
-                </Grid>
-            </GroupBox>
-        </StackPanel>
-        <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
-                        VerticalAlignment="Bottom" HorizontalAlignment="Center"
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="105"/>
+        </Grid.RowDefinitions>
+        <GroupBox x:Name="dbGroupBox" FontSize="13" Grid.Row="0" Grid.Column="0" Header="База данных" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="6,0,6,0">
+            <StackPanel>
+                <DockPanel>
+                    <Label Padding="0,8,0,0" HorizontalAlignment="Center">
+                        Количество пар:
+                    </Label>
+                    <TextBlock HorizontalAlignment="Right" Padding="2,8,0,0" x:Name="classesTextBlock">Не загружено</TextBlock>
+                </DockPanel>
+                <DockPanel>
+                    <Label Padding="0,8,0,0" HorizontalAlignment="Center">
+                        Количество подгрупп студентов:
+                    </Label>
+                    <TextBlock HorizontalAlignment="Right" Padding="2,8,0,0" x:Name="subGroupsTextBlock">Не загружено</TextBlock>
+                </DockPanel>
+                <DockPanel>
+                    <Label Padding="0,8,0,0" HorizontalAlignment="Center">
+                        Количество преподавателей:
+                    </Label>
+                    <TextBlock HorizontalAlignment="Right" Padding="2,8,0,0" x:Name="teachersTextBlock">Не загружено</TextBlock>
+                </DockPanel>
+                <DockPanel>
+                    <Label Padding="0,8,0,0" HorizontalAlignment="Center">
+                        Количество аудиторий:
+                    </Label>
+                    <TextBlock HorizontalAlignment="Right" Padding="2,8,0,0" x:Name="classRoomTextBlock">Не загружено</TextBlock>
+                </DockPanel>
+                <DockPanel>
+                    <Label Padding="0,8,0,0" HorizontalAlignment="Center">
+                        Количество типов аудиторий:
+                    </Label>
+                    <TextBlock HorizontalAlignment="Right" Padding="2,8,0,0" x:Name="classRoomTypesTextBlock">Не загружено</TextBlock>
+                </DockPanel>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox x:Name="scheduleGroupBox" FontSize="13" Grid.Row="0" Grid.Column="0" Header="Расписания" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="6,150,6,6">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="37"></RowDefinition>
+                </Grid.RowDefinitions>
+                <ListBox x:Name="scheduleListBox" DisplayMemberPath="Key" Grid.Row="0" VerticalAlignment="Stretch"  Margin="0,0,0,5" MouseDoubleClick="scheduleListBox_MouseDoubleClick" SelectionChanged="scheduleListBox_SelectionChanged"/>
+                <Button x:Name="deleteScheduleButton" Grid.Row="1" ToolTip="Удалить" Click="deleteScheduleButton_Click" VerticalAlignment="Bottom" Margin="2" IsEnabled="False">
+                    <materialDesign:PackIcon Kind="Delete" />
+                </Button>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="factorsGroupBox" FontSize="13" Grid.Row="0" Grid.Column="1"  Header="Анализаторы" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="6,0,6,6">
+            <Grid>
+                <ListBox x:Name="factorsListBox"></ListBox>
+            </Grid>
+        </GroupBox>
+        <Button Style="{StaticResource MaterialDesignFloatingActionButton}" Grid.ColumnSpan="2" Grid.Row="1"
+                        VerticalAlignment="Center" HorizontalAlignment="Center"
                         ToolTip="Начать составление расписания"
                         Click="button_Click" Height="100" Width="100" FontSize="27"
                         >Старт

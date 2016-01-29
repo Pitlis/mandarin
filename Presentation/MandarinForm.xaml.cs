@@ -73,6 +73,7 @@ namespace Presentation
             {
                 LoadDataBaseInfo();
                 LoadSchedules();
+                LoadFactorsInfo();
                 miFactorSettings.IsEnabled = true;
                 miSettings.IsEnabled = true;
                 miDBSave.IsEnabled = true;
@@ -92,8 +93,10 @@ namespace Presentation
             try
             {
                 CurrentBase.LoadBase(openFile.FileName);
+                CheckFactors();
                 LoadDataBaseInfo();
                 LoadSchedules();
+                LoadFactorsInfo();
                 miFactorSettings.IsEnabled = true;
                 miSettings.IsEnabled = true;
                 miDBSave.IsEnabled = true;
@@ -275,6 +278,45 @@ namespace Presentation
             main.classRoomTypesTextBlock.Text = CurrentBase.EStorage.ClassRoomsTypes.Length.ToString();
             main.teachersTextBlock.Text = CurrentBase.EStorage.Teachers.Length.ToString();
             main.subGroupsTextBlock.Text = CurrentBase.EStorage.StudentSubGroups.Length.ToString();
+        }
+
+        private void LoadFactorsInfo()
+        {
+           main.factorsListBox.ItemsSource = FactorsLoader.GetActualFactorsList();
+        }
+
+        private async void CheckFactors()
+        {
+            List<string> lostFactors = (List<string>)FactorsLoader.GetLostFactorsList();
+            List<string> newFactors = (List<string>)FactorsLoader.GetNewFactorsList();
+            if (lostFactors.Count > 0)
+            {
+                string lostFactorsMsg = "К сожалению, следующие анализаторы отсутствуют и будут отключены.\n" +
+                                            "Данные анализаторов будут потеряны.\n";
+                foreach (string lostFactor in lostFactors)
+                {
+                    lostFactorsMsg += lostFactor + '\n';
+                }
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = lostFactorsMsg }
+                };
+                await DialogHost.Show(infoWindow, "MandarinHost");
+
+            }
+            if (newFactors.Count > 0)
+            {
+                string newFactorsMsg = "Появились новые анализаторы.\n";
+                foreach (string newFactor in newFactors)
+                {
+                    newFactorsMsg += newFactor + '\n';
+                }
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = newFactorsMsg }
+                };
+                await DialogHost.Show(infoWindow, "MandarinHost");
+            }
         }
 
         #region Schedule
