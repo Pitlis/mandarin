@@ -113,6 +113,9 @@
     <Compile Include="MandarinForm.xaml.cs">
       <DependentUpon>MandarinForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ScheduleEditor\ScheduleSubGroupsExcelForm.xaml.cs">
+      <DependentUpon>ScheduleSubGroupsExcelForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ScheduleEditor\ScheduleTeacherExcelForm.xaml.cs">
       <DependentUpon>ScheduleTeacherExcelForm.xaml</DependentUpon>
     </Compile>
@@ -196,6 +199,10 @@
       <DependentUpon>FacultyAndGroupsForm.xaml</DependentUpon>
     </Compile>
     <Page Include="FactorsDataEditors\VIPForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ScheduleEditor\ScheduleSubGroupsExcelForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
