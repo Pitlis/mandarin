@@ -35,9 +35,13 @@ namespace Presentation
             if (schedules.Items.Count > 0)
             {
                 miScheduleEdit.IsEnabled = true;
+                main.deleteScheduleButton.IsEnabled = true;
             }
             else
+            {
                 miScheduleEdit.IsEnabled = false;
+                main.deleteScheduleButton.IsEnabled = false;
+            }
         }
 
         private async void Main_Click(object sender, RoutedEventArgs e)
@@ -63,10 +67,14 @@ namespace Presentation
         private void miDBCreate_Click(object sender, RoutedEventArgs e)
         {
             //открытие формы создания BaseWizard
-            BaseWizard.BaseWizardForm baseWizardform = new Presentation.BaseWizard.BaseWizardForm();
+            BaseWizard.BaseWizardForm baseWizardform = new BaseWizard.BaseWizardForm();
             baseWizardform.ShowDialog();
             if (CurrentBase.BaseIsLoaded())
             {
+                LoadDataBaseInfo();
+                LoadSchedules();
+                miFactorSettings.IsEnabled = true;
+                miSettings.IsEnabled = true;
                 miDBSave.IsEnabled = true;
                 miDBSaveAs.IsEnabled = true;
             }
@@ -84,6 +92,10 @@ namespace Presentation
             try
             {
                 CurrentBase.LoadBase(openFile.FileName);
+                LoadDataBaseInfo();
+                LoadSchedules();
+                miFactorSettings.IsEnabled = true;
+                miSettings.IsEnabled = true;
                 miDBSave.IsEnabled = true;
                 miDBSaveAs.IsEnabled = true;
             }
@@ -156,7 +168,7 @@ namespace Presentation
 
         }
         #endregion
-        
+
         #region miSchedule
 
         private void miScheduleOpen_Click(object sender, RoutedEventArgs e)
@@ -192,7 +204,7 @@ namespace Presentation
             {
                 OpenScheduleEditor();
                 misheduleExportFaculty.IsEnabled = true;
-            }                                
+            }
         }
 
         #endregion
@@ -203,7 +215,7 @@ namespace Presentation
         {
             OpenFacultiesSettings();
         }
-        
+
         private async void miFactorSettings_Click(object sender, RoutedEventArgs e)
         {
             if (miMain.Header.Equals("Закрыть"))
@@ -233,13 +245,18 @@ namespace Presentation
         #endregion
 
         #region Code
-        
+
         private void ReturnToMain()
         {
             contentControl.Content = main;
             miScheduleSave.IsEnabled = false;
             miSheduleSaveAs.IsEnabled = false;
             miSheduleExport.IsEnabled = false;
+            miDB.IsEnabled = true;
+            if (CurrentBase.BaseIsLoaded())
+            {
+                miSettings.IsEnabled = true;
+            }
             if (main.scheduleListBox.Items.Count > 0)
             {
                 miScheduleEdit.IsEnabled = true;
@@ -251,7 +268,26 @@ namespace Presentation
             miMain.Header = "Главная";
         }
 
+        private void LoadDataBaseInfo()
+        {
+            main.classesTextBlock.Text = CurrentBase.EStorage.Classes.Length.ToString();
+            main.classRoomTextBlock.Text = CurrentBase.EStorage.ClassRooms.Length.ToString();
+            main.classRoomTypesTextBlock.Text = CurrentBase.EStorage.ClassRoomsTypes.Length.ToString();
+            main.teachersTextBlock.Text = CurrentBase.EStorage.Teachers.Length.ToString();
+            main.subGroupsTextBlock.Text = CurrentBase.EStorage.StudentSubGroups.Length.ToString();
+        }
+
         #region Schedule
+
+        private void LoadSchedules()
+        {
+            main.scheduleListBox.ItemsSource = null;
+            main.scheduleListBox.ItemsSource = CurrentBase.Schedules;
+            if (main.scheduleListBox.Items.Count > 0)
+            {
+                main.scheduleListBox.SelectedIndex = 0;
+            }
+        }
 
         private void OpenScheduleEditor()
         {
@@ -260,6 +296,8 @@ namespace Presentation
             miSheduleSaveAs.IsEnabled = true;
             miSheduleExport.IsEnabled = true;
             miScheduleEdit.IsEnabled = false;
+            miDB.IsEnabled = false;
+            miSettings.IsEnabled = false;
             miMain.Header = "Закрыть";
         }
 
@@ -407,7 +445,7 @@ namespace Presentation
             if (CurrentBase.BaseIsLoaded())
             {
                 FacultyAndGroupsForm facult = new FacultyAndGroupsForm();
-                facult.Show();
+                facult.ShowDialog();
             }
             else
             {

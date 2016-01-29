@@ -78,13 +78,13 @@
                                 <materialDesign:PackIcon Kind="ContentSave" />
                             </MenuItem.Icon>
                         </MenuItem>
-                    </MenuItem>
-                    <MenuItem Name="miSettings" Header="Настройки"  HorizontalAlignment="Left" Width="auto">
-                        <MenuItem Header="Анализаторы" Name="miFactorSettings" Click="miFactorSettings_Click">
+                        <MenuItem Header="Анализаторы" Name="miFactorSettings" IsEnabled="False" Click="miFactorSettings_Click">
                             <MenuItem.Icon>
                                 <materialDesign:PackIcon Kind="Wrench" />
                             </MenuItem.Icon>
                         </MenuItem>
+                    </MenuItem>
+                    <MenuItem Name="miSettings" Header="Настройки"  HorizontalAlignment="Left" Width="auto" IsEnabled="False">
                         <MenuItem Header="Факультеты" Name="miFacultiesSettings" Click="miFacultiesSettings_Click">
                             <MenuItem.Icon>
                                 <materialDesign:PackIcon Kind="School" />
