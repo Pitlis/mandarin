@@ -70,8 +70,6 @@ namespace Presentation.Controls
 
                 await DialogHost.Show(infoWindow, "MandarinHost");
             }
-            LoadDataBaseInfo();
-            LoadSchedules();
             IsEmptyScheduleList();
         }
 
@@ -113,8 +111,11 @@ namespace Presentation.Controls
 
         private void scheduleListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            KeyValuePair<string, Schedule> schedule = (KeyValuePair<string, Schedule>)scheduleListBox.SelectedItem;
-            CurrentSchedule.LoadSchedule(schedule);
+            if (scheduleListBox.Items.Count > 0)
+            {
+                KeyValuePair<string, Schedule> schedule = (KeyValuePair<string, Schedule>)scheduleListBox.SelectedItem;
+                CurrentSchedule.LoadSchedule(schedule);
+            }
             if (this.IsListBoxEmpty != null)
                 this.IsListBoxEmpty(sender, e);
         }
@@ -150,15 +151,6 @@ namespace Presentation.Controls
             {
                 scheduleListBox.SelectedIndex = 0;
             }
-        }
-
-        private void LoadDataBaseInfo()
-        {
-            classesTextBlock.Text = CurrentBase.EStorage.Classes.Length.ToString();
-            classRoomTextBlock.Text = CurrentBase.EStorage.ClassRooms.Length.ToString();
-            classRoomTypesTextBlock.Text = CurrentBase.EStorage.ClassRoomsTypes.Length.ToString();
-            teachersTextBlock.Text = CurrentBase.EStorage.Teachers.Length.ToString();
-            subGroupsTextBlock.Text = CurrentBase.EStorage.StudentSubGroups.Length.ToString();
         }
 
         private void IsEmptyScheduleList()
