@@ -23,14 +23,11 @@
         <Label x:Name="label_Copy" Content="Пара:" HorizontalAlignment="Left" Margin="16,172,0,0" VerticalAlignment="Top" Width="151" Grid.Column="1"/>
         <Label x:Name="label_Copy1" Content="Преподаватель:" HorizontalAlignment="Left" Margin="16,221,0,0" VerticalAlignment="Top" Width="151" Grid.Column="1"/>
         <Label x:Name="label_Copy2" Content="Группы:" HorizontalAlignment="Left" Margin="16,265,0,0" VerticalAlignment="Top" Width="151" Grid.Column="1"/>
-        <ListView x:Name="listViewClassRoom" Background="{DynamicResource MaterialDesignPaper}" Height="275" Margin="10,39,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Width="180" SelectionChanged="listViewClassRoom_SelectionChanged">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Корпус" Width="50" DisplayMemberBinding="{Binding Housing}" />
-                    <GridViewColumn Header="№" DisplayMemberBinding="{Binding Number}" Width="55" />
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <ListBox x:Name="listViewClassRoom" ItemTemplate="{StaticResource ClassRoomsTemplate}" Template="{StaticResource ClassRoomsListBoxTemplate}" Background="{DynamicResource MaterialDesignPaper}" Height="275" Margin="10,39,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Width="180" SelectionChanged="listViewClassRoom_SelectionChanged">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource CustomMaterialDesignListBoxItem}"></Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
 
     </Grid>
 </Window>

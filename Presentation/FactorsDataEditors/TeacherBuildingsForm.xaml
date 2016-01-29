@@ -5,21 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Presentation"
         mc:Ignorable="d"
-        Title="Преподаватели - корпуса" Height="350" Width="670.779" Loaded="Window_Loaded" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
-    <Grid>
+        Title="Преподаватели - корпуса" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+    <Grid Background="{DynamicResource MaterialDesignPaper}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="226*"/>
-            <ColumnDefinition Width="154*"/>
-            <ColumnDefinition Width="283*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Label x:Name="teachersLabel" Content="Преподаватели" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <ListBox x:Name="teachersListBox" HorizontalAlignment="Left" Height="273" Margin="10,36,0,0" VerticalAlignment="Top" Width="178" DisplayMemberPath="Name" SelectionChanged="teachersListBox_SelectionChanged"/>
-        <Label x:Name="buildingsLabel" Content="Все достпуные корпуса" HorizontalAlignment="Left" Margin="216,10,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-        <Label x:Name="teachersBuildingsLabel" Content="Корпуса преподавателя" HorizontalAlignment="Left" Margin="94.584,10,0,0" VerticalAlignment="Top" Grid.Column="2"/>
-        <Button x:Name="deleteFromTeacherBuildingsBtn" Content="&lt;=" HorizontalAlignment="Left" Margin="21,177,0,0" VerticalAlignment="Top" Width="71" Grid.Column="2" Click="deleteFromTeacherBuildings_Click" IsEnabled="False"/>
-        <Button x:Name="addToTeacherBuildingsBtn" Content="=&gt;" HorizontalAlignment="Left" Margin="21,135,0,0" VerticalAlignment="Top" Width="71" Grid.Column="2" Click="addToTeacherBuildings_Click" IsEnabled="False" />
-        <TextBox x:Name="filterTeachersTextBox" HorizontalAlignment="Left" Height="28" Margin="110,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="78" TextChanged="filterTeachersTextBox_TextChanged" IsEnabled="False"/>
-        <ListBox x:Name="buildingsListBox" Height="273" Margin="216,36,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Width="178" Grid.ColumnSpan="3" SelectionChanged="buildingsListBox_SelectionChanged" GotFocus="buildingsListBox_GotFocus"/>
-        <ListBox x:Name="teacherBuildingsListBox" Height="273" Margin="94.584,36,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Width="178" Grid.Column="2" SelectionChanged="teacherBuildingsListBox_SelectionChanged" GotFocus="teacherBuildingsListBox_GotFocus"/>
+        <Label x:Name="teachersLabel" Content="Преподаватели" Grid.Column="0" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top"/>
+        <ListBox x:Name="teachersListBox" HorizontalAlignment="Stretch" Grid.Column="0" Margin="6,36,6,10" VerticalAlignment="Stretch" DisplayMemberPath="Name" SelectionChanged="teachersListBox_SelectionChanged"/>
+        <Label x:Name="buildingsLabel" Content="Все достпуные корпуса" Grid.Column="1" HorizontalAlignment="Left" Margin="6,10,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="teachersBuildingsLabel" Content="Корпуса преподавателя" Grid.Column="3" HorizontalAlignment="Left" Margin="6,10,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="deleteFromTeacherBuildingsBtn" Content="&lt;=" Grid.Column="2" HorizontalAlignment="Left" Margin="4,-40,0,0" VerticalAlignment="Center" Width="62" Click="deleteFromTeacherBuildings_Click" IsEnabled="False"/>
+        <Button x:Name="addToTeacherBuildingsBtn" Content="=&gt;" Grid.Column="2" HorizontalAlignment="Left" Margin="4,40,0,0" VerticalAlignment="Center" Width="62" Click="addToTeacherBuildings_Click" IsEnabled="False" />
+        <TextBox x:Name="filterTeachersTextBox" HorizontalAlignment="Stretch" Grid.Column="0" Height="28" Margin="110,6,6,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="filterTeachersTextBox_TextChanged" IsEnabled="False"/>
+        <ListBox x:Name="buildingsListBox" Margin="6,36,6,10" Grid.Column="1" HorizontalAlignment="Stretch" SelectionMode="Single" VerticalAlignment="Stretch" SelectionChanged="buildingsListBox_SelectionChanged" GotFocus="buildingsListBox_GotFocus"/>
+        <ListBox x:Name="teacherBuildingsListBox" Margin="6,36,6,10" Grid.Column="3" HorizontalAlignment="Stretch" SelectionMode="Single" VerticalAlignment="Stretch" SelectionChanged="teacherBuildingsListBox_SelectionChanged" GotFocus="teacherBuildingsListBox_GotFocus"/>
     </Grid>
 </Window>
