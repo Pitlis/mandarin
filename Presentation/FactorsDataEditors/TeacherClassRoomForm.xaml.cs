@@ -47,18 +47,18 @@ namespace Presentation.FactorsDataEditors
                 {
                     teacherClassRoomsListView.ItemsSource = settings.TeachersClassRooms[currentTeacher].OrderBy(c => c.Number).OrderBy(c => c.Housing);
                     List<ClassRoom> notTeacherClassRooms = settings.GetNotTeacherClassRooms(currentTeacher);
-                    classRoomsListView.ItemsSource = notTeacherClassRooms.OrderBy(c => c.Number).OrderBy(c => c.Housing);
+                    classRoomsListBox.ItemsSource = notTeacherClassRooms.OrderBy(c => c.Number).OrderBy(c => c.Housing);
                 }
                 else
                 {
                     teacherClassRoomsListView.ItemsSource = null;
-                    classRoomsListView.ItemsSource = CurrentBase.EStorage.ClassRooms.OrderBy(c => c.Number).OrderBy(c => c.Housing);
+                    classRoomsListBox.ItemsSource = CurrentBase.EStorage.ClassRooms.OrderBy(c => c.Number).OrderBy(c => c.Housing);
                 }
-                classRoomsListView.SelectedIndex = DEFAULT_INDEX;
+                classRoomsListBox.SelectedIndex = DEFAULT_INDEX;
             }
             else
             {
-                classRoomsListView.ItemsSource = null;
+                classRoomsListBox.ItemsSource = null;
                 teacherClassRoomsListView.ItemsSource = null;
             }
         }
@@ -68,7 +68,7 @@ namespace Presentation.FactorsDataEditors
             teacherClassRoomsListView.ItemsSource = null;
             teacherClassRoomsListView.ItemsSource = settings.TeachersClassRooms[teacher].OrderBy(c => c.Number).OrderBy(c => c.Housing);
             List<ClassRoom> notTeacherClassRooms = settings.GetNotTeacherClassRooms(teacher);
-            classRoomsListView.ItemsSource = notTeacherClassRooms.OrderBy(c => c.Number).OrderBy(c => c.Housing);
+            classRoomsListBox.ItemsSource = notTeacherClassRooms.OrderBy(c => c.Number).OrderBy(c => c.Housing);
         }
 
         private void SaveTeachersClassRooms()
@@ -78,7 +78,7 @@ namespace Presentation.FactorsDataEditors
 
         private void SetAvailabilityAddButton()
         {
-            if (classRoomsListView.SelectedIndex != -1)
+            if (classRoomsListBox.SelectedIndex != -1)
             {
                 addToTeacherClassRoomsBtn.IsEnabled = true;
             }
@@ -113,12 +113,12 @@ namespace Presentation.FactorsDataEditors
 
         private void AddTeacherClassRoom()
         {
-            int currentIndex = classRoomsListView.SelectedIndex;
+            int currentIndex = classRoomsListBox.SelectedIndex;
             Teacher currentTeacher = (Teacher)teachersListBox.SelectedItem;
-            ClassRoom currentCRoom = (ClassRoom)classRoomsListView.SelectedItem;
+            ClassRoom currentCRoom = (ClassRoom)classRoomsListBox.SelectedItem;
             settings.AddClassRoom(currentTeacher, currentCRoom);
             SetClassRoomsListViewItems(currentTeacher);
-            classRoomsListView.SelectedIndex = currentIndex;
+            classRoomsListBox.SelectedIndex = currentIndex;
             SaveTeachersClassRooms();
         }
 
@@ -183,7 +183,7 @@ namespace Presentation.FactorsDataEditors
         private void teacherClassRoomsListView_GotFocus(object sender, RoutedEventArgs e)
         {
             addToTeacherClassRoomsBtn.IsEnabled = false;
-            classRoomsListView.SelectedIndex = -1;
+            classRoomsListBox.SelectedIndex = -1;
         }
 
         #endregion
