@@ -32,13 +32,32 @@ namespace Presentation.ScheduleEditor
 
         void FillingScrData()
         {
-            List<Teacher> teachers = schedule.EStorage.Teachers.ToList();
-            chTeacher = new CheckBox[teachers.Count];
-            for (int indexchb = 0; indexchb < teachers.Count; indexchb++)
+            List<Teacher> teacher = new List<Teacher>();
+            chTeacher = new CheckBox[schedule.EStorage.Teachers.Count()];
+            List<string> FIO = new List<string>();
+            foreach (var item in schedule.EStorage.Teachers.ToList())
+            {
+                FIO.Add(item.Name);
+            }
+            FIO.Sort();
+           
+            foreach (var fio in FIO)
+            {
+                foreach (var item in schedule.EStorage.Teachers.ToList())
+                {
+                    if (item.Name == fio)
+                    {
+                        teacher.Remove(item);
+                        teacher.Add(item);
+                    }
+                }
+            }
+
+            for (int indexchb = 0; indexchb < teacher.Count; indexchb++)
             {
                 chTeacher[indexchb] = new CheckBox()
                 {
-                    Content = teachers[indexchb].Name,
+                    Content = teacher[indexchb].Name,
                  
                 };
                 chTeacher[indexchb].Checked += checkBox_Checked;
