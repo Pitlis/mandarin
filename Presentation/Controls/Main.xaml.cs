@@ -165,5 +165,11 @@ namespace Presentation.Controls
             }
         }
         #endregion
+
+        private void button_Click_1(object sender, RoutedEventArgs e)
+        {
+            StorageEditor.StorageEditorForm f = new StorageEditor.StorageEditorForm();
+            f.ShowDialog();
+        }
     }
 }

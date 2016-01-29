@@ -76,5 +76,6 @@
                         Click="button_Click" Height="100" Width="100" FontSize="27"
                         >Старт
         </Button>
+        <Button x:Name="button" Content="test" HorizontalAlignment="Left" Margin="95,53,0,20" Grid.Row="1" Width="75" Height="Auto" Click="button_Click_1"/>
     </Grid>
 </UserControl>
