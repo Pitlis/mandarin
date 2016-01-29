@@ -15,6 +15,8 @@ using Domain.DataFiles;
 using Presentation.Controls;
 using System.Windows.Controls.Primitives;
 using MaterialDesignThemes.Wpf;
+using Microsoft.Win32;
+using System.Threading;
 
 namespace Presentation
 {
@@ -28,6 +30,8 @@ namespace Presentation
         FacultiesAndGroups facultiesAndGroups;
         bool[] finePosition;
         Label[] timeLabels;
+        string filepath;
+        Thread thread;
         private int ColForRemove = 0;
         private int RowForRemove = 0;
         private int TimeRows = -1;
@@ -152,8 +156,24 @@ namespace Presentation
         {
             if (schedule.RemoveClases.Count == 0)
             {
-                ScheduleExcel excel = new ScheduleExcel(schedule, schedule.store);
-                excel.LoadPartScheduleExcel(schedule.Groups);
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Excel (*.xlsx|*.xlsx";
+                saveFileDialog.FilterIndex = 2;
+                saveFileDialog.RestoreDirectory = true;
+                if (saveFileDialog.ShowDialog() == true)//сделать формирование в отдельном потоке
+                {
+                    filepath = saveFileDialog.FileName;
+                    thread = new Thread(new ThreadStart(SaveExcel));
+                    thread.Start();
+                    var infoWindow = new InfoWindow
+                    {
+                        Message = { Text = "Расписание будет сформировано:\n" + filepath + "\nПожалуйста подождите" }
+                    };
+                    await DialogHost.Show(infoWindow, "MandarinHost");
+                    btnExcel.IsEnabled = false;
+
+
+                }
             }
             else
             {
@@ -165,6 +185,23 @@ namespace Presentation
                 await DialogHost.Show(infoWindow, "MandarinHost");
             }
         }
+
+        private void SaveExcel()
+        {
+            Code.ScheduleExcel excel = new Code.ScheduleExcel(filepath, schedule, schedule.EStorage);
+            excel.LoadPartScheduleExcel(schedule.Groups);
+            this.Dispatcher.Invoke(new Action(async delegate ()
+            {
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Расписание сформировано:\n" + filepath }
+                };
+                await DialogHost.Show(infoWindow, "MandarinHost");
+                btnExcel.IsEnabled = true;
+
+            }));
+        }
+
         private void RemoveClasses()
         {
             StudentsClass sClass;
