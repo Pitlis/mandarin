@@ -26,14 +26,19 @@ namespace Presentation
     /// </summary>
     public partial class VIPForm : Window
     {
-        public List<Teacher> teachers = new List<Teacher>();
+        public List<Teacher> teachers;
         Setting setting;
         public VIPForm()
         {
             InitializeComponent();
             setting = new Setting();
-            TeacherslistBox.ItemsSource = setting.storage.Teachers;
+            teachers = setting.storage.Teachers.OrderBy(t => t.Name).ToList();
 
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            TeacherslistBox.ItemsSource = teachers;
         }
 
 
@@ -166,13 +171,13 @@ namespace Presentation
                 StudentsClass sClass;
                 sClass = (StudentsClass)ClasseslistBox.SelectedItem;
                 ClassRoom classRoom;
-                if (UpperWeekradioButton.IsChecked == true)
+                if (UpperWeekradioButton.IsChecked == true && TimecomboBox.SelectedIndex !=-1 && DaycomboBox.SelectedIndex != -1)
                 {
                     timeIndex = 0;
                     timeIndex += DaycomboBox.SelectedIndex * 6;
                     timeIndex += TimecomboBox.SelectedIndex;
                 }
-                if (LowerWeekradioButton.IsChecked == true)
+                if (LowerWeekradioButton.IsChecked == true && TimecomboBox.SelectedIndex != -1 && DaycomboBox.SelectedIndex != -1)
                 {
                     timeIndex = 0;
                     timeIndex += 36;
@@ -299,5 +304,7 @@ namespace Presentation
         }
 
         #endregion
+
+       
     }
 }
