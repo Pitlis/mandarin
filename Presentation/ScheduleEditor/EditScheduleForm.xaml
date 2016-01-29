@@ -17,16 +17,16 @@
             <Grid Name="gdData" Margin="10"/>
         </ScrollViewer>
         <Button x:Name="btnRemove" Content="Снять" Grid.Column="1" HorizontalAlignment="Left" Margin="10,71,0,0" VerticalAlignment="Top" Width="273" Click="btnRemove_Click" IsEnabled="False"/>
-        <ListBox x:Name="RemoveClasseslistBox"  Grid.Column="1" HorizontalAlignment="Left" Height="122" Margin="10,480,0,0" VerticalAlignment="Top" Width="273" DisplayMemberPath="Name" SelectionChanged="RemovelistBox_SelectionChanged"/>
+        <ListBox x:Name="RemoveClasseslistBox"  BorderThickness="1" BorderBrush="Gray" Grid.Column="1" HorizontalAlignment="Left" Height="122" Margin="10,480,0,0" VerticalAlignment="Top" Width="273" DisplayMemberPath="Name" SelectionChanged="RemovelistBox_SelectionChanged"/>
         <Label x:Name="lable" Content="Неустановленные пары:" Grid.Column="1" HorizontalAlignment="Left" Margin="10,449,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="infoClassTextbox" Grid.Column="1" HorizontalAlignment="Left" Height="28" Margin="88,108,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" IsReadOnly="True"/>
+        <TextBox x:Name="infoClassTextbox" Grid.Column="1"  BorderThickness="1" BorderBrush="Gray" HorizontalAlignment="Left" Height="28" Margin="88,108,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" IsReadOnly="True"/>
         <Label x:Name="lable_Copy" Content="Предмет" Grid.Column="1" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top"/>
-        <ListBox x:Name="InfoTeachersListbox" Grid.Column="1" HorizontalAlignment="Left" Height="60" Margin="10,167,0,0" VerticalAlignment="Top" Width="273" DisplayMemberPath="Name" SelectionChanged="InfoTeachers_SelectionChanged"/>
+        <ListBox x:Name="InfoTeachersListbox" Grid.Column="1"  BorderThickness="1" BorderBrush="Gray" HorizontalAlignment="Left" Height="60" Margin="10,167,0,0" VerticalAlignment="Top" Width="273" DisplayMemberPath="Name" SelectionChanged="InfoTeachers_SelectionChanged"/>
         <Label x:Name="lable_Copy1" Content="Преподаватели:" Grid.Column="1" HorizontalAlignment="Left" Margin="10,136,0,0" VerticalAlignment="Top"/>
         <Label x:Name="lable_Copy2" Content="Группы:" Grid.Column="1" HorizontalAlignment="Left" Margin="10,232,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="TimeTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="28" Margin="88,421,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" IsReadOnly="True"/>
-        <Label x:Name="lable_Copy4" Content="Время" Grid.Column="1" HorizontalAlignment="Left" Margin="10,418,0,0" VerticalAlignment="Top"/>
-        <ListView x:Name="ClassRoomlistView" Height="44" Margin="10,369,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Grid.Column="1" SelectionChanged="listViewClassRoom_SelectionChanged" Width="273">
+        <TextBox x:Name="TimeTextBox"  Grid.Column="1" BorderThickness="1" BorderBrush="Gray" HorizontalAlignment="Left" Height="28" Margin="88,421,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" IsReadOnly="True"/>
+        <Label x:Name="lable_Copy4" Content="Время" Grid.Column="1" HorizontalAlignment="Left" Margin="10,423,0,0" VerticalAlignment="Top"/>
+        <ListView x:Name="ClassRoomlistView" Background="{DynamicResource MaterialDesignPaper}" Height="44" Margin="10,369,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Grid.Column="1" SelectionChanged="listViewClassRoom_SelectionChanged" Width="273">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Корпус" Width="90" DisplayMemberBinding="{Binding Housing}" />
@@ -34,7 +34,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListView x:Name="InfoGrouplistView" Height="101" Margin="10,263,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Grid.Column="1" SelectionChanged="InfoGroop_SelectionChanged" Width="273">
+        <ListView x:Name="InfoGrouplistView" Background="{DynamicResource MaterialDesignPaper}" Height="101" Margin="10,263,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Grid.Column="1" SelectionChanged="InfoGroop_SelectionChanged" Width="273">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Группа" Width="165" DisplayMemberBinding="{Binding NameGroup}" />
