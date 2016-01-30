@@ -23,6 +23,7 @@
                 <ColumnDefinition Width="130"/>
             </Grid.ColumnDefinitions>
             <DataGrid x:Name="dataGrid" SelectionMode="Single" AutoGenerateColumns="False" RowHeight="40"
+                  CanUserAddRows="False"
                   Grid.Row="1"
                   Grid.Column="0"
                   Grid.ColumnSpan="4"
