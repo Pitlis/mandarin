@@ -102,6 +102,7 @@ namespace Presentation.Controls
                 int scheduleIndex = CurrentBase.Schedules.ToList().Count - 1;
                 KeyValuePair<string, Schedule> schedule = CurrentBase.Schedules.ToList()[scheduleIndex];
                 RenameSchedule(schedule, inputWindow.scheduleTextBox.Text);
+                LoadSchedules();
             }
         }
 

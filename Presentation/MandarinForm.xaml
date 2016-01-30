@@ -84,6 +84,9 @@
                             </MenuItem.Icon>
                         </MenuItem>
                         <MenuItem Header="_Настройки" Name="miDBSettings" HorizontalAlignment="Left" Width="auto" IsEnabled="False">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Settings"/>
+                            </MenuItem.Icon>
                             <MenuItem Header="Анализаторы" Name="miFactorSettings" Click="miFactorSettings_Click">
                                 <MenuItem.Icon>
                                     <materialDesign:PackIcon Kind="Wrench" />

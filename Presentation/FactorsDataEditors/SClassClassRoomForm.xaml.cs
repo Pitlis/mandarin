@@ -64,28 +64,7 @@ namespace Presentation.FactorsDataEditors
             sClassListBox.SelectedIndex = DEFAULT_INDEX;
             SelectSClassClassRooms();
         }
-
-        private void SetToolTip()
-        {
-            if (sClassListBox.SelectedIndex != -1)
-            {
-                StudentsClass currentSClass = (StudentsClass)sClassListBox.SelectedItem;
-                string tooltipMsg = "Преподаватель:\n";
-                foreach (Teacher teacher in currentSClass.Teacher)
-                {
-                    tooltipMsg += teacher.Name + '\n';
-                }
-                tooltipMsg += "Группы:\n";
-                foreach (StudentSubGroup subGroup in currentSClass.SubGroups)
-                {
-                    tooltipMsg += subGroup.NameGroup + ", " + subGroup.NumberSubGroup + '\n';
-                }
-                ToolTip tooltip = new ToolTip();
-                tooltip.Content = tooltipMsg;
-                sClassListBox.ToolTip = tooltip;
-            }
-        }
-
+        
         private void SelectSClassClassRooms()
         {
             if (sClassListBox.SelectedIndex != -1)
@@ -240,7 +219,6 @@ namespace Presentation.FactorsDataEditors
 
         private void sClassListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //SetToolTip();
             SelectSClassClassRooms();
         }
 
