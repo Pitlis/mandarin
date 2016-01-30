@@ -26,16 +26,27 @@ namespace Presentation.ScheduleEditor
     /// </summary>
     public partial class ScheduleSubGroupsExcelForm : Window
     {
-        Schedule schedule;
+        Schedule schedule;     
         CheckBox[] chSubGroups;
         Thread thread;
         string filepath;
         StudentSubGroup[] checkedsubgroups;
+        string lbContent;
+        public StudentSubGroup[] groups;
         public ScheduleSubGroupsExcelForm()
         {
             InitializeComponent();
             this.schedule = CurrentSchedule.Schedule.Value;
             FillingScrData();
+        }
+        public ScheduleSubGroupsExcelForm(Schedule schedule)
+        {
+            InitializeComponent();
+            this.schedule = schedule;
+            FillingScrData();
+            lbContent = "Выбрать группы";
+            btnSave.Content = lbContent;
+            Wind.Title = "Выбор групп для вывода в расписания";
         }
 
         void FillingScrData()
@@ -184,6 +195,8 @@ namespace Presentation.ScheduleEditor
         }
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            if(lbContent == null)
+            { 
             if (thread != null && thread.ThreadState == ThreadState.Running)
             {
                 btnSave.IsEnabled = false;
@@ -195,11 +208,29 @@ namespace Presentation.ScheduleEditor
                 return;
             }
             LoadToExcel();
+            } else
+            {
+                this.DialogResult = true;
+                int countCheck = Convert.ToInt32(lblCount.Content.ToString());
+                checkedsubgroups = new StudentSubGroup[countCheck];
+                int indexChecked = 0;
+                for (int indexCheckBox = 0; indexCheckBox < chSubGroups.Count(); indexCheckBox++)
+                {
+                    if (chSubGroups[indexCheckBox].IsChecked == true)
+                    {
+                        checkedsubgroups[indexChecked] = schedule.EStorage.StudentSubGroups[indexCheckBox];
+                        indexChecked++;
+                    }
+                }
+                groups = new StudentSubGroup[checkedsubgroups.Count()];
+                groups = checkedsubgroups;
+            }
         }
 
         bool isClose = true;
         private async void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (lbContent == null) { 
             if (isClose)
             {
                 e.Cancel = true;
@@ -215,6 +246,7 @@ namespace Presentation.ScheduleEditor
                 if (thread != null) thread.Abort();
                 isClose = false;
                 Close();
+            }
             }
         }
     }

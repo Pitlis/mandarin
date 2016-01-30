@@ -17,6 +17,7 @@ using System.Windows.Controls.Primitives;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using System.Threading;
+using Presentation.ScheduleEditor;
 
 namespace Presentation
 {
@@ -44,19 +45,6 @@ namespace Presentation
         }
 
         #region Events        
-        private async void btnShow_Click(object sender, RoutedEventArgs e)
-        {
-            CreateTimeTable();
-            if (schedule.partSchedule.GetLength(1) == 0)
-            {
-                var infoWindow = new InfoWindow
-                {
-                    Message = { Text = "Не найдено ни 1-ой группы относящихся к "+(coursComboBox.SelectedIndex+1)+" курсу " +facultComboBox.SelectedItem.ToString()+" факультета. \n"+
-                               "Убедитесь что вы правильно распредилили группы в настройках"}
-                };
-                await DialogHost.Show(infoWindow, "MandarinHost");
-            }
-        }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             FillFacultyAndCoursCombobox();
@@ -89,6 +77,24 @@ namespace Presentation
         {
             ClassRoomlistView.SelectedIndex = -1;
         }
+        private async void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(coursComboBox.SelectedIndex != -1 && facultComboBox.SelectedIndex != -1 && facultComboBox.SelectedItem !=null)
+            {
+                GetScheduleForFacult();
+                CreateTimeTable();
+
+            if (schedule.partSchedule.GetLength(1) == 0)
+            {
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Не найдено ни 1-ой группы относящихся к "+(coursComboBox.SelectedIndex+1)+" курсу " +facultComboBox.SelectedItem.ToString()+" факультета. \n"+
+                               "Убедитесь что вы правильно распредилили группы в настройках"}
+                };
+                await DialogHost.Show(infoWindow, "MandarinHost");
+            }
+            }
+        }
         #endregion
 
         #region Method
@@ -107,14 +113,13 @@ namespace Presentation
         private void CreateTimeTable()
         {
             gdData.Children.Clear();
-            btnExcel.IsEnabled = true;
             gdData.ColumnDefinitions.Clear();
             gdData.RowDefinitions.Clear();
 
             gdData.ColumnDefinitions.Add(CreateDayHeaderColumn());
             gdData.ColumnDefinitions.Add(CreateTimeHeaderColumn());
 
-            GetScheduleForFacult();
+            
             //+1 - заголовок с названиями групп
             for (int rowIndex = 0; rowIndex < schedule.partSchedule.GetLength(0) + 1; rowIndex++)
             {
@@ -149,6 +154,7 @@ namespace Presentation
         {
             if (CurrentBase.BaseIsLoaded() && !CurrentSchedule.ScheduleIsFromFile())
             {
+                if(facultComboBox.SelectedItem !=null)
                 schedule.CreatScheduleForFacult(facultComboBox.SelectedItem.ToString(), (coursComboBox.SelectedIndex + 1));
             }
            
@@ -163,14 +169,15 @@ namespace Presentation
                 {
                     facultComboBox.Items.Add(faculty.Name);
                 }
-                facultComboBox.SelectedIndex = 0;
+                facultComboBox.SelectedIndex = -1;
                 for (int i = 1; i <= 5; i++)
                 {
                     coursComboBox.Items.Add(i);
                 }
-                coursComboBox.SelectedIndex = 0;
+                coursComboBox.SelectedIndex = -1;
                 LoadFacultyAndGroups();
             }
+            else { facultComboBox.IsEnabled = false; coursComboBox.IsEnabled = false; }
         }
         private async void CreateExcelDocument()
         {
@@ -190,7 +197,7 @@ namespace Presentation
                         Message = { Text = "Расписание будет сформировано:\n" + filepath + "\nПожалуйста подождите" }
                     };
                     await DialogHost.Show(infoWindow, "MandarinHost");
-                    btnExcel.IsEnabled = false;
+                    
 
 
                 }
@@ -217,7 +224,6 @@ namespace Presentation
                     Message = { Text = "Расписание сформировано:\n" + filepath }
                 };
                 await DialogHost.Show(infoWindow, "MandarinHost");
-                btnExcel.IsEnabled = true;
 
             }));
         }
@@ -237,7 +243,7 @@ namespace Presentation
                     schedule.partSchedule[RowForRemove - ROW_HEADER, colIndex] = null;
                 }
             }
-            btnShow_Click(Type.Missing, null);
+            CreateTimeTable();
             btnRemove.IsEnabled = false;
             infoClassTextbox.Text = "";
             InfoTeachersListbox.Items.Clear();
@@ -258,6 +264,7 @@ namespace Presentation
         }
         public async void SetClasses()
         {
+            int time = TimeRows;
             if (schedule.GetCrossClasses((ClassRoom)ClassRoomlistView.Items.GetItemAt(0), (StudentsClass)RemoveClasseslistBox.SelectedItem, TimeRows).Count != 0)
             {
                 var dialogWindow = new DialogWindow
@@ -268,17 +275,17 @@ namespace Presentation
                 object result = await DialogHost.Show(dialogWindow, "MandarinHost");
                 if ((bool)result == true)
                 {
-                    schedule.RemoveCrossClasses(schedule.GetCrossClasses((ClassRoom)ClassRoomlistView.Items.GetItemAt(0), (StudentsClass)RemoveClasseslistBox.SelectedItem, TimeRows), TimeRows);
-                    schedule.SetClass((ClassRoom)ClassRoomlistView.Items.GetItemAt(0), (StudentsClass)RemoveClasseslistBox.SelectedItem, TimeRows);
+                    schedule.RemoveCrossClasses(schedule.GetCrossClasses((ClassRoom)ClassRoomlistView.Items.GetItemAt(0), (StudentsClass)RemoveClasseslistBox.SelectedItem, time), time);
+                    schedule.SetClass((ClassRoom)ClassRoomlistView.Items.GetItemAt(0), (StudentsClass)RemoveClasseslistBox.SelectedItem, time);
                 }
             }
             else
             {
-                schedule.SetClass((ClassRoom)ClassRoomlistView.Items.GetItemAt(0), (StudentsClass)RemoveClasseslistBox.SelectedItem, TimeRows);
+                schedule.SetClass((ClassRoom)ClassRoomlistView.Items.GetItemAt(0), (StudentsClass)RemoveClasseslistBox.SelectedItem, time);
             }
             RemoveClasseslistBox.ItemsSource = null;
             RemoveClasseslistBox.ItemsSource = schedule.RemoveClases;
-            btnShow_Click(Type.Missing, null);
+            CreateTimeTable();
         }
         private void SelectRemoveClass()
         {
@@ -647,6 +654,19 @@ namespace Presentation
                 }
             }
         }
+
         #endregion
+
+        private void btnSelectGroups_Click(object sender, RoutedEventArgs e)
+        {
+            ScheduleSubGroupsExcelForm form = new ScheduleSubGroupsExcelForm(schedule);
+            //form.Owner = this;
+            form.ShowDialog();
+            if (form.DialogResult == true)
+            {
+                schedule.CreatScheduleForGroups(form.groups);
+                CreateTimeTable();
+            }
+        }
     }
 }
