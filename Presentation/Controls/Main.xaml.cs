@@ -58,19 +58,22 @@ namespace Presentation.Controls
 
         private async void scheduleListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            KeyValuePair<string, Schedule> schedule = (KeyValuePair<string, Schedule>)scheduleListBox.SelectedItem;
-            var inputWindow = new InputWindow()
+            if (scheduleListBox.Items.Count > 0)
             {
-                Message = { Text = "Введите название расписания" },
-                scheduleTextBox = { Text = schedule.Key }
-            };
+                KeyValuePair<string, Schedule> schedule = (KeyValuePair<string, Schedule>)scheduleListBox.SelectedItem;
+                var inputWindow = new InputWindow()
+                {
+                    Message = { Text = "Введите название расписания" },
+                    scheduleTextBox = { Text = schedule.Key }
+                };
 
-            object result = await DialogHost.Show(inputWindow, "MandarinHost");
-            if ((bool)result == true)
-            {
-                RenameSchedule(schedule, inputWindow.scheduleTextBox.Text);
-                LoadSchedules();
-                CurrentBase.SaveBase();
+                object result = await DialogHost.Show(inputWindow, "MandarinHost");
+                if ((bool)result == true)
+                {
+                    RenameSchedule(schedule, inputWindow.scheduleTextBox.Text);
+                    LoadSchedules();
+                    CurrentBase.SaveBase();
+                }
             }
         }
 
