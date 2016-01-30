@@ -101,6 +101,7 @@ namespace Presentation
                     CheckNewFactors(openedBase.Factors);
                     CurrentBase.OpenBase(openedBase);
                     LoadDataBaseInfo();
+                    LoadSchedules();
                     miFactorSettings.IsEnabled = true;
                     miSettings.IsEnabled = true;
                     miDBSave.IsEnabled = true;
