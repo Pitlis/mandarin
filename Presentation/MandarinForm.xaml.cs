@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System;
 using Domain.Services;
 using System.Threading.Tasks;
+using Presentation.FactorsDataEditors;
+using Domain.FactorInterfaces;
 
 namespace Presentation
 {
@@ -77,7 +79,7 @@ namespace Presentation
             {
                 LoadSchedules();
                 LoadFactorsInfo();
-                miFactorSettings.IsEnabled = true;
+                miDBSettings.IsEnabled = true;
                 miSettings.IsEnabled = true;
                 miDBSave.IsEnabled = true;
                 miDBSaveAs.IsEnabled = true;
@@ -102,7 +104,8 @@ namespace Presentation
                     CurrentBase.OpenBase(openedBase);
                     LoadDataBaseInfo();
                     LoadSchedules();
-                    miFactorSettings.IsEnabled = true;
+                    miSettings.ItemsSource = LoadFactorSettingRecords();
+                    miDBSettings.IsEnabled = true;
                     miSettings.IsEnabled = true;
                     miDBSave.IsEnabled = true;
                     miDBSaveAs.IsEnabled = true;
@@ -225,10 +228,17 @@ namespace Presentation
         #endregion
 
         #region miSettings
-
+        
         private void miFacultiesSettings_Click(object sender, RoutedEventArgs e)
         {
             OpenFacultiesSettings();
+        }
+
+        private void miSettings_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem currentMenuItem = (MenuItem)e.OriginalSource;
+            FactorSettingRecord currentFactorRecord = (FactorSettingRecord)currentMenuItem.Header;
+            OpenFactorEditor(currentFactorRecord);
         }
 
         private async void miFactorSettings_Click(object sender, RoutedEventArgs e)
@@ -250,11 +260,6 @@ namespace Presentation
             {
                 OpenFactorSettings();
             }
-        }
-
-        private void miVIPSettings_Click(object sender, RoutedEventArgs e)
-        {
-            OpenVIPSettings();
         }
 
         #endregion
@@ -463,6 +468,34 @@ namespace Presentation
 
         #region Settings
 
+        private IEnumerable<FactorSettingRecord> LoadFactorSettingRecords()
+        {
+            List<FactorSettingRecord> factorRecords = new List<FactorSettingRecord>();
+            foreach (FactorSettings factorSettings in CurrentBase.Factors)
+            {
+                IFactor factorInstance = factorSettings.CreateInstance();
+                FactorSettingRecord factorRecord = new FactorSettingRecord();
+
+                factorRecord.ReferenceToSettings = factorSettings;
+                factorRecord.Name = factorInstance.GetName();
+                factorRecord.Description = factorInstance.GetDescription();
+                factorRecord.Fine = factorSettings.Fine;
+
+                factorRecord.DataType = factorSettings.DataTypeGuid;
+                factorRecord.Data = factorSettings.Data;
+
+                if (factorInstance.GetDataTypeGuid().HasValue)
+                {
+                    if (factorInstance is IFactorFormData && FactorsEditors.GetFactorEditors().ContainsKey(factorInstance.GetDataTypeGuid().Value))
+                    {
+                        factorRecords.Add(factorRecord);
+                    }
+                }
+            }
+
+            return factorRecords;
+        }
+
         private async void OpenFactorSettings()
         {
             if (CurrentBase.BaseIsLoaded())
@@ -479,24 +512,7 @@ namespace Presentation
                 await DialogHost.Show(infoWindow, "MandarinHost");
             }
         }
-
-        private async void OpenVIPSettings()
-        {
-            if (CurrentBase.BaseIsLoaded())
-            {
-                VIPForm form = new VIPForm();
-                form.ShowDialog();
-            }
-            else
-            {
-                var infoWindow = new InfoWindow
-                {
-                    Message = { Text = "База данных не загружена" }
-                };
-                await DialogHost.Show(infoWindow, "MandarinHost");
-            }
-        }
-
+        
         private async void OpenFacultiesSettings()
         {
             if (CurrentBase.BaseIsLoaded())
@@ -511,6 +527,22 @@ namespace Presentation
                     Message = { Text = "База данных не загружена" }
                 };
                 await DialogHost.Show(infoWindow, "MandarinHost");
+            }
+        }
+
+        private void OpenFactorEditor(FactorSettingRecord factorRecord)
+        {
+            try
+            {
+                Type editorType = FactorsEditors.GetFactorEditors()[factorRecord.DataType.Value];
+                Window editorForm = (Window)Activator.CreateInstance(editorType);
+
+                FactorsEditors.InitFactorEditor(factorRecord.ReferenceToSettings, (IFactorEditor)editorForm);
+                editorForm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
 

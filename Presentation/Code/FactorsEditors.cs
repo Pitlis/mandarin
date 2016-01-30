@@ -122,6 +122,8 @@ namespace Presentation.Code
             {
                 factorEditors = new Dictionary<Guid, Type>();
                 factorEditors.Add(new Guid("6CF3F58B-5FA2-464B-8FF5-5B8E1724E0C9"), typeof(TeacherBuildingForm));
+                factorEditors.Add(new Guid("FA8861A3-02A1-4638-AF20-DF29A61A50F5"), typeof(TeacherClassRoomForm));
+                factorEditors.Add(new Guid("37DCA975-0CB9-4DEC-9DAD-93CDBC0D0599"), typeof(FixedClassesForm));
 
 
 

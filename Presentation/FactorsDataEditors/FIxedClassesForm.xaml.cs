@@ -1,44 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Presentation.Code;
 using Domain.Model;
 using Domain.Services;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
 using Presentation.Controls;
 using MaterialDesignThemes.Wpf;
+using Presentation.FactorsDataEditors;
 
-namespace Presentation
+namespace Presentation.FactorsDataEditors
 {
     /// <summary>
     /// Логика взаимодействия для VIP.xaml
     /// </summary>
-    public partial class VIPForm : Window
+    public partial class FixedClassesForm : Window, IFactorEditor
     {
         public List<Teacher> teachers;
-        Setting setting;
-        public VIPForm()
+        List<FixedClasses> settings;
+        FactorSettings factorSettings;
+        EntityStorage storage;
+        string factorName, factorDescription, userInstruction;
+
+        public void Init(string factorName, string factorDescription, string userInstruction, EntityStorage storage, FactorSettings factorSettings)
+        {
+            this.storage = storage;
+            this.factorSettings = factorSettings;
+            this.factorDescription = factorDescription;
+            this.userInstruction = userInstruction;
+            this.factorName = factorName;
+            if (this.factorSettings.Data != null)
+            {
+                settings = (List<FixedClasses>)this.factorSettings.Data;
+            }
+            else
+                settings = new List<FixedClasses>();
+        }
+
+        public FixedClassesForm()
         {
             InitializeComponent();
-            setting = new Setting();
-            teachers = setting.storage.Teachers.OrderBy(t => t.Name).ToList();
-
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            teachers = storage.Teachers.OrderBy(t => t.Name).ToList();
             TeacherslistBox.ItemsSource = teachers;
+            this.Title = factorName;
+            factorDescTextBlock.Text = factorDescription;
+            userInstrTextBlock.Text = userInstruction;
         }
 
 
@@ -46,7 +56,6 @@ namespace Presentation
         {
             TeacherslistBox.SelectedIndex = -1;
             FilterTeachers(SearchTeachertextBox.Text.ToLower());
-
         }
 
         private void SelectTeacher(object sender, SelectionChangedEventArgs e)
@@ -84,6 +93,11 @@ namespace Presentation
             RemoveClasses();
         }
 
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            factorSettings.Data = settings;
+        }
+
         #region Methods
         private void FillDayAndTimeCombobox()
         {
@@ -107,16 +121,26 @@ namespace Presentation
         {
 
 
-            teachers = new List<Teacher>(setting.storage.Teachers.OrderBy(i => !i.Name.ToLower().StartsWith(s)).
+            teachers = new List<Teacher>(storage.Teachers.OrderBy(i => !i.Name.ToLower().StartsWith(s)).
                 Where(item => item.Name.ToLower().Contains(s)));
             TeacherslistBox.ItemsSource = teachers;
+        }
+
+        private List<StudentsClass> GetListClases(Teacher teach)
+        {
+            List<StudentsClass> List = new List<StudentsClass>();
+            foreach (StudentsClass item in storage.Classes)
+            {
+                if (item.Teacher.Contains(teach)) List.Add(item);
+            }
+            return List;
         }
 
         private void FillClassesListBox()
         {
             if (TeacherslistBox.SelectedIndex != -1)
             {
-                ClasseslistBox.ItemsSource = setting.GetListClases((Teacher)TeacherslistBox.SelectedItem);
+                ClasseslistBox.ItemsSource = GetListClases((Teacher)TeacherslistBox.SelectedItem);
             }
             else { ClasseslistBox.ItemsSource = null; }
         }
@@ -133,7 +157,7 @@ namespace Presentation
                 FillDayAndTimeCombobox();
 
 
-                foreach (FixedClasses item in setting.LVIP)
+                foreach (FixedClasses item in settings)
                 {
                     if (sClass == item.sClass)
                     {
@@ -186,7 +210,7 @@ namespace Presentation
                 }
                 classRoom = (ClassRoom)ClassRoomlistView.Items[0];
                 bool freeClassroom = true, existAddClassInLVIP = false;
-                foreach (var item in setting.LVIP)
+                foreach (var item in settings)
                 {
                     //Проверка не занята ли аудитория в это время
                     if (item.Room == classRoom && item.Time == timeIndex)
@@ -196,7 +220,7 @@ namespace Presentation
                 {
                     if (freeClassroom)
                     {
-                        foreach (var item in setting.LVIP)
+                        foreach (var item in settings)
                         {
 
                             if (item.sClass == sClass)
@@ -216,7 +240,7 @@ namespace Presentation
                         if (!existAddClassInLVIP)
                         {
                             FixedClasses vi = new FixedClasses(sClass, timeIndex, classRoom);
-                            setting.LVIP.Add(vi);
+                            settings.Add(vi);
                             var infoWindow = new InfoWindow
                             {
                                 Message = { Text = "Всё ок" }
@@ -234,20 +258,6 @@ namespace Presentation
 
                         await DialogHost.Show(infoWindow, "VIPHost");
                     }
-
-                }
-                setting.LVIPB = new List<VIPClasesBin>();
-                foreach (var item in setting.LVIP)
-                {
-                    VIPClasesBin vipClasesBin =
-                        new VIPClasesBin(Array.FindIndex(CurrentBase.EStorage.Classes, c => c == item.sClass), item.Time, Array.FindIndex(CurrentBase.EStorage.ClassRooms, c => c == item.Room));
-                    setting.LVIPB.Add(vipClasesBin);
-
-                }
-                BinaryFormatter formatter = new BinaryFormatter();
-                using (FileStream fs = new FileStream("Setting.dat", FileMode.Create))
-                {
-                    formatter.Serialize(fs, setting.LVIPB);
                 }
             }
             catch
@@ -255,17 +265,18 @@ namespace Presentation
 
             }
         }
+
         private void RemoveClasses()
         {
             StudentsClass sClass;
             sClass = (StudentsClass)ClasseslistBox.SelectedItem;
             if (sClass != null)
             {
-                for (int indexVip = 0; indexVip < setting.LVIP.Count; indexVip++)
+                for (int indexVip = 0; indexVip < settings.Count; indexVip++)
                 {
-                    if (setting.LVIP[indexVip].sClass == sClass)
+                    if (settings[indexVip].sClass == sClass)
                     {
-                        setting.LVIP.RemoveAt(indexVip);
+                        settings.RemoveAt(indexVip);
                         DaycomboBox.SelectedIndex = -1;
                         TimecomboBox.SelectedIndex = -1;
                         InfoGrouplistView.ItemsSource = null;
@@ -274,27 +285,13 @@ namespace Presentation
 
                     }
                 }
-                setting.LVIPB = new List<VIPClasesBin>();
-                foreach (var item in setting.LVIP)
-                {
-                    VIPClasesBin vipClasesBin =
-                        new VIPClasesBin(Array.FindIndex(CurrentBase.EStorage.Classes, c => c == item.sClass), item.Time, Array.FindIndex(CurrentBase.EStorage.ClassRooms, c => c == item.Room));
-                    setting.LVIPB.Add(vipClasesBin);
-
-                }
-                BinaryFormatter formatter = new BinaryFormatter();
-                using (FileStream fs = new FileStream("Setting.dat", FileMode.Create))
-                {
-                    formatter.Serialize(fs, setting.LVIPB);
-                }
             }
         }
         private void CallChooseClassRoomForm()
         {
             StudentsClass sClass;
             sClass = (StudentsClass)ClasseslistBox.SelectedItem;
-            ChooseClassRoom form = new ChooseClassRoom(-1, setting.storage, sClass);
-            //form.Owner = this;
+            ChooseClassRoom form = new ChooseClassRoom(-1, storage, sClass);
             form.ShowDialog();
             if (form.DialogResult == true)
             {

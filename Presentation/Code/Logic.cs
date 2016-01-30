@@ -23,7 +23,7 @@ namespace Presentation.Code
         public List<FactorSettings> Factors { get; private set; }
         EntityStorage storage;
         ILoggingService loggingService;
-        Setting vip;
+        //Setting vip;
 
         //TODO Заглушка для Dependency Inversion
         public void DI()
@@ -35,7 +35,7 @@ namespace Presentation.Code
 
             storage = CurrentBase.EStorage;
 
-            vip = new Setting(storage, storage.Classes);
+            //vip = new Setting(storage);
             loggingService.Info("Загружены данные");
 
             
@@ -56,7 +56,7 @@ namespace Presentation.Code
             Core core = new Core(CurrentBase.EStorage, CurrentBase.Factors);
             core.SaveCreatedSchedule = SaveCreatedSchedule;
             core.logger = loggingService;
-            core.FixedClasses = vip.GetVipClasses();
+            //core.FixedClasses = vip.GetVipClasses();
             loggingService.Info("Загружено ядро. Запуск...");
 
             List<FullSchedule> schedules = core.Run().ToList<FullSchedule>();

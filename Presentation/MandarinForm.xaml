@@ -83,23 +83,25 @@
                                 <materialDesign:PackIcon Kind="ContentSave" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="Анализаторы" Name="miFactorSettings" IsEnabled="False" Click="miFactorSettings_Click">
-                            <MenuItem.Icon>
-                                <materialDesign:PackIcon Kind="Wrench" />
-                            </MenuItem.Icon>
+                        <MenuItem Header="_Настройки" Name="miDBSettings" HorizontalAlignment="Left" Width="auto" IsEnabled="False">
+                            <MenuItem Header="Анализаторы" Name="miFactorSettings" Click="miFactorSettings_Click">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="Wrench" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Факультеты" Name="miFacultiesSettings" Click="miFacultiesSettings_Click">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="School" />
+                                </MenuItem.Icon>
+                            </MenuItem>
                         </MenuItem>
                     </MenuItem>
-                    <MenuItem Name="miSettings" Header="Настройки"  HorizontalAlignment="Left" Width="auto" IsEnabled="False">
-                        <MenuItem Header="Факультеты" Name="miFacultiesSettings" Click="miFacultiesSettings_Click">
-                            <MenuItem.Icon>
-                                <materialDesign:PackIcon Kind="School" />
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Header="VIP" Name="miVIPSettings" Click="miVIPSettings_Click">
-                            <MenuItem.Icon>
-                                <materialDesign:PackIcon Kind="StarCircle" />
-                            </MenuItem.Icon>
-                        </MenuItem>
+                    <MenuItem Name="miSettings" Header="Настройки" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miSettings_Click">
+                        <MenuItem.ItemTemplate>
+                            <HierarchicalDataTemplate>
+                                <TextBlock Text="{Binding Name}"/>
+                            </HierarchicalDataTemplate>
+                        </MenuItem.ItemTemplate>
                     </MenuItem>
                 </Menu>
 

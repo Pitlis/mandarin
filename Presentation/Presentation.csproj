@@ -87,10 +87,7 @@
     <Compile Include="Code\CurrentSchedule.cs" />
     <Compile Include="Code\FactorsEditors.cs" />
     <Compile Include="Code\FactorsLoader.cs" />
-    <Compile Include="Code\TeachersBuildingsSettings.cs" />
-    <Compile Include="Code\TeachersClassRoomsSettings.cs" />
     <Compile Include="Code\ScheduleLoader.cs" />
-    <Compile Include="Code\Setting.cs" />
     <Compile Include="Code\StorageLoader.cs" />
     <Compile Include="Controls\DialogListBoxWindow.xaml.cs">
       <DependentUpon>DialogListBoxWindow.xaml</DependentUpon>
@@ -114,8 +111,8 @@
     <Compile Include="FactorsDataEditors\TeacherClassRoomForm.xaml.cs">
       <DependentUpon>TeacherClassRoomForm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FactorsDataEditors\VIPForm.xaml.cs">
-      <DependentUpon>VIPForm.xaml</DependentUpon>
+    <Compile Include="FactorsDataEditors\FIxedClassesForm.xaml.cs">
+      <DependentUpon>FIxedClassesForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="MandarinForm.xaml.cs">
       <DependentUpon>MandarinForm.xaml</DependentUpon>
@@ -213,7 +210,7 @@
     <Compile Include="FacultyEditor\FacultyAndGroupsForm.xaml.cs">
       <DependentUpon>FacultyAndGroupsForm.xaml</DependentUpon>
     </Compile>
-    <Page Include="FactorsDataEditors\VIPForm.xaml">
+    <Page Include="FactorsDataEditors\FIxedClassesForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
