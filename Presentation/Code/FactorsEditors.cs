@@ -30,9 +30,26 @@ namespace Presentation.Code
         }
 
         //вызов непосредственно перез запуском формирования расписания
-        public static void RunUpFactorSettings()
+        public static IEnumerable<FactorSettings> GetFactorsForCreateSchedule()
         {
+            //получение списка работающих анализаторов
+            List<FactorSettings> factors = FactorsLoader.GetCorrectFactors(CurrentBase.Factors).ToList();
 
+            //восстановление пользовательских данных анализаторов
+            foreach (var factor in GetSupportedUsersFactors(factors))
+            {
+                if(factor.Data != null)
+                {
+                    RestoreFactorsData(factor);
+                }
+            }
+            //формирование автоматических данных анализаторов
+            foreach (var factor in GetProgramFactors(factors))
+            {
+                IFactorProgramData factorInstance = (IFactorProgramData)factor.CreateInstance();
+                factor.Data = factorInstance.CreateAndReturnData(CurrentBase.EStorage);
+            }
+            return factors;
         }
 
         public static void RestoreFactorsData(FactorSettings factorSettings)
@@ -54,6 +71,49 @@ namespace Presentation.Code
             }
         }
 
+        //список программно заполняемых анализаторов (а также программно-пользовательских, типы которых не поддерживаются)
+        static IEnumerable<FactorSettings> GetProgramFactors(IEnumerable<FactorSettings> allFactors)
+        {
+            List<FactorSettings> programFactors = new List<FactorSettings>();
+            Dictionary<Guid, Type> supportedFactors = GetFactorEditors();
+            foreach (var factorSetting in allFactors)
+            {
+                if (factorSetting.DataTypeGuid.HasValue)
+                {
+                    if (!supportedFactors.ContainsKey(factorSetting.DataTypeGuid.Value))
+                    {
+                        IFactor factorInstance = factorSetting.CreateInstance();
+                        if(factorInstance is IFactorProgramData)
+                        {
+                            programFactors.Add(factorSetting);
+                        }
+                    }
+                }
+            }
+            return programFactors;
+        }
+
+        //список поддерживаемых пользовательских анализаторов
+        static IEnumerable<FactorSettings> GetSupportedUsersFactors(IEnumerable<FactorSettings> allFactors)
+        {
+            List<FactorSettings> usersFacators = new List<FactorSettings>();
+            Dictionary<Guid, Type> supportedFactors = GetFactorEditors();
+            foreach (var factorSetting in allFactors)
+            {
+                if (factorSetting.DataTypeGuid.HasValue)
+                {
+                    if (supportedFactors.ContainsKey(factorSetting.DataTypeGuid.Value))
+                    {
+                        IFactor factorInstance = factorSetting.CreateInstance();
+                        if (factorInstance is IFactorFormData)
+                        {
+                            usersFacators.Add(factorSetting);
+                        }
+                    }
+                }
+            }
+            return usersFacators;
+        }
 
         //список поддерживаемых системой редакторов данных для анализаторов
         public static Dictionary<Guid, Type> GetFactorEditors()

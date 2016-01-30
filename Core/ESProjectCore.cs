@@ -34,7 +34,7 @@ namespace MandarinCore
 
         public IEnumerable<FullSchedule> Run()
         {
-            int sortCount = 2;
+            int sortCount = 1;
             FullSchedule[] schedules = new FullSchedule[sortCount];
             int[] fines = new int[sortCount];
             for (int sortIndex = 0; sortIndex < sortCount; sortIndex++)
@@ -46,7 +46,6 @@ namespace MandarinCore
                 if (schedule != null)
                 {
                     fines[sortIndex] = ScanFullSchedule(schedule);
-                    //fines[sortIndex] = 0;
                     logger.Info("Расписание " + (sortIndex + 1).ToString() + " сформировано");
                     if (SaveCreatedSchedule != null)
                         SaveCreatedSchedule(schedule, fines[sortIndex], sortIndex);
