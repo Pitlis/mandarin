@@ -39,39 +39,7 @@ namespace Presentation.Controls
             scheduleListBox.SelectedIndex = scheduleListBox.Items.Count - 1;
         }
 
-        private async void button3_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                CurrentBase.LoadBase("testBase.dat");
-                CurrentBase.Factors = FactorsLoader.GetFactorSettings().ToList();
-                var infoWindow = new InfoWindow
-                {
-                    Message = { Text = "База загружена" }
-                };
-
-                await DialogHost.Show(infoWindow, "MandarinHost");
-            }
-            catch (Exception ex)
-            {
-                //IRepository Repo = new Data.DataRepository();
-                //EntityStorage storage = StorageLoader.CreateEntityStorage(Repo, new string[] { @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BD4.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" });
-
-                IRepository Repo = new MockDataBase.MockRepository();
-                EntityStorage storage = StorageLoader.CreateEntityStorage(Repo, null);
-
-                CurrentBase.CreateBase(storage);
-                CurrentBase.Factors = FactorsLoader.GetFactorSettings().ToList();
-                CurrentBase.SaveBase("testBase.dat");
-                var infoWindow = new InfoWindow
-                {
-                    Message = { Text = "Создана новая база" }
-                };
-
-                await DialogHost.Show(infoWindow, "MandarinHost");
-            }
-            IsEmptyScheduleList();
-        }
+       
 
         private async void deleteScheduleButton_Click(object sender, RoutedEventArgs e)
         {

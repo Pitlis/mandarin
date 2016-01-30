@@ -295,7 +295,7 @@ namespace Presentation
             List<string> newFactors = (List<string>)FactorsLoader.GetNewFactorsList(factorsOfBase);
             if (newFactors.Count > 0)
             {
-                string newFactorsMsg = "Обнаружены новые анализаторы!\n Они будут автоматически подключены к текущей базе и станут доступны в настройках.\n\n";
+                string newFactorsMsg = "Обнаружены новые анализаторы!\nОни будут автоматически подключены к текущей базе и станут доступны в настройках.\n\n";
                 var infoWindow = new InfoListBoxWindow
                 {
                     Message = { Text = newFactorsMsg },
