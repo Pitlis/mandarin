@@ -28,10 +28,7 @@ namespace Presentation.Controls
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            Logic core = new Logic();
-            core.DI();
-
-            core.Start();
+            CreateSchedule.Run();
             CurrentBase.SaveBase();
 
             SetScheduleName();

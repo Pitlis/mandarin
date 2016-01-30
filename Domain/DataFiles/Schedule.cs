@@ -19,7 +19,7 @@ namespace Domain.DataFiles
         public Schedule(EntityStorage storage) : base(storage.ClassRooms.Length, storage) { }
 
         #region Info
-        public double Version { get; set; }
+        public DateTime Date { get; set; }
         #endregion
     }
 }
