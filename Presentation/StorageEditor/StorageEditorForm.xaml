@@ -30,7 +30,7 @@
                                 <Button x:Name="tiTypebtnADD" Content="Создать" Margin="0,81,0,37" Height="Auto" Click="tiTypebtnADD_Click" IsEnabled="False"/>
                                 <Button x:Name="tiTypebtnDel" Content="Удалить" Margin="0,118,0,0" Height="Auto" Click="tiTypebtnDel_Click"/>
                                 <Label x:Name="label" Content="Тип аудитории" Margin="10,0,10,112" FontWeight="Bold" FontSize="13.333" HorizontalContentAlignment="Center"/>
-                                <TextBox x:Name="tiTypetetxBox" Margin="0,41,0,81" TextChanged="tiTypetetxBox_TextChanged" Height="28" Background="#FFF9F3F3"/>
+                                <TextBox x:Name="tiTypetetxBox" BorderThickness="1" BorderBrush="Gray" Margin="0,41,0,81" TextChanged="tiTypetetxBox_TextChanged" Height="28"/>
 
                             </Grid>
                         </GroupBox>
@@ -64,8 +64,8 @@
                             <Grid>
                                 <Label x:Name="label2" Content="Корпус" VerticalAlignment="Top" Height="26" FontSize="13.333" FontWeight="Bold" HorizontalContentAlignment="Center"/>
                                 <Label x:Name="label3" Content="Аудитория" Margin="0,56,0,0" VerticalAlignment="Top" FontSize="13.333" FontWeight="Bold" HorizontalContentAlignment="Center"/>
-                                <TextBox x:Name="tiClassRoomstbHousing" Height="28" Margin="0,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Background="White"/>
-                                <TextBox x:Name="tiClassRoomstbNumber" Height="28" Margin="0,86,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Background="#FFFBF2F2"/>
+                                <TextBox x:Name="tiClassRoomstbHousing" BorderThickness="1" BorderBrush="Gray" Height="28" Margin="0,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                                <TextBox x:Name="tiClassRoomstbNumber" BorderThickness="1" BorderBrush="Gray" Height="28" Margin="0,86,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
                                 <Button x:Name="tiClassRoomsbtnADD" Content="Добавить" Margin="0,124,0,0" VerticalAlignment="Top"/>
                                 <Button x:Name="tiClassRoomsbtnEdit" Content="Удалить" Margin="0,164,0,0" Height="32" VerticalAlignment="Top"/>
 
@@ -84,13 +84,13 @@
                             <RowDefinition Height="376*"/>
                         </Grid.RowDefinitions>
                         <Label x:Name="label4" Content="Поиск по ФИО" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Height="26" Width="101" FontWeight="Bold"/>
-                        <TextBox x:Name="tiTeachertbSearch" Height="28" Margin="124,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="tiTeachertbSearch_TextChanged" Background="#FFF3EFEF"/>
+                        <TextBox x:Name="tiTeachertbSearch" BorderThickness="1" BorderBrush="Gray" Height="28" Margin="124,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="tiTeachertbSearch_TextChanged"/>
                         <ListBox x:Name="tiTeacherList" BorderThickness="1" DisplayMemberPath="Name" BorderBrush="Gray" Margin="10,10,18,10" Grid.Row="1" MouseLeftButtonUp="tiTeacherList_MouseLeftButtonUp"/>
                         <GroupBox x:Name="tiTeachergroupbox" Grid.Column="1" Header="Добавление" Margin="0,3,0,0" Grid.RowSpan="2" Height="172
                                   " VerticalAlignment="Top" FontWeight="Bold">
                             <Grid>
                                 <Label x:Name="label5" Content="Введите ФИО" Grid.Column="1" Margin="0,7,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="13.333"/>
-                                <TextBox x:Name="tiTeachertbEdit" Height="28" Margin="0,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="tiTeachertbEdit_TextChanged" Background="#FFF7E8E8"/>
+                                <TextBox x:Name="tiTeachertbEdit" BorderThickness="1" BorderBrush="Gray" Height="28" Margin="0,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="tiTeachertbEdit_TextChanged"/>
                                 <Button x:Name="tiTeacherbtnADD" Content="Создать" Margin="0,79,0,0" VerticalAlignment="Top" IsEnabled="False" Click="tiTeacherbtnADD_Click" FontWeight="Normal" Height="Auto"/>
                                 <Button x:Name="tiTeacherbtnDel" Content="Удалить" Margin="0,118,2,0" VerticalAlignment="Top" Click="tiTeacherbtnDel_Click" Height="Auto"/>
 
@@ -117,7 +117,7 @@
                         <RadioButton x:Name="radioButton2" Content="Типам" HorizontalAlignment="Left" Margin="0,35,0,0" VerticalAlignment="Top" Height="18" Width="57" Grid.Column="1"/>
                         <Label x:Name="label6" Content="Фильтрация по:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="321" Height="26" Grid.ColumnSpan="2"/>
                         <Label x:Name="label7" Content="Поиск" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" Height="26" Width="44"/>
-                        <TextBox x:Name="textBox5" HorizontalAlignment="Left" Height="23" Margin="53,10,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="134"/>
+                        <TextBox x:Name="textBox5" BorderThickness="1" BorderBrush="Gray" HorizontalAlignment="Left" Height="23" Margin="53,10,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="134"/>
                         <ListBox x:Name="listView4" BorderThickness="1" BorderBrush="Gray" Margin="10,86,16,10" Grid.Row="1"/>
                         <RadioButton x:Name="radioButton3" Content="Парам" HorizontalAlignment="Left" Margin="88,35,0,0" VerticalAlignment="Top" Grid.Column="1"/>
                         <Label x:Name="label8" Content="Пары" HorizontalAlignment="Left" Margin="16,55,0,0" Grid.Row="1" VerticalAlignment="Top" Width="211"/>
