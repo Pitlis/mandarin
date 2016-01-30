@@ -65,6 +65,26 @@ namespace Presentation.Code
 
         }
 
+        public void CreatScheduleForGroups(StudentSubGroup[] groups)
+        {
+          
+            int classesInSchedule = Constants.WEEKS_IN_SCHEDULE * Constants.DAYS_IN_WEEK * Constants.CLASSES_IN_DAY;
+            ClassRoom clasRoom = GetClassRoom(ClassesTable[0, 0]);
+            partSchedule = new StudentsClass[classesInSchedule, groups.Count()];
+            Groups = new StudentSubGroup[groups.Count()];
+            this.Groups = groups;
+            Array.Sort(Groups, new GroupsComparer());
+            for (int groupIndex = 0; groupIndex < groups.Count(); groupIndex++)
+            {
+                StudentsClass[] groupClasses = this.GetPartialSchedule(Groups[groupIndex]).GetClasses();//WTF???
+                for (int classIndex = 0; classIndex < classesInSchedule; classIndex++)
+                {
+                    partSchedule[classIndex, groupIndex] = groupClasses[classIndex];
+                }
+            }
+
+
+        }
         private void GetGroups(string nameFaculty, int cours)
         {
             List<StudentSubGroup> groupslocal = new List<StudentSubGroup>();

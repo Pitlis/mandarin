@@ -207,6 +207,12 @@ namespace Presentation
             scheduleFacultyExcel.ShowDialog();
         }
 
+        private void misheduleExportGroups_Click(object sender, RoutedEventArgs e)
+        {
+            ScheduleSubGroupsExcelForm scheduleFacultyGroups = new ScheduleSubGroupsExcelForm();
+            scheduleFacultyGroups.ShowDialog();
+        }
+
         private void miScheduleEdit_Click(object sender, RoutedEventArgs e)
         {
             if (CurrentSchedule.ScheduleIsLoaded())
@@ -553,5 +559,6 @@ namespace Presentation
 
 
         }
+
     }
 }

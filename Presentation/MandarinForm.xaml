@@ -55,6 +55,11 @@
                                     <materialDesign:PackIcon Kind="FileExcelBox"/>
                                 </MenuItem.Icon>
                             </MenuItem>
+                            <MenuItem Name="misheduleExportGroups" Header="_Расписание для групп" HorizontalAlignment="Left" Width="auto" Click="misheduleExportGroups_Click">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="FileExcelBox"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
                         </MenuItem>
                     </MenuItem>
                     <MenuItem Header="_База" Foreground="#DD000000" FontSize="16" Name="miDB">

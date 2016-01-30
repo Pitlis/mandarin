@@ -11,7 +11,6 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="btnShow" Content="Показать" Grid.Column="1" HorizontalAlignment="Left" Margin="10,4,0,0" VerticalAlignment="Top" Width="82" Click="btnShow_Click" Padding="5,4"/>
 
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Column="0" Grid.Row="0">
             <Grid Name="gdData" Margin="10"/>
@@ -36,9 +35,9 @@
                 <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource CustomMaterialDesignListBoxItem}"></Style>
             </ListBox.ItemContainerStyle>
         </ListView>
-        <ComboBox x:Name="facultComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="164"/>
-        <ComboBox x:Name="coursComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="193,41,0,0" VerticalAlignment="Top" Width="90"/>
-        <Button x:Name="btnExcel" Content="В Excel" Grid.Column="1" HorizontalAlignment="Left" Margin="201,4,0,0" VerticalAlignment="Top" Width="82" Click="btnExcel_Click" IsEnabled="False"/>
+        <ComboBox x:Name="facultComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="164" SelectionChanged="ComboBox_SelectionChanged"/>
+        <ComboBox x:Name="coursComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="193,41,0,0" VerticalAlignment="Top" Width="90" SelectionChanged="ComboBox_SelectionChanged"/>
+        <Button x:Name="btnSelectGroups" Content="Выбрать группы" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="273" IsEnabled="true" Click="btnSelectGroups_Click"/>
 
 
     </Grid>
