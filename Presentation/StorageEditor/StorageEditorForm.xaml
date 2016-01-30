@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:Presentation.StorageEditor"
         mc:Ignorable="d" Name="qwerty">
     <materialDesign:DialogHost Identifier="StorageEditorHost">
-        <Grid>
+        <Grid Background="{DynamicResource MaterialDesignPaper}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="495*"/>
                 <ColumnDefinition Width="134*"/>
@@ -17,21 +17,14 @@
                 <RowDefinition Height="155*"/>
             </Grid.RowDefinitions>
             <Button x:Name="button1" Content="Сохранить" Grid.Column="1" Margin="10,2,10,5" Height="Auto"/>
-            <TabControl x:Name="tabControl" Margin="10" Grid.Row="1" Grid.ColumnSpan="3">
+            <TabControl Background="{DynamicResource MaterialDesignPaper}" x:Name="tabControl" Margin="10" Grid.Row="1" Grid.ColumnSpan="3">
                 <TabItem Header="Тип аудиторий" Name="tiType" MouseLeftButtonUp="tiType_MouseLeftButtonUp" >
-                    <Grid Background="#FFE5E5E5">
+                    <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="291*"/>
                             <ColumnDefinition Width="76*"/>
                         </Grid.ColumnDefinitions>
-                        <ListView x:Name="tiTypeListTypes" Margin="10" MouseLeftButtonUp="tiTypeListTypes_MouseLeftButtonUp">
-                            <ListView.View >
-                                <GridView >
-
-                                    <GridViewColumn Header="Типы аудиторий" Width="500"  DisplayMemberBinding="{Binding Description}" />
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
+                        <ListBox x:Name="tiTypeListTypes" BorderThickness="1" BorderBrush="Gray" Margin="10" DisplayMemberPath="Description" MouseLeftButtonUp="tiTypeListTypes_MouseLeftButtonUp"/>
                         <GroupBox x:Name="groupBox" Grid.Column="1" Header="Добавление типа" VerticalAlignment="Top" Height="172" FontWeight="Bold" FontSize="13.333" Margin="0,1,0,0">
                             <Grid>
                                 <Button x:Name="tiTypebtnADD" Content="Создать" Margin="0,81,0,37" Height="Auto" Click="tiTypebtnADD_Click" IsEnabled="False"/>
@@ -44,7 +37,7 @@
                     </Grid>
                 </TabItem>
                 <TabItem Header="Аудитории">
-                    <Grid Background="#FFE5E5E5">
+                    <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="152*"/>
                             <ColumnDefinition Width="33*"/>
@@ -57,22 +50,16 @@
                         </Grid.RowDefinitions>
                         <Label x:Name="label1" Content="Корпус" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="70" FontWeight="Bold" FontSize="13.333"/>
                         <ComboBox x:Name="tiClassRoomscbHousing" HorizontalAlignment="Left" Margin="85,11,0,0" VerticalAlignment="Top" Width="57" Height="25" Background="#FFFFF7F7" SelectionChanged="tiClassRoomscbHousing_SelectionChanged"/>
-                        <ListView x:Name="tiClassRomslwNumber" Margin="10" Grid.Row="1" Grid.ColumnSpan="2">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="Корпус" Width="70"  DisplayMemberBinding="{ Binding Housing}"/>
-                                    <GridViewColumn Header="Аудитория" Width="70"  DisplayMemberBinding="{ Binding Number}"/>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                        <ListView x:Name="listView2" Grid.Column="2" Margin="10" Grid.Row="1">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="Основной тип" Width="180"  />
-                                    <GridViewColumn Header="Возможный тип" Width="180"  />
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
+                        <ListBox x:Name="tiClassRomslwNumber" ItemTemplate="{StaticResource ClassRoomsTemplate}" Template="{StaticResource ClassRoomsListBoxTemplate}" Margin="10" Grid.Row="1" Grid.ColumnSpan="2">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource CustomMaterialDesignListBoxItem}"></Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+                        <ListBox x:Name="listView2" ItemTemplate="{StaticResource ClassRoomsTypesTemplate}" Template="{StaticResource ClassRoomsTypesListBoxTemplate}" Grid.Column="2" Margin="10" Grid.Row="1">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource CustomMaterialDesignListBoxItem}"></Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
                         <GroupBox x:Name="tiClassRoomsGB" Grid.Column="3" Header="GroupBox" Margin="0,9,0,173" Grid.RowSpan="2">
                             <Grid>
                                 <Label x:Name="label2" Content="Корпус" VerticalAlignment="Top" Height="26" FontSize="13.333" FontWeight="Bold" HorizontalContentAlignment="Center"/>
@@ -87,7 +74,7 @@
                     </Grid>
                 </TabItem>
                 <TabItem Header="Преподаватели" Name="tiTeacher" MouseLeftButtonUp="TabItem_MouseLeftButtonUp">
-                    <Grid Background="#FFE5E5E5">
+                    <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="291*"/>
                             <ColumnDefinition Width="76*"/>
@@ -98,13 +85,7 @@
                         </Grid.RowDefinitions>
                         <Label x:Name="label4" Content="Поиск по ФИО" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Height="26" Width="101" FontWeight="Bold"/>
                         <TextBox x:Name="tiTeachertbSearch" Height="28" Margin="124,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="tiTeachertbSearch_TextChanged" Background="#FFF3EFEF"/>
-                        <ListView x:Name="tiTeacherList" Margin="10,10,18,10" Grid.Row="1" MouseLeftButtonUp="tiTeacherList_MouseLeftButtonUp">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="ФИО" Width="520"  DisplayMemberBinding="{Binding Name}"  />
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
+                        <ListBox x:Name="tiTeacherList" BorderThickness="1" DisplayMemberPath="Name" BorderBrush="Gray" Margin="10,10,18,10" Grid.Row="1" MouseLeftButtonUp="tiTeacherList_MouseLeftButtonUp"/>
                         <GroupBox x:Name="tiTeachergroupbox" Grid.Column="1" Header="Добавление" Margin="0,3,0,0" Grid.RowSpan="2" Height="172
                                   " VerticalAlignment="Top" FontWeight="Bold">
                             <Grid>
@@ -119,7 +100,7 @@
                     </Grid>
                 </TabItem>
                 <TabItem Header="Преподаватели">
-                    <Grid Background="#FFE5E5E5">
+                    <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="64*"/>
                             <RowDefinition Height="353*"/>
@@ -137,46 +118,23 @@
                         <Label x:Name="label6" Content="Фильтрация по:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="321" Height="26" Grid.ColumnSpan="2"/>
                         <Label x:Name="label7" Content="Поиск" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" Height="26" Width="44"/>
                         <TextBox x:Name="textBox5" HorizontalAlignment="Left" Height="23" Margin="53,10,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="134"/>
-                        <ListView x:Name="listView4" Margin="10,86,16,10" Grid.Row="1">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn/>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
+                        <ListBox x:Name="listView4" BorderThickness="1" BorderBrush="Gray" Margin="10,86,16,10" Grid.Row="1"/>
                         <RadioButton x:Name="radioButton3" Content="Парам" HorizontalAlignment="Left" Margin="88,35,0,0" VerticalAlignment="Top" Grid.Column="1"/>
                         <Label x:Name="label8" Content="Пары" HorizontalAlignment="Left" Margin="16,55,0,0" Grid.Row="1" VerticalAlignment="Top" Width="211"/>
                         <Label x:Name="label9" Content="Группы" Grid.Column="1" Margin="10,55,10,0" Grid.Row="1" VerticalAlignment="Top" RenderTransformOrigin="-0.658,0.077"/>
                         <Label x:Name="label10" Content="Преподы" Grid.Column="3" HorizontalAlignment="Left" Margin="10,55,0,0" Grid.Row="1" VerticalAlignment="Top" Width="151"/>
                         <Label x:Name="label11" Content="Типы аудиторий" Grid.Column="4" HorizontalAlignment="Left" Margin="10,55,0,0" Grid.Row="1" VerticalAlignment="Top" Width="138"/>
-                        <ListView x:Name="listView5" Grid.Column="1" Height="257" Margin="10,86,10,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn/>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                        <ListView x:Name="listView5_Copy" Grid.Column="3" Height="257" Margin="4,86,5,0" Grid.Row="1" VerticalAlignment="Top">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn/>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                        <ListView x:Name="listView6" Grid.Column="4" Height="257" Margin="10,86,10,0" Grid.Row="1" VerticalAlignment="Top">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn/>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
+                        <ListBox x:Name="listView5" BorderThickness="1" BorderBrush="Gray" Grid.Column="1" Height="257" Margin="10,86,10,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+
+                        <ListBox x:Name="listView5_Copy" BorderThickness="1" BorderBrush="Gray" Grid.Column="3" Height="257" Margin="4,86,5,0" Grid.Row="1" VerticalAlignment="Top"/>
+                        <ListBox x:Name="listView6" BorderThickness="1" BorderBrush="Gray" Grid.Column="4" Height="257" Margin="10,86,10,0" Grid.Row="1" VerticalAlignment="Top"/>
                         <Button x:Name="button11" Content="Сохранить" Grid.Column="3" HorizontalAlignment="Left" Margin="20,10,0,0" VerticalAlignment="Top" Width="131"/>
                         <Button x:Name="button12" Content="Удалить пару" Grid.Column="4" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="138"/>
 
                     </Grid>
                 </TabItem>
-                <TabItem Header="Добавление пары">
-                    <Grid Background="#FFE5E5E5">
+                <TabItem Background="{DynamicResource MaterialDesignPaper}" Header="Добавление пары">
+                    <Grid>
 
                     </Grid>
                 </TabItem>

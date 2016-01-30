@@ -26,21 +26,15 @@
         <Label x:Name="lable_Copy2" Content="Группы:" Grid.Column="1" HorizontalAlignment="Left" Margin="10,232,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="TimeTextBox"  Grid.Column="1" BorderThickness="1" BorderBrush="Gray" HorizontalAlignment="Left" Height="28" Margin="88,421,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" IsReadOnly="True"/>
         <Label x:Name="lable_Copy4" Content="Время" Grid.Column="1" HorizontalAlignment="Left" Margin="10,423,0,0" VerticalAlignment="Top"/>
-        <ListView x:Name="ClassRoomlistView" Background="{DynamicResource MaterialDesignPaper}" Height="44" Margin="10,369,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Grid.Column="1" SelectionChanged="listViewClassRoom_SelectionChanged" Width="273">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Корпус" Width="90" DisplayMemberBinding="{Binding Housing}" />
-                    <GridViewColumn Header="Аудитория" DisplayMemberBinding="{Binding Number}" Width="95" />
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <ListView x:Name="InfoGrouplistView" Background="{DynamicResource MaterialDesignPaper}" Height="101" Margin="10,263,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Grid.Column="1" SelectionChanged="InfoGroop_SelectionChanged" Width="273">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Группа" Width="165" DisplayMemberBinding="{Binding NameGroup}" />
-                    <GridViewColumn Header="№ подгруппы" DisplayMemberBinding="{Binding NumberSubGroup}" Width="80" />
-                </GridView>
-            </ListView.View>
+        <ListBox x:Name="ClassRoomlistView" Background="{DynamicResource MaterialDesignPaper}" ItemTemplate="{StaticResource ClassRoomsTemplate}" Template="{StaticResource ClassRoomsListBoxTemplate}" Height="44" Margin="10,369,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Grid.Column="1" SelectionChanged="listViewClassRoom_SelectionChanged" Width="273">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource CustomMaterialDesignListBoxItem}"></Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+        <ListView x:Name="InfoGrouplistView" Background="{DynamicResource MaterialDesignPaper}" ItemTemplate="{StaticResource GroupsTemplate}" Template="{StaticResource GroupsListBoxTemplate}" Height="101" Margin="10,263,0,0" HorizontalAlignment="Left" SelectionMode="Single" VerticalAlignment="Top" Grid.Column="1" SelectionChanged="InfoGroop_SelectionChanged" Width="273">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource CustomMaterialDesignListBoxItem}"></Style>
+            </ListBox.ItemContainerStyle>
         </ListView>
         <ComboBox x:Name="facultComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="164"/>
         <ComboBox x:Name="coursComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="193,41,0,0" VerticalAlignment="Top" Width="90"/>
