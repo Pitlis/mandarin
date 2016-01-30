@@ -51,10 +51,10 @@ namespace Presentation.Code
                 }
             }
         }
-        public static IEnumerable<string> GetLostFactorsList()
+        public static IEnumerable<string> GetLostFactorsList(IEnumerable<FactorSettings> factors)
         {
             List<string> lostFactors = new List<string>();
-            foreach (FactorSettings factor in CurrentBase.Factors)
+            foreach (FactorSettings factor in factors)
             {
                 try
                 {

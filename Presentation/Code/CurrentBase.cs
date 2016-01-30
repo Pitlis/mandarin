@@ -75,22 +75,28 @@ namespace Presentation.Code
 
             currentBase.Settings.Add(FACULTIES, new List<Faculty>());
         }
-        public static void LoadBase(string filePath)
+        public static Base LoadBase(string filePath)
         {
             currentFilePath = filePath;
             BinaryFormatter formatter = new BinaryFormatter();
+            Base openedBase;
             try
             {
                 using (FileStream fs = new FileStream(currentFilePath, FileMode.Open))
                 {
-                    currentBase = (Base)formatter.Deserialize(fs);
+                    openedBase = (Base)formatter.Deserialize(fs);
                 }
             }
             catch
             {
                 throw;
             }
+            return openedBase;
+        }
 
+        public static void OpenBase(Base openedBase)
+        {
+            currentBase = openedBase;
         }
         public static void SaveBase()
         {

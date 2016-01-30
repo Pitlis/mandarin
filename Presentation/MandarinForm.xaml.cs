@@ -11,6 +11,8 @@ using Presentation.ScheduleEditor;
 using System.Collections.Generic;
 using System.Windows.Media;
 using System;
+using Domain.Services;
+using System.Threading.Tasks;
 
 namespace Presentation
 {
@@ -92,21 +94,25 @@ namespace Presentation
             }
             try
             {
-                CurrentBase.LoadBase(openFile.FileName);
-                CheckFactors();
-                LoadDataBaseInfo();
-                LoadSchedules();
-                LoadFactorsInfo();
-                miFactorSettings.IsEnabled = true;
-                miSettings.IsEnabled = true;
-                miDBSave.IsEnabled = true;
-                miDBSaveAs.IsEnabled = true;
+                Base openedBase = CurrentBase.LoadBase(openFile.FileName);
+                if (await CheckLostFactors(openedBase.Factors))
+                {
+                    CurrentBase.OpenBase(openedBase);
+                    CheckNewFactors();
+                    LoadDataBaseInfo();
+                    LoadSchedules();
+                    LoadFactorsInfo();
+                    miFactorSettings.IsEnabled = true;
+                    miSettings.IsEnabled = true;
+                    miDBSave.IsEnabled = true;
+                    miDBSaveAs.IsEnabled = true;
+                }
             }
-            catch
+            catch(Exception ex)
             {
                 var infoWindow = new InfoWindow
                 {
-                    Message = { Text = "Не удалось открыть" }
+                    Message = { Text = "Ошибка открытия файла базы" }
                 };
                 await DialogHost.Show(infoWindow, "MandarinHost");
                 return;
@@ -123,7 +129,7 @@ namespace Presentation
                     CurrentBase.SaveBase();
                     var infoWindow = new InfoWindow
                     {
-                        Message = { Text = "Сохранение прошло успешно" }
+                        Message = { Text = "База успешно сохранена" }
                     };
                     await DialogHost.Show(infoWindow, "MandarinHost");
                 }
@@ -131,7 +137,7 @@ namespace Presentation
                 {
                     var infoWindow = new InfoWindow
                     {
-                        Message = { Text = "Не сохранено, попробуйте еще раз" }
+                        Message = { Text = "Ошибка сохранения базы" }
                     };
                     await DialogHost.Show(infoWindow, "MandarinHost");
                 }
@@ -152,16 +158,16 @@ namespace Presentation
                     CurrentBase.SaveBase(saveFileDialog.FileName);
                     var infoWindow = new InfoWindow
                     {
-                        Message = { Text = "Сохранение прошло успешно" }
+                        Message = { Text = "База успешно сохранена" }
                     };
                     await DialogHost.Show(infoWindow, "MandarinHost");
-                    CurrentBase.LoadBase(saveFileDialog.FileName);
+                    CurrentBase.OpenBase(CurrentBase.LoadBase(saveFileDialog.FileName));
                 }
                 catch
                 {
                     var infoWindow = new InfoWindow
                     {
-                        Message = { Text = "Не удалось сохранить" }
+                        Message = { Text = "Ошибка сохранения базы" }
                     };
                     await DialogHost.Show(infoWindow, "MandarinHost");
                     return;
@@ -285,28 +291,12 @@ namespace Presentation
            main.factorsListBox.ItemsSource = FactorsLoader.GetActualFactorsList();
         }
 
-        private async void CheckFactors()
+        private async void CheckNewFactors()
         {
-            List<string> lostFactors = (List<string>)FactorsLoader.GetLostFactorsList();
             List<string> newFactors = (List<string>)FactorsLoader.GetNewFactorsList();
-            if (lostFactors.Count > 0)
-            {
-                string lostFactorsMsg = "К сожалению, следующие анализаторы отсутствуют и будут отключены.\n" +
-                                            "Данные анализаторов будут потеряны.\n";
-                foreach (string lostFactor in lostFactors)
-                {
-                    lostFactorsMsg += lostFactor + '\n';
-                }
-                var infoWindow = new InfoWindow
-                {
-                    Message = { Text = lostFactorsMsg }
-                };
-                await DialogHost.Show(infoWindow, "MandarinHost");
-
-            }
             if (newFactors.Count > 0)
             {
-                string newFactorsMsg = "Появились новые анализаторы.\n";
+                string newFactorsMsg = "Обнаружены новые анализаторы!\n Они будут автоматически подключены к текущей базе и станут доступны в настройках.\n\n";
                 foreach (string newFactor in newFactors)
                 {
                     newFactorsMsg += newFactor + '\n';
@@ -317,6 +307,31 @@ namespace Presentation
                 };
                 await DialogHost.Show(infoWindow, "MandarinHost");
             }
+        }
+        private async Task<bool> CheckLostFactors(IEnumerable<FactorSettings> factorsOfBase)
+        {
+            List<string> lostFactors = (List<string>)FactorsLoader.GetLostFactorsList(factorsOfBase);
+            if (lostFactors.Count > 0)
+            {
+                string lostFactorsMsg = "К сожалению, библиотеки с некоторыми анализаторами не обнаружены.\n" +
+                    "При продолжении открытия базы, эти анализаторы будут отключены, а их настройки потеряны.\n" +
+                    "Продолжить открытие базы?\n\n" +
+                    "Список потерянных анализаторов:\n";
+                foreach (string lostFactor in lostFactors)
+                {
+                    lostFactorsMsg += lostFactor + '\n';
+                }
+                var dialogWindow = new DialogWindow
+                {
+                    Message = { Text = lostFactorsMsg }
+                };
+                object result = await DialogHost.Show(dialogWindow, "MandarinHost");
+                if ((bool)result == false)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         #region Schedule
