@@ -266,6 +266,7 @@ namespace Presentation.Code
             fines.Add("SaturdayClassOneAtWeek", 5);
             fines.Add("FavoriteTeachersClassRooms", 15);
             fines.Add("FavoriteTeachersBuildings", 15);
+            fines.Add("FavoriteStudentClassesClassRooms", 15);
             return fines;
         }
     }
