@@ -145,7 +145,7 @@ namespace Presentation.FactorsDataEditors
         {
             if (CurrentBase.BaseIsLoaded())
             {
-                teachersListBox.ItemsSource = storage.Teachers;
+                teachersListBox.ItemsSource = storage.Teachers.OrderBy(t => t.Name);
                 if (teachersListBox.ItemsSource != null)
                 {
                     teachersListBox.SelectedIndex = DEFAULT_INDEX;
