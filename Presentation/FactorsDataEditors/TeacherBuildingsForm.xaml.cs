@@ -15,24 +15,29 @@ namespace Presentation.FactorsDataEditors
     public partial class TeacherBuildingForm : Window, IFactorEditor
     {
         const int DEFAULT_INDEX = 0;
-        TeachersBuildingsSettings settings;
+        Dictionary<Teacher, List<int>> settings;
         EntityStorage storage;
         FactorSettings factorSettings;
+        string factorName, factorDescription, userInstruction;
 
         public void Init(string factorName, string factorDescription, string userInstruction, EntityStorage storage, FactorSettings factorSettings)
         {
             this.storage = storage;
             this.factorSettings = factorSettings;
+            this.factorDescription = factorDescription;
+            this.userInstruction = userInstruction;
+            this.factorName = factorName;
             if (this.factorSettings.Data != null)
             {
-                settings = (TeachersBuildingsSettings)this.factorSettings.Data;
+                settings = (Dictionary<Teacher, List<int>>)this.factorSettings.Data;
             }
+            else
+                settings = new Dictionary<Teacher, List<int>>();
         }
 
         public TeacherBuildingForm()
         {
             InitializeComponent();
-            settings = new TeachersBuildingsSettings(new Dictionary<Teacher, List<int>>());
         }
 
         #region Methods
@@ -57,10 +62,10 @@ namespace Presentation.FactorsDataEditors
             if (teachersListBox.SelectedIndex != -1)
             {
                 Teacher currentTeacher = (Teacher)teachersListBox.SelectedItem;
-                if (settings.TeachersBuildings.ContainsKey(currentTeacher))
+                if (settings.ContainsKey(currentTeacher))
                 {
-                    teacherBuildingsListBox.ItemsSource = settings.TeachersBuildings[currentTeacher].OrderBy(h => h);
-                    List<int> unfavClassRooms = settings.GetNotTeacherBuildings(currentTeacher);
+                    teacherBuildingsListBox.ItemsSource = settings[currentTeacher].OrderBy(h => h);
+                    List<int> unfavClassRooms = GetNotTeacherBuildings(currentTeacher);
                     buildingsListBox.ItemsSource = unfavClassRooms.OrderBy(h => h);
                 }
                 else
@@ -82,8 +87,8 @@ namespace Presentation.FactorsDataEditors
         private void SetBuildingssListViewItems(Teacher teacher)
         {
             teacherBuildingsListBox.ItemsSource = null;
-            teacherBuildingsListBox.ItemsSource = settings.TeachersBuildings[teacher].OrderBy(h => h);
-            List<int> unfavClassRooms = settings.GetNotTeacherBuildings(teacher);
+            teacherBuildingsListBox.ItemsSource = settings[teacher].OrderBy(h => h);
+            List<int> unfavClassRooms = GetNotTeacherBuildings(teacher);
             buildingsListBox.ItemsSource = unfavClassRooms.OrderBy(h => h);
         }
 
@@ -121,7 +126,7 @@ namespace Presentation.FactorsDataEditors
             int currentIndex = teacherBuildingsListBox.SelectedIndex;
             Teacher currentTeacher = (Teacher)teachersListBox.SelectedItem;
             int currentBuilding = (int)teacherBuildingsListBox.SelectedItem;
-            settings.RemoveBuilding(currentTeacher, currentBuilding);
+            RemoveBuilding(currentTeacher, currentBuilding);
             SetBuildingssListViewItems(currentTeacher);
             teacherBuildingsListBox.SelectedIndex = currentIndex;
         }
@@ -131,7 +136,7 @@ namespace Presentation.FactorsDataEditors
             int currentIndex = buildingsListBox.SelectedIndex;
             Teacher currentTeacher = (Teacher)teachersListBox.SelectedItem;
             int currentBuilding = (int)buildingsListBox.SelectedItem;
-            settings.AddBuilding(currentTeacher, currentBuilding);
+            AddBuilding(currentTeacher, currentBuilding);
             SetBuildingssListViewItems(currentTeacher);
             buildingsListBox.SelectedIndex = currentIndex;
         }
@@ -149,11 +154,54 @@ namespace Presentation.FactorsDataEditors
             }
         }
 
+        #region Settings
+
+        public void AddBuilding(Teacher teacher, int building)
+        {
+            if (settings.ContainsKey(teacher))
+            {
+                settings[teacher].Add(building);
+            }
+            else
+            {
+                settings.Add(teacher, new List<int> { building });
+            }
+        }
+
+        public void RemoveBuilding(Teacher teacher, int building)
+        {
+            if (settings.ContainsKey(teacher))
+            {
+                settings[teacher].Remove(building);
+            }
+        }
+
+        public List<int> GetNotTeacherBuildings(Teacher teacher)
+        {
+            List<int> notTeacherBuildings = new List<int>();
+            if (settings.ContainsKey(teacher))
+            {
+                foreach (int building in storage.ClassRooms.Select(c => c.Housing).Distinct())
+                {
+                    if (settings[teacher].IndexOf(building) == -1)
+                    {
+                        notTeacherBuildings.Add(building);
+                    }
+                }
+            }
+            return notTeacherBuildings;
+        }
+
+        #endregion
+
         #endregion
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             SetTeachersListBox();
+            this.Title = factorName;
+            factorDescTextBlock.Text = factorDescription;
+            userInstrTextBlock.Text = userInstruction;
         }
 
         private void filterTeachersTextBox_TextChanged(object sender, TextChangedEventArgs e)

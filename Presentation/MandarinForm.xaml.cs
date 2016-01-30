@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System;
 using Domain.Services;
 using System.Threading.Tasks;
+using Presentation.FactorsDataEditors;
 
 namespace Presentation
 {
@@ -478,7 +479,7 @@ namespace Presentation
         {
             if (CurrentBase.BaseIsLoaded())
             {
-                VIPForm form = new VIPForm();
+                FixedClassesForm form = new FixedClassesForm();
                 form.ShowDialog();
             }
             else

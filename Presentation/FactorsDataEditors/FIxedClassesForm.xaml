@@ -1,0 +1,53 @@
+﻿<Window x:Class="Presentation.FactorsDataEditors.FixedClassesForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:Presentation"
+        mc:Ignorable="d"
+        Background="{DynamicResource MaterialDesignPaper}"
+        Title="Установка VIP пар" Height="417" Width="767" ResizeMode="NoResize" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+    <materialDesign:DialogHost Identifier="VIPHost">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="241*"/>
+                <ColumnDefinition Width="236*"/>
+                <ColumnDefinition Width="282*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Margin="6,0,0,0">
+                <TextBlock x:Name="factorDescTextBlock" Style="{DynamicResource MaterialDesignBody2TextBlock}"></TextBlock>
+                <TextBlock x:Name="userInstrTextBlock"></TextBlock>
+            </StackPanel>
+            <ListBox x:Name="TeacherslistBox" Grid.Row="1" BorderThickness="1" BorderBrush="Gray" HorizontalAlignment="Left" Height="283" Margin="30,49,0,0" VerticalAlignment="Top" Width="192" DisplayMemberPath="Name" SelectionChanged="SelectTeacher"/>
+            <ListBox x:Name="ClasseslistBox" Grid.Row="1" Height="283" BorderThickness="1" BorderBrush="Gray" Margin="16,49,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="212" DisplayMemberPath="Name" SelectionChanged="SelectClass" Grid.Column="1"/>
+            <Button x:Name="btnClassRoom" Grid.Row="1" Content="..." Margin="205,20,20,0" VerticalAlignment="Top" RenderTransformOrigin="0.509,0" Click="ChooseClassRoom" IsEnabled="False" Grid.Column="2"/>
+            <GroupBox x:Name="groupBox" Grid.Row="1" Header="Время" Margin="1,200,22,56" Grid.Column="2">
+                <Grid>
+                    <ComboBox x:Name="DaycomboBox" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="120" Height="28"/>
+                    <ComboBox x:Name="TimecomboBox" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top" Width="120" Height="28"/>
+                    <RadioButton x:Name="UpperWeekradioButton" Content="Верхняя неделя" HorizontalAlignment="Left" Margin="135,17,0,0" VerticalAlignment="Top" IsChecked="True"/>
+                    <RadioButton x:Name="LowerWeekradioButton" Content="Нижняя неделя" HorizontalAlignment="Left" Margin="135,48,0,0" VerticalAlignment="Top"/>
+                </Grid>
+            </GroupBox>
+            <Button x:Name="btnAdd" Grid.Row="1" Content="Добавить" HorizontalAlignment="Left" Margin="153,302,0,10" Width="98" RenderTransformOrigin="0.509,0" Click="btnAdd_Click" Grid.Column="2" Height="Auto"/>
+            <TextBox x:Name="SearchTeachertextBox" Grid.Row="1" BorderBrush="Gray" BorderThickness="1" Height="28" Margin="30,13,40,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="EnterTextInTeacherslistBox"/>
+            <Label x:Name="lable_Copy2" Grid.Row="1" Content="Группы:" HorizontalAlignment="Left" Margin="233,62,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.Column="1" Height="26" Width="53"/>
+            <ListBox x:Name="InfoGrouplistView" Grid.Row="1" ItemTemplate="{StaticResource GroupsTemplate}" Template="{StaticResource GroupsListBoxTemplate}" Background="{DynamicResource MaterialDesignPaper}" Margin="1,85,22,145" SelectionMode="Single" SelectionChanged="SelectGroup" Grid.Column="2">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource CustomMaterialDesignListBoxItem}"></Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+            <ListBox x:Name="ClassRoomlistView" Grid.Row="1" Height="52" ItemTemplate="{StaticResource ClassRoomsTemplate}" Template="{StaticResource ClassRoomsListBoxTemplate}" Background="{DynamicResource MaterialDesignPaper}" Margin="1,10,83,0" SelectionMode="Single" VerticalAlignment="Top" SelectionChanged="SelectClassRoom" Grid.Column="2">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource CustomMaterialDesignListBoxItem}"></Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+            <Button x:Name="btnRemove" Grid.Row="1" Content="Снять" HorizontalAlignment="Left" Margin="33,302,0,10" Width="98" RenderTransformOrigin="0.509,0" Click="btnRemove_Click" Grid.Column="2" Height="Auto"/>
+        </Grid>
+    </materialDesign:DialogHost>
+</Window>
