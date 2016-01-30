@@ -132,6 +132,7 @@ namespace Presentation.Code
                 factorEditors.Add(new Guid("6CF3F58B-5FA2-464B-8FF5-5B8E1724E0C9"), typeof(TeacherBuildingForm));
                 factorEditors.Add(new Guid("FA8861A3-02A1-4638-AF20-DF29A61A50F5"), typeof(TeacherClassRoomForm));
                 factorEditors.Add(new Guid("37DCA975-0CB9-4DEC-9DAD-93CDBC0D0599"), typeof(FixedClassesForm));
+                factorEditors.Add(new Guid("A8151C4F-87A1-4FEA-AA2E-FF6E535EDAE1"), typeof(SClassClassRoomForm));
 
 
 

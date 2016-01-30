@@ -105,6 +105,9 @@
       <DependentUpon>InputWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="FactorsDataEditors\IFactorEditor.cs" />
+    <Compile Include="FactorsDataEditors\SClassClassRoomForm.xaml.cs">
+      <DependentUpon>SClassClassRoomForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FactorsDataEditors\TeacherBuildingsForm.xaml.cs">
       <DependentUpon>TeacherBuildingsForm.xaml</DependentUpon>
     </Compile>
@@ -151,6 +154,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\InputWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FactorsDataEditors\SClassClassRoomForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
