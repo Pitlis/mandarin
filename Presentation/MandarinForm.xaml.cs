@@ -29,6 +29,8 @@ namespace Presentation
             main = new Main();
             contentControl.Content = main;
             main.IsListBoxEmpty += new EventHandler(IsSchedulesEmpty);
+
+            LoadFactorsInfo();
         }
 
         private void IsSchedulesEmpty(object sender, EventArgs e)
@@ -73,7 +75,6 @@ namespace Presentation
             baseWizardform.ShowDialog();
             if (CurrentBase.BaseIsLoaded())
             {
-                LoadDataBaseInfo();
                 LoadSchedules();
                 LoadFactorsInfo();
                 miFactorSettings.IsEnabled = true;
@@ -97,18 +98,16 @@ namespace Presentation
                 Base openedBase = CurrentBase.LoadBase(openFile.FileName);
                 if (await CheckLostFactors(openedBase.Factors))
                 {
+                    CheckNewFactors(openedBase.Factors);
                     CurrentBase.OpenBase(openedBase);
-                    CheckNewFactors();
                     LoadDataBaseInfo();
-                    LoadSchedules();
-                    LoadFactorsInfo();
                     miFactorSettings.IsEnabled = true;
                     miSettings.IsEnabled = true;
                     miDBSave.IsEnabled = true;
                     miDBSaveAs.IsEnabled = true;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var infoWindow = new InfoWindow
                 {
@@ -288,12 +287,12 @@ namespace Presentation
 
         private void LoadFactorsInfo()
         {
-           main.factorsListBox.ItemsSource = FactorsLoader.GetActualFactorsList();
+            main.factorsListBox.ItemsSource = FactorsLoader.GetActualFactorsList();
         }
 
-        private async void CheckNewFactors()
+        private async void CheckNewFactors(IEnumerable<FactorSettings> factorsOfBase)
         {
-            List<string> newFactors = (List<string>)FactorsLoader.GetNewFactorsList();
+            List<string> newFactors = (List<string>)FactorsLoader.GetNewFactorsList(factorsOfBase);
             if (newFactors.Count > 0)
             {
                 string newFactorsMsg = "Обнаружены новые анализаторы!\n Они будут автоматически подключены к текущей базе и станут доступны в настройках.\n\n";
@@ -516,6 +515,48 @@ namespace Presentation
 
         #endregion
 
-        #endregion 
+        #endregion
+
+        private bool canClose;
+        private async void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!canClose)
+            {
+                if (CurrentBase.BaseIsLoaded())
+                {
+                    e.Cancel = true;
+                    var dialogWindow = new DialogWindow
+                    {
+                        Message = { Text = "Вы хотите сохранить базу перед закрытием приложения?" }
+                    };
+                    object result = await DialogHost.Show(dialogWindow, "MandarinHost");
+                    try
+                    {
+                        if ((bool)result == true)
+                        {
+                            CurrentBase.SaveBase();
+                            var infoWindow = new InfoWindow
+                            {
+                                Message = { Text = "База успешно сохранена" }
+                            };
+                            await DialogHost.Show(infoWindow, "MandarinHost");
+                        }
+                        canClose = true;
+                        this.Close();
+                    }
+                    catch
+                    {
+                        var infoWindow = new InfoWindow
+                        {
+                            Message = { Text = "Ошибка сохранения базы" }
+                        };
+                        await DialogHost.Show(infoWindow, "MandarinHost");
+                    }
+
+                }
+            }
+
+
+        }
     }
 }
