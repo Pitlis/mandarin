@@ -11,7 +11,7 @@
         Title="Mandarin. Составление расписания" Height="700" Width="700"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto" WindowStartupLocation="CenterScreen">
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
     
     <materialDesign:DialogHost Identifier="MandarinHost">
         <DockPanel>
