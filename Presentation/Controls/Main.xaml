@@ -65,7 +65,7 @@
                 </Button>
             </Grid>
         </GroupBox>
-        <GroupBox x:Name="factorsGroupBox" FontSize="13" Grid.Row="0" Grid.Column="1"  Header="Анализаторы" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="6,0,6,6">
+        <GroupBox x:Name="factorsGroupBox" FontSize="13" Grid.Row="0" Grid.Column="1"  Header="Доступные анализаторы" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="6,0,6,6">
             <Grid>
                 <ListBox x:Name="factorsListBox"></ListBox>
             </Grid>

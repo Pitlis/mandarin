@@ -67,11 +67,81 @@ namespace Presentation.Code
             }
             return lostFactors;
         }
-        public static IEnumerable<string> GetNewFactorsList()
+
+        public static IEnumerable<FactorSettings> GetLostFactorSettings(IEnumerable<FactorSettings> factors)
+        {
+            List<FactorSettings> lostFactors = new List<FactorSettings>();
+            foreach (FactorSettings factor in factors)
+            {
+                try
+                {
+                    factor.CreateInstance();
+                }
+                catch (Exception ex)
+                {
+                    lostFactors.Add(factor);
+                }
+            }
+            return lostFactors;
+        }
+        public static IEnumerable<FactorSettings> GetNewFactorSettings()
+        {
+            List<Type> baseFactorTypes = new List<Type>();
+            foreach (FactorSettings factor in CurrentBase.Factors)
+            {
+                try
+                {
+                    IFactor factorInstance = factor.CreateInstance();
+                    baseFactorTypes.Add(factorInstance.GetType());
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            List<Type> allFactorTypes = GetFactorsTypes(System.AppDomain.CurrentDomain.BaseDirectory).ToList();
+            Dictionary<string, int> defaultFines = GetDefaultFines();
+            List<FactorSettings> Factors = new List<FactorSettings>();
+            foreach (Type factorType in allFactorTypes)
+            {
+                bool isExistsFactor = false;
+                foreach (Type baseFactorType in baseFactorTypes)
+                {
+                    if (baseFactorType.FullName == factorType.FullName)
+                    {
+                        isExistsFactor = true;
+                        break;
+                    }
+                }
+                if (!isExistsFactor)
+                {
+                    try
+                    {
+                        string pathToDll = factorType.Assembly.Location;
+
+                        IFactor factorInstance = (IFactor)Activator.CreateInstance(factorType);
+                        Guid? dataTypeGuid = factorInstance.GetDataTypeGuid();
+                        int defaultFine = defaultFines.ContainsKey(factorType.Name) ? defaultFines[factorType.Name] : 0;
+
+                        FactorSettings factorSettings = new FactorSettings(defaultFine, factorType, pathToDll, factorInstance.GetName(), dataTypeGuid);
+                        Factors.Add(factorSettings);
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+            }
+
+            return Factors;
+        }
+
+        public static IEnumerable<string> GetNewFactorsList(IEnumerable<FactorSettings> factors)
         {
             List<string> newFactors = new List<string>();
             List<Type> baseFactorTypes = new List<Type>();
-            foreach (FactorSettings factor in CurrentBase.Factors)
+            foreach (FactorSettings factor in factors)
             {
                 try
                 {

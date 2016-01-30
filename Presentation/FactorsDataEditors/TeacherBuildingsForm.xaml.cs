@@ -90,7 +90,6 @@ namespace Presentation.FactorsDataEditors
         private void SaveFavoriteTeachersBuildings()
         {
             factorSettings.Data = settings;
-            FactorsEditors.BeforeCloseFactorEditor(factorSettings);
         }
         
         private void SetAvailabilityAddButton()

@@ -96,7 +96,12 @@ namespace Presentation.Code
 
         public static void OpenBase(Base openedBase)
         {
+            foreach (var item in FactorsLoader.GetLostFactorSettings(openedBase.Factors))
+            {
+                openedBase.Factors.Remove(item);
+            }
             currentBase = openedBase;
+            currentBase.Factors.AddRange(FactorsLoader.GetNewFactorSettings());
         }
         public static void SaveBase()
         {
