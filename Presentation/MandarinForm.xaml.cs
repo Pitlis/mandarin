@@ -296,13 +296,10 @@ namespace Presentation
             if (newFactors.Count > 0)
             {
                 string newFactorsMsg = "Обнаружены новые анализаторы!\n Они будут автоматически подключены к текущей базе и станут доступны в настройках.\n\n";
-                foreach (string newFactor in newFactors)
+                var infoWindow = new InfoListBoxWindow
                 {
-                    newFactorsMsg += newFactor + '\n';
-                }
-                var infoWindow = new InfoWindow
-                {
-                    Message = { Text = newFactorsMsg }
+                    Message = { Text = newFactorsMsg },
+                    infoList = { ItemsSource = newFactors }
                 };
                 await DialogHost.Show(infoWindow, "MandarinHost");
             }
@@ -316,13 +313,10 @@ namespace Presentation
                     "При продолжении открытия базы, эти анализаторы будут отключены, а их настройки потеряны.\n" +
                     "Продолжить открытие базы?\n\n" +
                     "Список потерянных анализаторов:\n";
-                foreach (string lostFactor in lostFactors)
+                var dialogWindow = new DialogListBoxWindow
                 {
-                    lostFactorsMsg += lostFactor + '\n';
-                }
-                var dialogWindow = new DialogWindow
-                {
-                    Message = { Text = lostFactorsMsg }
+                    Message = { Text = lostFactorsMsg },
+                    infoList = { ItemsSource = lostFactors }
                 };
                 object result = await DialogHost.Show(dialogWindow, "MandarinHost");
                 if ((bool)result == false)

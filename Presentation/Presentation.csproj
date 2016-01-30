@@ -91,8 +91,14 @@
     <Compile Include="Code\ScheduleLoader.cs" />
     <Compile Include="Code\Setting.cs" />
     <Compile Include="Code\StorageLoader.cs" />
+    <Compile Include="Controls\DialogListBoxWindow.xaml.cs">
+      <DependentUpon>DialogListBoxWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\InfoListBoxWindow.xaml.cs">
+      <DependentUpon>InfoListBoxWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\InfoWindow.xaml.cs">
       <DependentUpon>InfoWindow.xaml</DependentUpon>
@@ -130,9 +136,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\DialogListBoxWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\DialogWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\InfoListBoxWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\InfoWindow.xaml">
       <SubType>Designer</SubType>

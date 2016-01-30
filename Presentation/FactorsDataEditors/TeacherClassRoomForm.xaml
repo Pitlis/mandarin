@@ -22,7 +22,7 @@
         <Label x:Name="teachersClassRoomsLabel" Content="Аудитории преподавателя" Grid.Column="3" HorizontalAlignment="Left" Margin="6,10,0,0" VerticalAlignment="Top"/>
         <Button x:Name="deleteFromTeacherClassRoomsBtn" Grid.Column="2" Content="&lt;=" HorizontalAlignment="Left" Margin="4,-40,0,0" VerticalAlignment="Center" Width="62" Click="deleteFromTeacherClassRooms_Click" IsEnabled="False"/>
         <Button x:Name="addToTeacherClassRoomsBtn" Grid.Column="2" Content="=&gt;" HorizontalAlignment="Left" Margin="4,40,0,0" VerticalAlignment="Center" Width="62" Click="addToTeacherClassRooms_Click" IsEnabled="False"/>
-        <TextBox x:Name="filterTeachersTextBox" HorizontalAlignment="Stretch" Height="28" Margin="110,6,6,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="filterTeachersTextBox_TextChanged" IsEnabled="False"/>
+        <TextBox x:Name="filterTeachersTextBox" BorderThickness="1" BorderBrush="Gray" HorizontalAlignment="Stretch" Height="28" Margin="110,6,6,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="filterTeachersTextBox_TextChanged" IsEnabled="False"/>
         <ListBox x:Name="classRoomsListBox" ItemTemplate="{StaticResource ClassRoomsTemplate}" Template="{StaticResource ClassRoomsListBoxTemplate}" Grid.Column="1" Margin="6,36,6,10" HorizontalAlignment="Stretch" SelectionMode="Single" VerticalAlignment="Stretch" SelectionChanged="classRoomsListView_SelectionChanged" GotFocus="classRoomsListView_GotFocus">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource CustomMaterialDesignListBoxItem}"></Style>

@@ -64,24 +64,7 @@ namespace Presentation
         #region Facult
         void FillingDisplayFacultyView()//выгрузка в отсортированном виде
         {
-            List<string> allFacultetName = new List<string>();
-            DisplayFacultyView.Items.Clear();
-            foreach (Faculty item in FacultiesAndGroups.Faculties)
-            {
-                allFacultetName.Add(item.Name);
-            }
-            allFacultetName.Sort();
-            for (int indexFN = 0; indexFN < allFacultetName.Count; indexFN++)
-            {
-                foreach (Faculty item in FacultiesAndGroups.Faculties)
-                {
-                    if (item.Name == allFacultetName[indexFN])
-                    {
-                        DisplayFacultyView.Items.Add(item.Name);
-                        break;
-                    }
-                }
-            }
+            DisplayFacultyView.ItemsSource = FacultiesAndGroups.Faculties.OrderBy(f => f.Name);
         }
 
         private void tbADDFaculty_TextChanged(object sender, TextChangedEventArgs e)
@@ -154,7 +137,8 @@ namespace Presentation
                 btnAddFacult.IsEnabled = true;
                 btnDelFaculty.IsEnabled = true;
                 btnEditFaculty.IsEnabled = true;
-                tbADDFaculty.Text = DisplayFacultyView.SelectedItem.ToString();
+                Faculty f = (Faculty)DisplayFacultyView.SelectedItem;
+                tbADDFaculty.Text = f.Name;
             }
             else
             {

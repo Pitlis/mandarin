@@ -17,6 +17,41 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
+                    <DataTemplate x:Key="ClassRoomsTypesTemplate">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" HorizontalAlignment="Center" Text="{Binding Housing}"/>
+                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Number}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ResourceDictionary>
+                <ResourceDictionary>
+                    <ControlTemplate x:Key="ClassRoomsTypesListBoxTemplate" TargetType="{x:Type ListBox}">
+                        <Border BorderBrush="Gray" BorderThickness="1">
+                            <DockPanel LastChildFill="True">
+                                <Grid DockPanel.Dock="Top" Height="20">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                                        <TextBlock Grid.Column="0" HorizontalAlignment="Center" Text="Основной тип"/>
+                                    </Border>
+                                    <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,0,1">
+                                        <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="Возможный тип"/>
+                                    </Border>
+                                </Grid>
+                                <ScrollViewer>
+                                    <ItemsPresenter/>
+                                </ScrollViewer>
+                            </DockPanel>
+                        </Border>
+                    </ControlTemplate>
+                </ResourceDictionary>
+                <ResourceDictionary>
                     <DataTemplate x:Key="ClassRoomsTemplate">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -42,6 +77,70 @@
                                     </Border>
                                     <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,0,1">
                                         <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="Аудитория"/>
+                                    </Border>
+                                </Grid>
+                                <ScrollViewer>
+                                    <ItemsPresenter/>
+                                </ScrollViewer>
+                            </DockPanel>
+                        </Border>
+                    </ControlTemplate>
+                </ResourceDictionary>
+                <ResourceDictionary>
+                    <DataTemplate x:Key="GroupsTemplate">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" HorizontalAlignment="Center" Text="{Binding NameGroup}"/>
+                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding NumberSubGroup}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ResourceDictionary>
+                <ResourceDictionary>
+                    <ControlTemplate x:Key="GroupsListBoxTemplate" TargetType="{x:Type ListBox}">
+                        <Border BorderBrush="Gray" BorderThickness="1">
+                            <DockPanel LastChildFill="True">
+                                <Grid DockPanel.Dock="Top" Height="20">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                                        <TextBlock Grid.Column="0" HorizontalAlignment="Center" Text="Группа"/>
+                                    </Border>
+                                    <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,0,1">
+                                        <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="№ подгруппы"/>
+                                    </Border>
+                                </Grid>
+                                <ScrollViewer>
+                                    <ItemsPresenter/>
+                                </ScrollViewer>
+                            </DockPanel>
+                        </Border>
+                    </ControlTemplate>
+                </ResourceDictionary>
+                <ResourceDictionary>
+                    <DataTemplate x:Key="FacultyTemplate">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" HorizontalAlignment="Center" Text="{Binding Name}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ResourceDictionary>
+                <ResourceDictionary>
+                    <ControlTemplate x:Key="FacultyListBoxTemplate" TargetType="{x:Type ListBox}">
+                        <Border BorderBrush="Gray" BorderThickness="1">
+                            <DockPanel LastChildFill="True">
+                                <Grid DockPanel.Dock="Top" Height="20">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,0,1">
+                                        <TextBlock Grid.Column="0" HorizontalAlignment="Center" Text="Название факультета"/>
                                     </Border>
                                 </Grid>
                                 <ScrollViewer>
