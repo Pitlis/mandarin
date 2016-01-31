@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:Presentation"
         mc:Ignorable="d" 
         Background="{DynamicResource MaterialDesignPaper}"
-        Title="Преподаватель - аудитории" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+        Title="Преподаватель - аудитории" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Icon="/Presentation;component/_1_pn.ico">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>

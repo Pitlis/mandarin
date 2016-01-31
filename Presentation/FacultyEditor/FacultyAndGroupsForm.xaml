@@ -6,7 +6,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:Presentation"
         mc:Ignorable="d"
-        Title="Формирование факультетов" Height="400" Width="630" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
+        Title="Формирование факультетов" Height="400" Width="630" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" Icon="/Presentation;component/_1_pn.ico">
     <materialDesign:DialogHost Identifier="FacultyAndGroupsHost">
         <Grid Background="{DynamicResource MaterialDesignPaper}">
             <TabControl Background="{DynamicResource MaterialDesignPaper}" x:Name="tabControl" HorizontalAlignment="Stretch" Margin="0,38,0,0" VerticalAlignment="Stretch">

@@ -8,10 +8,12 @@
         xmlns:local="clr-namespace:Presentation"
         xmlns:controls="clr-namespace:Presentation.Controls"
         mc:Ignorable="d"
-        Title="Mandarin. Составление расписания" Height="700" Width="700"
+        Title="Mandarin. Составление расписания" Height="725" Width="880"
+        MinHeight="725" MinWidth="880"
+        
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Icon="_1_pn.ico">
     
     <materialDesign:DialogHost Identifier="MandarinHost">
         <DockPanel>
@@ -97,6 +99,11 @@
                                     <materialDesign:PackIcon Kind="School" />
                                 </MenuItem.Icon>
                             </MenuItem>
+                        </MenuItem>
+                        <MenuItem Header="Генерация" Name="miCore" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miCore_Click">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="AutoFix" />
+                            </MenuItem.Icon>
                         </MenuItem>
                     </MenuItem>
                     <MenuItem Name="miSettings" Header="Настройки" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miSettings_Click">

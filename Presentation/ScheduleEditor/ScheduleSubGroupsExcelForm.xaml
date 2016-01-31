@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:Presentation.ScheduleEditor"
         mc:Ignorable="d"
         Background="{DynamicResource MaterialDesignPaper}"
-        Title="Расписание подгрупп в Excel" Height="387.5" Width="414" Closing="Window_Closing" MinWidth="414" MaxWidth="414.1" MinHeight="381" WindowStartupLocation="CenterScreen">
+        Title="Расписание подгрупп в Excel" Height="387.5" Width="414" Closing="Window_Closing" MinWidth="414" MaxWidth="414.1" MinHeight="381" WindowStartupLocation="CenterScreen" Icon="/Presentation;component/_1_pn.ico">
     <materialDesign:DialogHost Identifier="ScheduleSubGroupsForExcel">
         <Grid>
             <Label Content="Вы выбрали:" HorizontalAlignment="Left" Margin="0,41,0,0" VerticalAlignment="Top" Width="90" FontWeight="Bold"/>

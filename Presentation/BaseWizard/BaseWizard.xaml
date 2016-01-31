@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:Presentation.BaseWizard"
         mc:Ignorable="d"
      
-        Title="BaseWizard" Height="348" Width="523" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+        Title="BaseWizard" Height="348" Width="523" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Icon="/Presentation;component/_1_pn.ico">
     <materialDesign:DialogHost Identifier="BaseWizardHost">
         <TabControl x:Name="tabControl" Margin="0,0,0,0" BorderThickness="0" Background="#FFE5E5E5">
             <TabItem Header="Шаг1" Name="tiStep1" Visibility="Collapsed" IsTabStop="False" >

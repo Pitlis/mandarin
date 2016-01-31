@@ -79,10 +79,13 @@ namespace Presentation
             {
                 LoadSchedules();
                 LoadFactorsInfo();
+                LoadDataBaseInfo();
+                LoadFactorsWithUserData();
                 miDBSettings.IsEnabled = true;
                 miSettings.IsEnabled = true;
                 miDBSave.IsEnabled = true;
                 miDBSaveAs.IsEnabled = true;
+                miCore.IsEnabled = true;
             }
         }
 
@@ -108,6 +111,7 @@ namespace Presentation
                     miDBSettings.IsEnabled = true;
                     miDBSave.IsEnabled = true;
                     miDBSaveAs.IsEnabled = true;
+                    miCore.IsEnabled = true;
                 }
             }
             catch (Exception ex)
@@ -224,6 +228,14 @@ namespace Presentation
             }
         }
 
+        private void miCore_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentBase.BaseIsLoaded())
+            {
+                OpenCoreRunner();
+            }
+        }
+
         #endregion
 
         #region miSettings
@@ -272,6 +284,7 @@ namespace Presentation
             miSheduleSaveAs.IsEnabled = false;
             miSheduleExport.IsEnabled = false;
             miDB.IsEnabled = true;
+            LoadSchedules();
             if (CurrentBase.BaseIsLoaded() && miSettings.Items.Count > 0)
             {
                 miSettings.IsEnabled = true;
@@ -282,6 +295,7 @@ namespace Presentation
                 CurrentSchedule.LoadSchedule((KeyValuePair<string, Schedule>)main.scheduleListBox.SelectedItem);
             }
             miMain.Header = "Главная";
+            
         }
 
         private void LoadDataBaseInfo()
@@ -356,6 +370,7 @@ namespace Presentation
             miScheduleEdit.IsEnabled = false;
             miDB.IsEnabled = false;
             miSettings.IsEnabled = false;
+            miCore.IsEnabled = false;
             miMain.Header = "Закрыть";
         }
 
@@ -551,6 +566,22 @@ namespace Presentation
             catch (Exception ex)
             {
                 throw;
+            }
+        }
+
+        private async void OpenCoreRunner()
+        {
+            if (CurrentBase.BaseIsLoaded())
+            {
+                contentControl.Content = new CoreRunnerForm();
+            }
+            else
+            {
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "База данных не загружена" }
+                };
+                await DialogHost.Show(infoWindow, "MandarinHost");
             }
         }
 
