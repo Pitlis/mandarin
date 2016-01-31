@@ -20,6 +20,7 @@ namespace Presentation.Controls
     public partial class Main : UserControl
     {
         public event EventHandler IsListBoxEmpty;
+        public event EventHandler ListBoxDoubleClick;
 
         public Main()
         {
@@ -57,25 +58,10 @@ namespace Presentation.Controls
             }
         }
 
-        private async void scheduleListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void scheduleListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (scheduleListBox.Items.Count > 0)
-            {
-                KeyValuePair<string, Schedule> schedule = (KeyValuePair<string, Schedule>)scheduleListBox.SelectedItem;
-                var inputWindow = new InputWindow()
-                {
-                    Message = { Text = "Введите название расписания" },
-                    scheduleTextBox = { Text = schedule.Key }
-                };
-
-                object result = await DialogHost.Show(inputWindow, "MandarinHost");
-                if ((bool)result == true)
-                {
-                    RenameSchedule(schedule, inputWindow.scheduleTextBox.Text);
-                    LoadSchedules();
-                    CurrentBase.SaveBase();
-                }
-            }
+            if (this.ListBoxDoubleClick != null)
+                this.ListBoxDoubleClick(sender, e);
         }
 
         private void scheduleListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -147,6 +133,27 @@ namespace Presentation.Controls
             if (CurrentBase.BaseIsLoaded())
             {
                 LoadSchedules();
+            }
+        }
+
+        private async void renameScheduleButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (scheduleListBox.Items.Count > 0)
+            {
+                KeyValuePair<string, Schedule> schedule = (KeyValuePair<string, Schedule>)scheduleListBox.SelectedItem;
+                var inputWindow = new InputWindow()
+                {
+                    Message = { Text = "Введите название расписания" },
+                    scheduleTextBox = { Text = schedule.Key }
+                };
+
+                object result = await DialogHost.Show(inputWindow, "MandarinHost");
+                if ((bool)result == true)
+                {
+                    RenameSchedule(schedule, inputWindow.scheduleTextBox.Text);
+                    LoadSchedules();
+                    CurrentBase.SaveBase();
+                }
             }
         }
     }

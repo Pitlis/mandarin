@@ -28,11 +28,6 @@
                                 <materialDesign:PackIcon Kind="Openid"/>
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Name="miScheduleEdit" Header="_Редактировать" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miScheduleEdit_Click">
-                            <MenuItem.Icon>
-                                <materialDesign:PackIcon Kind="RenameBox"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
                         <MenuItem Name="miScheduleSave" Header="_Сохранить" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miScheduleSave_Click">
                             <MenuItem.Icon>
                                 <materialDesign:PackIcon Kind="ContentSave"/>

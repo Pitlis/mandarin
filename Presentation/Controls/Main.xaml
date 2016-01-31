@@ -59,9 +59,18 @@
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="37"></RowDefinition>
                 </Grid.RowDefinitions>
-                <ListBox x:Name="scheduleListBox" DisplayMemberPath="Key" Grid.Row="0" VerticalAlignment="Stretch"  Margin="0,0,0,5" MouseDoubleClick="scheduleListBox_MouseDoubleClick" SelectionChanged="scheduleListBox_SelectionChanged"/>
-                <Button x:Name="deleteScheduleButton" Grid.Row="1" ToolTip="Удалить" Click="deleteScheduleButton_Click" VerticalAlignment="Bottom" Margin="2" IsEnabled="False">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <ListBox x:Name="scheduleListBox" Grid.ColumnSpan="2" DisplayMemberPath="Key" Grid.Row="0" VerticalAlignment="Stretch"  Margin="0,0,0,5" MouseDoubleClick="scheduleListBox_MouseDoubleClick" SelectionChanged="scheduleListBox_SelectionChanged"/>
+                <Button x:Name="deleteScheduleButton" Grid.Column="1" Grid.Row="1" ToolTip="Удалить" Click="deleteScheduleButton_Click" Margin="2,0,2,0" IsEnabled="False">
                     <materialDesign:PackIcon Kind="Delete" />
+                </Button>
+                <Button Grid.Row="1" Grid.Column="0" x:Name="renameScheduleButton" ToolTip="Переименовать" Click="renameScheduleButton_Click" Margin="2,0,2,0" IsEnabled="False">
+                    <Button.Content>
+                        <materialDesign:PackIcon Kind="RenameBox"/>
+                    </Button.Content>
                 </Button>
             </Grid>
         </GroupBox>

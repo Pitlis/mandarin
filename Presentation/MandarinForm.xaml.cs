@@ -31,6 +31,7 @@ namespace Presentation
             main = new Main();
             contentControl.Content = main;
             main.IsListBoxEmpty += new EventHandler(IsSchedulesEmpty);
+            main.ListBoxDoubleClick += new EventHandler(OpenScheduleFromBase);
 
             LoadFactorsInfo();
         }
@@ -40,12 +41,12 @@ namespace Presentation
             ListBox schedules = (ListBox)sender;
             if (schedules.Items.Count > 0)
             {
-                miScheduleEdit.IsEnabled = true;
+                main.renameScheduleButton.IsEnabled = true;
                 main.deleteScheduleButton.IsEnabled = true;
             }
             else
             {
-                miScheduleEdit.IsEnabled = false;
+                main.renameScheduleButton.IsEnabled = false;
                 main.deleteScheduleButton.IsEnabled = false;
             }
         }
@@ -219,7 +220,7 @@ namespace Presentation
             scheduleFacultyGroups.ShowDialog();
         }
 
-        private void miScheduleEdit_Click(object sender, RoutedEventArgs e)
+        private void OpenScheduleFromBase(object sender, EventArgs e)
         {
             if (CurrentSchedule.ScheduleIsLoaded())
             {
@@ -291,7 +292,6 @@ namespace Presentation
             }
             if (main.scheduleListBox.Items.Count > 0)
             {
-                miScheduleEdit.IsEnabled = true;
                 CurrentSchedule.LoadSchedule((KeyValuePair<string, Schedule>)main.scheduleListBox.SelectedItem);
             }
             miMain.Header = "Главная";
@@ -367,7 +367,6 @@ namespace Presentation
             miScheduleSave.IsEnabled = true;
             miSheduleSaveAs.IsEnabled = true;
             miSheduleExport.IsEnabled = true;
-            miScheduleEdit.IsEnabled = false;
             miDB.IsEnabled = false;
             miSettings.IsEnabled = false;
             miCore.IsEnabled = false;
