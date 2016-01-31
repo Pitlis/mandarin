@@ -77,23 +77,9 @@ namespace Presentation
         {
             ClassRoomlistView.SelectedIndex = -1;
         }
-        private async void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(coursComboBox.SelectedIndex != -1 && facultComboBox.SelectedIndex != -1 && facultComboBox.SelectedItem !=null)
-            {
-                GetScheduleForFacult();
-                CreateTimeTable();
-
-            if (schedule.partSchedule.GetLength(1) == 0)
-            {
-                var infoWindow = new InfoWindow
-                {
-                    Message = { Text = "Не найдено ни 1-ой группы относящихся к "+(coursComboBox.SelectedIndex+1)+" курсу " +facultComboBox.SelectedItem.ToString()+" факультета. \n"+
-                               "Убедитесь что вы правильно распредилили группы в настройках"}
-                };
-                await DialogHost.Show(infoWindow, "MandarinHost");
-            }
-            }
+            ChangeCoursOrFaculty();
         }
         #endregion
 
@@ -108,6 +94,31 @@ namespace Presentation
                                         "Зайдите в настройки чтобы отнести группы к факультету!" }
                 };
                 await DialogHost.Show(infoWindow, "MandarinHost");
+            }
+        }
+        private async void ChangeCoursOrFaculty()
+        {
+            if (coursComboBox.SelectedIndex != -1 && facultComboBox.SelectedIndex != -1 && facultComboBox.SelectedItem != null)
+            {
+                GetScheduleForFacult();
+                CreateTimeTable();
+
+                if (schedule.partSchedule.GetLength(1) == 0)
+                {
+                    var infoWindow = new InfoWindow
+                    {
+                        Message = { Text = "Не найдено ни 1-ой группы относящихся к "+(coursComboBox.SelectedIndex+1)+" курсу " +facultComboBox.SelectedItem.ToString()+" факультета. \n"+
+                               "Убедитесь что вы правильно распредилили группы в настройках"}
+                    };
+                    await DialogHost.Show(infoWindow, "MandarinHost");
+                }
+                infoClassTextbox.Text = "";
+                InfoTeachersListbox.Items.Clear();
+                InfoGrouplistView.Items.Clear();
+                ClassRoomlistView.Items.Clear();
+                TimeTextBox.Text = "";
+                btnRemove.IsEnabled = false;
+
             }
         }
         private void CreateTimeTable()
@@ -248,6 +259,7 @@ namespace Presentation
             infoClassTextbox.Text = "";
             InfoTeachersListbox.Items.Clear();
             InfoGrouplistView.Items.Clear();
+            ClassRoomlistView.Items.Clear();
         }
         private async void CheckRemoveClasses(System.ComponentModel.CancelEventArgs e)
         {
@@ -285,6 +297,10 @@ namespace Presentation
             }
             RemoveClasseslistBox.ItemsSource = null;
             RemoveClasseslistBox.ItemsSource = schedule.RemoveClases;
+            infoClassTextbox.Text = "";
+            InfoTeachersListbox.Items.Clear();
+            InfoGrouplistView.Items.Clear();
+            ClassRoomlistView.Items.Clear();
             CreateTimeTable();
         }
         private void SelectRemoveClass()
@@ -457,6 +473,7 @@ namespace Presentation
                 infoClassTextbox.Text = "";
                 InfoTeachersListbox.Items.Clear();
                 InfoGrouplistView.Items.Clear();
+                ClassRoomlistView.Items.Clear();
                 RemoveClasseslistBox.SelectedIndex = -1;
                 //btnClass.IsEnabled = false;
             }
@@ -466,6 +483,7 @@ namespace Presentation
                 infoClassTextbox.Text = "";
                 InfoTeachersListbox.Items.Clear();
                 InfoGrouplistView.Items.Clear();
+                ClassRoomlistView.Items.Clear();
                 btnRemove.IsEnabled = false;
                 RemoveClasseslistBox.SelectedIndex = -1;
                 //btnClass.IsEnabled = false;
@@ -482,6 +500,7 @@ namespace Presentation
                     StudentsClass clas = schedule.partSchedule[row - ROW_HEADER, col - COLUMN_HEADER];
                     infoClassTextbox.Text = clas.Name;
                     InfoTeachersListbox.Items.Clear();
+                    ClassRoomlistView.Items.Clear();
                     InfoGrouplistView.Items.Clear();
                     foreach (Teacher tecah in clas.Teacher)
                     {
@@ -491,6 +510,8 @@ namespace Presentation
                     {
                         InfoGrouplistView.Items.Add(groop);
                     }
+                    ClassRoomlistView.Items.Add(schedule.GetClassRoom(clas));
+
                     //btnClass.IsEnabled = false;
 
                 }
@@ -665,7 +686,15 @@ namespace Presentation
             if (form.DialogResult == true)
             {
                 schedule.CreatScheduleForGroups(form.groups);
+                infoClassTextbox.Text = "";
+                InfoTeachersListbox.Items.Clear();
+                InfoGrouplistView.Items.Clear();
+                ClassRoomlistView.Items.Clear();
+                TimeTextBox.Text = "";
                 CreateTimeTable();
+                btnRemove.IsEnabled = false;
+                coursComboBox.SelectedIndex = -1;
+                facultComboBox.SelectedIndex = -1;
             }
         }
     }
