@@ -104,9 +104,8 @@ namespace Presentation
                     CurrentBase.OpenBase(openedBase);
                     LoadDataBaseInfo();
                     LoadSchedules();
-                    miSettings.ItemsSource = LoadFactorSettingRecords();
+                    LoadFactorsWithUserData();
                     miDBSettings.IsEnabled = true;
-                    miSettings.IsEnabled = true;
                     miDBSave.IsEnabled = true;
                     miDBSaveAs.IsEnabled = true;
                 }
@@ -273,7 +272,7 @@ namespace Presentation
             miSheduleSaveAs.IsEnabled = false;
             miSheduleExport.IsEnabled = false;
             miDB.IsEnabled = true;
-            if (CurrentBase.BaseIsLoaded())
+            if (CurrentBase.BaseIsLoaded() && miSettings.Items.Count > 0)
             {
                 miSettings.IsEnabled = true;
             }
@@ -494,6 +493,18 @@ namespace Presentation
             }
 
             return factorRecords;
+        }
+
+        private void LoadFactorsWithUserData()
+        {
+            List<FactorSettingRecord> factorsRecord = (List<FactorSettingRecord>)LoadFactorSettingRecords();
+            if (factorsRecord.Count > 0)
+            {
+                miSettings.ItemsSource = factorsRecord;
+                miSettings.IsEnabled = true;
+            }
+            else
+                miSettings.IsEnabled = false;
         }
 
         private async void OpenFactorSettings()
