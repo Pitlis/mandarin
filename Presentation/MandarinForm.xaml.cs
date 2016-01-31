@@ -227,7 +227,7 @@ namespace Presentation
         #endregion
 
         #region miSettings
-        
+
         private void miFacultiesSettings_Click(object sender, RoutedEventArgs e)
         {
             OpenFacultiesSettings();
@@ -279,10 +279,7 @@ namespace Presentation
             if (main.scheduleListBox.Items.Count > 0)
             {
                 miScheduleEdit.IsEnabled = true;
-                if (CurrentSchedule.ScheduleIsFromFile())
-                {
-                    CurrentSchedule.LoadSchedule((KeyValuePair<string, Schedule>)main.scheduleListBox.SelectedItem);
-                }
+                CurrentSchedule.LoadSchedule((KeyValuePair<string, Schedule>)main.scheduleListBox.SelectedItem);
             }
             miMain.Header = "Главная";
         }
@@ -523,7 +520,7 @@ namespace Presentation
                 await DialogHost.Show(infoWindow, "MandarinHost");
             }
         }
-        
+
         private async void OpenFacultiesSettings()
         {
             if (CurrentBase.BaseIsLoaded())
