@@ -282,6 +282,7 @@ namespace Presentation
             miSheduleSaveAs.IsEnabled = false;
             miSheduleExport.IsEnabled = false;
             miDB.IsEnabled = true;
+            LoadSchedules();
             if (CurrentBase.BaseIsLoaded() && miSettings.Items.Count > 0)
             {
                 miSettings.IsEnabled = true;
