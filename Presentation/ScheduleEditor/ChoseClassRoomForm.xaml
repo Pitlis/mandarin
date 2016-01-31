@@ -17,9 +17,9 @@
         <ListBox x:Name="listClassRoomProp" BorderThickness="1" BorderBrush="Gray" HorizontalAlignment="Left" Height="99" Margin="16,30,0,0" VerticalAlignment="Top" Width="245" Grid.Column="1"/>
         <Label x:Name="label" Content="Особенности аудитории:" HorizontalAlignment="Left" Margin="16,4,0,0" VerticalAlignment="Top" Width="151" Grid.Column="1"/>
         <Button x:Name="btnChoseClassroom" Content="Поставить" HorizontalAlignment="Left" Margin="16,140,0,0" VerticalAlignment="Top" Width="109" Click="btnChoseClassRoom_Click" IsEnabled="False" Grid.Column="1"/>
-        <TextBox x:Name="textClass" BorderThickness="1" BorderBrush="Gray" HorizontalAlignment="Left" Height="25" Margin="16,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="245" IsReadOnly="True" Grid.Column="1"/>
-        <TextBox x:Name="textGroup" BorderThickness="1" BorderBrush="Gray" HorizontalAlignment="Left" Height="25" Margin="16,291,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="245" IsReadOnly="True" Grid.Column="1"/>
-        <TextBox x:Name="textTeacher" BorderThickness="1" BorderBrush="Gray" HorizontalAlignment="Left" Height="25" Margin="16,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="245" IsReadOnly="True" Grid.Column="1"/>
+        <TextBox x:Name="textClass" BorderThickness="1" BorderBrush="Gray" HorizontalAlignment="Left" Height="28" Margin="16,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="245" IsReadOnly="True" Grid.Column="1"/>
+        <TextBox x:Name="textGroup" BorderThickness="1" BorderBrush="Gray" HorizontalAlignment="Left" Height="28" Margin="16,291,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="245" IsReadOnly="True" Grid.Column="1"/>
+        <TextBox x:Name="textTeacher" BorderThickness="1" BorderBrush="Gray" HorizontalAlignment="Left" Height="28" Margin="16,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="245" IsReadOnly="True" Grid.Column="1"/>
         <Label x:Name="label_Copy" Content="Пара:" HorizontalAlignment="Left" Margin="16,172,0,0" VerticalAlignment="Top" Width="151" Grid.Column="1"/>
         <Label x:Name="label_Copy1" Content="Преподаватель:" HorizontalAlignment="Left" Margin="16,221,0,0" VerticalAlignment="Top" Width="151" Grid.Column="1"/>
         <Label x:Name="label_Copy2" Content="Группы:" HorizontalAlignment="Left" Margin="16,265,0,0" VerticalAlignment="Top" Width="151" Grid.Column="1"/>
