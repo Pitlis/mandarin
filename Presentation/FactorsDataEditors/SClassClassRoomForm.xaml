@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Presentation.FactorsDataEditors"
         mc:Ignorable="d"
         Background="{DynamicResource MaterialDesignPaper}"
-        Title="Пара - аудитории" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Loaded="Window_Loaded">
+        Title="Пара - аудитории" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Loaded="Window_Loaded" Icon="/Presentation;component/_1_pn.ico">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>

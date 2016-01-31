@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Presentation"
         mc:Ignorable="d"
-        Title="Преподаватели - корпуса" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+        Title="Преподаватели - корпуса" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Icon="/Presentation;component/_1_pn.ico">
     <Grid Background="{DynamicResource MaterialDesignPaper}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>

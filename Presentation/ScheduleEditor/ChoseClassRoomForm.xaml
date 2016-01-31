@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Presentation"
         Background="{DynamicResource MaterialDesignPaper}"
         mc:Ignorable="d"
-        Title="Выбор аудитории" Height="363.159" Width="493.651" Loaded="Window_Loaded" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Выбор аудитории" Height="363.159" Width="493.651" Loaded="Window_Loaded" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="/Presentation;component/_1_pn.ico">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="205*"/>

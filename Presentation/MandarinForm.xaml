@@ -13,7 +13,7 @@
         
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Icon="_1_pn.ico">
     
     <materialDesign:DialogHost Identifier="MandarinHost">
         <DockPanel>
