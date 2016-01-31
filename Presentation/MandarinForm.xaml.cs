@@ -79,6 +79,8 @@ namespace Presentation
             {
                 LoadSchedules();
                 LoadFactorsInfo();
+                LoadDataBaseInfo();
+                LoadFactorsWithUserData();
                 miDBSettings.IsEnabled = true;
                 miSettings.IsEnabled = true;
                 miDBSave.IsEnabled = true;
