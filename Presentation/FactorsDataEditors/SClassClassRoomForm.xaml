@@ -35,11 +35,20 @@
                                         <RowDefinition />
                                         <RowDefinition />
                                         <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
                                     </Grid.RowDefinitions>
                                     <TextBlock Grid.Row="0" Text="Преподавтель: " />
-                                    <ListBox Grid.Row="1" ItemsSource="{Binding Teacher}" DisplayMemberPath="Name" Foreground="White"/>
+                                    <ListBox Grid.Row="1" ItemsSource="{Binding Teacher}" DisplayMemberPath="Name" Foreground="White">
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ToolTipMaterialDesignListBoxItem}"/>
+                                        </ListBox.ItemContainerStyle>
+                                    </ListBox>
                                     <TextBlock Grid.Row="2" Text="Группы: " />
                                     <ListBox Grid.Row="3" ItemsSource="{Binding SubGroups}">
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ToolTipMaterialDesignListBoxItem}"/>
+                                        </ListBox.ItemContainerStyle>
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <Grid>
@@ -49,11 +58,17 @@
                                                         <ColumnDefinition />
                                                     </Grid.ColumnDefinitions>
                                                     <TextBlock Grid.Column="0" Text="{Binding NameGroup}" Foreground="White" />
-                                                    <TextBlock Grid.Column="1" Text=", " />
+                                                    <TextBlock Grid.Column="1" Text=", " Foreground="White"/>
                                                     <TextBlock Grid.Column="2" Text="{Binding NumberSubGroup}" Foreground="White" />
                                                 </Grid>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
+                                    </ListBox>
+                                    <TextBlock Grid.Row="4" Text="Типы аудиторий: " />
+                                    <ListBox Grid.Row="5" ItemsSource="{Binding RequireForClassRoom}" DisplayMemberPath="Description" Foreground="White">
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ToolTipMaterialDesignListBoxItem}"/>
+                                        </ListBox.ItemContainerStyle>
                                     </ListBox>
                                 </Grid>
                             </ToolTip>

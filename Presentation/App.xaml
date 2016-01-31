@@ -159,6 +159,11 @@
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     </Style>
                 </ResourceDictionary>
+                <ResourceDictionary>
+                    <Style x:Key="ToolTipMaterialDesignListBoxItem" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                        <Setter Property="Padding" Value="0"/>
+                    </Style>
+                </ResourceDictionary>
                 
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
