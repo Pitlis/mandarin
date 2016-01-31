@@ -60,6 +60,10 @@ namespace Presentation.Code
         {
             RestoreFactorsData(factorSettings, CurrentBase.EStorage);
         }
+        public static IEnumerable<FactorSettings> GetUsersFactors(IEnumerable<FactorSettings> allFactors)
+        {
+            return GetSupportedUsersFactors(allFactors);
+        }
         public static void RestoreFactorsData(FactorSettings factorSettings, EntityStorage storage)
         {
             if (factorSettings.DataTypeGuid.Value.Equals(Guid.Parse("6CF3F58B-5FA2-464B-8FF5-5B8E1724E0C9")))
@@ -102,7 +106,7 @@ namespace Presentation.Code
         }
 
         //список поддерживаемых пользовательских анализаторов
-        static IEnumerable<FactorSettings> GetSupportedUsersFactors(IEnumerable<FactorSettings> allFactors)
+         static IEnumerable<FactorSettings> GetSupportedUsersFactors(IEnumerable<FactorSettings> allFactors)
         {
             List<FactorSettings> usersFacators = new List<FactorSettings>();
             Dictionary<Guid, Type> supportedFactors = GetFactorEditors();
@@ -181,6 +185,22 @@ namespace Presentation.Code
                     classRooms.Add(storage.GetReference(classRoom));
                 }
                 restoredData.Add(storage.GetReference(teacher), classRooms);
+            }
+
+            return restoredData;
+        }
+        public static object RestoreLinks(IDictionary<StudentsClass, List<ClassRoom>> data, EntityStorage storage)
+        {
+            Dictionary<StudentsClass, List<ClassRoom>> restoredData = new Dictionary<StudentsClass, List<ClassRoom>>();
+            foreach (var item in data)
+            {
+                StudentsClass sClass = item.Key;
+                List<ClassRoom> classRooms = new List<ClassRoom>();
+                foreach (var classRoom in item.Value)
+                {
+                    classRooms.Add(storage.GetReference(classRoom));
+                }
+                restoredData.Add(storage.GetReference(sClass), classRooms);
             }
 
             return restoredData;
