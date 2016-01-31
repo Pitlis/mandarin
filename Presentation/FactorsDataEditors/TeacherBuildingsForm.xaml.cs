@@ -121,24 +121,46 @@ namespace Presentation.FactorsDataEditors
             }
         }
 
-        private void DeleteTeacherBuilding()
+        private void SetSelectedIndex()
         {
-            int currentIndex = teacherBuildingsListBox.SelectedIndex;
-            Teacher currentTeacher = (Teacher)teachersListBox.SelectedItem;
-            int currentBuilding = (int)teacherBuildingsListBox.SelectedItem;
-            RemoveBuilding(currentTeacher, currentBuilding);
-            SetBuildingssListViewItems(currentTeacher);
-            teacherBuildingsListBox.SelectedIndex = currentIndex;
+            int index = teachersListBox.SelectedIndex;
+            for (int teacherIndex = 0; teacherIndex < teachersListBox.SelectedItems.Count; teacherIndex++)
+            {
+                Teacher teacher = (Teacher)teachersListBox.SelectedItems[teacherIndex];
+                teachersListBox.SelectedItems.Remove(teacher);
+                teacherIndex--;
+            }
+            teachersListBox.SelectedIndex = index;
         }
 
-        private void AddTeacherBuilding()
+        private void DeleteMultipleTeacherBuilding()
         {
-            int currentIndex = buildingsListBox.SelectedIndex;
-            Teacher currentTeacher = (Teacher)teachersListBox.SelectedItem;
-            int currentBuilding = (int)buildingsListBox.SelectedItem;
-            AddBuilding(currentTeacher, currentBuilding);
-            SetBuildingssListViewItems(currentTeacher);
-            buildingsListBox.SelectedIndex = currentIndex;
+            int index = teachersListBox.SelectedIndex;
+            for (int teacherIndex = 0; teacherIndex < teachersListBox.SelectedItems.Count; teacherIndex++)
+            {
+                Teacher teacher = (Teacher)teachersListBox.SelectedItems[teacherIndex];
+                for (int buildingIndex = 0; buildingIndex < teacherBuildingsListBox.SelectedItems.Count; buildingIndex++)
+                {
+                    int building = (int)teacherBuildingsListBox.SelectedItems[buildingIndex];
+                    RemoveBuilding(teacher, building);
+                }
+            }
+            SetSelectedIndex();
+        }
+        
+        private void AddMultipleTeacherBuilding()
+        {
+            int index = teachersListBox.SelectedIndex;
+            for (int teacherIndex = 0; teacherIndex < teachersListBox.SelectedItems.Count; teacherIndex++)
+            {
+                Teacher teacher = (Teacher)teachersListBox.SelectedItems[teacherIndex];
+                for (int buildingIndex = 0; buildingIndex < buildingsListBox.SelectedItems.Count; buildingIndex++)
+                {
+                    int building = (int)buildingsListBox.SelectedItems[buildingIndex];
+                    AddBuilding(teacher, building);
+                }
+            }
+            SetSelectedIndex();
         }
 
         private void SetTeachersListBox()
@@ -211,12 +233,12 @@ namespace Presentation.FactorsDataEditors
 
         private void addToTeacherBuildings_Click(object sender, RoutedEventArgs e)
         {
-            AddTeacherBuilding();
+            AddMultipleTeacherBuilding();
         }
 
         private void deleteFromTeacherBuildings_Click(object sender, RoutedEventArgs e)
         {
-            DeleteTeacherBuilding();
+            DeleteMultipleTeacherBuilding();
         }
 
         private void teachersListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -238,6 +260,16 @@ namespace Presentation.FactorsDataEditors
         {
             deleteFromTeacherBuildingsBtn.IsEnabled = false;
             teacherBuildingsListBox.SelectedIndex = -1;
+        }
+
+        private void buildingsListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            AddMultipleTeacherBuilding();
+        }
+
+        private void teacherBuildingsListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DeleteMultipleTeacherBuilding();
         }
 
         private void teacherBuildingsListBox_GotFocus(object sender, RoutedEventArgs e)

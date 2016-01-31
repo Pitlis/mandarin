@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:Presentation.FactorsDataEditors"
         mc:Ignorable="d"
         Background="{DynamicResource MaterialDesignPaper}"
@@ -23,7 +24,7 @@
             <TextBlock x:Name="userInstrTextBlock"></TextBlock>
         </StackPanel>
         <Label x:Name="sClassLabel" Content="Пары" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top"/>
-        <ListBox x:Name="sClassListBox" BorderThickness="1" BorderBrush="Gray" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="0" Margin="6,36,6,10" VerticalAlignment="Stretch" SelectionChanged="sClassListBox_SelectionChanged">
+        <ListBox x:Name="sClassListBox" BorderThickness="1" BorderBrush="Gray" HorizontalAlignment="Stretch" SelectionMode="Extended" Grid.Row="1" Grid.Column="0" Margin="6,36,6,10" VerticalAlignment="Stretch" SelectionChanged="sClassListBox_SelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name}">
@@ -79,15 +80,23 @@
         </ListBox>
         <Label x:Name="classRoomsLabel" Content="Все доступные аудитории" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="6,10,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
         <Label x:Name="sClassClassRoomsLabel" Content="Аудитории пары" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left" Margin="6,10,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="deleteFromSClassClassRoomsBtn" Grid.Column="2" Grid.Row="1" Content="&lt;=" HorizontalAlignment="Left" Margin="4,-40,0,0" VerticalAlignment="Center" Width="62" Click="deleteFromSClassClassRoomsBtn_Click" IsEnabled="False"/>
-        <Button x:Name="addToSClassClassRoomsBtn" Grid.Row="1" Grid.Column="2" Content="=&gt;" HorizontalAlignment="Left" Margin="4,40,0,0" VerticalAlignment="Center" Width="62" Click="addToSClassClassRoomsBtn_Click" IsEnabled="False"/>
+        <Button x:Name="addToSClassClassRoomsBtn" Grid.Row="1" Grid.Column="2" ToolTip="Добавить" HorizontalAlignment="Left" Margin="4,-40,0,0" VerticalAlignment="Center" Width="62" Click="addToSClassClassRoomsBtn_Click" IsEnabled="False">
+            <Button.Content>
+                <materialDesign:PackIcon Kind="ArrowRight" />
+            </Button.Content>
+        </Button>
+        <Button x:Name="deleteFromSClassClassRoomsBtn" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" Margin="4,40,0,0" ToolTip="Удалить" VerticalAlignment="Center" Width="62" Click="deleteFromSClassClassRoomsBtn_Click" IsEnabled="False">
+            <Button.Content>
+                <materialDesign:PackIcon Kind="ArrowLeft" />
+            </Button.Content>
+        </Button>
         <TextBox x:Name="filterSClassTextBox" Grid.Row="1" BorderThickness="1" BorderBrush="Gray" HorizontalAlignment="Stretch" Height="28" Margin="52,6,6,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="filterSClassTextBox_TextChanged" IsEnabled="False"/>
-        <ListBox x:Name="classRoomsListBox" ItemTemplate="{StaticResource ClassRoomsTemplate}" Template="{StaticResource ClassRoomsListBoxTemplate}" Grid.Row="1" Grid.Column="1" Margin="6,36,6,10" HorizontalAlignment="Stretch" SelectionMode="Single" VerticalAlignment="Stretch" SelectionChanged="classRoomsListView_SelectionChanged" GotFocus="classRoomsListView_GotFocus">
+        <ListBox x:Name="classRoomsListBox" ItemTemplate="{StaticResource ClassRoomsTemplate}" Template="{StaticResource ClassRoomsListBoxTemplate}" SelectionMode="Extended" Grid.Row="1" Grid.Column="1" Margin="6,36,6,10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="classRoomsListView_SelectionChanged" GotFocus="classRoomsListView_GotFocus" MouseDoubleClick="classRoomsListBox_MouseDoubleClick">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource CustomMaterialDesignListBoxItem}"></Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
-        <ListBox x:Name="sClassClassRoomsListView" ItemTemplate="{StaticResource ClassRoomsTemplate}" Template="{StaticResource ClassRoomsListBoxTemplate}" Grid.Row="1" Grid.Column="3" Margin="6,36,6,10" HorizontalAlignment="Stretch" SelectionMode="Single" VerticalAlignment="Stretch" SelectionChanged="sClassClassRoomsListView_SelectionChanged" GotFocus="sClassClassRoomsListView_GotFocus">
+        <ListBox x:Name="sClassClassRoomsListView" ItemTemplate="{StaticResource ClassRoomsTemplate}" Template="{StaticResource ClassRoomsListBoxTemplate}" SelectionMode="Extended" Grid.Row="1" Grid.Column="3" Margin="6,36,6,10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="sClassClassRoomsListView_SelectionChanged" GotFocus="sClassClassRoomsListView_GotFocus" MouseDoubleClick="sClassClassRoomsListView_MouseDoubleClick">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource CustomMaterialDesignListBoxItem}"></Style>
             </ListBox.ItemContainerStyle>

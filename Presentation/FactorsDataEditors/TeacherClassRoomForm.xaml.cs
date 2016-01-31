@@ -118,24 +118,44 @@ namespace Presentation.FactorsDataEditors
             }
         }
 
-        private void DeleteTeacherClassRoom()
+        private void SetSelectedIndex()
         {
-            int currentIndex = teacherClassRoomsListView.SelectedIndex;
-            Teacher currentTeacher = (Teacher)teachersListBox.SelectedItem;
-            ClassRoom currentCRoom = (ClassRoom)teacherClassRoomsListView.SelectedItem;
-            RemoveClassRoom(currentTeacher, currentCRoom);
-            SetClassRoomsListViewItems(currentTeacher);
-            teacherClassRoomsListView.SelectedIndex = currentIndex;
+            int index = teachersListBox.SelectedIndex;
+            for (int teacherIndex = 0; teacherIndex < teachersListBox.SelectedItems.Count; teacherIndex++)
+            {
+                Teacher teacher = (Teacher)teachersListBox.SelectedItems[teacherIndex];
+                teachersListBox.SelectedItems.Remove(teacher);
+                teacherIndex--;
+            }
+            teachersListBox.SelectedIndex = index;
         }
 
-        private void AddTeacherClassRoom()
+        private void DeleteMultipleTeacherClassRoom()
         {
-            int currentIndex = classRoomsListBox.SelectedIndex;
-            Teacher currentTeacher = (Teacher)teachersListBox.SelectedItem;
-            ClassRoom currentCRoom = (ClassRoom)classRoomsListBox.SelectedItem;
-            AddClassRoom(currentTeacher, currentCRoom);
-            SetClassRoomsListViewItems(currentTeacher);
-            classRoomsListBox.SelectedIndex = currentIndex;
+            for (int teacherIndex = 0; teacherIndex < teachersListBox.SelectedItems.Count; teacherIndex++)
+            {
+                Teacher teacher = (Teacher)teachersListBox.SelectedItems[teacherIndex];
+                for (int classRoomIndex = 0; classRoomIndex < teacherClassRoomsListView.SelectedItems.Count; classRoomIndex++)
+                {
+                    ClassRoom cRoom = (ClassRoom)teacherClassRoomsListView.SelectedItems[classRoomIndex];
+                    RemoveClassRoom(teacher, cRoom);
+                }
+            }
+            SetSelectedIndex();
+        }
+
+        private void AddMultipleTeacherClassRoom()
+        {
+            for (int teacherIndex = 0; teacherIndex < teachersListBox.SelectedItems.Count; teacherIndex++)
+            {
+                Teacher teacher = (Teacher)teachersListBox.SelectedItems[teacherIndex];
+                for (int classRoomIndex = 0; classRoomIndex < classRoomsListBox.SelectedItems.Count; classRoomIndex++)
+                {
+                    ClassRoom cRoom = (ClassRoom)classRoomsListBox.SelectedItems[classRoomIndex];
+                    AddClassRoom(teacher, cRoom);
+                }
+            }
+            SetSelectedIndex();
         }
 
         private void SetTeachersListBox()
@@ -211,12 +231,12 @@ namespace Presentation.FactorsDataEditors
 
         private void addToTeacherClassRooms_Click(object sender, RoutedEventArgs e)
         {
-            AddTeacherClassRoom();
+            AddMultipleTeacherClassRoom();
         }
 
         private void deleteFromTeacherClassRooms_Click(object sender, RoutedEventArgs e)
         {
-            DeleteTeacherClassRoom();
+            DeleteMultipleTeacherClassRoom();
         }
 
         private void teachersListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -237,6 +257,16 @@ namespace Presentation.FactorsDataEditors
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             SaveTeachersClassRooms();
+        }
+
+        private void classRoomsListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            AddMultipleTeacherClassRoom();
+        }
+
+        private void teacherClassRoomsListView_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DeleteMultipleTeacherClassRoom();
         }
 
         private void classRoomsListView_GotFocus(object sender, RoutedEventArgs e)

@@ -341,15 +341,21 @@ namespace Presentation
             }
             else { btnRemove.IsEnabled = false; }
         }
-        private async void AddGroupInFaculty(object sender, RoutedEventArgs e)
+        private async void AddGroupsInFaculty(object sender, RoutedEventArgs e)
         {
             if (SelectFacultycomboBox.SelectedIndex != -1)
             {
                 int index = UnallocatedGroupsView.SelectedIndex;
-                FacultiesAndGroups.AddGroup(SelectFacultycomboBox.SelectedItem.ToString(), (StudentSubGroup)UnallocatedGroupsView.SelectedItem);
+                for (int subGroupIndex = 0; subGroupIndex < UnallocatedGroupsView.SelectedItems.Count; subGroupIndex++)
+                {
+                    StudentSubGroup subGroup = (StudentSubGroup)UnallocatedGroupsView.SelectedItems[subGroupIndex];
+                    FacultiesAndGroups.AddGroup(SelectFacultycomboBox.SelectedItem.ToString(), subGroup);
+                    groupsWithoutFaculty.Remove(subGroup);
+                    UnallocatedGroupsView.SelectedItems.Remove(subGroup);
+                    subGroupIndex--;
+                }
                 DisplayGroupsView.ItemsSource = null;
                 DisplayGroupsView.ItemsSource = FacultiesAndGroups.GetGroups(SelectFacultycomboBox.SelectedItem.ToString());
-                groupsWithoutFaculty.Remove((StudentSubGroup)UnallocatedGroupsView.SelectedItem);
                 UnallocatedGroupsView.ItemsSource = null;
                 UnallocatedGroupsView.ItemsSource = groupsWithoutFaculty;
                 UnallocatedGroupsView.SelectedIndex = index;                
@@ -365,11 +371,17 @@ namespace Presentation
             }
         }
 
-        private void RemoveGroupFromFaculty(object sender, RoutedEventArgs e)
+        private void RemoveGroupsFromFaculty(object sender, RoutedEventArgs e)
         {
             int index = DisplayGroupsView.SelectedIndex;
-            groupsWithoutFaculty.Add((StudentSubGroup)DisplayGroupsView.SelectedItem);
-            FacultiesAndGroups.RemoveGroup(SelectFacultycomboBox.SelectedItem.ToString(), (StudentSubGroup)DisplayGroupsView.SelectedItem);
+            for (int subGroupIndex = 0; subGroupIndex < DisplayGroupsView.SelectedItems.Count; subGroupIndex++)
+            {
+                StudentSubGroup subGroup = (StudentSubGroup)DisplayGroupsView.SelectedItems[subGroupIndex];
+                groupsWithoutFaculty.Add(subGroup);
+                FacultiesAndGroups.RemoveGroup(SelectFacultycomboBox.SelectedItem.ToString(), subGroup);
+                DisplayGroupsView.SelectedItems.Remove(subGroup);
+                subGroupIndex--;
+            }
             DisplayGroupsView.ItemsSource = null;
             DisplayGroupsView.ItemsSource = FacultiesAndGroups.GetGroups(SelectFacultycomboBox.SelectedItem.ToString());
             UnallocatedGroupsView.ItemsSource = null;
@@ -392,6 +404,17 @@ namespace Presentation
             SaveBase();
             flagEdit = false;
         }
+
+        private void DisplayGroupsView_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            RemoveGroupsFromFaculty(sender, e);
+        }
+
+        private void UnallocatedGroupsView_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            AddGroupsInFaculty(sender, e);
+        }
         #endregion
-     }
+
+    }
 }

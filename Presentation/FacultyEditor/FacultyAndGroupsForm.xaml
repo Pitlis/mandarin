@@ -17,12 +17,12 @@
                             <ColumnDefinition Width="70"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <ListBox Background="{DynamicResource MaterialDesignPaper}" x:Name="UnallocatedGroupsView" ItemTemplate="{StaticResource GroupsTemplate}" Template="{StaticResource GroupsListBoxTemplate}" Grid.Column="0" HorizontalAlignment="Stretch" Margin="6,46,6,6" VerticalAlignment="Stretch" SelectionMode="Single" SelectionChanged="SelectGroupWithoutFaculty">
+                        <ListBox Background="{DynamicResource MaterialDesignPaper}" SelectionMode="Extended" x:Name="UnallocatedGroupsView" ItemTemplate="{StaticResource GroupsTemplate}" Template="{StaticResource GroupsListBoxTemplate}" Grid.Column="0" HorizontalAlignment="Stretch" Margin="6,46,6,6" VerticalAlignment="Stretch" SelectionChanged="SelectGroupWithoutFaculty" MouseDoubleClick="UnallocatedGroupsView_MouseDoubleClick">
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource CustomMaterialDesignListBoxItem}"></Style>
                             </ListBox.ItemContainerStyle>
                         </ListBox>
-                        <ListBox Background="{DynamicResource MaterialDesignPaper}" x:Name="DisplayGroupsView" ItemTemplate="{StaticResource GroupsTemplate}" Template="{StaticResource GroupsListBoxTemplate}" Grid.Column="2" HorizontalAlignment="Stretch" Margin="6,77,6,6" VerticalAlignment="Stretch" SelectionMode="Single" SelectionChanged="SelectGroupWithFaculty">
+                        <ListBox Background="{DynamicResource MaterialDesignPaper}" SelectionMode="Extended" x:Name="DisplayGroupsView" ItemTemplate="{StaticResource GroupsTemplate}" Template="{StaticResource GroupsListBoxTemplate}" Grid.Column="2" HorizontalAlignment="Stretch" Margin="6,77,6,6" VerticalAlignment="Stretch" SelectionChanged="SelectGroupWithFaculty" MouseDoubleClick="DisplayGroupsView_MouseDoubleClick">
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource CustomMaterialDesignListBoxItem}"></Style>
                             </ListBox.ItemContainerStyle>
@@ -30,8 +30,16 @@
                         <Label x:Name="label" Content="Нераспределенные группы" Grid.Column="0" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
                         <ComboBox x:Name="SelectFacultycomboBox" Grid.Column="2" HorizontalAlignment="Stretch" Margin="6,35,6,0" VerticalAlignment="Top" ToolTip="Выбор факультета" FontWeight="Bold" SelectionChanged="SelectFaculty"/>
                         <Label x:Name="label1" Content="Группы входящие в факультет" Grid.Column="2" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-                        <Button x:Name="btnRemove" Content="&lt;=" Grid.Column="1" HorizontalAlignment="Left" Margin="4,-40,0,0" VerticalAlignment="Center" Width="62" RenderTransformOrigin="0.486,0.5" IsEnabled="False"  ToolTip="Удалить группу" Click="RemoveGroupFromFaculty"/>
-                        <Button x:Name="btnAdd" Content="=&gt;" Grid.Column="1" HorizontalAlignment="Left" Margin="4,40,0,0" VerticalAlignment="Center" Width="62" RenderTransformOrigin="0.541,-0.05"  IsEnabled="False" ToolTip="Добавить группу" Click="AddGroupInFaculty"/>
+                        <Button x:Name="btnRemove" Grid.Column="1" HorizontalAlignment="Left" Margin="4,40,0,0" VerticalAlignment="Center" Width="62" RenderTransformOrigin="0.486,0.5" IsEnabled="False"  ToolTip="Удалить группу" Click="RemoveGroupsFromFaculty">
+                            <Button.Content>
+                                <materialDesign:PackIcon Kind="ArrowLeft" /> 
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="btnAdd" Grid.Column="1" HorizontalAlignment="Left" Margin="4,-40,0,0" VerticalAlignment="Center" Width="62" RenderTransformOrigin="0.541,-0.05"  IsEnabled="False" ToolTip="Добавить группу" Click="AddGroupsInFaculty">
+                            <Button.Content>
+                                <materialDesign:PackIcon Kind="ArrowRight" />
+                            </Button.Content>
+                        </Button>
 
                     </Grid>
 
