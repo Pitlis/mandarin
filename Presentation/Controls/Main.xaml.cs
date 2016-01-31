@@ -28,6 +28,7 @@ namespace Presentation.Controls
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
+            CurrentBase.SaveBase();
             CreateSchedule.Run();
             CurrentBase.SaveBase();
 
@@ -139,6 +140,14 @@ namespace Presentation.Controls
         {
             StorageEditor.StorageEditorForm f = new StorageEditor.StorageEditorForm();
             f.ShowDialog();
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (CurrentBase.BaseIsLoaded())
+            {
+                LoadSchedules();
+            }
         }
     }
 }
