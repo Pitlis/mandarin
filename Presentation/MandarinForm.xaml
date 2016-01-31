@@ -8,7 +8,9 @@
         xmlns:local="clr-namespace:Presentation"
         xmlns:controls="clr-namespace:Presentation.Controls"
         mc:Ignorable="d"
-        Title="Mandarin. Составление расписания" Height="700" Width="700"
+        Title="Mandarin. Составление расписания" Height="725" Width="880"
+        MinHeight="725" MinWidth="880"
+        
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
