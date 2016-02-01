@@ -124,8 +124,8 @@ namespace Presentation.Controls
 
         private void button_Click_1(object sender, RoutedEventArgs e)
         {
-            StorageEditor.StorageEditorForm f = new StorageEditor.StorageEditorForm();
-            f.ShowDialog();
+            //StorageEditor.StorageEditorForm f = new StorageEditor.StorageEditorForm();
+            //f.ShowDialog();
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)

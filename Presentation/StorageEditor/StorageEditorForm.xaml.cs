@@ -22,45 +22,28 @@ namespace Presentation.StorageEditor
     /// <summary>
     /// Логика взаимодействия для StorageEditorForm.xaml
     /// </summary>
-    public partial class StorageEditorForm : Window
+    public partial class StorageEditorForm : UserControl
     {
 
         StorageEditor storageEditor;
         public ContentControl contentControl { get; set; }
-        int tiTypeSelectIndex = -1, tiTeacherSelectIndex = -1;
+        int tiTypeSelectIndex = -1, tiTeacherSelectIndex = -1, tiClassRoomSelectIndex = -1, tiStudenSubGroupsIndex = -1;
         public StorageEditorForm()
         {
             InitializeComponent();
-            //     this.DataContext = this;
+            this.DataContext = this;
             storageEditor = new StorageEditor();
             LoadTiTypes();
-            FillingCBHousing();
+
         }
-        private void TabItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            LoadTeacher();          
-            tiTeacher.MouseLeftButtonUp -= TabItem_MouseLeftButtonUp;
-            tiType.MouseLeftButtonUp += tiType_MouseLeftButtonUp;
-            tiAllVisibible();
-          
-        }
-        private void tiType_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            LoadTiTypes();
-            tiType.MouseLeftButtonUp -= tiType_MouseLeftButtonUp;
-            tiTeacher.MouseLeftButtonUp += TabItem_MouseLeftButtonUp;
-            tiAllVisibible();
-           
-        }
-        void tiAllVisibible()
-        {
-            tiTeacher.IsEnabled = true;
-            tiType.IsEnabled = true;
-        }
+
+
+
         void LoadTiTypes()
         {
             LoadTypes();
             tiTypetetxBox.Text = "";
+            tiTypeSelectIndex = -1;
         }
         #region tiTypes
         #region Method
@@ -171,13 +154,15 @@ namespace Presentation.StorageEditor
 
         #endregion
         #region Events
-      
+
         private void tiTypeListTypes_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+
             if (tiTypeListTypes.SelectedIndex == -1)
             {
                 tiTypebtnADD.Content = "Создать";
                 groupBox.Header = "Добавление типа";
+                tiTypetetxBox.Text = "";
                 return;
             }
             if (tiTypeListTypes.SelectedIndex == tiTypeSelectIndex)
@@ -186,6 +171,7 @@ namespace Presentation.StorageEditor
                 tiTypeSelectIndex = -1;
                 tiTypebtnADD.Content = "Создать";
                 groupBox.Header = "Добавление типа";
+                tiTypetetxBox.Text = "";
                 return;
             }
             else
@@ -196,7 +182,6 @@ namespace Presentation.StorageEditor
                 tiTypetetxBox.Text = ((ClassRoomType)tiTypeListTypes.SelectedItem).Description;
             }
         }
-
         private void tiTypebtnADD_Click(object sender, RoutedEventArgs e)
         {
             if (tiTypebtnADD.Content.ToString() == "Создать")
@@ -205,11 +190,8 @@ namespace Presentation.StorageEditor
             }
             else EditType();
         }
-
-
         private void tiTypetetxBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-
             if (tiTypetetxBox.Text == "")
             {
                 tiTypebtnADD.IsEnabled = false;
@@ -221,40 +203,25 @@ namespace Presentation.StorageEditor
                 tiTypetetxBox.ToolTip = tiTypetetxBox.Text;
             }
         }
-
-
         private void tiTypebtnDel_Click(object sender, RoutedEventArgs e)
         {
             DelType();
             LoadTypes();
         }
-
-
-
         #endregion
 
         #endregion
-
         #region tiTeacher
-        private void tiTeachertbSearch_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            Search();
-
-        }
+        #region Methods
         void LoadTeacher()
         {
             tiTeacherList.ItemsSource = null;
             tiTeacherList.ItemsSource = storageEditor.GetTeacher();
             tiTeachertbEdit.Text = "";
             tiTeachertbSearch.Text = "";
+            tiTeacherSelectIndex = -1;
         }
-        void Search()
-        {            
-            tiTeacherList.ItemsSource = null;
-            tiTeacherList.ItemsSource = storageEditor.SearchTeacher(tiTeachertbSearch.Text.ToUpper());
-
-        }
-       async void DelTeacher()
+        async void DelTeacher()
         {
             if (tiTeacherList.SelectedIndex == -1)
             {
@@ -284,37 +251,16 @@ namespace Presentation.StorageEditor
 
 
         }
-        private void tiTeachertbEdit_TextChanged(object sender, TextChangedEventArgs e)
+        void Search()
         {
-            if (tiTeachertbEdit.Text == "")
-            {
-                tiTeacherbtnADD.IsEnabled = false;
-                tiTeachertbEdit.ToolTip = "Введите тип";
-            }
-            else
-            {
-                tiTeacherbtnADD.IsEnabled = true;
-                tiTeachertbEdit.ToolTip = tiTeachertbEdit.Text;
-            }
+            tiTeacherList.ItemsSource = null;
+            tiTeacherList.ItemsSource = storageEditor.SearchTeacher(tiTeachertbSearch.Text.ToUpper());
+            tiTeacherbtnADD.Content = "Создать";
+            tiTeachergroupbox.Header = "Добавление преподавателя";
+            tiTeachertbEdit.Text = "";
+            tiTeacherSelectIndex = -1;
         }
-
-       
-
-        private void tiTeacherbtnDel_Click(object sender, RoutedEventArgs e)
-        {
-            DelTeacher();
-            LoadTeacher();
-        }
-
-        private void tiTeacherbtnADD_Click(object sender, RoutedEventArgs e)
-        {
-            if (tiTeacherbtnADD.Content.ToString() == "Создать")
-            {
-                ADDTeacher();
-            }
-            else EditTeacher();
-        }
-       async void ADDTeacher()
+        async void ADDTeacher()
         {
             if (tiTeachertbEdit.Text == "")
             {
@@ -338,7 +284,7 @@ namespace Presentation.StorageEditor
                 {
                     tiTeachertbEdit.Text = "";
                     return;
-                }                          
+                }
             }
             storageEditor.ADDTeacher(tiTeachertbEdit.Text);
             var infoWindow = new InfoWindow
@@ -375,6 +321,7 @@ namespace Presentation.StorageEditor
                 }
 
             }
+
             storageEditor.EditTeacher((Teacher)tiTeacherList.SelectedItem, tiTeachertbEdit.Text);
             LoadTeacher();
             tiTeachertbEdit.Text = "";
@@ -384,12 +331,51 @@ namespace Presentation.StorageEditor
             };
             await DialogHost.Show(infoWindow, "StorageEditorHost");
         }
+        #endregion
+        #region Events
+
+        private void tiTeachertbSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Search();
+
+        }
+
+
+        private void tiTeachertbEdit_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (tiTeachertbEdit.Text == "")
+            {
+                tiTeacherbtnADD.IsEnabled = false;
+                tiTeachertbEdit.ToolTip = "Введите тип";
+            }
+            else
+            {
+                tiTeacherbtnADD.IsEnabled = true;
+                tiTeachertbEdit.ToolTip = tiTeachertbEdit.Text;
+            }
+        }
+        private void tiTeacherbtnDel_Click(object sender, RoutedEventArgs e)
+        {
+            DelTeacher();
+            LoadTeacher();
+        }
+        private void tiTeacherbtnADD_Click(object sender, RoutedEventArgs e)
+        {
+            if (tiTeacherbtnADD.Content.ToString() == "Создать")
+            {
+                ADDTeacher();
+            }
+            else EditTeacher();
+        }
+
         private void tiTeacherList_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+
             if (tiTeacherList.SelectedIndex == -1)
             {
                 tiTeacherbtnADD.Content = "Создать";
-                tiTeachergroupbox.Header = "Добавление типа";
+                tiTeachergroupbox.Header = "Добавление преподавателя";
+                tiTeachertbEdit.Text = "";
                 return;
             }
             if (tiTeacherList.SelectedIndex == tiTeacherSelectIndex)
@@ -397,7 +383,8 @@ namespace Presentation.StorageEditor
                 tiTeacherList.SelectedIndex = -1;
                 tiTeacherSelectIndex = -1;
                 tiTeacherbtnADD.Content = "Создать";
-                tiTeachergroupbox.Header = "Добавление типа";
+                tiTeachergroupbox.Header = "Добавление преподавателя";
+                tiTeachertbEdit.Text = "";
                 return;
             }
             else
@@ -409,35 +396,30 @@ namespace Presentation.StorageEditor
             }
         }
 
-       
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         #endregion
 
+        #endregion
         #region tiClassRoom
-
+        List<CheckingTypeinClassRoom> check;
+        #region Methods
+        void LoadClassRooms()
+        {
+            FillingCBHousing();
+            FillingtiListViewNumber();
+            FillingTypesinClassRoom();
+            tiClassRoomSelectIndex = -1;
+        }
         void FillingCBHousing()
         {
             List<int> housing = storageEditor.ReturnHousing();
-            if(housing.Count==0)
+            if (housing.Count == 0)
             {
                 tiClassRoomscbHousing.SelectedIndex = -1;
                 return;
             }
             tiClassRoomscbHousing.ItemsSource = housing;
             tiClassRoomscbHousing.SelectedIndex = 0;
+
         }
         void FillingtiListViewNumber()
         {
@@ -448,12 +430,765 @@ namespace Presentation.StorageEditor
             tiClassRomslwNumber.ItemsSource = classRoom;
 
         }
+        void FillingTypesinClassRoom()
+        {
+            if (tiClassRoomscbHousing.SelectedIndex == -1) return;
+            List<ClassRoomType> type = storageEditor.GetClassRoomType();
+            check = new List<CheckingTypeinClassRoom>();
+            for (int indexchb = 0; indexchb < type.Count; indexchb++)
+            {
+                check.Add(new CheckingTypeinClassRoom(type[indexchb].Description, false, false, true, true));
+            }
+            listView.ItemsSource = check;
+        }
+        void FillingPrymaryType()
+        {
+            List<ClassRoomType> prymaryType = storageEditor.GetClassRoomTypePrimary((ClassRoom)tiClassRomslwNumber.SelectedItem);
+            foreach (var alltype in check)
+            {
+                foreach (var item in prymaryType)
+                {
+                    if (alltype.Content.ToUpper() == item.Description.ToUpper())
+                    {
+                        alltype.PrymaryType = true;
+                        alltype.SecondEnabled = false;
+                    }
+                }
+            }
+        }
+        void FillingSecondType()
+        {
+            List<ClassRoomType> secondType = storageEditor.GetClassRoomTypeSecond((ClassRoom)tiClassRomslwNumber.SelectedItem);
+            foreach (var alltype in check)
+            {
+                foreach (var item in secondType)
+                {
+                    if (alltype.Content.ToUpper() == item.Description.ToUpper())
+                    {
+                        alltype.SecondType = true;
+                        alltype.PrymaryEnabled = false;
+                    }
+                }
+            }
+        }
+        async void ADDClassRoom()
+        {
+            if (storageEditor.ExistClassRoom(Convert.ToInt32(tiClassRoomstbHousing.Text), Convert.ToInt32(tiClassRoomstbNumber.Text)))
+            {
+                var infoWindow2 = new InfoWindow
+                {
+                    Message = { Text = "Ошибка ввода" }
+                };
+                await DialogHost.Show(infoWindow2, "StorageEditorHost");
+                return;
+
+            }
+            List<string> prymary = new List<string>();
+            List<string> second = new List<string>();
+            foreach (var item in check)
+            {
+                if (item.PrymaryType == true) prymary.Add(item.Content);
+                if (item.SecondType == true) second.Add(item.Content);
+            }
+            if (prymary.Count == 0)
+            {
+                var infoWindow1 = new InfoWindow
+                {
+                    Message = { Text = "Необходимо выбрать основной тип аудитории" }
+                };
+                await DialogHost.Show(infoWindow1, "StorageEditorHost");
+                return;
+            }
+            storageEditor.ADDClassRoom(Convert.ToInt32(tiClassRoomstbNumber.Text), Convert.ToInt32(tiClassRoomstbHousing.Text), prymary, second);
+            var infoWindow = new InfoWindow
+            {
+                Message = { Text = "Добавлено" }
+            };
+            await DialogHost.Show(infoWindow, "StorageEditorHost");
+            return;
+        }
+        async void EditClassRoom()
+        {
+            if (tiClassRomslwNumber.SelectedIndex == -1)
+            {
+                var infoWindow2 = new InfoWindow
+                {
+                    Message = { Text = "Необходимо выбрать аудиторию" }
+                };
+                await DialogHost.Show(infoWindow2, "StorageEditorHost");
+                return;
+
+            }
+            List<string> prymary = new List<string>();
+            List<string> second = new List<string>();
+            foreach (var item in check)
+            {
+                if (item.PrymaryType == true) prymary.Add(item.Content);
+                if (item.SecondType == true) second.Add(item.Content);
+            }
+            if (prymary.Count == 0)
+            {
+                var infoWindow1 = new InfoWindow
+                {
+                    Message = { Text = "Необходимо выбрать основной тип аудитории" }
+                };
+                await DialogHost.Show(infoWindow1, "StorageEditorHost");
+                return;
+            }
+            storageEditor.EditClassRoom((ClassRoom)tiClassRomslwNumber.SelectedItem, prymary, second);
+            var infoWindow = new InfoWindow
+            {
+                Message = { Text = "Изменено" }
+            };
+            await DialogHost.Show(infoWindow, "StorageEditorHost");
+        }
+
+
+
+        async void DelClassRoom()
+        {
+            storageEditor.DelClassRoom((ClassRoom)tiClassRomslwNumber.SelectedItem);
+            FillingtiListViewNumber();
+            FillingTypesinClassRoom();
+            var infoWindow = new InfoWindow
+            {
+                Message = { Text = "Удалено" }
+            };
+            await DialogHost.Show(infoWindow, "StorageEditorHost");
+        }
+        #endregion
+
+        #region Events
+
         private void tiClassRoomscbHousing_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             FillingtiListViewNumber();
+            FillingTypesinClassRoom();
+        }
+
+        #region checking
+        //основной
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            CheckBox t = (CheckBox)sender;
+            for (int index = 0; index < check.Count; index++)
+            {
+                if (check[index].Content.ToUpper() == t.Content.ToString().ToUpper())
+                {
+                    check[index].SecondEnabled = false;
+                }
+            }
+            listView.ItemsSource = null;
+            listView.ItemsSource = check;
+        }
+
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            CheckBox t = (CheckBox)sender;
+            for (int index = 0; index < check.Count; index++)
+            {
+                if (check[index].Content.ToUpper() == t.Content.ToString().ToUpper())
+                {
+                    check[index].SecondEnabled = true;
+                }
+            }
+            listView.ItemsSource = null;
+            listView.ItemsSource = check;
+        }
+        //вторичный
+        private void CheckBox_Unchecked_1(object sender, RoutedEventArgs e)
+        {
+            CheckBox t = (CheckBox)sender;
+            for (int index = 0; index < check.Count; index++)
+            {
+                if (check[index].Content.ToUpper() == t.Content.ToString().ToUpper())
+                {
+                    check[index].PrymaryEnabled = true;
+                }
+            }
+            listView.ItemsSource = null;
+            listView.ItemsSource = check;
+        }
+
+
+
+        private void CheckBox_Checked_1(object sender, RoutedEventArgs e)
+        {
+            CheckBox t = (CheckBox)sender;
+            for (int index = 0; index < check.Count; index++)
+            {
+                if (check[index].Content.ToUpper() == t.Content.ToString().ToUpper())
+                {
+                    check[index].PrymaryEnabled = false;
+                }
+            }
+            listView.ItemsSource = null;
+            listView.ItemsSource = check;
+        }
+        #endregion
+        async private void tiClassRoomsbtnDel_Click(object sender, RoutedEventArgs e)
+        {
+            if (tiClassRomslwNumber.SelectedIndex == -1)
+            {
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Необходимо выбрать аудиторию" }
+                };
+                await DialogHost.Show(infoWindow, "StorageEditorHost");
+                return;
+
+            }
+            //Добавить проверку в анализаторах
+            DelClassRoom();
+            var infoWindow1 = new InfoWindow
+            {
+                Message = { Text = "Удалено" }
+            };
+            await DialogHost.Show(infoWindow1, "StorageEditorHost");
+            return;
+        }
+
+
+
+        async private void tiClassRoomsbtnADD_Click(object sender, RoutedEventArgs e)
+        {
+            int x = 0;
+            if (!Int32.TryParse(tiClassRoomstbHousing.Text, out x) || !Int32.TryParse(tiClassRoomstbNumber.Text, out x) || tiClassRoomstbHousing.Text == "" || tiClassRoomstbNumber.Text == "")
+            {
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Ошибка ввода" }
+                };
+                await DialogHost.Show(infoWindow, "StorageEditorHost");
+                return;
+            }
+            if (tiClassRoomsbtnADD.Content.ToString() == "Создать")
+            {
+                ADDClassRoom();
+            }
+            else EditClassRoom();
+            LoadClassRooms();
+        }
+
+
+
+        private void tiClassRomslwNumber_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+
+            if (tiClassRomslwNumber.SelectedIndex == -1)
+            {
+                tiClassRoomsbtnADD.Content = "Создать";
+                tiClassRoomsGB.Header = "Добавление аудитории";
+                tiClassRoomstbHousing.Text = "";
+                tiClassRoomstbNumber.Text = "";
+                tiClassRoomSelectIndex = -1;
+                tiClassRoomstbNumber.IsReadOnly = false;
+                tiClassRoomstbHousing.IsReadOnly = false;
+                FillingTypesinClassRoom();
+                return;
+            }
+            if (tiClassRomslwNumber.SelectedIndex == tiClassRoomSelectIndex)
+            {
+                tiClassRomslwNumber.SelectedIndex = -1;
+                tiClassRoomSelectIndex = -1;
+                tiClassRoomsbtnADD.Content = "Создать";
+                tiClassRoomsGB.Header = "Добавление аудитории";
+                tiClassRoomstbNumber.Text = "";
+                tiClassRoomstbHousing.Text = "";
+                tiClassRoomSelectIndex = -1;
+                tiClassRoomstbNumber.IsReadOnly = false;
+                tiClassRoomstbHousing.IsReadOnly = false;
+                FillingTypesinClassRoom();
+                return;
+            }
+            else
+            {
+                tiClassRoomSelectIndex = tiClassRomslwNumber.SelectedIndex;
+                tiClassRoomsbtnADD.Content = "Сохранить";
+                tiClassRoomsGB.Header = "Вы выбрали с ID=" + ((Domain.IDomainIdentity<ClassRoom>)(ClassRoom)tiClassRomslwNumber.SelectedItem).ID;
+                tiClassRoomstbHousing.IsReadOnly = true;
+                tiClassRoomstbHousing.Text = ((ClassRoom)tiClassRomslwNumber.SelectedItem).Housing.ToString();
+                tiClassRoomstbNumber.IsReadOnly = true;
+                tiClassRoomstbNumber.Text = ((ClassRoom)tiClassRomslwNumber.SelectedItem).Number.ToString();
+                FillingTypesinClassRoom();
+                FillingPrymaryType();
+                FillingSecondType();
+                listView.ItemsSource = check;
+            }
+        }
+
+
+
+        #endregion
+
+        #endregion
+        #region tiStudentSubGroups
+        #region Methods
+        void LoadStudenSubGroups()
+        {
+            FillingtiStudentSubGroupslist();
+            tiStudentSubGroupstbName.Text = "";
+            tiStudentSubGroupstbNumber.Text = "";
+        }
+        void FillingtiStudentSubGroupslist()
+        {
+            tiStudentSubGroupslist.ItemsSource = null;
+            tiStudentSubGroupslist.ItemsSource = storageEditor.GetStudentSubGroup();
+        }
+        async void EditStudenSubGroup()
+        {
+            if (tiStudentSubGroupslist.SelectedIndex == -1)
+            {
+                var infoWindow1 = new InfoWindow
+                {
+                    Message = { Text = "Необходимо выбрать подгруппу" }
+                };
+                await DialogHost.Show(infoWindow1, "StorageEditorHost");
+                return;
+            }
+            if (storageEditor.ExistStudentSubGroup(tiStudentSubGroupstbName.Text, Convert.ToByte(tiStudentSubGroupstbNumber.Text)))
+            {
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Такая подгруппа уже существует" }
+                };
+                await DialogHost.Show(infoWindow, "StorageEditorHost");
+                return;
+            }
+            storageEditor.EditStudenSubGroups((StudentSubGroup)tiStudentSubGroupslist.SelectedItem, tiStudentSubGroupstbName.Text, Convert.ToByte(tiStudentSubGroupstbNumber.Text));
+            var infoWindow3 = new InfoWindow
+            {
+                Message = { Text = "Изменено" }
+            };
+            await DialogHost.Show(infoWindow3, "StorageEditorHost");
+
+
+
+        }
+        async void DelStudentSubGroup()
+        {
+            if (tiStudentSubGroupslist.SelectedIndex == -1)
+            {
+                var infoWindow1 = new InfoWindow
+                {
+                    Message = { Text = "Необходимо выбрать подгруппу" }
+                };
+                await DialogHost.Show(infoWindow1, "StorageEditorHost");
+                return;
+            }
+            if (storageEditor.ExistStudentGroupsInClasses((StudentSubGroup)tiStudentSubGroupslist.SelectedItem) != 0)
+            {
+                var infoWindow1 = new InfoWindow
+                {
+                    Message = { Text = "Данная подгруппа входит в " + storageEditor.ExistStudentGroupsInClasses((StudentSubGroup)tiStudentSubGroupslist.SelectedItem).ToString() + "пар" }
+                };
+                await DialogHost.Show(infoWindow1, "StorageEditorHost");
+                return;
+            }
+            storageEditor.DelStudentSubGroup((StudentSubGroup)tiStudentSubGroupslist.SelectedItem);
+            LoadStudenSubGroups();
+            var infoWindow2 = new InfoWindow
+            {
+                Message = { Text = "Удалено" }
+            };
+            await DialogHost.Show(infoWindow2, "StorageEditorHost");
+
+
+        }
+        async void ADDStudenSubGroup()
+        {
+            if (storageEditor.ExistStudentSubGroup(tiStudentSubGroupstbName.Text, Convert.ToByte(tiStudentSubGroupstbNumber.Text)))
+            {
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Такая подгруппа уже существует" }
+                };
+                await DialogHost.Show(infoWindow, "StorageEditorHost");
+                return;
+            }
+            storageEditor.ADDStudentSubGroup(tiStudentSubGroupstbName.Text, Convert.ToByte(tiStudentSubGroupstbNumber.Text));
+            var infoWindow3 = new InfoWindow
+            {
+                Message = { Text = "Добавлено" }
+            };
+            await DialogHost.Show(infoWindow3, "StorageEditorHost");
+            return;
+
+        }
+        #endregion
+        #region Events
+        private void tiStudentSubGroupslist_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+
+            if (tiStudentSubGroupslist.SelectedIndex == -1)
+            {
+                tiStudentSubGroupsbtnADD.Content = "Создать";
+                tiStudentSubGroupsGB.Header = "Добавление подгруппы";
+                tiStudentSubGroupstbName.Text = "";
+                tiStudentSubGroupstbNumber.Text = "";
+                return;
+            }
+            if (tiStudentSubGroupslist.SelectedIndex == tiStudenSubGroupsIndex)
+            {
+                tiStudentSubGroupslist.SelectedIndex = -1;
+                tiStudenSubGroupsIndex = -1;
+                tiStudentSubGroupsbtnADD.Content = "Создать";
+                tiStudentSubGroupsGB.Header = "Добавление подгруппы";
+                tiStudentSubGroupstbName.Text = "";
+                tiStudentSubGroupstbNumber.Text = "";
+                return;
+            }
+            else
+            {
+                tiStudenSubGroupsIndex = tiStudentSubGroupslist.SelectedIndex;
+                tiStudentSubGroupsbtnADD.Content = "Сохранить";
+                tiStudentSubGroupsGB.Header = "Вы выбрали ID=" + ((Domain.IDomainIdentity<StudentSubGroup>)(StudentSubGroup)tiStudentSubGroupslist.SelectedItem).ID;
+                tiStudentSubGroupstbName.Text = ((StudentSubGroup)tiStudentSubGroupslist.SelectedItem).NameGroup;
+                tiStudentSubGroupstbNumber.Text = ((StudentSubGroup)tiStudentSubGroupslist.SelectedItem).NumberSubGroup.ToString();
+            }
+        }
+        async private void tiStudentSubGroupsbtnADD_Click(object sender, RoutedEventArgs e)
+        {
+            byte x = 0;
+            if (!Byte.TryParse(tiStudentSubGroupstbNumber.Text, out x) || tiStudentSubGroupstbNumber.Text == "" || tiStudentSubGroupstbName.Text == "")
+            {
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Ошибка ввода" }
+                };
+                await DialogHost.Show(infoWindow, "StorageEditorHost");
+                return;
+            }
+            if (tiStudentSubGroupsbtnADD.Content.ToString() == "Создать")
+            {
+                ADDStudenSubGroup();
+            }
+            else EditStudenSubGroup();
+            LoadStudenSubGroups();
+
+        }
+        private void tiStudentSubGroupbtnDel_Click(object sender, RoutedEventArgs e)
+        {
+            DelStudentSubGroup();
         }
 
         #endregion
+        #endregion
+
+        #region tiADDClasses
+
+
+        private void tiADDClassestbSearchGroup_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            List<CheckingStudenSubGroups> tmp = new List<CheckingStudenSubGroups>();
+            foreach (var item in checkgroupsadd)
+            {
+                if (item.Content.ToUpper().Contains(tiADDClassestbSearchGroup.Text.ToUpper()))
+                {
+                    item.Visible = Visibility.Visible;
+                    tmp.Add(item);
+                }
+                else item.Visible = Visibility.Collapsed;
+            }
+            tiADDClasseslistGroup.ItemsSource = null;
+            tiADDClasseslistGroup.ItemsSource = tmp;
+        }
+
+        private void tiADDClassestbSearchTeacher_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            List<CheckingTeacher> tmp = new List<CheckingTeacher>();
+            foreach (var item in checkteacheradd)
+            {
+                if (item.Content.ToUpper().Contains(tiADDClassestbSearchTeacher.Text.ToUpper()))
+                {
+                    item.Visible = Visibility.Visible;
+                    tmp.Add(item);
+                }
+                else item.Visible = Visibility.Collapsed;
+            }
+            tiADDClasseslistTeacher.ItemsSource = null;
+            tiADDClasseslistTeacher.ItemsSource = tmp;
+        }
+
+        private void tiADDClassesADD_Click(object sender, RoutedEventArgs e)
+        {
+            ADDClasses();
+        }
+
+        async void ADDClasses()
+        {
+            var infoWindow = new InfoWindow();
+            if (tiADDClassestbName.Text == "")
+            {
+                infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Введите название пары" }
+                };
+                await DialogHost.Show(infoWindow, "StorageEditorHost");
+                return;
+
+            }
+            int x = 0;
+            if (!Int32.TryParse(tiADDClassestbCount.Text, out x))
+            {
+                tiADDClassestbName.Text = "";
+                infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Введите количество пар" }
+                };
+                await DialogHost.Show(infoWindow, "StorageEditorHost");
+                return;
+
+            }
+            if (x > 70 || x < 0)
+            {
+                //////////лимит
+                tiADDClassestbName.Text = "";
+                infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Введите корректное число пар" }
+                };
+                await DialogHost.Show(infoWindow, "StorageEditorHost");
+                return;
+            }
+            List<StudentSubGroup> group = new List<StudentSubGroup>();
+            foreach (var item in checkgroupsadd)
+            {
+                if (item.Checking == true) group.Add(item.Group);
+            }
+            if (group.Count == 0)
+            {
+                infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Вы не выбрали погруппы" }
+                };
+                await DialogHost.Show(infoWindow, "StorageEditorHost");
+                return;
+            }
+            List<Teacher> teacher = new List<Teacher>();
+            foreach (var item in checkteacheradd)
+            {
+                if (item.Checking == true) teacher.Add(item.Teacher);
+            }
+            if (teacher.Count == 0)
+            {
+                var dialogWindow = new DialogWindow
+                {
+                    Message = { Text = "Вы не выбрали прподавателей.\nПродолжить?" }
+                };
+
+                object result = await DialogHost.Show(dialogWindow, "StorageEditorHost");
+                if (result != null && (bool)result == false)
+                {
+                    return;
+                }
+
+            }
+            List<ClassRoomType> type = new List<ClassRoomType>();
+            foreach (var item in checktype)
+            {
+                if (item.Checking == true) type.Add(item.Type);
+            }
+            if (type.Count == 0)
+            {
+                infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Вы не типы аудиторий" }
+                };
+                await DialogHost.Show(infoWindow, "StorageEditorHost");
+                return;
+            }
+            ////дубляж поискать и предупредить
+            int count = storageEditor.ExistClasses(tiADDClassestbName.Text, group.ToArray(), type.ToArray(), teacher.ToArray());
+            if (count != 0)
+            {
+                var dialogWindow1 = new DialogWindow
+                {
+                    Message = { Text = "Уже существуют " + count + " пар" + ".\nПродолжить?" }
+                };
+
+                object result = await DialogHost.Show(dialogWindow1, "StorageEditorHost");
+                if (result != null && (bool)result == false)
+                {
+                    return;
+                }
+            }
+            storageEditor.ADDClasses(tiADDClassestbName.Text, group.ToArray(), type.ToArray(), teacher.ToArray(), x);
+            infoWindow = new InfoWindow
+            {
+                Message = { Text = "Добавлено" }
+            };
+            await DialogHost.Show(infoWindow, "StorageEditorHost");
+            LoadADDClasses();
+        }
+
+        private void tiADDClassestbSearchType_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            List<CheckingType> tmp = new List<CheckingType>();
+            foreach (var item in checktype)
+            {
+                if (item.Content.ToUpper().Contains(tiADDClassestbSearchType.Text.ToUpper()))
+                {
+                    item.Visible = Visibility.Visible;
+                    tmp.Add(item);
+                }
+                else item.Visible = Visibility.Collapsed;
+            }
+            tiADDClasseslistType.ItemsSource = null;
+            tiADDClasseslistType.ItemsSource = tmp;
+        }
+
+        List<CheckingStudenSubGroups> checkgroupsadd;
+        List<CheckingTeacher> checkteacheradd;
+        #region checked
+        //группы
+        private void CheckBox_Checked_2(object sender, RoutedEventArgs e)
+        {
+            int count = Convert.ToInt32(tiADDClassesCountGroup.Content);
+            count++;
+            tiADDClassesCountGroup.Content = count;
+        }
+
+        private void CheckBox_Unchecked_2(object sender, RoutedEventArgs e)
+        {
+            int count = Convert.ToInt32(tiADDClassesCountGroup.Content);
+            count--;
+            tiADDClassesCountGroup.Content = count;
+        }
+        //преподы
+        private void CheckBox_Checked_3(object sender, RoutedEventArgs e)
+        {
+            int count = Convert.ToInt32(tiADDClassesCountTeacher.Content);
+            count++;
+            tiADDClassesCountTeacher.Content = count;
+        }
+
+        private void CheckBox_Unchecked_3(object sender, RoutedEventArgs e)
+        {
+            int count = Convert.ToInt32(tiADDClassesCountTeacher.Content);
+            count--;
+            tiADDClassesCountTeacher.Content = count;
+        }
+
+        //типы
+        private void CheckBox_Checked_4(object sender, RoutedEventArgs e)
+        {
+            int count = Convert.ToInt32(tiADDClassesCountType.Content);
+            count++;
+            tiADDClassesCountType.Content = count;
+        }
+
+        private void CheckBox_Unchecked_4(object sender, RoutedEventArgs e)
+        {
+            int count = Convert.ToInt32(tiADDClassesCountType.Content);
+            count--;
+            tiADDClassesCountType.Content = count;
+        }
+        #endregion
+
+
+
+
+
+
+        List<CheckingType> checktype;
+        void LoadADDClasses()
+        {
+            FillingGroups();
+            FillingTeacher();
+            FillingTypes();
+            tiADDClassestbSearchTeacher.Text = "";
+            tiADDClassestbSearchGroup.Text = "";
+            tiADDClassestbSearchType.Text = "";
+            tiADDClassestbCount.Text = "";
+            tiADDClassestbName.Text = "";
+        }
+
+        private void button4_Click(object sender, RoutedEventArgs e)
+        {
+            tabControl.SelectedIndex = 0;
+            LoadTiTypes();
+        }
+
+        private void button3_Click(object sender, RoutedEventArgs e)
+        {
+            tabControl.SelectedIndex = 1;
+            LoadClassRooms();
+        }
+
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            tabControl.SelectedIndex = 2;
+            LoadTeacher();
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            tabControl.SelectedIndex = 4;
+            LoadADDClasses();
+        }
+
+        private void button5_Click(object sender, RoutedEventArgs e)
+        {
+            tabControl.SelectedIndex = 3;
+            LoadStudenSubGroups();
+        }
+
+        async private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            storageEditor.Save();
+            var infoWindow = new InfoWindow
+            {
+                Message = { Text = "Сохранено" }
+            };
+            await DialogHost.Show(infoWindow, "StorageEditorHost");
+        }
+
+        void FillingGroups()
+        {
+            tiADDClasseslistGroup.ItemsSource = null;
+            List<StudentSubGroup> group = storageEditor.GetStudentSubGroup();
+            checkgroupsadd = new List<CheckingStudenSubGroups>();
+            foreach (var item in group)
+            {
+                checkgroupsadd.Add(new CheckingStudenSubGroups(item, Visibility.Visible, false));
+            }
+            tiADDClasseslistGroup.ItemsSource = checkgroupsadd;
+        }
+        void FillingTypes()
+        {
+            tiADDClasseslistType.ItemsSource = null;
+            List<ClassRoomType> type = storageEditor.GetClassRoomType();
+            checktype = new List<CheckingType>();
+            foreach (var item in type)
+            {
+                checktype.Add(new CheckingType(item, Visibility.Visible, false));
+            }
+            tiADDClasseslistType.ItemsSource = checktype;
+        }
+
+        void FillingTeacher()
+        {
+            tiADDClasseslistTeacher.ItemsSource = null;
+            List<Teacher> teacher = storageEditor.GetTeacher();
+            checkteacheradd = new List<CheckingTeacher>();
+            foreach (var item in teacher)
+            {
+                checkteacheradd.Add(new CheckingTeacher(item, false, Visibility.Visible));
+            }
+            tiADDClasseslistTeacher.ItemsSource = checkteacheradd;
+        }
+
+
+
+
+
+
+
+        #endregion
+
+
+
     }
 }
 

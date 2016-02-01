@@ -630,5 +630,20 @@ namespace Presentation
 
         }
 
+      async  private void miStorageEditor_Click(object sender, RoutedEventArgs e)
+        {
+            if(CurrentBase.BaseIsLoaded())
+            {
+                contentControl.Content = new StorageEditor.StorageEditorForm();
+            }
+            else
+            {
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "База данных не загружена" }
+                };
+                await DialogHost.Show(infoWindow, "MandarinHost");
+            }
+        }
     }
 }

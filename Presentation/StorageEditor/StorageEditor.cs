@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Model;
+using System.Collections;
+using System.Windows;
+
 namespace Presentation.StorageEditor
 {
-     class StorageEditor
+    class StorageEditor
     {
         Domain.Services.EntityStorage eStorage;
         public StorageEditor()
@@ -24,7 +27,7 @@ namespace Presentation.StorageEditor
             List<string> description = new List<string>();
             foreach (var item in eStorage.ClassRoomsTypes.ToList())
             {
-               description.Add(item.Description);
+                description.Add(item.Description);
             }
             description.Sort();
             List<ClassRoomType> types = new List<ClassRoomType>();
@@ -36,12 +39,12 @@ namespace Presentation.StorageEditor
                 }
             }
             return types;
-        }     
-        
-      
+        }
+
+
         int IDTypes()
         {
-            int ID=0;
+            int ID = 0;
             if (eStorage.ClassRoomsTypes.Count() == 0) return 0;
             List<int> id = new List<int>();
             foreach (var item in eStorage.ClassRoomsTypes.ToList())
@@ -52,14 +55,14 @@ namespace Presentation.StorageEditor
             ID = id.Last();
             ID++;
             return ID;
-            
+
         }
-       public  void AddType(string Description)
+        public void AddType(string Description)
         {
             List<ClassRoomType> type = eStorage.ClassRoomsTypes.ToList();
             type.Add(new ClassRoomType(IDTypes(), Description));
             eStorage = new Domain.Services.EntityStorage(eStorage.Classes.ToArray(), type.ToArray(), eStorage.StudentSubGroups.ToArray(), eStorage.Teachers.ToArray(), eStorage.ClassRooms.ToArray());
-            
+
         }
         public ClassRoomType ReturnTypeByID(int ID)
         {
@@ -74,15 +77,15 @@ namespace Presentation.StorageEditor
             List<ClassRoomType> type = eStorage.ClassRoomsTypes.ToList();
             type.Remove(delType); eStorage = new Domain.Services.EntityStorage(eStorage.Classes.ToArray(), type.ToArray(), eStorage.StudentSubGroups.ToArray(), eStorage.Teachers.ToArray(), eStorage.ClassRooms.ToArray());
         }
-      public  void EditType(ClassRoomType editType, string Description)
+        public void EditType(ClassRoomType editType, string Description)
         {
             List<ClassRoomType> type = eStorage.ClassRoomsTypes.ToList();
-            int id= (int)((Domain.IDomainIdentity<ClassRoomType>)editType).ID;
+            int id = (int)((Domain.IDomainIdentity<ClassRoomType>)editType).ID;
             type.Remove(editType);
             type.Add(new ClassRoomType(id, Description));
             eStorage = new Domain.Services.EntityStorage(eStorage.Classes.ToArray(), type.ToArray(), eStorage.StudentSubGroups.ToArray(), eStorage.Teachers.ToArray(), eStorage.ClassRooms.ToArray());
         }
-      
+
         public bool ExistClassRoomType(string Description)
         {
             foreach (var item in eStorage.ClassRoomsTypes.ToList())
@@ -95,12 +98,12 @@ namespace Presentation.StorageEditor
             return false;
         }
         public int ExistTypeInClassRoom(ClassRoomType type)
-        {          
+        {
             int count = 0;
-            foreach(var item in eStorage.ClassRooms.ToList())
+            foreach (var item in eStorage.ClassRooms.ToList())
             {
                 if (item.ClassRoomTypes == null) return 0;
-                foreach(var types in item.ClassRoomTypes.ToList())
+                foreach (var types in item.ClassRoomTypes.ToList())
                 {
                     if (type == types) count++;
                 }
@@ -109,9 +112,9 @@ namespace Presentation.StorageEditor
         }
         public int ExistTypeInClasses(ClassRoomType type)
         {
-           
+
             int count = 0;
-            foreach(var item in eStorage.Classes.ToList())
+            foreach (var item in eStorage.Classes.ToList())
             {
                 if (item.RequireForClassRoom == null) return 0;
                 foreach (var types in item.RequireForClassRoom.ToList())
@@ -128,27 +131,110 @@ namespace Presentation.StorageEditor
 
         public List<ClassRoom> GetClassRoom()
         {
-            return eStorage.ClassRooms.OrderBy(c => c.Number).OrderBy(c => c.Housing).ToList(); 
+            return eStorage.ClassRooms.OrderBy(c => c.Number).OrderBy(c => c.Housing).ToList();
         }
         public List<ClassRoomType> GetClassRoomTypePrimary(ClassRoom classRoom)
         {
-            if (classRoom.ClassRoomTypes == null) return null;
             List<ClassRoomType> typeRoomReturn = new List<ClassRoomType>();
+            if (classRoom.ClassRoomTypes == null) return typeRoomReturn;
             for (int indexTypeRoom = 0; indexTypeRoom < classRoom.ClassRoomTypes.Count(); indexTypeRoom++)
             {
-                if(classRoom.SecondTypesMask[indexTypeRoom]==true)
+                if (classRoom.SecondTypesMask[indexTypeRoom] == false)
                 {
                     typeRoomReturn.Add(classRoom.ClassRoomTypes[indexTypeRoom]);
-                } 
+                }
             }
-            if (typeRoomReturn.Count == 0) return null;
+            if (typeRoomReturn.Count == 0) return typeRoomReturn;
             return typeRoomReturn;
         }
-        public bool ExistClassRoom(int Housing,int Number)
+        public List<ClassRoomType> GetClassRoomTypeSecond(ClassRoom classRoom)
+        {
+            List<ClassRoomType> typeRoomReturn = new List<ClassRoomType>();
+            if (classRoom.ClassRoomTypes == null) return typeRoomReturn;
+            for (int indexTypeRoom = 0; indexTypeRoom < classRoom.ClassRoomTypes.Count(); indexTypeRoom++)
+            {
+                if (classRoom.SecondTypesMask[indexTypeRoom] == true)
+                {
+                    typeRoomReturn.Add(classRoom.ClassRoomTypes[indexTypeRoom]);
+                }
+            }
+            if (typeRoomReturn.Count == 0) return typeRoomReturn;
+            return typeRoomReturn;
+        }
+        public void DelClassRoom(ClassRoom classRoom)
+        {
+            List<ClassRoom> classRooms = eStorage.ClassRooms.ToList();
+            classRooms.Remove(classRoom);
+            eStorage = new Domain.Services.EntityStorage(eStorage.Classes.ToArray(), eStorage.ClassRoomsTypes.ToArray(), eStorage.StudentSubGroups.ToArray(), eStorage.Teachers.ToArray(), classRooms);
+
+        }
+        public void ADDClassRoom(int number, int housing, List<string> prymaryDescription, List<string> secondDescription)
+        {
+            BitArray SecondTypesMask = new BitArray(prymaryDescription.Count + secondDescription.Count, false);
+            List<ClassRoomType> type = new List<ClassRoomType>();
+            int indexMask = 0;
+            for (int index = 0; index < eStorage.ClassRoomsTypes.Count(); index++)
+            {
+                foreach (var item in prymaryDescription)
+                {
+                    if (item == eStorage.ClassRoomsTypes[index].Description)
+                    {
+                        type.Add(eStorage.ClassRoomsTypes[index]);
+                        indexMask++;
+                    }
+                }
+                foreach (var item in secondDescription)
+                {
+                    if (item == eStorage.ClassRoomsTypes[index].Description)
+                    {
+                        type.Add(eStorage.ClassRoomsTypes[index]);
+                        SecondTypesMask[indexMask] = true;
+                        indexMask++;
+                    }
+                }
+            }
+            List<ClassRoom> classromm = eStorage.ClassRooms.ToList();
+            classromm.Add(new ClassRoom(IDClassRoom(), number, housing, type, SecondTypesMask));
+            eStorage = new Domain.Services.EntityStorage(eStorage.Classes.ToArray(), eStorage.ClassRoomsTypes.ToArray(), eStorage.StudentSubGroups.ToArray(), eStorage.Teachers.ToArray(), classromm);
+        }
+        public void EditClassRoom(ClassRoom room, List<string> prymaryDescription, List<string> secondDescription)
+        {
+            int id = (int)((Domain.IDomainIdentity<ClassRoom>)room).ID;
+            int housing = room.Housing, number = room.Number;
+            List<ClassRoom> classrooms = eStorage.ClassRooms.ToList();
+            classrooms.Remove(room);
+            BitArray SecondTypesMask = new BitArray(prymaryDescription.Count + secondDescription.Count, false);
+            List<ClassRoomType> type = new List<ClassRoomType>();
+            int indexMask = 0;
+            for (int index = 0; index < eStorage.ClassRoomsTypes.Count(); index++)
+            {
+                foreach (var item in prymaryDescription)
+                {
+                    if (item == eStorage.ClassRoomsTypes[index].Description)
+                    {
+                        type.Add(eStorage.ClassRoomsTypes[index]);
+                        indexMask++;
+                    }
+                }
+                foreach (var item in secondDescription)
+                {
+                    if (item == eStorage.ClassRoomsTypes[index].Description)
+                    {
+                        type.Add(eStorage.ClassRoomsTypes[index]);
+                        SecondTypesMask[indexMask] = true;
+                        indexMask++;
+                    }
+                }
+            }
+            classrooms.Add(new ClassRoom(id, number, housing, type, SecondTypesMask));
+            eStorage = new Domain.Services.EntityStorage(eStorage.Classes.ToArray(), eStorage.ClassRoomsTypes.ToArray(), eStorage.StudentSubGroups.ToArray(), eStorage.Teachers.ToArray(), classrooms);
+
+        }
+        public bool ExistClassRoom(int Housing, int Number)
         {
             foreach (var item in eStorage.ClassRooms.ToList())
             {
-                if (item.Housing == Housing&&item.Number==Number)
+                if (item.Housing == Housing && item.Number == Number)
                 {
                     return true;
                 }
@@ -172,23 +258,23 @@ namespace Presentation.StorageEditor
         public List<int> ReturnHousing()
         {
             List<int> housing = new List<int>();
-            if (eStorage.ClassRooms.Count() == 0) return housing;       
-            foreach(var item in eStorage.ClassRooms.OrderBy(t=>t.Housing).ToList())
+            if (eStorage.ClassRooms.Count() == 0) return housing;
+            foreach (var item in eStorage.ClassRooms.OrderBy(t => t.Housing).ToList())
             {
 
-                if(housing.Count==0) housing.Add(item.Housing);
-                if (item.Housing!= housing.Last()) housing.Add(item.Housing);
+                if (housing.Count == 0) housing.Add(item.Housing);
+                if (item.Housing != housing.Last()) housing.Add(item.Housing);
             }
             return housing;
-            
+
         }
-        public List<ClassRoom>  ReturnAllNumberInHousing(int number)
+        public List<ClassRoom> ReturnAllNumberInHousing(int number)
         {
             List<ClassRoom> classRoom = new List<ClassRoom>();
             if (eStorage.ClassRooms.Count() == 0) return classRoom;
-            foreach(var item in eStorage.ClassRooms.OrderBy(n=>n.Number).ToList())
+            foreach (var item in eStorage.ClassRooms.OrderBy(n => n.Number).ToList())
             {
-              if(item.Housing== number)  classRoom.Add(item);
+                if (item.Housing == number) classRoom.Add(item);
             }
             return classRoom;
         }
@@ -232,7 +318,7 @@ namespace Presentation.StorageEditor
                     }
                 }
             }
-            
+
             return teacher;
         }
         public int ExistTeacherInClasses(Teacher teacher)
@@ -259,7 +345,7 @@ namespace Presentation.StorageEditor
             }
             return false;
         }
-        public List<Teacher>SearchTeacher(string search)
+        public List<Teacher> SearchTeacher(string search)
         {
             List<string> FIO = new List<string>();
             foreach (var item in eStorage.Teachers.ToList())
@@ -280,7 +366,7 @@ namespace Presentation.StorageEditor
             }
             return teacher;
         }
-       public  void ADDTeacher(string FIO)
+        public void ADDTeacher(string FIO)
         {
             List<Teacher> teacher = eStorage.Teachers.ToList();
             teacher.Add(new Teacher(IDTeacher(), FIO));
@@ -299,12 +385,12 @@ namespace Presentation.StorageEditor
             int ID = 0;
             if (eStorage.Teachers.Count() == 0) return 0;
             List<int> id = new List<int>();
-            foreach(var item in eStorage.Teachers.ToList())
+            foreach (var item in eStorage.Teachers.ToList())
             {
                 id.Add(((Domain.IDomainIdentity<Teacher>)item).ID);
             }
             id.Sort();
-            ID =id.Last();
+            ID = id.Last();
             ID++;
             return ID;
         }
@@ -312,5 +398,180 @@ namespace Presentation.StorageEditor
 
         #endregion
 
+        #region StudentSubGroup
+
+        public List<StudentSubGroup> GetStudentSubGroup()
+        {
+            return eStorage.StudentSubGroups.OrderBy(c => c.NumberSubGroup).OrderBy(c => c.NameGroup).ToList();
+        }
+        public bool ExistStudentSubGroup(string name, byte number)
+        {
+            foreach (var item in eStorage.StudentSubGroups.ToList())
+            {
+                if (item.NameGroup.ToUpper() == name && item.NumberSubGroup == number) return true;
+            }
+            return false;
+        }
+        public void ADDStudentSubGroup(string name, byte number)
+        {
+            List<StudentSubGroup> group = eStorage.StudentSubGroups.ToList();
+            group.Add(new StudentSubGroup(IDStudenSubGroups(), name, number));
+            eStorage = new Domain.Services.EntityStorage(eStorage.Classes.ToArray(), eStorage.ClassRoomsTypes.ToArray(), group.ToArray(), eStorage.Teachers.ToArray(), eStorage.ClassRooms.ToArray());
+
+        }
+        public void EditStudenSubGroups(StudentSubGroup group, string name, byte number)
+        {
+            List<StudentSubGroup> groups = eStorage.StudentSubGroups.ToList();
+            int id = (int)((Domain.IDomainIdentity<StudentSubGroup>)group).ID;
+            groups.Remove(group);
+            groups.Add(new StudentSubGroup(id, name, number));
+            eStorage = new Domain.Services.EntityStorage(eStorage.Classes.ToArray(), eStorage.ClassRoomsTypes.ToArray(), groups.ToArray(), eStorage.Teachers.ToArray(), eStorage.ClassRooms.ToArray());
+
+        }
+        public void DelStudentSubGroup(StudentSubGroup group)
+        {
+            List<StudentSubGroup> groups = eStorage.StudentSubGroups.ToList();
+            groups.Remove(group);
+            eStorage = new Domain.Services.EntityStorage(eStorage.Classes.ToArray(), eStorage.ClassRoomsTypes.ToArray(), groups.ToArray(), eStorage.Teachers.ToArray(), eStorage.ClassRooms.ToArray());
+        }
+        public int IDStudenSubGroups()
+        {
+            int ID = 0;
+            if (eStorage.StudentSubGroups.Count() == 0) return 0;
+            List<int> id = new List<int>();
+            foreach (var item in eStorage.StudentSubGroups.ToList())
+            {
+                id.Add(((Domain.IDomainIdentity<StudentSubGroup>)item).ID);
+            }
+            id.Sort();
+            ID = id.Last();
+            ID++;
+            return ID;
+        }
+
+        public int ExistStudentGroupsInClasses(StudentSubGroup group)
+        {
+            int count = 0;
+            foreach (var item in eStorage.Classes.ToList())
+            {
+                foreach (var groups in item.SubGroups.ToList())
+                    if (groups == group) count++;
+            }
+            return count;
+        }
+
+
+
+        #endregion
+        #region Classes
+        public int ExistClasses(string name,StudentSubGroup[] group,ClassRoomType[] type, Teacher[] teacher)
+        {
+            int count = 0;
+            foreach(var item in eStorage.Classes.ToList())
+            {
+                if((item.Name.ToUpper()==name.ToUpper())&&(item.Teacher==teacher)&&(item.RequireForClassRoom==type)&&item.SubGroups==group)
+                {
+                    count++;
+                }
+
+            }
+            return count;
+        }
+        int IdClasses()
+        {
+            int ID = 0;
+            if (eStorage.Classes.Count() == 0) return 0;
+            List<int> id = new List<int>();
+            foreach (var item in eStorage.Classes.ToList())
+            {
+                id.Add(((Domain.IDomainIdentity<StudentsClass>)item).ID);
+            }
+            id.Sort();
+            ID = id.Last();
+            ID++;
+            return ID;
+        }
+        public void ADDClasses(string name, StudentSubGroup[] group, ClassRoomType[] type, Teacher[] teacher,int count)
+        {
+            List<StudentsClass> classes = eStorage.Classes.ToList();
+            int id =IdClasses();
+            for (int i=0;i<count;i++)
+            {
+                classes.Add(new StudentsClass(id, group, teacher, name, type));
+                id++;
+            }
+            eStorage = new Domain.Services.EntityStorage(classes.ToArray(), eStorage.ClassRoomsTypes.ToArray(), eStorage.StudentSubGroups.ToArray(), eStorage.Teachers.ToArray(), eStorage.ClassRooms.ToArray());
+        }
+
+
+
+        #endregion
+
+    }
+    public class CheckingTeacher
+    {
+        public string Content { get; set; }
+        public Visibility Visible { get; set; }
+        public Teacher Teacher { get; set; }
+        public bool Checking { get; set; }
+
+        public CheckingTeacher(Teacher Teacher, bool Checking, Visibility Visible)
+        {
+            this.Teacher = Teacher;
+            this.Checking = Checking;
+            this.Visible = Visible;
+            this.Content = ((Domain.IDomainIdentity<Teacher>)Teacher).ID.ToString() + "-" + Teacher.Name;
+        }
+
+
+    }
+    public class CheckingStudenSubGroups
+    {
+        public string Content { get; set; }
+        public Visibility Visible { get; set; }
+        public StudentSubGroup Group { get; set; }
+        public string NameGroup { get; set; }
+        public byte Number { get; set; }
+        public bool Checking { get; set; }
+        public CheckingStudenSubGroups(StudentSubGroup Group, Visibility Visible, bool Checking)
+        {
+            this.Group = Group;
+            this.Number = Group.NumberSubGroup;
+            this.NameGroup = Group.NameGroup;
+            this.Checking = Checking;
+            this.Visible = Visible;
+            this.Content = this.NameGroup + "." + this.Number;
+        }
+    }
+    public class CheckingType
+    {
+        public string Content { get; set; }
+        public Visibility Visible { get; set; }
+        public ClassRoomType Type { get; set; }
+        public bool Checking { get; set; }
+        public CheckingType(ClassRoomType Type,  Visibility Visible, bool Checking)
+        {
+            this.Type = Type;
+            this.Checking = Checking;
+            this.Visible = Visible;
+            this.Content = Type.Description;
+        }
+    }
+    public class CheckingTypeinClassRoom
+    {
+        public string Content { get; set; }
+        public bool PrymaryType { get; set; }
+        public bool SecondType { get; set; }
+        public bool PrymaryEnabled { get; set; }
+        public bool SecondEnabled { get; set; }
+        public CheckingTypeinClassRoom(string Content, bool PrymaryType, bool SecondType, bool PrymaryEnabled, bool SecondEnabled)
+        {
+            this.Content = Content;
+            this.PrymaryType = PrymaryType;
+            this.SecondType = SecondType;
+            this.PrymaryEnabled = PrymaryEnabled;
+            this.SecondEnabled = SecondEnabled;
+        }
     }
 }
+

@@ -94,6 +94,11 @@
                                     <materialDesign:PackIcon Kind="School" />
                                 </MenuItem.Icon>
                             </MenuItem>
+                            <MenuItem Header="Редактор" Name="miStorageEditor" Click="miStorageEditor_Click">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="School" />
+                                </MenuItem.Icon>
+                            </MenuItem>
                         </MenuItem>
                         <MenuItem Header="Генерация" Name="miCore" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miCore_Click">
                             <MenuItem.Icon>
