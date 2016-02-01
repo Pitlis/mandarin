@@ -15,10 +15,6 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="105"/>
-        </Grid.RowDefinitions>
         <GroupBox x:Name="dbGroupBox" FontSize="13" Grid.Row="0" Grid.Column="0" Header="База данных" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="6,0,6,0">
             <StackPanel>
                 <DockPanel>
@@ -79,7 +75,5 @@
                 <ListBox x:Name="factorsListBox"></ListBox>
             </Grid>
         </GroupBox>
-        
-        <Button x:Name="button" Content="test" HorizontalAlignment="Left" Margin="95,53,0,20" Grid.Row="1" Width="75" Height="Auto" Click="button_Click_1"/>
     </Grid>
 </UserControl>

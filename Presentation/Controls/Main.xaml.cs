@@ -25,20 +25,7 @@ namespace Presentation.Controls
         public Main()
         {
             InitializeComponent();
-        }
-
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-            CurrentBase.SaveBase();
-            CreateSchedule.Run();
-            CurrentBase.SaveBase();
-
-            SetScheduleName();
-            LoadSchedules();
-            scheduleListBox.SelectedIndex = scheduleListBox.Items.Count - 1;
-        }
-
-       
+        }    
 
         private async void deleteScheduleButton_Click(object sender, RoutedEventArgs e)
         {
@@ -121,13 +108,7 @@ namespace Presentation.Controls
             }
         }
         #endregion
-
-        private void button_Click_1(object sender, RoutedEventArgs e)
-        {
-            //StorageEditor.StorageEditorForm f = new StorageEditor.StorageEditorForm();
-            //f.ShowDialog();
-        }
-
+        
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             if (CurrentBase.BaseIsLoaded())
