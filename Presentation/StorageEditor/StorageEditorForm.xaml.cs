@@ -51,6 +51,9 @@ namespace Presentation.StorageEditor
         {
             tiTypeListTypes.ItemsSource = null;
             tiTypeListTypes.ItemsSource = storageEditor.GetClassRoomType();
+            tiTypebtnADD.Content = "Создать";
+            groupBox.Header = "Добавление типа";
+            tiTypetetxBox.Text = "";
         }
         async void ADDTypes()
         {
@@ -116,6 +119,12 @@ namespace Presentation.StorageEditor
                 return;
             }
             storageEditor.DelType((ClassRoomType)tiTypeListTypes.SelectedItem);
+            var infoWindow5 = new InfoWindow
+            {
+                Message = { Text = "Удаленно "  }
+            };
+            await DialogHost.Show(infoWindow5, "StorageEditorHost");
+            LoadTiTypes();
         }
         async void EditType()
         {
@@ -220,6 +229,10 @@ namespace Presentation.StorageEditor
             tiTeachertbEdit.Text = "";
             tiTeachertbSearch.Text = "";
             tiTeacherSelectIndex = -1;
+            tiTeacherbtnADD.Content = "Создать";
+            tiTeachergroupbox.Header = "Добавление преподавателя";
+            tiTeachertbEdit.Text = "";
+            tiTeacherSelectIndex = -1;
         }
         async void DelTeacher()
         {
@@ -247,7 +260,12 @@ namespace Presentation.StorageEditor
             }
             storageEditor.DelTeacher((Teacher)tiTeacherList.SelectedItem);
 
-
+            var infoWindow3 = new InfoWindow
+            {
+                Message = { Text = "Удалено" + rezult }
+            };
+            await DialogHost.Show(infoWindow3, "StorageEditorHost");
+            LoadTeacher();
 
 
         }
@@ -282,7 +300,7 @@ namespace Presentation.StorageEditor
                 object result = await DialogHost.Show(dialogWindow, "StorageEditorHost");
                 if (result != null && (bool)result == false)
                 {
-                    tiTeachertbEdit.Text = "";
+                    LoadTeacher();
                     return;
                 }
             }
@@ -316,6 +334,7 @@ namespace Presentation.StorageEditor
                 object result = await DialogHost.Show(dialogWindow, "StorageEditorHost");
                 if (result != null && (bool)result == false)
                 {
+                    LoadTeacher();
                     tiTeachertbEdit.Text = "";
                     return;
                 }
@@ -408,6 +427,7 @@ namespace Presentation.StorageEditor
             FillingtiListViewNumber();
             FillingTypesinClassRoom();
             tiClassRoomSelectIndex = -1;
+
         }
         void FillingCBHousing()
         {
@@ -545,16 +565,19 @@ namespace Presentation.StorageEditor
 
 
 
-        async void DelClassRoom()
+        void DelClassRoom()
         {
             storageEditor.DelClassRoom((ClassRoom)tiClassRomslwNumber.SelectedItem);
             FillingtiListViewNumber();
             FillingTypesinClassRoom();
-            var infoWindow = new InfoWindow
-            {
-                Message = { Text = "Удалено" }
-            };
-            await DialogHost.Show(infoWindow, "StorageEditorHost");
+            tiClassRoomsbtnADD.Content = "Создать";
+            tiClassRoomsGB.Header = "Добавление аудитории";
+            tiClassRoomstbHousing.Text = "";
+            tiClassRoomstbNumber.Text = "";
+            tiClassRoomSelectIndex = -1;
+            tiClassRoomstbNumber.IsReadOnly = false;
+            tiClassRoomstbHousing.IsReadOnly = false;
+
         }
         #endregion
 
@@ -665,9 +688,10 @@ namespace Presentation.StorageEditor
             if (tiClassRoomsbtnADD.Content.ToString() == "Создать")
             {
                 ADDClassRoom();
+                LoadClassRooms();
             }
             else EditClassRoom();
-            LoadClassRooms();
+           
         }
 
 
@@ -727,6 +751,10 @@ namespace Presentation.StorageEditor
         void LoadStudenSubGroups()
         {
             FillingtiStudentSubGroupslist();
+            tiStudentSubGroupstbName.Text = "";
+            tiStudentSubGroupstbNumber.Text = "";
+            tiStudentSubGroupsbtnADD.Content = "Создать";
+            tiStudentSubGroupsGB.Header = "Добавление подгруппы";
             tiStudentSubGroupstbName.Text = "";
             tiStudentSubGroupstbNumber.Text = "";
         }
@@ -1102,6 +1130,9 @@ namespace Presentation.StorageEditor
             tiADDClassestbSearchType.Text = "";
             tiADDClassestbCount.Text = "";
             tiADDClassestbName.Text = "";
+            tiADDClassesCountGroup.Content = "0";
+            tiADDClassesCountTeacher.Content = "0";
+            tiADDClassesCountType.Content = "0";
         }
 
         private void button4_Click(object sender, RoutedEventArgs e)
