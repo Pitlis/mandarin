@@ -555,13 +555,21 @@ namespace Presentation.StorageEditor
         public List<StudentsClass> GetClasses(List<StudentSubGroup> group)
         {
             List<StudentsClass> tmp = new List<StudentsClass>();
-            foreach (var item in eStorage.Classes.OrderBy(c => c.Name).ToList())
+            foreach (var item in eStorage.Classes.ToList())
             {
                 if (item.SubGroups.ToList() == group) tmp.Add(item);
             }
             return tmp;
         }
-
+        public List<StudentsClass> GetClasses(List<Teacher> teacher)
+        {
+            List<StudentsClass> tmp = new List<StudentsClass>();
+            foreach (var item in eStorage.Classes.ToList())
+            {
+                if (item.Teacher.ToList() == teacher) tmp.Add(item);
+            }
+            return tmp;
+        }
         int IdClasses()
         {
             int ID = 0;

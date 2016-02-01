@@ -523,6 +523,7 @@ namespace Presentation.StorageEditor
                 return;
             }
             storageEditor.ADDClassRoom(Convert.ToInt32(tiClassRoomstbNumber.Text), Convert.ToInt32(tiClassRoomstbHousing.Text), prymary, second);
+            LoadClassRooms();
             var infoWindow = new InfoWindow
             {
                 Message = { Text = "Добавлено" }
@@ -1233,223 +1234,7 @@ namespace Presentation.StorageEditor
         #endregion
         #region Classes
         List<StudentsClass> tmpclasses;
-
-        void FillingGroupsClasses()
-        {
-
-            List<StudentSubGroup> group = storageEditor.GetStudentSubGroup();
-            checkgroupsadd = new List<CheckingStudenSubGroups>();
-            foreach (var item in group)
-            {
-                checkgroupsadd.Add(new CheckingStudenSubGroups(item, Visibility.Visible, false));
-            }
-            tiClassesListGroups.ItemsSource = null;
-            tiClassesListGroups.ItemsSource = checkgroupsadd;
-            tiClassesCountGroups.Content = "0";
-        }
-        void FillingTypesClasses()
-        {
-
-            List<ClassRoomType> type = storageEditor.GetClassRoomType();
-            checktype = new List<CheckingType>();
-            foreach (var item in type)
-            {
-                checktype.Add(new CheckingType(item, Visibility.Visible, false));
-            }
-            tiClassesListtypes.ItemsSource = null;
-            tiClassesListtypes.ItemsSource = checktype;
-            tiClassesCountTypes.Content = "0";
-        }
-
-        private void tiClassesSearchClasses_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            List<StudentsClass> tmp = new List<StudentsClass>();
-            foreach (var item in tmpclasses.ToList())
-            {
-                if (item.Name.ToUpper().Contains(tiClassesSearchClasses.Text.ToUpper()))
-                {
-                    tmp.Add(item);
-                }
-            }
-            tiClassesListClasses.ItemsSource = null;
-            tiClassesListClasses.ItemsSource = tmp;
-            tiClassesListClasses.SelectedIndex = -1;
-            tiClassesIndex = -1;
-        }
-
-
-        void FillingGroupsInclasses()
-        {
-            List<StudentSubGroup> group = ((StudentsClass)(tiClassesListClasses.SelectedItem)).SubGroups.ToList();
-            tiClassesCountGroups.Content = group.Count;
-            foreach (var item in group)
-            {
-                foreach (var item1 in checkgroupsadd)
-                {
-                    if (item == item1.Group) item1.Checking = true;
-                    else item1.Checking = false;
-                }
-            }
-            tiClassesListGroups.ItemsSource = null;
-            tiClassesListGroups.ItemsSource = checkgroupsadd;
-        }
-        void FillingTypessInclasses()
-        {
-            List<ClassRoomType> type = ((StudentsClass)(tiClassesListClasses.SelectedItem)).RequireForClassRoom.ToList();
-            foreach (var item in type)
-            {
-                foreach (var item1 in checktype)
-                {
-                    if (item == item1.Type) item1.Checking = true;
-                    else item1.Checking = false;
-                }
-            }
-            tiClassesListtypes.ItemsSource = null;
-            tiClassesListtypes.ItemsSource = checktype;
-            tiClassesCountTypes.Content = type.Count;
-        }
-
-        private void tiClassesListClasses_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (tiClassesListClasses.SelectedIndex == -1)
-            {
-                tiClassesIndex = -1;
-                FillingGroupsClasses();
-                FillingTeacherClasses();
-                FillingTypesClasses();
-                groupBox1.Header = "Изменение";
-                return;
-            }
-            if (tiClassesListClasses.SelectedIndex == tiClassesIndex)
-            {
-                tiClassesListClasses.SelectedIndex = -1;
-                tiClassesIndex = -1;
-                FillingGroupsClasses();
-                FillingTeacherClasses();
-                FillingTypesClasses();
-                groupBox1.Header = "Изменение";
-                return;
-            }
-            else
-            {
-                tiClassesIndex = tiClassesListClasses.SelectedIndex;
-                groupBox1.Header = "Вы выбрали с ID=" + ((Domain.IDomainIdentity<StudentsClass>)(StudentsClass)tiClassesListClasses.SelectedItem).ID;
-                FillingGroupsInclasses();
-                FillingTeachersInClasses();
-                FillingTypessInclasses();
-                tiClassesName.Text = ((StudentsClass)(tiClassesListClasses.SelectedItem)).Name;
-            }
-        }
-
-       async private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            if (tiClassesListClasses.SelectedIndex == -1)
-            {
-                var infoWindow = new InfoWindow
-                {
-                    Message = { Text = "Необходимо выбрать группу" }
-                };
-                await DialogHost.Show(infoWindow, "StorageEditorHost");
-            }
-            else EditClasses();
-        }
-
-        void FillingTeachersInClasses()
-        {
-            int count = 0;
-            List<Teacher> teach = ((StudentsClass)(tiClassesListClasses.SelectedItem)).Teacher.ToList();
-            count = teach.Count;
-            tiClassesCountTeachers.Content = count;
-            foreach (var item in teach)
-            {
-                foreach (var item1 in checkteacheradd)
-                {
-                    if (item == item1.Teacher) item1.Checking = true;
-                    else item1.Checking = false;
-                }
-            }
-            tiClassesListTeachers.ItemsSource = null;
-            tiClassesListTeachers.ItemsSource = checkteacheradd;
-        }
-
-        private void button6_Click(object sender, RoutedEventArgs e)
-        {
-            DelClasses();
-        }
-        async void DelClasses()
-        {
-            if (tiClassesListClasses.SelectedIndex == -1)
-            {
-                var infoWindow = new InfoWindow
-                {
-                    Message = { Text = "Необходимо выбрать пару" }
-                };
-                await DialogHost.Show(infoWindow, "StorageEditorHost");
-            }
-            else
-            {
-                string rezult = "";
-                rezult += storageEditor.ExistClassesInFactors((StudentsClass)(tiClassesListClasses.SelectedItem));
-                if(rezult!="")
-                {
-                    var infoWindow0 = new InfoWindow
-                    {
-                        Message = { Text = "Нельзя удалить:" +rezult}
-                    };
-                    await DialogHost.Show(infoWindow0, "StorageEditorHost");
-                    return;
-                }
-                storageEditor.DelClasses((StudentsClass)(tiClassesListClasses.SelectedItem));
-                var infoWindow1 = new InfoWindow
-                {
-                    Message = { Text = "Удалено" }
-                };
-                await DialogHost.Show(infoWindow1, "StorageEditorHost");
-            }
-        }
-
-        private void CheckBox_Checked_5(object sender, RoutedEventArgs e)
-        {
-            int count = Convert.ToInt32(tiClassesCountTeachers.Content);
-            count++;
-            tiClassesCountTeachers.Content = count;
-        }
-
-        private void CheckBox_Unchecked_5(object sender, RoutedEventArgs e)
-        {
-            int count = Convert.ToInt32(tiClassesCountTeachers.Content);
-            count--;
-            tiClassesCountTeachers.Content = count;
-        }
-
-        private void CheckBox_Unchecked_6(object sender, RoutedEventArgs e)
-        {
-            int count = Convert.ToInt32(tiClassesCountGroups.Content);
-            count--;
-            tiClassesCountGroups.Content = count;
-        }
-
-        private void CheckBox_Checked_6(object sender, RoutedEventArgs e)
-        {
-            int count = Convert.ToInt32(tiClassesCountGroups.Content);
-            count++;
-            tiClassesCountGroups.Content = count;
-        }
-
-        private void CheckBox_Checked_7(object sender, RoutedEventArgs e)
-        {
-            int count = Convert.ToInt32(tiClassesCountTypes.Content);
-            count++;
-            tiClassesCountTypes.Content = count;
-        }
-
-        private void CheckBox_Unchecked_7(object sender, RoutedEventArgs e)
-        {
-            int count = Convert.ToInt32(tiClassesCountTypes.Content);
-            count--;
-            tiClassesCountTypes.Content = count;
-        }
-
+        #region Events
         private void button7_Click(object sender, RoutedEventArgs e)
         {
             tabControl.SelectedIndex = 5;
@@ -1503,7 +1288,237 @@ namespace Presentation.StorageEditor
             tiClassesListtypes.ItemsSource = null;
             tiClassesListtypes.ItemsSource = tmp;
         }
+        private void tiClassesSearchClasses_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            List<StudentsClass> tmp = new List<StudentsClass>();
+            foreach (var item in tmpclasses.ToList())
+            {
+                if (item.Name.ToUpper().Contains(tiClassesSearchClasses.Text.ToUpper()))
+                {
+                    tmp.Add(item);
+                }
+            }
+            tiClassesListClasses.ItemsSource = null;
+            tiClassesListClasses.ItemsSource = tmp;
+            tiClassesListClasses.SelectedIndex = -1;
+            tiClassesIndex = -1;
+        }
 
+
+
+
+        private void tiClassesListClasses_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (tiClassesListClasses.SelectedIndex == -1)
+            {
+                tiClassesIndex = -1;
+                FillingGroupsClasses();
+                FillingTeacherClasses();
+                FillingTypesClasses();
+                groupBox1.Header = "Изменение";
+                return;
+            }
+            if (tiClassesListClasses.SelectedIndex == tiClassesIndex)
+            {
+                tiClassesListClasses.SelectedIndex = -1;
+                tiClassesIndex = -1;
+                FillingGroupsClasses();
+                FillingTeacherClasses();
+                FillingTypesClasses();
+                groupBox1.Header = "Изменение";
+                return;
+            }
+            else
+            {
+                tiClassesIndex = tiClassesListClasses.SelectedIndex;
+                groupBox1.Header = "Вы выбрали с ID=" + ((Domain.IDomainIdentity<StudentsClass>)(StudentsClass)tiClassesListClasses.SelectedItem).ID;
+                FillingGroupsInclasses();
+                FillingTeachersInClasses();
+                FillingTypessInclasses();
+                tiClassesName.Text = ((StudentsClass)(tiClassesListClasses.SelectedItem)).Name;
+            }
+        }
+
+        async private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (tiClassesListClasses.SelectedIndex == -1)
+            {
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Необходимо выбрать группу" }
+                };
+                await DialogHost.Show(infoWindow, "StorageEditorHost");
+            }
+            else EditClasses();
+        }
+
+
+
+        private void button6_Click(object sender, RoutedEventArgs e)
+        {
+            DelClasses();
+            LoadClasses();
+        }
+        #endregion
+
+        #region Methods
+        void FillingGroupsClasses()
+        {
+
+            List<StudentSubGroup> group = storageEditor.GetStudentSubGroup();
+            checkgroupsadd = new List<CheckingStudenSubGroups>();
+            foreach (var item in group)
+            {
+                checkgroupsadd.Add(new CheckingStudenSubGroups(item, Visibility.Visible, false));
+            }
+            tiClassesListGroups.ItemsSource = null;
+            tiClassesListGroups.ItemsSource = checkgroupsadd;
+            tiClassesCountGroups.Content = "0";
+        }
+        void FillingTypesClasses()
+        {
+
+            List<ClassRoomType> type = storageEditor.GetClassRoomType();
+            checktype = new List<CheckingType>();
+            foreach (var item in type)
+            {
+                checktype.Add(new CheckingType(item, Visibility.Visible, false));
+            }
+            tiClassesListtypes.ItemsSource = null;
+            tiClassesListtypes.ItemsSource = checktype;
+            tiClassesCountTypes.Content = "0";
+        }
+        void FillingGroupsInclasses()
+        {
+            checkgroupsadd = new List<CheckingStudenSubGroups>();
+            List<StudentSubGroup> group = storageEditor.GetStudentSubGroup();
+            foreach (var item in group)
+            {
+                checkgroupsadd.Add(new CheckingStudenSubGroups(item, Visibility.Visible, false));
+            }
+            List<StudentSubGroup> group1 = ((StudentsClass)(tiClassesListClasses.SelectedItem)).SubGroups.ToList();
+            tiClassesCountGroups.Content = group1.Count;
+            foreach (var item1 in checkgroupsadd)
+            {
+                foreach (var item in group1)
+                {
+                    if (item == item1.Group)
+                    {
+                        item1.Checking = true;
+                    }
+                }
+            }
+            tiClassesListGroups.ItemsSource = null;
+            tiClassesListGroups.ItemsSource = checkgroupsadd;
+        }
+        void FillingTypessInclasses()
+        {
+            FillingTypesClasses();
+            List<ClassRoomType> type = ((StudentsClass)(tiClassesListClasses.SelectedItem)).RequireForClassRoom.ToList();
+            foreach (var item in type)
+            {
+                foreach (var item1 in checktype)
+                {
+                    if (item == item1.Type) item1.Checking = true;
+
+                }
+            }
+            tiClassesListtypes.ItemsSource = null;
+            tiClassesListtypes.ItemsSource = checktype;
+            tiClassesCountTypes.Content = type.Count;
+        }
+        void FillingTeachersInClasses()
+        {
+            FillingTeacherClasses();
+            int count = 0;
+            List<Teacher> teach = ((StudentsClass)(tiClassesListClasses.SelectedItem)).Teacher.ToList();
+            count = teach.Count;
+            tiClassesCountTeachers.Content = count;
+            foreach (var item in teach)
+            {
+                foreach (var item1 in checkteacheradd)
+                {
+                    if (item == item1.Teacher) item1.Checking = true;
+
+                }
+            }
+            tiClassesListTeachers.ItemsSource = null;
+            tiClassesListTeachers.ItemsSource = checkteacheradd;
+        }
+        async void DelClasses()
+        {
+            if (tiClassesListClasses.SelectedIndex == -1)
+            {
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Необходимо выбрать пару" }
+                };
+                await DialogHost.Show(infoWindow, "StorageEditorHost");
+            }
+            else
+            {
+                string rezult = "";
+                rezult += storageEditor.ExistClassesInFactors((StudentsClass)(tiClassesListClasses.SelectedItem));
+                if (rezult != "")
+                {
+                    var infoWindow0 = new InfoWindow
+                    {
+                        Message = { Text = "Нельзя удалить:" + rezult }
+                    };
+                    await DialogHost.Show(infoWindow0, "StorageEditorHost");
+                    return;
+                }
+                storageEditor.DelClasses((StudentsClass)(tiClassesListClasses.SelectedItem));
+                var infoWindow1 = new InfoWindow
+                {
+                    Message = { Text = "Удалено" }
+                };
+                await DialogHost.Show(infoWindow1, "StorageEditorHost");
+            }
+        }
+        async void FilterTeacherInClasses()
+        {
+            var infoWindow = new InfoWindow();
+            List<Teacher> group = new List<Teacher>();
+            foreach (var item in checkteacheradd)
+            {
+                if (item.Checking == true) group.Add(item.Teacher);
+            }
+            if (group.Count == 0)
+            {
+                infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Вы не выбрали группы" }
+                };
+                await DialogHost.Show(infoWindow, "StorageEditorHost");
+                return;
+            }
+            tmpclasses = storageEditor.GetClasses(group);
+            tiClassesListClasses.ItemsSource = null;
+            tiClassesListClasses.ItemsSource = tmpclasses;
+        }
+        async void FilterGroupInClasses()
+        {
+            var infoWindow = new InfoWindow();
+            List<StudentSubGroup> group = new List<StudentSubGroup>();
+            foreach (var item in checkgroupsadd)
+            {
+                if (item.Checking == true) group.Add(item.Group);
+            }
+            if (group.Count == 0)
+            {
+                infoWindow = new InfoWindow
+                {
+                    Message = { Text = "Вы не выбрали группы" }
+                };
+                await DialogHost.Show(infoWindow, "StorageEditorHost");
+                return;
+            }
+            tmpclasses = null;
+            tmpclasses = storageEditor.GetClasses(group);
+            tiClassesListClasses.ItemsSource = null;
+            tiClassesListClasses.ItemsSource = tmpclasses;
+        }
         void FillingTeacherClasses()
         {
             List<Teacher> teacher = storageEditor.GetTeacher();
@@ -1580,7 +1595,7 @@ namespace Presentation.StorageEditor
             storageEditor.EditClasses(((StudentsClass)(tiClassesListClasses.SelectedItem)), tiClassesName.Text, group.ToArray(), type.ToArray(), teacher.ToArray());
             infoWindow = new InfoWindow
             {
-                Message = { Text = "Добавлено" }
+                Message = { Text = "Сохранено" }
             };
             await DialogHost.Show(infoWindow, "StorageEditorHost");
             LoadClasses();
@@ -1598,6 +1613,106 @@ namespace Presentation.StorageEditor
             tiClassesListClasses.ItemsSource = storageEditor.GetClasses();
             tmpclasses = storageEditor.GetClasses();
         }
+        #endregion
+
+
+       
+       
+        #region Checcked
+        private void CheckBox_Checked_5(object sender, RoutedEventArgs e)
+        {
+            int count = Convert.ToInt32(tiClassesCountTeachers.Content);
+            count++;
+            tiClassesCountTeachers.Content = count;
+        }
+
+        private void CheckBox_Unchecked_5(object sender, RoutedEventArgs e)
+        {
+            int count = Convert.ToInt32(tiClassesCountTeachers.Content);
+            count--;
+            tiClassesCountTeachers.Content = count;
+        }
+
+        private void CheckBox_Unchecked_6(object sender, RoutedEventArgs e)
+        {
+            int count = Convert.ToInt32(tiClassesCountGroups.Content);
+            count--;
+            tiClassesCountGroups.Content = count;
+        }
+
+        private void CheckBox_Checked_6(object sender, RoutedEventArgs e)
+        {
+            int count = Convert.ToInt32(tiClassesCountGroups.Content);
+            count++;
+            tiClassesCountGroups.Content = count;
+        }
+
+        private void btnType_Click(object sender, RoutedEventArgs e)
+        {
+            tabControl.SelectedIndex = 0;
+            LoadTiTypes();
+        }
+
+        private void btnClassrooms_Click(object sender, RoutedEventArgs e)
+        {
+            tabControl.SelectedIndex = 1;
+            LoadClassRooms();
+        }
+
+        private void btnTeacher_Click(object sender, RoutedEventArgs e)
+        {
+            tabControl.SelectedIndex = 2;
+            LoadTeacher();
+        }
+
+        private void btnGroups_Click(object sender, RoutedEventArgs e)
+        {
+            tabControl.SelectedIndex = 3;
+            LoadStudenSubGroups();
+        }
+
+        private void btnClasses_Click(object sender, RoutedEventArgs e)
+        {
+            tabControl.SelectedIndex = 5;
+            LoadClasses();
+        }
+
+        private void btnADDClasses_Click(object sender, RoutedEventArgs e)
+        {
+            tabControl.SelectedIndex =4;
+            LoadADDClasses();
+        }
+
+        private void CheckBox_Checked_7(object sender, RoutedEventArgs e)
+        {
+            int count = Convert.ToInt32(tiClassesCountTypes.Content);
+            count++;
+            tiClassesCountTypes.Content = count;
+        }
+
+        private void CheckBox_Unchecked_7(object sender, RoutedEventArgs e)
+        {
+            int count = Convert.ToInt32(tiClassesCountTypes.Content);
+            count--;
+            tiClassesCountTypes.Content = count;
+        }
+        #endregion
+
+       
+      
+
+        private void tiClassesbtnGroups_Click(object sender, RoutedEventArgs e)
+        {
+            FilterGroupInClasses();
+        }
+     
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+       
 
 
     }
