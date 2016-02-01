@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Domain.Model;
 using System.Collections;
 using System.Windows;
+using Presentation.Code;
+using Domain.Services;
 
 namespace Presentation.StorageEditor
 {
@@ -22,6 +24,25 @@ namespace Presentation.StorageEditor
             ///////////////////////////////////
         }
         #region ClassRoomType
+        public string ExistTypeInFactors(ClassRoomType type)
+        {
+            CheckDataInFactors f = new CheckDataInFactors(eStorage);
+            List<FactorSettings> factors= f.CheckType(type);
+            string s = "";
+            if (factors.Count == 0) return s;
+            else
+            {
+                foreach (var item in factors)
+                {
+                    s += item.FactorName + ":" + item.UsersFactorName + "\n";
+                }
+
+            }
+            return s;
+
+
+
+        }
         public List<ClassRoomType> GetClassRoomType()
         {
             List<string> description = new List<string>();
@@ -292,6 +313,22 @@ namespace Presentation.StorageEditor
         #endregion
 
         #region Teacher
+        public string ExistTeacherInFactors(Teacher teach)
+        {
+            CheckDataInFactors f = new CheckDataInFactors(eStorage);
+            //List<FactorSettings> factors = f.(type);
+            string s = "";
+            //if (factors.Count == 0) return s;
+            //else
+            //{
+            //    foreach (var item in factors)
+            //    {
+            //        s += item.FactorName + ":" + item.UsersFactorName + "\n";
+            //    }
+
+            //}
+            return s;
+        }
         public void DelTeacher(Teacher delTeacher)
         {
             List<Teacher> teachers = eStorage.Teachers.ToList();
@@ -400,6 +437,22 @@ namespace Presentation.StorageEditor
 
         #region StudentSubGroup
 
+        public string ExistStudentGroupInFactors(StudentSubGroup group)
+        {
+            CheckDataInFactors f = new CheckDataInFactors(eStorage);
+            List<FactorSettings> factors = f.CheckGroup(group);
+            string s = "";
+            if (factors.Count == 0) return s;
+            else
+            {
+                foreach (var item in factors)
+                {
+                    s += item.FactorName + ":" + item.UsersFactorName + "\n";
+                }
+
+            }
+            return s;
+        }
         public List<StudentSubGroup> GetStudentSubGroup()
         {
             return eStorage.StudentSubGroups.OrderBy(c => c.NumberSubGroup).OrderBy(c => c.NameGroup).ToList();
@@ -464,12 +517,30 @@ namespace Presentation.StorageEditor
 
         #endregion
         #region Classes
-        public int ExistClasses(string name,StudentSubGroup[] group,ClassRoomType[] type, Teacher[] teacher)
+        #region Classes
+
+        public string ExistClassesInFactors(StudentsClass st)
+        {
+            CheckDataInFactors f = new CheckDataInFactors(eStorage);
+            List<FactorSettings> factors = f.CheckStudentClass(st);
+            string s = "";
+            if (factors.Count == 0) return s;
+            else
+            {
+                foreach (var item in factors)
+                {
+                    s += item.FactorName + ":" + item.UsersFactorName + "\n";
+                }
+
+            }
+            return s;
+        }
+        public int ExistClasses(string name, StudentSubGroup[] group, ClassRoomType[] type, Teacher[] teacher)
         {
             int count = 0;
-            foreach(var item in eStorage.Classes.ToList())
+            foreach (var item in eStorage.Classes.ToList())
             {
-                if((item.Name.ToUpper()==name.ToUpper())&&(item.Teacher==teacher)&&(item.RequireForClassRoom==type)&&item.SubGroups==group)
+                if ((item.Name.ToUpper() == name.ToUpper()) && (item.Teacher == teacher) && (item.RequireForClassRoom == type) && item.SubGroups == group)
                 {
                     count++;
                 }
@@ -477,6 +548,20 @@ namespace Presentation.StorageEditor
             }
             return count;
         }
+        public List<StudentsClass> GetClasses()
+        {
+            return eStorage.Classes.OrderBy(c => c.Name).ToList();
+        }
+        public List<StudentsClass> GetClasses(List<StudentSubGroup> group)
+        {
+            List<StudentsClass> tmp = new List<StudentsClass>();
+            foreach (var item in eStorage.Classes.OrderBy(c => c.Name).ToList())
+            {
+                if (item.SubGroups.ToList() == group) tmp.Add(item);
+            }
+            return tmp;
+        }
+
         int IdClasses()
         {
             int ID = 0;
@@ -491,16 +576,30 @@ namespace Presentation.StorageEditor
             ID++;
             return ID;
         }
-        public void ADDClasses(string name, StudentSubGroup[] group, ClassRoomType[] type, Teacher[] teacher,int count)
+        public void ADDClasses(string name, StudentSubGroup[] group, ClassRoomType[] type, Teacher[] teacher, int count)
         {
             List<StudentsClass> classes = eStorage.Classes.ToList();
-            int id =IdClasses();
-            for (int i=0;i<count;i++)
+            int id = IdClasses();
+            for (int i = 0; i < count; i++)
             {
                 classes.Add(new StudentsClass(id, group, teacher, name, type));
                 id++;
             }
             eStorage = new Domain.Services.EntityStorage(classes.ToArray(), eStorage.ClassRoomsTypes.ToArray(), eStorage.StudentSubGroups.ToArray(), eStorage.Teachers.ToArray(), eStorage.ClassRooms.ToArray());
+        }
+        public void EditClasses(StudentsClass classes, string name, StudentSubGroup[] group, ClassRoomType[] type, Teacher[] teacher)
+        {
+            List<StudentsClass> Classes = eStorage.Classes.ToList();
+            int id = (int)((Domain.IDomainIdentity<StudentsClass>)classes).ID;
+            Classes.Remove(classes);
+            Classes.Add(new StudentsClass(id, group, teacher, name, type));
+            eStorage = new Domain.Services.EntityStorage(Classes.ToArray(), eStorage.ClassRoomsTypes.ToArray(), eStorage.StudentSubGroups.ToArray(), eStorage.Teachers.ToArray(), eStorage.ClassRooms.ToArray());
+        }
+        public void DelClasses(StudentsClass classes)
+        {
+            List<StudentsClass> Classes = eStorage.Classes.ToList(); ;
+            Classes.Remove(classes);
+            eStorage = new Domain.Services.EntityStorage(Classes.ToArray(), eStorage.ClassRoomsTypes.ToArray(), eStorage.StudentSubGroups.ToArray(), eStorage.Teachers.ToArray(), eStorage.ClassRooms.ToArray());
         }
 
 
@@ -575,3 +674,4 @@ namespace Presentation.StorageEditor
     }
 }
 
+#endregion
