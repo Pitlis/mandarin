@@ -37,6 +37,11 @@ namespace Presentation.Code
             currentSchedule = schedule;
             currentFilePath = null;
         }
+
+        public static void UpdateSchedule(KeyValuePair<string, Schedule> schedule)
+        {
+            currentSchedule = schedule;
+        }
         
         public static KeyValuePair<string, Schedule> Schedule
         {

@@ -671,7 +671,7 @@ namespace Presentation
                     ClassRoomlistView.Items.Clear();
                     ClassRoomlistView.Items.Add(form.classRoom);
                     SetClasses();
-                    CurrentSchedule.LoadSchedule(new KeyValuePair<string, Schedule>(scheduleName, schedule.GetCurrentSchedule()));
+                    CurrentSchedule.UpdateSchedule(new KeyValuePair<string, Schedule>(scheduleName, schedule.GetCurrentSchedule()));
                 }
             }
         }
