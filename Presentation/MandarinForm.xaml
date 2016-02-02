@@ -96,7 +96,7 @@
                             </MenuItem>
                             <MenuItem Header="Редактор" Name="miStorageEditor" Click="miStorageEditor_Click">
                                 <MenuItem.Icon>
-                                    <materialDesign:PackIcon Kind="School" />
+                                    <materialDesign:PackIcon Kind="Archive" />
                                 </MenuItem.Icon>
                             </MenuItem>
                         </MenuItem>

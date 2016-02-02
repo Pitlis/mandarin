@@ -331,7 +331,7 @@ namespace Presentation
             }
             if (SelectedCell != null && RemoveClasseslistBox.SelectedIndex != -1)
             {
-                SelectedCell.BorderBrush = new SolidColorBrush(Colors.Red);
+                SelectedCell.BorderBrush = new SolidColorBrush(Color.FromRgb(255, 150, 50));
                 SelectedCell.BorderThickness = new Thickness(1);
                 SelectedCell = null;
             }

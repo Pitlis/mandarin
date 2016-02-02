@@ -91,7 +91,7 @@ namespace Presentation.ScheduleEditor
             {
                 var infoWindow = new InfoWindow
                 {
-                    Message = { Text = "Расписание будет сформировано:\n" + filepath + "\nПожалуйста подождите" }
+                    Message = { Text = "Расписание будет сформировано:\n" + filepath + "\nНажмите ОК и ожидайте" }
                 };
                 await DialogHost.Show(infoWindow, "ScheduleForFaculty");
                 filepath = saveFileDialog.FileName;

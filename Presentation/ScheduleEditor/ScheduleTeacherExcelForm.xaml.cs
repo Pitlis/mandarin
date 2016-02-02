@@ -169,7 +169,7 @@ namespace Presentation.ScheduleEditor
                 thread = new Thread(new ThreadStart(SaveExcel));
                 var infoWindow = new InfoWindow
                 {
-                    Message = { Text = "Расписание будет сформировано:\n" + filepath + "\nПожалуйста подождите" }
+                    Message = { Text = "Расписание будет сформировано:\n" + filepath + "\nНажмите ОК и ожидайте" }
                 };
                 await DialogHost.Show(infoWindow, "ScheduleTeacherForExcel");
                 thread.Start();
