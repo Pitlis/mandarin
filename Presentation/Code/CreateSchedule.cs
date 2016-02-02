@@ -29,10 +29,19 @@ namespace Presentation.Code
             core.FixedClasses = GetFixedClasses(factors);
             core.logger.Info("Загружено ядро. Запуск...");
             List<FullSchedule> schedules = core.Run().ToList<FullSchedule>();
-            int scheduleIndex = CurrentBase.Schedules.Count;
-            foreach (FullSchedule schedule in schedules)
+            int scheduleNumber = 0;
+            for (int scheduleIndex = 0; scheduleIndex < schedules.Count; scheduleIndex++)
             {
-                CurrentBase.Schedules.Add("Расписание " + scheduleIndex.ToString(), new Schedule(schedule) {Date = DateTime.Now });
+                string scheduleKey = "Расписание " + scheduleNumber;
+                if (!CurrentBase.Schedules.Keys.Contains(scheduleKey))
+                {
+                    CurrentBase.Schedules.Add(scheduleKey, new Schedule(schedules[scheduleIndex]) { Date = DateTime.Now });
+                }
+                else
+                {
+                    scheduleIndex--;
+                    scheduleNumber++;
+                }
             }
             core.logger.Info("Расписание сформировано");
             FreeConsole();
