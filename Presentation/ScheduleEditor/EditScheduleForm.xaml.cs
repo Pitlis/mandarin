@@ -323,15 +323,15 @@ namespace Presentation
 
                 for (int i = 0; i < classesInSchedule; i++)
                 {
-                    if (finePosition[i]) { timeLabels[i].Background = new SolidColorBrush(Colors.Green); }
-                    else { timeLabels[i].Background = new SolidColorBrush(Colors.White); }
+                    if (finePosition[i]) { timeLabels[i].Background = new SolidColorBrush(Color.FromRgb(135, 206, 250)); }//выделение ячейки куда можно поставить пару
+                    /*else { timeLabels[i].Background = new SolidColorBrush(Color.FromRgb(255, 129, 129)); }*///выделение времени, нежелательно ставить пару
                 }
 
 
             }
             if (SelectedCell != null && RemoveClasseslistBox.SelectedIndex != -1)
             {
-                SelectedCell.BorderBrush = new SolidColorBrush(Colors.Red);
+                SelectedCell.BorderBrush = new SolidColorBrush(Color.FromRgb(255, 140, 0));//границы ячеек после какой-то фигни
                 SelectedCell.BorderThickness = new Thickness(1);
                 SelectedCell = null;
             }
@@ -341,7 +341,7 @@ namespace Presentation
             {
                 for (int i = 0; i < classesInSchedule; i++)
                 {
-                    if (finePosition[i]) { timeLabels[i].Background = new SolidColorBrush(Colors.White); }
+                    timeLabels[i].Background = new SolidColorBrush(Colors.White); //снятие выделение времени
                 }
             }
         }
@@ -368,7 +368,7 @@ namespace Presentation
 
         #region Create Schedule
 
-        const int CELL_WIDTH = 100;
+        const int CELL_WIDTH = 150;
         const int CELL_HEIGHT = 30;
 
         const int ROW_HEADER = 1;
@@ -398,7 +398,7 @@ namespace Presentation
             Label l = new Label();
             if (sClass != null)
             {
-                l.Background = Brushes.LightGray;
+                l.Background = new SolidColorBrush(Color.FromRgb(210, 255, 205));//фон ячейки с парой
             }
             else
             {
@@ -406,7 +406,7 @@ namespace Presentation
             }
             l.Height = CELL_HEIGHT;
             l.Width = CELL_WIDTH;
-            l.BorderBrush = new SolidColorBrush(Colors.Red);
+            l.BorderBrush = new SolidColorBrush(Color.FromRgb(255, 140, 0));//границы ячеек
             l.BorderThickness = new Thickness(1);
             l.SetValue(Grid.RowProperty, row);
             l.SetValue(Grid.ColumnProperty, column);
@@ -415,7 +415,8 @@ namespace Presentation
             l.HorizontalContentAlignment = HorizontalAlignment.Center;
             l.MouseLeftButtonDown += mLeft;
             l.MouseRightButtonDown += mRight;
-            l.FontSize = 8;
+            l.FontSize = 11;
+            l.FontWeight = FontWeights.Bold;
             return l;
         }
 
@@ -468,7 +469,7 @@ namespace Presentation
             int row = (int)cell.GetValue(Grid.RowProperty);
             if (SelectedCell != null)
             {
-                SelectedCell.BorderBrush = new SolidColorBrush(Colors.Red);
+                SelectedCell.BorderBrush = new SolidColorBrush(Color.FromRgb(255, 140, 0));//граница выделенной пары
                 SelectedCell.BorderThickness = new Thickness(1);
                 infoClassTextbox.Text = "";
                 InfoTeachersListbox.Items.Clear();
@@ -491,7 +492,7 @@ namespace Presentation
             else
             {
                 SelectedCell = cell;
-                SelectedCell.BorderBrush = new SolidColorBrush(Colors.Blue);
+                SelectedCell.BorderBrush = new SolidColorBrush(Color.FromRgb(4, 55, 108));//blue
                 SelectedCell.BorderThickness = new Thickness(2);
                 if (schedule.partSchedule[row - ROW_HEADER, col - COLUMN_HEADER] != null)
                 {
@@ -523,7 +524,7 @@ namespace Presentation
                     InfoTeachersListbox.Items.Clear();
                     InfoGrouplistView.Items.Clear();
                     SelectedCell = cell;
-                    SelectedCell.BorderBrush = new SolidColorBrush(Colors.Blue);
+                    SelectedCell.BorderBrush = new SolidColorBrush(Color.FromRgb(4, 55, 108));
                     SelectedCell.BorderThickness = new Thickness(2);
                     RemoveClasseslistBox.SelectedIndex = -1;
                 }
@@ -557,7 +558,7 @@ namespace Presentation
                 groupLabel.Content = group.NameGroup + "/" + group.NumberSubGroup;
                 groupLabel.Height = CELL_HEIGHT;
                 groupLabel.Width = CELL_WIDTH;
-                groupLabel.BorderBrush = new SolidColorBrush(Colors.Red);
+                groupLabel.BorderBrush = new SolidColorBrush(Color.FromRgb(255, 140, 0));
                 groupLabel.BorderThickness = new Thickness(1);
                 groupLabel.SetValue(Grid.RowProperty, ROW_HEADER - 1);
                 groupLabel.SetValue(Grid.ColumnProperty, columnIndex);
@@ -622,37 +623,37 @@ namespace Presentation
         Label SelectedTimeCell;
         private void TimeSelect(object sender, MouseButtonEventArgs e)
         {
-            Label cell = (Label)sender;
-            int col = (int)cell.GetValue(Grid.ColumnProperty);
-            int row = (int)cell.GetValue(Grid.RowProperty);
-            if (SelectedTimeCell != null)
-            {
-                SelectedTimeCell.BorderBrush = new SolidColorBrush(Colors.Green);
-                SelectedTimeCell.BorderThickness = new Thickness(1);
-                if (SelectedTimeCell.Content != null)
-                {
-                    TimeTextBox.Text = SelectedTimeCell.Content.ToString();
-                    TimeRows = row - 1;
-                }
+            //Label cell = (Label)sender;
+            //int col = (int)cell.GetValue(Grid.ColumnProperty);
+            //int row = (int)cell.GetValue(Grid.RowProperty);
+            //if (SelectedTimeCell != null)
+            //{
+            //    SelectedTimeCell.BorderBrush = new SolidColorBrush(Colors.Green);
+            //    SelectedTimeCell.BorderThickness = new Thickness(1);
+            //    if (SelectedTimeCell.Content != null)
+            //    {
+            //        TimeTextBox.Text = SelectedTimeCell.Content.ToString();
+            //        TimeRows = row - 1;
+            //    }
 
-            }
-            if (SelectedTimeCell == cell)
-            {
-                SelectedTimeCell = null;
-                TimeTextBox.Text = "";
-                TimeRows = -1;
-            }
-            else
-            {
-                SelectedTimeCell = cell;
-                SelectedTimeCell.BorderBrush = new SolidColorBrush(Colors.Yellow);
-                SelectedTimeCell.BorderThickness = new Thickness(2);
-                if (SelectedTimeCell.Content != null)
-                {
-                    TimeTextBox.Text = SelectedTimeCell.Content.ToString();
-                    TimeRows = row - 1;
-                }
-            }
+            //}
+            //if (SelectedTimeCell == cell)
+            //{
+            //    SelectedTimeCell = null;
+            //    TimeTextBox.Text = "";
+            //    TimeRows = -1;
+            //}
+            //else
+            //{
+            //    SelectedTimeCell = cell;
+            //    SelectedTimeCell.BorderBrush = new SolidColorBrush(Colors.Green);
+            //    SelectedTimeCell.BorderThickness = new Thickness(2);
+            //    if (SelectedTimeCell.Content != null)
+            //    {
+            //        TimeTextBox.Text = SelectedTimeCell.Content.ToString();
+            //        TimeRows = row - 1;
+            //    }
+            //}
         }
 
         private void DoubleClick(object sender, MouseButtonEventArgs e)
