@@ -93,14 +93,20 @@ namespace Presentation.BaseWizard
             step2tbSelect.Visibility = Visibility.Visible;
             step2btnSelect.Visibility = Visibility.Visible;
             if (step2tbSelect.Text == "") btnStep2Next.IsEnabled = false;
-            else btnStep2Next.IsEnabled = true;
+            else
+            {
+                
+                btnStep2Next.IsEnabled = true;
+            }
+            btnStep2Next.Content = "Далее";
         }
         private void rbStep2my_Unchecked(object sender, RoutedEventArgs e)
         {
             step2L1.Visibility = Visibility.Hidden;
             step2tbSelect.Visibility = Visibility.Hidden;
             step2btnSelect.Visibility = Visibility.Hidden;
-            btnStep2Next.IsEnabled = false;
+            btnStep2Next.IsEnabled = true;
+            btnStep2Next.Content = "Готово";
         }
         private void btnStep2Back_Click(object sender, RoutedEventArgs e)
         {
@@ -135,13 +141,27 @@ namespace Presentation.BaseWizard
             }
             else
             {
-                var infoWindow = new InfoWindow
+                Code.CurrentBase.CreateBase();               
+                var dialogWindow = new DialogWindow
                 {
-                    Message = { Text = "Данная функция будет реализована позже" }
+                    Message = { Text = "Хотите сохранить результат?" }
                 };
 
-                await DialogHost.Show(infoWindow, "BaseWizardHost");
-                return;
+                object result = await DialogHost.Show(dialogWindow, "BaseWizardHost");
+                if ((bool)result == true)
+                {
+                    SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                    saveFileDialog1.Filter = "DB files (*.mandarin|*.mandarin";
+                    saveFileDialog1.FilterIndex = 2;
+                    saveFileDialog1.RestoreDirectory = true;
+                    if (saveFileDialog1.ShowDialog() == true)
+                    {
+                        Code.CurrentBase.SaveBase(saveFileDialog1.FileName);
+                    }
+                }
+                this.Closing -= Window_Closing;
+                Close();
+
             }
         }
         bool FillingConnectString()
