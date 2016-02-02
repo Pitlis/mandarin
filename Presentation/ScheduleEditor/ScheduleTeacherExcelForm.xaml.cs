@@ -167,12 +167,12 @@ namespace Presentation.ScheduleEditor
             {
                 filepath = saveFileDialog.FileName;
                 thread = new Thread(new ThreadStart(SaveExcel));
-                thread.Start();                
                 var infoWindow = new InfoWindow
                 {
-                    Message = { Text = "Расписание будет сформировано:\n" + filepath+"\nПожалуйста подождите" }
+                    Message = { Text = "Расписание будет сформировано:\n" + filepath + "\nПожалуйста подождите" }
                 };
                 await DialogHost.Show(infoWindow, "ScheduleTeacherForExcel");
+                thread.Start();
                 btnSave.IsEnabled = false;
 
             }            

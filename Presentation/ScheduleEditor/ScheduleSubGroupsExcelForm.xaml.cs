@@ -167,16 +167,15 @@ namespace Presentation.ScheduleEditor
             saveFileDialog.RestoreDirectory = true;
             if (saveFileDialog.ShowDialog() == true)//сделать формирование в отдельном потоке
             {
-                filepath = saveFileDialog.FileName;
-                thread = new Thread(new ThreadStart(SaveExcel));
-                thread.Start();
                 var infoWindow = new InfoWindow
                 {
                     Message = { Text = "Расписание будет сформировано:\n" + filepath + "\nПожалуйста подождите" }
                 };
                 await DialogHost.Show(infoWindow, "ScheduleSubGroupsForExcel");
+                filepath = saveFileDialog.FileName;
+                thread = new Thread(new ThreadStart(SaveExcel));
+                thread.Start();                
                 btnSave.IsEnabled = false;
-
             }
         }
         void SaveExcel()
