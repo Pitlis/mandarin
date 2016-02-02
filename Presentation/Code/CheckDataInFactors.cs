@@ -15,6 +15,7 @@ namespace Presentation.Code
         StudentsClass sClass;
         StudentSubGroup Group;
         ClassRoomType Type;
+        Teacher Teacher;
         EntityStorage store;
 
 
@@ -214,6 +215,74 @@ namespace Presentation.Code
                             }
                         }
                         if (ex) break;
+                    }
+                }
+            }
+            return usedFactors;
+
+        }
+
+        public List<FactorSettings> CheckTeacher(Teacher teacher)
+        {
+            this.Teacher = teacher;
+            List<FactorSettings> usedFactors = new List<FactorSettings>();
+            Factors = FactorsEditors.GetUsersFactors(CurrentBase.Factors);
+            foreach (FactorSettings factor in Factors)
+            {
+                if (factor.Data != null && factor.Data.GetType() == typeof(Dictionary<StudentsClass, List<ClassRoom>>))
+                {
+                    Dictionary<StudentsClass, List<ClassRoom>> data = (Dictionary<StudentsClass, List<ClassRoom>>)factor.Data;
+                    data = (Dictionary<StudentsClass, List<ClassRoom>>)FactorsEditors.RestoreLinks(data, store);
+                   
+                        foreach (StudentsClass sClass in data.Keys)
+                        {
+                            if (sClass.Teacher.Contains(Teacher))
+                            {
+                                usedFactors.Add(factor);
+                                break;
+                            }
+                        }
+                        
+                }
+                if (factor.Data != null && factor.Data.GetType() == typeof(List<FixedClasses>))
+                {
+                    List<FixedClasses> data = (List<FixedClasses>)factor.Data;
+                    data = (List<FixedClasses>)FactorsEditors.RestoreLinks(data, store);
+                    foreach (FixedClasses fixedClass in data)
+                    {
+                        if (fixedClass.sClass.Teacher.Contains(Teacher))
+                        {
+                            usedFactors.Add(factor);
+                            break;
+                        }
+
+                    }
+                }
+                if (factor.Data != null && factor.Data.GetType() == typeof(Dictionary<Teacher, List<ClassRoom>>))
+                {
+                    Dictionary<Teacher, List<ClassRoom>> data = (Dictionary<Teacher, List<ClassRoom>>)factor.Data;
+                    data = (Dictionary<Teacher, List<ClassRoom>>)FactorsEditors.RestoreLinks(data, store);
+                        foreach (Teacher teach in data.Keys)
+                        {
+                            if (teach == Teacher)
+                            {
+                                usedFactors.Add(factor);
+                                break;
+                            }
+                        }                    
+                }
+
+                if (factor.Data != null && factor.Data.GetType() == typeof(Dictionary<Teacher, List<int>>))
+                {
+                    Dictionary<Teacher, List<int>> data = (Dictionary<Teacher, List<int>>)factor.Data;
+                    data = (Dictionary<Teacher, List<int>>)FactorsEditors.RestoreLinks(data, store);
+                    foreach (Teacher teach in data.Keys)
+                    {
+                        if (teach == Teacher)
+                        {
+                            usedFactors.Add(factor);
+                            break;
+                        }
                     }
                 }
             }
