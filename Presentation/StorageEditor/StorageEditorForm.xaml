@@ -32,7 +32,7 @@
                             <ColumnDefinition Width="291*"/>
                             <ColumnDefinition Width="76*"/>
                         </Grid.ColumnDefinitions>
-                        <ListView x:Name="tiTypeListTypes" Margin="10" MouseLeftButtonUp="tiTypeListTypes_MouseLeftButtonUp">
+                        <ListView x:Name="tiTypeListTypes" Margin="10"  MouseLeftButtonUp="tiTypeListTypes_MouseLeftButtonUp" SelectionMode="Single">
                             <ListView.View >
                                 <GridView >
 
@@ -65,7 +65,7 @@
                         </Grid.RowDefinitions>
                         <Label x:Name="label1" Content="Корпус" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="70" FontWeight="Bold" FontSize="13.333"/>
                         <ComboBox x:Name="tiClassRoomscbHousing" HorizontalAlignment="Left" Margin="85,11,0,0" VerticalAlignment="Top" Width="57" Height="25" Background="#FFFFF7F7" SelectionChanged="tiClassRoomscbHousing_SelectionChanged"/>
-                        <ListView x:Name="tiClassRomslwNumber" Margin="10" Grid.Row="1" Grid.ColumnSpan="2" MouseLeftButtonUp="tiClassRomslwNumber_MouseLeftButtonUp">
+                        <ListView x:Name="tiClassRomslwNumber" SelectionMode="Single" Margin="10" Grid.Row="1" Grid.ColumnSpan="2" MouseLeftButtonUp="tiClassRomslwNumber_MouseLeftButtonUp">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Корпус" Width="70"  DisplayMemberBinding="{Binding Housing}"/>
@@ -83,7 +83,7 @@
                                 <Button x:Name="tiClassRoomsbtnDel" Content="Удалить" Margin="0,164,0,0" Height="32" VerticalAlignment="Top" Click="tiClassRoomsbtnDel_Click"/>
                             </Grid>
                         </GroupBox>
-                        <ListView x:Name="listView" Grid.Column="2" Margin="10" Grid.Row="1">
+                        <ListView x:Name="listView" Grid.Column="2" SelectionMode="Single" Margin="10" Grid.Row="1">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Основные типы аудитории" Width="200" >
@@ -118,7 +118,7 @@
                         </Grid.RowDefinitions>
                         <Label x:Name="label4" Content="Поиск по ФИО" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Height="26" Width="101" FontWeight="Bold"/>
                         <TextBox x:Name="tiTeachertbSearch" Height="28" Margin="124,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="tiTeachertbSearch_TextChanged" Background="#FFF3EFEF"/>
-                        <ListView x:Name="tiTeacherList" Margin="10,10,18,10" Grid.Row="1" MouseLeftButtonUp="tiTeacherList_MouseLeftButtonUp">
+                        <ListView x:Name="tiTeacherList" Margin="10,10,18,10" SelectionMode="Single" Grid.Row="1" MouseLeftButtonUp="tiTeacherList_MouseLeftButtonUp">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="ФИО" Width="520"  DisplayMemberBinding="{Binding Name}"  />
@@ -143,7 +143,7 @@
                             <ColumnDefinition Width="557*"/>
                             <ColumnDefinition Width="177*"/>
                         </Grid.ColumnDefinitions>
-                        <ListView x:Name="tiStudentSubGroupslist" Margin="10" MouseLeftButtonUp="tiStudentSubGroupslist_MouseLeftButtonUp">
+                        <ListView x:Name="tiStudentSubGroupslist" SelectionMode="Single" Margin="10" MouseLeftButtonUp="tiStudentSubGroupslist_MouseLeftButtonUp">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Название группы" Width="auto"  DisplayMemberBinding="{Binding NameGroup}"/>
@@ -184,7 +184,7 @@
                         <Label x:Name="label9" Content="Поиск подгрупп" Margin="10,10,10,0" Grid.Row="1" VerticalAlignment="Top" RenderTransformOrigin="-0.158,-1.846" HorizontalContentAlignment="Center" FontWeight="Bold"/>
                         <TextBox x:Name="tiADDClassestbSearchGroup" Height="28" Margin="10,36,10,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Background="#FFF1EDED" TextChanged="tiADDClassestbSearchGroup_TextChanged"/>
                         <Label x:Name="tiADDClassestbLabelGroups" Content="Вы выбрали" HorizontalAlignment="Left" Margin="10,69,0,0" Grid.Row="1" VerticalAlignment="Top" Width="83"/>
-                        <ListView x:Name="tiADDClasseslistGroup" Margin="10,100,10,10" Grid.Row="1">
+                        <ListView x:Name="tiADDClasseslistGroup" SelectionMode="Single" Margin="10,100,10,10" Grid.Row="1">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Группы" Width="200" >
@@ -197,7 +197,7 @@
                                 </GridView>
                             </ListView.View>
                         </ListView>
-                        <ListView x:Name="tiADDClasseslistTeacher" Grid.Column="1" Margin="10,100,10,10" Grid.Row="1">
+                        <ListView x:Name="tiADDClasseslistTeacher" SelectionMode="Single" Grid.Column="1" Margin="10,100,10,10" Grid.Row="1">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Преподаватели" Width="200" >
@@ -216,7 +216,7 @@
                         <Label x:Name="label13" Content="Поиск типов аудитории" Grid.Column="2" Margin="10,10,10,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontWeight="Bold"/>
                         <TextBox x:Name="tiADDClassestbSearchType" Grid.Column="2" Height="28" Margin="10,36,10,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Background="#FFFDF5F5" TextChanged="tiADDClassestbSearchType_TextChanged"/>
                         <Label x:Name="tiADDClassestbLabelType" Content="Вы выбрали" Grid.Column="2" Margin="10,69,0,0" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="79"/>
-                        <ListView x:Name="tiADDClasseslistType" Grid.Column="2" Margin="10,100,10,10" Grid.Row="1">
+                        <ListView x:Name="tiADDClasseslistType" SelectionMode="Single" Grid.Column="2" Margin="10,100,10,10" Grid.Row="1">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Типы аудиторий" Width="200" >
@@ -262,7 +262,7 @@
 
 
                         </GroupBox>
-                        <ListView x:Name="tiClassesListTeachers" Grid.Column="1" Margin="10,103,10,10">
+                        <ListView x:Name="tiClassesListTeachers" SelectionMode="Single" Grid.Column="1" Margin="10,103,10,10">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Преподаватели" Width="200" >
@@ -275,14 +275,14 @@
                                 </GridView>
                             </ListView.View>
                         </ListView>
-                        <ListView x:Name="tiClassesListClasses" Margin="10,103,10,10" MouseLeftButtonUp="tiClassesListClasses_MouseLeftButtonUp">
+                        <ListView x:Name="tiClassesListClasses" SelectionMode="Single" Margin="10,103,10,10" MouseLeftButtonUp="tiClassesListClasses_MouseLeftButtonUp">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Пары" Width="200" DisplayMemberBinding="{Binding Name}"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
-                        <ListView x:Name="tiClassesListGroups" Grid.Column="2" Margin="10,103,10,10">
+                        <ListView x:Name="tiClassesListGroups" SelectionMode="Single" Grid.Column="2" Margin="10,103,10,10">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Группы" Width="200" >
@@ -295,7 +295,7 @@
                                 </GridView>
                             </ListView.View>
                         </ListView>
-                        <ListView x:Name="tiClassesListtypes" Grid.Column="3" Margin="10,103,10,10">
+                        <ListView x:Name="tiClassesListtypes" SelectionMode="Single" Grid.Column="3" Margin="10,103,10,10">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Типы аудиторий" Width="200" >
