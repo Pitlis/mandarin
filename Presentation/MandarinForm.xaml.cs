@@ -577,7 +577,19 @@ namespace Presentation
         {
             if (CurrentBase.BaseIsLoaded())
             {
-                contentControl.Content = new CoreRunnerForm();
+                if (CurrentBase.EStorage.Classes.Length > 0)
+                {
+                    contentControl.Content = new CoreRunnerForm();
+                }
+                else
+                {
+                    var infoWindow = new InfoWindow
+                    {
+                        Message = { Text = "В базе данных отсутствуют пары.\n" +
+                                        "Генерация расписания невозможна." }
+                    };
+                    await DialogHost.Show(infoWindow, "MandarinHost");
+                }
             }
             else
             {
