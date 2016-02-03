@@ -620,17 +620,20 @@ namespace Presentation
                     object result = await DialogHost.Show(dialogWindow, "MandarinHost");
                     try
                     {
-                        if ((bool)result == true)
+                        if (result != null)
                         {
-                            CurrentBase.SaveBase();
-                            var infoWindow = new InfoWindow
+                            if ((bool)result == true)
                             {
-                                Message = { Text = "База успешно сохранена" }
-                            };
-                            await DialogHost.Show(infoWindow, "MandarinHost");
+                                CurrentBase.SaveBase();
+                                var infoWindow = new InfoWindow
+                                {
+                                    Message = { Text = "База успешно сохранена" }
+                                };
+                                await DialogHost.Show(infoWindow, "MandarinHost");
+                            }
+                            canClose = true;
+                            this.Close();
                         }
-                        canClose = true;
-                        this.Close();
                     }
                     catch
                     {
