@@ -17,12 +17,12 @@
                             <ColumnDefinition Width="70"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <ListBox Background="{DynamicResource MaterialDesignPaper}" SelectionMode="Extended" x:Name="UnallocatedGroupsView" ItemTemplate="{StaticResource GroupsTemplate}" Template="{StaticResource GroupsListBoxTemplate}" Grid.Column="0" HorizontalAlignment="Stretch" Margin="6,46,6,6" VerticalAlignment="Stretch" SelectionChanged="SelectGroupWithoutFaculty" MouseDoubleClick="UnallocatedGroupsView_MouseDoubleClick">
+                        <ListBox Background="{DynamicResource MaterialDesignPaper}" SelectionMode="Extended" x:Name="UnallocatedGroupsView" ItemTemplate="{StaticResource GroupsTemplate}" Template="{StaticResource TwoColumnsListBoxWithHeader}" Grid.Column="0" HorizontalAlignment="Stretch" Margin="6,46,6,6" VerticalAlignment="Stretch" SelectionChanged="SelectGroupWithoutFaculty" MouseDoubleClick="UnallocatedGroupsView_MouseDoubleClick">
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource CustomMaterialDesignListBoxItem}"></Style>
                             </ListBox.ItemContainerStyle>
                         </ListBox>
-                        <ListBox Background="{DynamicResource MaterialDesignPaper}" SelectionMode="Extended" x:Name="DisplayGroupsView" ItemTemplate="{StaticResource GroupsTemplate}" Template="{StaticResource GroupsListBoxTemplate}" Grid.Column="2" HorizontalAlignment="Stretch" Margin="6,77,6,6" VerticalAlignment="Stretch" SelectionChanged="SelectGroupWithFaculty" MouseDoubleClick="DisplayGroupsView_MouseDoubleClick">
+                        <ListBox Background="{DynamicResource MaterialDesignPaper}" SelectionMode="Extended" x:Name="DisplayGroupsView" ItemTemplate="{StaticResource GroupsTemplate}" Template="{StaticResource TwoColumnsListBoxWithHeader}" Grid.Column="2" HorizontalAlignment="Stretch" Margin="6,77,6,6" VerticalAlignment="Stretch" SelectionChanged="SelectGroupWithFaculty" MouseDoubleClick="DisplayGroupsView_MouseDoubleClick">
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource CustomMaterialDesignListBoxItem}"></Style>
                             </ListBox.ItemContainerStyle>
@@ -53,7 +53,7 @@
                         <Label x:Name="label2" Grid.Column="0" Content="Введите новый факультет" HorizontalAlignment="Left" Margin="6,10,0,0" VerticalAlignment="Top" FontWeight="Bold" Height="32"/>
                         <TextBox x:Name="tbADDFaculty" BorderThickness="1" BorderBrush="Gray" Grid.Column="0" HorizontalAlignment="Stretch" Height="32" Margin="178,10,6,0" VerticalAlignment="Top" MaxLength="50" FontSize="13.333" TextChanged="tbADDFaculty_TextChanged" />
                         <Button x:Name="btnAddFacult" Grid.Column="1" Content="Добавить" HorizontalAlignment="Stretch" Margin="6,10,6,0" VerticalAlignment="Top" IsEnabled="False" Click="btnAddFacult_Click"/>
-                        <ListBox Background="{DynamicResource MaterialDesignPaper}" x:Name="DisplayFacultyView" ItemTemplate="{StaticResource FacultyTemplate}" Template="{StaticResource FacultyListBoxTemplate}" Grid.Column="0" HorizontalAlignment="Stretch" Margin="6,47,6,6" VerticalAlignment="Stretch" SelectionMode="Single" SelectionChanged="DisplayFacultyView_SelectionChanged" >
+                        <ListBox Background="{DynamicResource MaterialDesignPaper}" x:Name="DisplayFacultyView" ItemTemplate="{StaticResource NameTemplate}" Template="{StaticResource OneColumnListBoxWithHeader}" Grid.Column="0" HorizontalAlignment="Stretch" Margin="6,47,6,6" VerticalAlignment="Stretch" SelectionMode="Single" SelectionChanged="DisplayFacultyView_SelectionChanged" >
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource CustomMaterialDesignListBoxItem}"></Style>
                             </ListBox.ItemContainerStyle>

@@ -50,6 +50,22 @@ namespace Presentation.FactorsDataEditors
 
         #region Methods
 
+        private void SetListBoxHeaders()
+        {
+            string building = "Корпус";
+            string classRoom = "Аудитория";
+            classRoomsListBox.ApplyTemplate();
+            TextBlock header = (TextBlock)classRoomsListBox.Template.FindName("FirstHeader", classRoomsListBox);
+            header.Text = building;
+            header = (TextBlock)classRoomsListBox.Template.FindName("SecondHeader", classRoomsListBox);
+            header.Text = classRoom;
+            sClassClassRoomsListView.ApplyTemplate();
+            header = (TextBlock)sClassClassRoomsListView.Template.FindName("FirstHeader", sClassClassRoomsListView);
+            header.Text = building;
+            header = (TextBlock)sClassClassRoomsListView.Template.FindName("SecondHeader", sClassClassRoomsListView);
+            header.Text = classRoom;
+        }
+
         private List<StudentsClass> FilterSClasses(string filter)
         {
             return new List<StudentsClass>(storage.Classes.OrderBy(t => !t.Name.ToLower().StartsWith(filter)).
@@ -286,6 +302,7 @@ namespace Presentation.FactorsDataEditors
             this.Title = factorName;
             factorDescTextBlock.Text = factorDescription;
             userInstrTextBlock.Text = userInstruction;
+            SetListBoxHeaders();
         }
     }
 }

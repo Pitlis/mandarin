@@ -39,12 +39,12 @@
             </Button.Content>
         </Button>
         <TextBox x:Name="filterTeachersTextBox" Grid.Row="1" BorderThickness="1" BorderBrush="Gray" HorizontalAlignment="Stretch" Height="28" Margin="110,6,6,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="filterTeachersTextBox_TextChanged" IsEnabled="False"/>
-        <ListBox x:Name="classRoomsListBox" SelectionMode="Extended" ItemTemplate="{StaticResource ClassRoomsTemplate}" Template="{StaticResource ClassRoomsListBoxTemplate}" Grid.Row="1" Grid.Column="1" Margin="6,36,6,10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="classRoomsListView_SelectionChanged" GotFocus="classRoomsListView_GotFocus" MouseDoubleClick="classRoomsListBox_MouseDoubleClick">
+        <ListBox x:Name="classRoomsListBox" SelectionMode="Extended" ItemTemplate="{StaticResource ClassRoomsTemplate}" Template="{StaticResource TwoColumnsListBoxWithHeader}" Grid.Row="1" Grid.Column="1" Margin="6,36,6,10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="classRoomsListView_SelectionChanged" GotFocus="classRoomsListView_GotFocus" MouseDoubleClick="classRoomsListBox_MouseDoubleClick">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource CustomMaterialDesignListBoxItem}"></Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
-        <ListBox x:Name="teacherClassRoomsListView" SelectionMode="Extended" ItemTemplate="{StaticResource ClassRoomsTemplate}" Template="{StaticResource ClassRoomsListBoxTemplate}" Grid.Row="1" Grid.Column="3" Margin="6,36,6,10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="teacherClassRoomsListView_SelectionChanged" GotFocus="teacherClassRoomsListView_GotFocus" MouseDoubleClick="teacherClassRoomsListView_MouseDoubleClick">
+        <ListBox x:Name="teacherClassRoomsListView" SelectionMode="Extended" ItemTemplate="{StaticResource ClassRoomsTemplate}" Template="{StaticResource TwoColumnsListBoxWithHeader}" Grid.Row="1" Grid.Column="3" Margin="6,36,6,10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="teacherClassRoomsListView_SelectionChanged" GotFocus="teacherClassRoomsListView_GotFocus" MouseDoubleClick="teacherClassRoomsListView_MouseDoubleClick">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource CustomMaterialDesignListBoxItem}"></Style>
             </ListBox.ItemContainerStyle>

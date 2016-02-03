@@ -48,6 +48,7 @@ namespace Presentation
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             FillFacultyAndCoursCombobox();
+            SetListBoxHeaders();
         }     
         private void btnExcel_Click(object sender, RoutedEventArgs e)
         {
@@ -84,6 +85,20 @@ namespace Presentation
         #endregion
 
         #region Method
+        private void SetListBoxHeaders()
+        {
+            InfoGrouplistView.ApplyTemplate();
+            TextBlock header = (TextBlock)InfoGrouplistView.Template.FindName("FirstHeader", InfoGrouplistView);
+            header.Text = "Группа";
+            header = (TextBlock)InfoGrouplistView.Template.FindName("SecondHeader", InfoGrouplistView);
+            header.Text = "№ подгруппы";
+            ClassRoomlistView.ApplyTemplate();
+            header = (TextBlock)ClassRoomlistView.Template.FindName("FirstHeader", ClassRoomlistView);
+            header.Text = "Корпус";
+            header = (TextBlock)ClassRoomlistView.Template.FindName("SecondHeader", ClassRoomlistView);
+            header.Text = "Аудитория";
+        }
+
         private async void LoadFacultyAndGroups()
         {
             if (facultiesAndGroups.GroupsWithoutFacultyExists())

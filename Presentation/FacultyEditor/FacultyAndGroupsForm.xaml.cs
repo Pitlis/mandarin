@@ -34,6 +34,7 @@ namespace Presentation
         }
         void CreateLocalCopy()
         {
+
             Storage = CurrentBase.EStorage;
             List<Faculty> localCopyOfFacultyList = new List<Faculty>();
             foreach (var item in CurrentBase.Faculties)
@@ -55,11 +56,27 @@ namespace Presentation
             CreateLocalCopy();
             if (FacultiesAndGroups.Faculties.Count == 0) LoadFacult();
             else LoadGroups();
+            SetListBoxHeaders();
         }
 
-       
-       
-       
+
+        private void SetListBoxHeaders()
+        {
+            TextBlock header = (TextBlock)DisplayFacultyView.Template.FindName("Header1", DisplayFacultyView);
+            header.Text = "Название факультета";
+            string group = "Группа";
+            string groupNumber = "№ подгруппы";
+            DisplayGroupsView.ApplyTemplate();
+            header = (TextBlock)DisplayGroupsView.Template.FindName("FirstHeader", DisplayGroupsView);
+            header.Text = group;
+            header = (TextBlock)DisplayGroupsView.Template.FindName("SecondHeader", DisplayGroupsView);
+            header.Text = groupNumber;
+            UnallocatedGroupsView.ApplyTemplate();
+            header = (TextBlock)UnallocatedGroupsView.Template.FindName("FirstHeader", UnallocatedGroupsView);
+            header.Text = group;
+            header = (TextBlock)UnallocatedGroupsView.Template.FindName("SecondHeader", UnallocatedGroupsView);
+            header.Text = groupNumber;
+        }
 
         #region Facult
         void FillingDisplayFacultyView()//выгрузка в отсортированном виде
@@ -108,7 +125,7 @@ namespace Presentation
                 if (existFacult) return;
                 int index = DisplayFacultyView.SelectedIndex;
                 string selectedName = DisplayFacultyView.SelectedItem.ToString();
-                int indexReal = RealIndexFacult();                  
+                int indexReal = RealIndexFacult();
                 FacultiesAndGroups.Faculties[indexReal].Name = tbADDFaculty.Text.ToUpper();
                 var infoWindow = new InfoWindow
                 {
@@ -147,7 +164,7 @@ namespace Presentation
                 btnEditFaculty.IsEnabled = false;
             }
         }
-  
+
         private async void btnDelFaculty_Click(object sender, RoutedEventArgs e)
         {
             if (DisplayFacultyView.SelectedIndex != -1)
@@ -358,7 +375,7 @@ namespace Presentation
                 DisplayGroupsView.ItemsSource = FacultiesAndGroups.GetGroups(SelectFacultycomboBox.SelectedItem.ToString());
                 UnallocatedGroupsView.ItemsSource = null;
                 UnallocatedGroupsView.ItemsSource = groupsWithoutFaculty;
-                UnallocatedGroupsView.SelectedIndex = index;                
+                UnallocatedGroupsView.SelectedIndex = index;
                 SaveBase();
             }
             else

@@ -37,7 +37,32 @@ namespace Presentation.StorageEditor
 
         }
 
+        private void qwerty_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetListBoxHeaders();
+        }
 
+        private void SetListBoxHeaders()
+        {
+            TextBlock header = (TextBlock)tiTypeListTypes.Template.FindName("Header1", tiTypeListTypes);
+            header.Text = "Типы аудиторий";
+
+            tiClassRomslwNumber.ApplyTemplate();
+            header = (TextBlock)tiClassRomslwNumber.Template.FindName("FirstHeader", tiClassRomslwNumber);
+            header.Text = "Корпус";
+            header = (TextBlock)tiClassRomslwNumber.Template.FindName("SecondHeader", tiClassRomslwNumber);
+            header.Text = "Аудитория";
+
+            tiTeacherList.ApplyTemplate();
+            header = (TextBlock)tiTeacherList.Template.FindName("Header1", tiTeacherList);
+            header.Text = "ФИО";
+
+            tiStudentSubGroupslist.ApplyTemplate();
+            header = (TextBlock)tiStudentSubGroupslist.Template.FindName("FirstHeader", tiStudentSubGroupslist);
+            header.Text = "Название группы";
+            header = (TextBlock)tiStudentSubGroupslist.Template.FindName("SecondHeader", tiStudentSubGroupslist);
+            header.Text = "Номер подгруппы";
+        }
 
         void LoadTiTypes()
         {
@@ -1776,7 +1801,6 @@ namespace Presentation.StorageEditor
             UnCheckTeacherinClasses();
             UnCheckTypesinClasses();
         }
-     
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
