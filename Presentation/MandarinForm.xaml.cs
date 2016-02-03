@@ -651,6 +651,7 @@ namespace Presentation
         {
             if(CurrentBase.BaseIsLoaded())
             {
+                miMain.Header = "Закрыть";
                 contentControl.Content = new StorageEditor.StorageEditorForm();
             }
             else
