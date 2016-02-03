@@ -15,6 +15,7 @@ using Domain.Services;
 using System.Threading.Tasks;
 using Presentation.FactorsDataEditors;
 using Domain.FactorInterfaces;
+using System.Diagnostics;
 
 namespace Presentation
 {
@@ -649,5 +650,69 @@ namespace Presentation
                 await DialogHost.Show(infoWindow, "MandarinHost");
             }
         }
+
+        #region About
+
+        private void emailButtonN_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("mailto://pitlis95@gmail.com");
+        }
+
+        private void vkButtonN_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://vk.com/nikita_bozhkov");
+        }
+
+        private void gitHubButtonN_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://github.com/Pitlis");
+        }
+
+        private void gitHubButtonY_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://github.com/Eugenni");
+        }
+
+        private void emailButtonY_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("mailto://jenya-masalkov@mail.ru");
+        }
+
+        private void vkButtonY_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://vk.com/id69607998");
+        }
+
+        private void gitHubButtonD_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://github.com/jonny1sniper");
+        }
+
+        private void emailButtonD_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("mailto://dimelnikov94@gmail.com");
+        }
+
+        private void vkButtonD_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://vk.com/dmelnik0v");
+        }
+
+        private void gitHubButtonS_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://github.com/Ser95");
+        }
+
+        private void emailButtonS_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("mailto://puss95@yandex.by");
+        }
+
+        private void gitHubButton_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://github.com/Pitlis/mandarin");
+        }
+        #endregion
+
     }
 }

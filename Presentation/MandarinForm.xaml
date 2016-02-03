@@ -14,110 +14,242 @@
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Icon="_1_pn.ico">
-    
+
     <materialDesign:DialogHost Identifier="MandarinHost">
-        <DockPanel>
-            <materialDesign:ColorZone Padding="5" materialDesign:ShadowAssist.ShadowDepth="Depth2"
+        <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+            <materialDesign:DrawerHost.LeftDrawerContent>
+                <Grid Width="300" Background="{DynamicResource MaterialDesignPaper}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Source="_1_pn.ico"></Image>
+                    <TextBlock Grid.Row="1" Text="Mandarin. Составление расписания" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignBody2TextBlock}"/>
+                    <TextBlock Grid.Row="2" Text="Версия 1.0" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignBody2TextBlock}" Margin="0,0,0,10"></TextBlock>
+                    <TextBlock Grid.Row="3" Text="Система для автоматического формирования университетского расписания. Расписание формируется на основе информации о преподавателях, аудиториях и парах. Содержит базовый набор правил расстановки пар, поддерживает динамическое расширение этого набора." HorizontalAlignment="Center" Margin="0,0,0,10" TextWrapping="WrapWithOverflow" TextAlignment="Justify"></TextBlock>
+                    <TextBlock Grid.Row="4" Text="Проект" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignBody2TextBlock}" Margin="0,0,0,5"></TextBlock>
+                    <Button x:Name="gitHubButton" Grid.Row="5" Margin="4,0,4,10" BorderThickness="0" Background="#E5E5E5" Click="gitHubButton_Click">
+                        <Button.Content>
+                            <materialDesign:PackIcon Kind="GithubBox"/>
+                        </Button.Content>
+                    </Button>
+                    <TextBlock Grid.Row="6" Text="Разработчики" Style="{StaticResource MaterialDesignBody2TextBlock}" HorizontalAlignment="Center" Margin="0,0,0,5"></TextBlock>
+                    <Grid Grid.Row="7" Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Божков Никита" TextWrapping="Wrap" TextAlignment="Center"></TextBlock>
+                        <Button Grid.Column="1" Grid.Row="0" x:Name="gitHubButtonN" BorderThickness="0" Margin="3" Click="gitHubButtonN_Click" Background="#E5E5E5">
+                            <Button.Content>
+                                <materialDesign:PackIcon Kind="GithubBox"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Grid.Column="2" Grid.Row="0" x:Name="emailButtonN" Margin="3" BorderThickness="0" Click="emailButtonN_Click" Background="GreenYellow">
+                            <Button.Content>
+                                <materialDesign:PackIcon Kind="Email"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Grid.Column="3" Grid.Row="0" x:Name="vkButtonN" Margin="3" BorderThickness="0" Background="#4b74a5" Click="vkButtonN_Click">
+                            <Button.Content>
+                                <materialDesign:PackIcon Kind="Vk"/>
+                            </Button.Content>
+                        </Button>
+                        <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Масалков Евгений" TextWrapping="Wrap" TextAlignment="Center"></TextBlock>
+                        <Button Grid.Column="1" Grid.Row="1" x:Name="gitHubButtonY" BorderThickness="0" Margin="3" Background="#E5E5E5" Click="gitHubButtonY_Click">
+                            <Button.Content>
+                                <materialDesign:PackIcon Kind="GithubBox"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Grid.Column="2" Grid.Row="1" x:Name="emailButtonY" Margin="3" BorderThickness="0" Background="GreenYellow" Click="emailButtonY_Click">
+                            <Button.Content>
+                                <materialDesign:PackIcon Kind="Email"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Grid.Column="3" Grid.Row="1" x:Name="vkButtonY" Margin="3" BorderThickness="0" Background="#4b74a5" Click="vkButtonY_Click">
+                            <Button.Content>
+                                <materialDesign:PackIcon Kind="Vk"/>
+                            </Button.Content>
+                        </Button>
+                        <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Мельников Дмитрий" TextWrapping="Wrap" TextAlignment="Center"></TextBlock>
+                        <Button Grid.Column="1" Grid.Row="2" x:Name="gitHubButtonD" BorderThickness="0" Margin="3" Background="#E5E5E5" Click="gitHubButtonD_Click">
+                            <Button.Content>
+                                <materialDesign:PackIcon Kind="GithubBox"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Grid.Column="2" Grid.Row="2" x:Name="emailButtonD" Margin="3" BorderThickness="0" Background="GreenYellow" Click="emailButtonD_Click">
+                            <Button.Content>
+                                <materialDesign:PackIcon Kind="Email"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Grid.Column="3" Grid.Row="2" x:Name="vkButtonD" Margin="3" BorderThickness="0" Background="#4b74a5" Click="vkButtonD_Click">
+                            <Button.Content>
+                                <materialDesign:PackIcon Kind="Vk"/>
+                            </Button.Content>
+                        </Button>
+                        <TextBlock Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Прокопенко Сергей" TextWrapping="Wrap" TextAlignment="Center"></TextBlock>
+                        <Button Grid.Column="1" Grid.Row="3" x:Name="gitHubButtonS" BorderThickness="0" Margin="3" Background="#E5E5E5" Click="gitHubButtonS_Click">
+                            <Button.Content>
+                                <materialDesign:PackIcon Kind="GithubBox"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Grid.Column="2" Grid.Row="3" x:Name="emailButtonS" Margin="3" BorderThickness="0" Background="GreenYellow" Click="emailButtonS_Click">
+                            <Button.Content>
+                                <materialDesign:PackIcon Kind="Email"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Grid.Column="3" Grid.Row="3" x:Name="vkButtonS" Margin="3" BorderThickness="0" Background="#4b74a5" IsEnabled="False">
+                            <Button.Content>
+                                <materialDesign:PackIcon Kind="Vk"/>
+                            </Button.Content>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </materialDesign:DrawerHost.LeftDrawerContent>
+            <DockPanel>
+                <materialDesign:ColorZone Padding="5" materialDesign:ShadowAssist.ShadowDepth="Depth2"
                                           Mode="PrimaryMid" DockPanel.Dock="Top">
 
-                <Menu IsMainMenu="True" DockPanel.Dock="Top" Background="#FFFF9800" Name="MainMenu">
-                    <MenuItem Name="miMain" Header="Главная" FontSize="16" Click="Main_Click" HorizontalAlignment="Center"/>
-                    <MenuItem Header="Расписание" Foreground="#DD000000" FontSize="16">
-                        <MenuItem Name="miScheduleOpen" Header="_Открыть" HorizontalAlignment="Left" Width="auto" Click="miScheduleOpen_Click">
-                            <MenuItem.Icon>
-                                <materialDesign:PackIcon Kind="Openid"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Name="miScheduleSave" Header="_Сохранить" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miScheduleSave_Click">
-                            <MenuItem.Icon>
-                                <materialDesign:PackIcon Kind="ContentSave"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Name="miSheduleSaveAs" Header="Сохранить _как" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miSheduleSaveAs_Click">
-                            <MenuItem.Icon>
-                                <materialDesign:PackIcon Kind="ContentSave"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Name="miSheduleExport" Header="_Экспорт в Excel" HorizontalAlignment="Left" Width="auto" IsEnabled="False">
-                            <MenuItem.Icon>
-                                <materialDesign:PackIcon Kind="FileExcel"/>
-                            </MenuItem.Icon>
-                            <MenuItem Name="misheduleExportTeacher" Header="_Расписание преподавателей" HorizontalAlignment="Left" Width="auto" Click="misheduleExportTeacher_Click">
+                    <Grid DockPanel.Dock="Top" >
+                        <Menu IsMainMenu="True" DockPanel.Dock="Top" Background="#FFFF9800" Name="MainMenu">
+                        <MenuItem Name="miMain" Header="Главная" FontSize="16" Click="Main_Click" HorizontalAlignment="Center"/>
+                        <MenuItem Header="Расписание" Foreground="#DD000000" FontSize="16">
+                            <MenuItem Name="miScheduleOpen" Header="_Открыть" HorizontalAlignment="Left" Width="auto" Click="miScheduleOpen_Click">
                                 <MenuItem.Icon>
-                                    <materialDesign:PackIcon Kind="FileExcelBox"/>
+                                    <materialDesign:PackIcon Kind="Openid"/>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Name="misheduleExportFaculty" Header="_Расписание для курса" HorizontalAlignment="Left" Width="auto" Click="misheduleExportFaculty_Click">
+                            <MenuItem Name="miScheduleSave" Header="_Сохранить" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miScheduleSave_Click">
                                 <MenuItem.Icon>
-                                    <materialDesign:PackIcon Kind="FileExcelBox"/>
+                                    <materialDesign:PackIcon Kind="ContentSave"/>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Name="misheduleExportGroups" Header="_Расписание для групп" HorizontalAlignment="Left" Width="auto" Click="misheduleExportGroups_Click">
+                            <MenuItem Name="miSheduleSaveAs" Header="Сохранить _как" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miSheduleSaveAs_Click">
                                 <MenuItem.Icon>
-                                    <materialDesign:PackIcon Kind="FileExcelBox"/>
+                                    <materialDesign:PackIcon Kind="ContentSave"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Name="miSheduleExport" Header="_Экспорт в Excel" HorizontalAlignment="Left" Width="auto" IsEnabled="False">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="FileExcel"/>
+                                </MenuItem.Icon>
+                                <MenuItem Name="misheduleExportTeacher" Header="_Расписание преподавателей" HorizontalAlignment="Left" Width="auto" Click="misheduleExportTeacher_Click">
+                                    <MenuItem.Icon>
+                                        <materialDesign:PackIcon Kind="FileExcelBox"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Name="misheduleExportFaculty" Header="_Расписание для курса" HorizontalAlignment="Left" Width="auto" Click="misheduleExportFaculty_Click">
+                                    <MenuItem.Icon>
+                                        <materialDesign:PackIcon Kind="FileExcelBox"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Name="misheduleExportGroups" Header="_Расписание для групп" HorizontalAlignment="Left" Width="auto" Click="misheduleExportGroups_Click">
+                                    <MenuItem.Icon>
+                                        <materialDesign:PackIcon Kind="FileExcelBox"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </MenuItem>
+                        </MenuItem>
+                        <MenuItem Header="_База" Foreground="#DD000000" FontSize="16" Name="miDB">
+                            <MenuItem Header="Созд_ать" Name="miDBCreate" HorizontalAlignment="Left" Width="auto" Click="miDBCreate_Click">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="Cube" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="_Открыть" Name="miDBOpen" HorizontalAlignment="Left" Width="auto" Click="miDBOpen_Click">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="Openid" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Сохранит_ь" Name="miDBSave" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miDBSave_Click">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="ContentSave" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Сохранить _как" Name="miDBSaveAs" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miDBSaveAs_Click">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="ContentSave" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="_Настройки" Name="miDBSettings" HorizontalAlignment="Left" Width="auto" IsEnabled="False">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="Settings"/>
+                                </MenuItem.Icon>
+                                <MenuItem Header="Анализаторы" Name="miFactorSettings" Click="miFactorSettings_Click">
+                                    <MenuItem.Icon>
+                                        <materialDesign:PackIcon Kind="Wrench" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Факультеты" Name="miFacultiesSettings" Click="miFacultiesSettings_Click">
+                                    <MenuItem.Icon>
+                                        <materialDesign:PackIcon Kind="School" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Редактор" Name="miStorageEditor" Click="miStorageEditor_Click">
+                                    <MenuItem.Icon>
+                                        <materialDesign:PackIcon Kind="Archive" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </MenuItem>
+                            <MenuItem Header="Генерация" Name="miCore" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miCore_Click">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="AutoFix" />
                                 </MenuItem.Icon>
                             </MenuItem>
                         </MenuItem>
-                    </MenuItem>
-                    <MenuItem Header="_База" Foreground="#DD000000" FontSize="16" Name="miDB">
-                        <MenuItem Header="Созд_ать" Name="miDBCreate" HorizontalAlignment="Left" Width="auto" Click="miDBCreate_Click">
-                            <MenuItem.Icon>
-                                <materialDesign:PackIcon Kind="Cube" />
-                            </MenuItem.Icon>
+                        <MenuItem Name="miSettings" Header="Настройки" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miSettings_Click">
+                            <MenuItem.ItemTemplate>
+                                <HierarchicalDataTemplate>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </HierarchicalDataTemplate>
+                            </MenuItem.ItemTemplate>
                         </MenuItem>
-                        <MenuItem Header="_Открыть" Name="miDBOpen" HorizontalAlignment="Left" Width="auto" Click="miDBOpen_Click">
-                            <MenuItem.Icon>
-                                <materialDesign:PackIcon Kind="Openid" />
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Header="Сохранит_ь" Name="miDBSave" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miDBSave_Click">
-                            <MenuItem.Icon>
-                                <materialDesign:PackIcon Kind="ContentSave" />
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Header="Сохранить _как" Name="miDBSaveAs" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miDBSaveAs_Click">
-                            <MenuItem.Icon>
-                                <materialDesign:PackIcon Kind="ContentSave" />
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Header="_Настройки" Name="miDBSettings" HorizontalAlignment="Left" Width="auto" IsEnabled="False">
-                            <MenuItem.Icon>
-                                <materialDesign:PackIcon Kind="Settings"/>
-                            </MenuItem.Icon>
-                            <MenuItem Header="Анализаторы" Name="miFactorSettings" Click="miFactorSettings_Click">
-                                <MenuItem.Icon>
-                                    <materialDesign:PackIcon Kind="Wrench" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Факультеты" Name="miFacultiesSettings" Click="miFacultiesSettings_Click">
-                                <MenuItem.Icon>
-                                    <materialDesign:PackIcon Kind="School" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Редактор" Name="miStorageEditor" Click="miStorageEditor_Click">
-                                <MenuItem.Icon>
-                                    <materialDesign:PackIcon Kind="Archive" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                        </MenuItem>
-                        <MenuItem Header="Генерация" Name="miCore" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miCore_Click">
-                            <MenuItem.Icon>
-                                <materialDesign:PackIcon Kind="AutoFix" />
-                            </MenuItem.Icon>
-                        </MenuItem>
-                    </MenuItem>
-                    <MenuItem Name="miSettings" Header="Настройки" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miSettings_Click">
-                        <MenuItem.ItemTemplate>
-                            <HierarchicalDataTemplate>
-                                <TextBlock Text="{Binding Name}"/>
-                            </HierarchicalDataTemplate>
-                        </MenuItem.ItemTemplate>
-                    </MenuItem>
-                </Menu>
+                    </Menu>
+                    <ToggleButton HorizontalAlignment="Right" VerticalAlignment="Center" x:Name="MenuToggleButton" IsChecked="False">
+                        <ToggleButton.Template>
+                            <ControlTemplate TargetType="ToggleButton">
+                                <Grid>
+                                    <Label x:Name="IconLabel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="0"/>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="Content" TargetName="IconLabel">
+                                            <Setter.Value>
+                                                <materialDesign:PackIcon Kind="InformationOutline" Width="26" Height="26"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" Value="False">
+                                        <Setter Property="Content" TargetName="IconLabel">
+                                            <Setter.Value>
+                                                <materialDesign:PackIcon Kind="InformationOutline" Width="26" Height="26"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </ToggleButton.Template>
+                    </ToggleButton>
+                    </Grid>
 
-            </materialDesign:ColorZone>
-            <ContentControl Margin="10" Name="contentControl"/>
-        </DockPanel>
+                </materialDesign:ColorZone>
+                <ContentControl Margin="10" Name="contentControl"/>
+            </DockPanel>
+        </materialDesign:DrawerHost>
     </materialDesign:DialogHost>
 
 </Window>
