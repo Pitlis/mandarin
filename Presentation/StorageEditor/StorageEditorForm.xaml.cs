@@ -480,7 +480,6 @@ namespace Presentation.StorageEditor
         }
         void FillingTypesinClassRoom()
         {
-            if (tiClassRoomscbHousing.SelectedIndex == -1) return;
             List<ClassRoomType> type = storageEditor.GetClassRoomType();
             check = new List<CheckingTypeinClassRoom>();
             for (int indexchb = 0; indexchb < type.Count; indexchb++)
