@@ -9,14 +9,17 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Presentation.Code
 {
     static class FactorsLoader
     {
+        public static string PATH_TO_FACTORS = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "lib\\");
+
         public static IEnumerable<FactorSettings> GetFactorSettings()
         {
-            List<Type> factorTypes = GetFactorsTypes(System.AppDomain.CurrentDomain.BaseDirectory).ToList();
+            List<Type> factorTypes = GetFactorsTypes(PATH_TO_FACTORS).ToList();
             Dictionary<string, int> defaultFines = GetDefaultFines();
             List<FactorSettings> Factors = new List<FactorSettings>();
 
@@ -100,7 +103,7 @@ namespace Presentation.Code
                 }
             }
 
-            List<Type> allFactorTypes = GetFactorsTypes(System.AppDomain.CurrentDomain.BaseDirectory).ToList();
+            List<Type> allFactorTypes = GetFactorsTypes(PATH_TO_FACTORS).ToList();
             Dictionary<string, int> defaultFines = GetDefaultFines();
             List<FactorSettings> Factors = new List<FactorSettings>();
             foreach (Type factorType in allFactorTypes)
@@ -154,7 +157,7 @@ namespace Presentation.Code
                 }
             }
 
-            List<Type> allFactorTypes = GetFactorsTypes(System.AppDomain.CurrentDomain.BaseDirectory).ToList();
+            List<Type> allFactorTypes = GetFactorsTypes(PATH_TO_FACTORS).ToList();
             foreach (Type factorType in allFactorTypes)
             {
                 bool isExistsFactor = false;
@@ -186,7 +189,7 @@ namespace Presentation.Code
         public static IEnumerable<string> GetActualFactorsList()
         {
             List<string> factorNames = new List<string>();
-            List<Type> factorTypes = GetFactorsTypes(System.AppDomain.CurrentDomain.BaseDirectory).ToList();
+            List<Type> factorTypes = GetFactorsTypes(PATH_TO_FACTORS).ToList();
             foreach (Type factorType in factorTypes)
             {
                 IFactor factorInstance = (IFactor)Activator.CreateInstance(factorType);
@@ -229,6 +232,23 @@ namespace Presentation.Code
                 }
             }
             return factorTypes;
+        }
+
+        public static void UpdateAssemblyPath(IEnumerable<FactorSettings> factors)
+        {
+            List<Type> allFactorTypes = GetFactorsTypes(PATH_TO_FACTORS).ToList();
+            foreach (Type factorType in allFactorTypes)
+            {
+                foreach (FactorSettings baseFactor in factors)
+                {
+                    if (baseFactor.TypeFullName == factorType.FullName)
+                    {
+                        baseFactor.PathToDll = factorType.Assembly.Location;
+                        
+                        break;
+                    }
+                }
+            }
         }
         
         static Dictionary<string, int> GetDefaultFines()

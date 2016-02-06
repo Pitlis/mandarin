@@ -15,8 +15,9 @@ namespace Domain.Services
         public object Data { get; set; }
         public Guid? DataTypeGuid { get; private set; }
         public string FactorName { get; private set; }
-        public string PathToDll { get; private set; }
+        public string PathToDll { get; set; }
         public string UsersFactorName { get; private set; }
+        public string TypeFullName { get; private set; }
 
         public FactorSettings(int fine, Type factor, string pathToDll, string usersFactorName, Guid? dataTypeGuid = null, object data = null)
         {
@@ -26,6 +27,7 @@ namespace Domain.Services
             DataTypeGuid = dataTypeGuid;
             Data = data;
             UsersFactorName = usersFactorName;
+            TypeFullName = factor.FullName;
         }
 
         public IFactor CreateInstance(bool isDebugMode = false)

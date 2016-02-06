@@ -103,6 +103,7 @@ namespace Presentation
             try
             {
                 Base openedBase = CurrentBase.LoadBase(openFile.FileName);
+                FactorsLoader.UpdateAssemblyPath(openedBase.Factors);
                 if (await CheckLostFactors(openedBase.Factors))
                 {
                     CheckNewFactors(openedBase.Factors);
