@@ -613,7 +613,7 @@ namespace Presentation
                 if (CurrentBase.BaseIsLoaded())
                 {
                     e.Cancel = true;
-                    var dialogWindow = new DialogWindow
+                    var dialogWindow = new DialogCancelWindow
                     {
                         Message = { Text = "Вы хотите сохранить базу перед закрытием приложения?" }
                     };
