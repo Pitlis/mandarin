@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Presentation</RootNamespace>
-    <AssemblyName>Presentation</AssemblyName>
+    <AssemblyName>Mandarin</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -305,18 +305,6 @@
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{9a25ffcf-b250-499d-a876-90b951517d37}</Project>
       <Name>Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FactorsWindows\WindowsFactors.csproj">
-      <Project>{87509973-7e10-4d04-bcdf-cfa81d6aa139}</Project>
-      <Name>FactorsWindows</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MockDataBase\MockDataBase.csproj">
-      <Project>{67acf4cf-9e81-4a54-9ff0-306bdf13ba66}</Project>
-      <Name>MockDataBase</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OtherFactors\OtherFactors.csproj">
-      <Project>{a9bfb14e-d515-4be7-ab46-9badc03598bd}</Project>
-      <Name>OtherFactors</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Presentation\Presentation.csproj", "{FDE36FC8-3E8F-44F3-AE04-D35135F7EC4F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandarin", "Presentation\Mandarin.csproj", "{FDE36FC8-3E8F-44F3-AE04-D35135F7EC4F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{9FDC9A52-9A85-4864-8DE8-68FBF01FDEF1}"
 EndProject
@@ -13,9 +13,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFactors", "FactorsWindows\WindowsFactors.csproj", "{87509973-7E10-4D04-BCDF-CFA81D6AA139}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OtherFactors", "OtherFactors\OtherFactors.csproj", "{A9BFB14E-D515-4BE7-AB46-9BADC03598BD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversityStandart", "OtherFactors\UniversityStandart.csproj", "{A9BFB14E-D515-4BE7-AB46-9BADC03598BD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MockDataBase", "MockDataBase\MockDataBase.csproj", "{67ACF4CF-9E81-4A54-9FF0-306BDF13BA66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VipClasses", "VipClasses\VipClasses.csproj", "{2E3B60E6-11F9-40A3-BB84-F2F7C97C893A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FavoriteClassRooms", "FavoriteClassRooms\FavoriteClassRooms.csproj", "{56F6900C-0F31-4987-B653-C7168A74F32D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

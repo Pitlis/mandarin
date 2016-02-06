@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A9BFB14E-D515-4BE7-AB46-9BADC03598BD}</ProjectGuid>
+    <ProjectGuid>{56F6900C-0F31-4987-B653-C7168A74F32D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OtherFactors</RootNamespace>
-    <AssemblyName>OtherFactors</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>FavoriteClassRooms</RootNamespace>
+    <AssemblyName>FavoriteClassRooms</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,37 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClassesInWeek.cs" />
-    <Compile Include="ClassInSameTimeOnOtherWeek.cs" />
     <Compile Include="FavoriteStudentClassesClassRooms.cs" />
     <Compile Include="FavoriteTeachersBuildings.cs" />
     <Compile Include="FavoriteTeachersClassRooms.cs" />
-    <Compile Include="FifthClass.cs" />
-    <Compile Include="GroupClasses.cs" />
-    <Compile Include="MoreThreeClassesInDay.cs" />
-    <Compile Include="SameClasses.cs" />
-    <Compile Include="FiveStudentsClassesInDay.cs" />
-    <Compile Include="FiveStudentsClassesInRow.cs" />
-    <Compile Include="FourClassesInWeek.cs" />
-    <Compile Include="OneClassInWeek.cs" />
-    <Compile Include="OnlyOneClassInDay.cs" />
-    <Compile Include="SameClassesInSameRoom.cs" />
-    <Compile Include="SameClassesInSameTime.cs" />
-    <Compile Include="SameLecturesInSameTime.cs" />
-    <Compile Include="SameRoomIfClassesInSameTime.cs" />
-    <Compile Include="SaturdayClass.cs" />
-    <Compile Include="SaturdayClassOneAtWeek.cs" />
-    <Compile Include="SaturdayTwoClasses.cs" />
-    <Compile Include="SixStudentsClasses.cs" />
-    <Compile Include="SixthClass.cs" />
-    <Compile Include="PairClassesInSameRoom.cs" />
-    <Compile Include="TeacherBalanceClasses.cs" />
-    <Compile Include="TeacherDayOff.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ThreeClassesInWeek.cs" />
-    <Compile Include="TwoClassesInWeek.cs" />
-    <Compile Include="LectureClassesInDay.cs" />
-    <Compile Include="VIPClasses.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj">

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9A25FFCF-B250-499D-A876-90B951517D37}</ProjectGuid>
+    <ProjectGuid>{A9BFB14E-D515-4BE7-AB46-9BADC03598BD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ESProjectCore</RootNamespace>
-    <AssemblyName>MandarinCore</AssemblyName>
+    <RootNamespace>UniversityStandart</RootNamespace>
+    <AssemblyName>UniversityStandart</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -31,18 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.1.2\lib\net45\NLog.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SimpleLogging.Core, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleLogging.Core.0.5.0\lib\portable-net4+sl4+wp7+win8\SimpleLogging.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SimpleLogging.NLog, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleLogging.NLog.0.5.0\lib\net40\SimpleLogging.NLog.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -53,22 +41,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Services\DataConvertor.cs" />
-    <Compile Include="ESProjectCore.cs" />
+    <Compile Include="ClassesInWeek.cs" />
+    <Compile Include="ClassInSameTimeOnOtherWeek.cs" />
+    <Compile Include="FifthClass.cs" />
+    <Compile Include="GroupClasses.cs" />
+    <Compile Include="MoreThreeClassesInDay.cs" />
+    <Compile Include="SameClasses.cs" />
+    <Compile Include="FiveStudentsClassesInDay.cs" />
+    <Compile Include="FiveStudentsClassesInRow.cs" />
+    <Compile Include="FourClassesInWeek.cs" />
+    <Compile Include="OneClassInWeek.cs" />
+    <Compile Include="OnlyOneClassInDay.cs" />
+    <Compile Include="SameClassesInSameRoom.cs" />
+    <Compile Include="SameClassesInSameTime.cs" />
+    <Compile Include="SameLecturesInSameTime.cs" />
+    <Compile Include="SameRoomIfClassesInSameTime.cs" />
+    <Compile Include="SaturdayClass.cs" />
+    <Compile Include="SaturdayClassOneAtWeek.cs" />
+    <Compile Include="SaturdayTwoClasses.cs" />
+    <Compile Include="SixStudentsClasses.cs" />
+    <Compile Include="SixthClass.cs" />
+    <Compile Include="PairClassesInSameRoom.cs" />
+    <Compile Include="TeacherBalanceClasses.cs" />
+    <Compile Include="TeacherDayOff.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\DataValidator.cs" />
-    <Compile Include="Services\Rollback.cs" />
-    <Compile Include="Services\SortClasses.cs" />
+    <Compile Include="ThreeClassesInWeek.cs" />
+    <Compile Include="TwoClassesInWeek.cs" />
+    <Compile Include="LectureClassesInDay.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{9fdc9a52-9a85-4864-8de8-68fbf01fdef1}</Project>
       <Name>Domain</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
