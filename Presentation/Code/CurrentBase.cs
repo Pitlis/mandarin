@@ -119,6 +119,8 @@ namespace Mandarin.Code
         }
         public static void SaveBase(string path)
         {
+            if (path == null)
+                return;
             BinaryFormatter formatter = new BinaryFormatter();
             try
             {
