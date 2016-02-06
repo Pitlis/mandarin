@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{9A25FFCF-B250-499D-A876-90B951517D37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactorsWindows", "FactorsWindows\FactorsWindows.csproj", "{87509973-7E10-4D04-BCDF-CFA81D6AA139}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFactors", "FactorsWindows\WindowsFactors.csproj", "{87509973-7E10-4D04-BCDF-CFA81D6AA139}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OtherFactors", "OtherFactors\OtherFactors.csproj", "{A9BFB14E-D515-4BE7-AB46-9BADC03598BD}"
 EndProject

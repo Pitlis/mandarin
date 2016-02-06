@@ -306,7 +306,7 @@
       <Project>{9a25ffcf-b250-499d-a876-90b951517d37}</Project>
       <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FactorsWindows\FactorsWindows.csproj">
+    <ProjectReference Include="..\FactorsWindows\WindowsFactors.csproj">
       <Project>{87509973-7e10-4d04-bcdf-cfa81d6aa139}</Project>
       <Name>FactorsWindows</Name>
     </ProjectReference>
