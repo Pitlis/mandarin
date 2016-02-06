@@ -20,8 +20,14 @@
             <Label x:Name="lblCount" Content="0" HorizontalAlignment="Left" Margin="82,42,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="39"/>
             <Label x:Name="lblprepod" Content="преподавателей" HorizontalAlignment="Left" Margin="121,41,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="117"/>
             <ListView x:Name="scrData" Margin="0,132,0,45" Background="{DynamicResource MaterialDesignPaper}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource CustomMaterialDesignListBoxItem}"></Style>
+                </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView>
+                        <GridView.ColumnHeaderContainerStyle>
+                            <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource ListViewWithoutHeader}"/>
+                        </GridView.ColumnHeaderContainerStyle>
                         <GridViewColumn Width="370"/>
                     </GridView>
                 </ListView.View>

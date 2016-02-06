@@ -45,6 +45,7 @@ namespace Presentation
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             SetAvailableButton();
+            SetListBoxHeaders();
         }
         private void listViewClassRoom_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -65,6 +66,15 @@ namespace Presentation
 
       
         #region Method
+        private void SetListBoxHeaders()
+        {
+            listViewClassRoom.ApplyTemplate();
+            TextBlock header = (TextBlock)listViewClassRoom.Template.FindName("FirstHeader", listViewClassRoom);
+            header.Text = "Корпус";
+            header = (TextBlock)listViewClassRoom.Template.FindName("SecondHeader", listViewClassRoom);
+            header.Text = "Аудитория";
+        }
+
         private void FillInformationAboutClassRoom()
         {
             if (listViewClassRoom.SelectedIndex != -1)

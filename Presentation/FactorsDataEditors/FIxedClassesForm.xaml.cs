@@ -49,6 +49,7 @@ namespace Presentation.FactorsDataEditors
             this.Title = factorName;
             factorDescTextBlock.Text = factorDescription;
             userInstrTextBlock.Text = userInstruction;
+            SetListBoxHeaders();
         }
 
 
@@ -99,6 +100,20 @@ namespace Presentation.FactorsDataEditors
         }
 
         #region Methods
+        private void SetListBoxHeaders()
+        {
+            ClassRoomlistView.ApplyTemplate();
+            TextBlock header = (TextBlock)ClassRoomlistView.Template.FindName("FirstHeader", ClassRoomlistView);
+            header.Text = "Корпус";
+            header = (TextBlock)ClassRoomlistView.Template.FindName("SecondHeader", ClassRoomlistView);
+            header.Text = "Аудитория";
+            InfoGrouplistView.ApplyTemplate();
+            header = (TextBlock)InfoGrouplistView.Template.FindName("FirstHeader", InfoGrouplistView);
+            header.Text = "Группа";
+            header = (TextBlock)InfoGrouplistView.Template.FindName("SecondHeader", InfoGrouplistView);
+            header.Text = "№ подгруппы";
+        }
+
         private void FillDayAndTimeCombobox()
         {
             DaycomboBox.Items.Clear(); TimecomboBox.Items.Clear();

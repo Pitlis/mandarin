@@ -316,17 +316,17 @@ namespace Presentation.StorageEditor
         public string ExistTeacherInFactors(Teacher teach)
         {
             CheckDataInFactors f = new CheckDataInFactors(eStorage);
-            //List<FactorSettings> factors = f.(type);
+            List<FactorSettings> factors = f.CheckTeacher(teach);
             string s = "";
-            //if (factors.Count == 0) return s;
-            //else
-            //{
-            //    foreach (var item in factors)
-            //    {
-            //        s += item.FactorName + ":" + item.UsersFactorName + "\n";
-            //    }
+            if (factors.Count == 0) return s;
+            else
+            {
+                foreach (var item in factors)
+                {
+                    s += item.FactorName + ":" + item.UsersFactorName + "\n";
+                }
 
-            //}
+            }
             return s;
         }
         public void DelTeacher(Teacher delTeacher)
@@ -517,7 +517,7 @@ namespace Presentation.StorageEditor
 
         #endregion
         #region Classes
-        #region Classes
+       
 
         public string ExistClassesInFactors(StudentsClass st)
         {
@@ -555,18 +555,54 @@ namespace Presentation.StorageEditor
         public List<StudentsClass> GetClasses(List<StudentSubGroup> group)
         {
             List<StudentsClass> tmp = new List<StudentsClass>();
+            int count = 0;
             foreach (var item in eStorage.Classes.ToList())
             {
-                if (item.SubGroups.ToList() == group) tmp.Add(item);
+                count = 0;
+                foreach(var item1 in item.SubGroups.ToList())
+                {
+                   foreach(var item2 in group)
+                    {
+                        if (item1 == item2) count++;
+                    }
+                }
+                if (count == group.Count) tmp.Add(item);
             }
             return tmp;
         }
         public List<StudentsClass> GetClasses(List<Teacher> teacher)
         {
             List<StudentsClass> tmp = new List<StudentsClass>();
+            int count = 0;
             foreach (var item in eStorage.Classes.ToList())
             {
-                if (item.Teacher.ToList() == teacher) tmp.Add(item);
+                count = 0;
+                foreach (var item1 in item.Teacher.ToList())
+                {
+                    foreach (var item2 in teacher)
+                    {
+                        if (item1 == item2) count++;
+                    }
+                }
+                if (count == teacher.Count) tmp.Add(item);
+            }
+            return tmp;
+        }
+        public List<StudentsClass> GetClasses(List<ClassRoomType> type)
+        {
+            List<StudentsClass> tmp = new List<StudentsClass>();
+            int count = 0;
+            foreach (var item in eStorage.Classes.ToList())
+            {
+                count = 0;
+                foreach (var item1 in item.RequireForClassRoom.ToList())
+                {
+                    foreach (var item2 in type)
+                    {
+                        if (item1 == item2) count++;
+                    }
+                }
+                if (count == type.Count) tmp.Add(item);
             }
             return tmp;
         }
@@ -682,4 +718,3 @@ namespace Presentation.StorageEditor
     }
 }
 
-#endregion

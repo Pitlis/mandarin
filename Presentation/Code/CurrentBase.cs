@@ -75,6 +75,16 @@ namespace Presentation.Code
 
             currentBase.Settings.Add(FACULTIES, new List<Faculty>());
         }
+        public static void CreateBase()
+        {
+            currentBase = new Base();
+            currentBase.EStorage = new EntityStorage(new Domain.Model.StudentsClass[]{ } , new Domain.Model.ClassRoomType[] { }, new Domain.Model.StudentSubGroup[] { }, new Domain.Model.Teacher[] { }, new Domain.Model.ClassRoom[] { });
+            currentBase.Factors = FactorsLoader.GetFactorSettings().ToList();
+            currentBase.Settings = new Dictionary<string, object>();
+            currentBase.Schedules = new Dictionary<string, Schedule>();
+
+            currentBase.Settings.Add(FACULTIES, new List<Faculty>());
+        }
         public static Base LoadBase(string filePath)
         {
             currentFilePath = filePath;

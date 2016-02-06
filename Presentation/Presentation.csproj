@@ -93,6 +93,9 @@
     <Compile Include="Code\FactorsLoader.cs" />
     <Compile Include="Code\ScheduleLoader.cs" />
     <Compile Include="Code\StorageLoader.cs" />
+    <Compile Include="Controls\DialogCancelWindow.xaml.cs">
+      <DependentUpon>DialogCancelWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\DialogListBoxWindow.xaml.cs">
       <DependentUpon>DialogListBoxWindow.xaml</DependentUpon>
     </Compile>
@@ -141,6 +144,10 @@
       <DependentUpon>StorageEditorForm.xaml</DependentUpon>
     </Compile>
     <Page Include="BaseWizard\BaseWizard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DialogCancelWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

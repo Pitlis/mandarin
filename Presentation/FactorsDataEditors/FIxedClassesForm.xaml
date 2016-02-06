@@ -37,12 +37,12 @@
             <Button x:Name="btnAdd" Grid.Row="1" Content="Добавить" HorizontalAlignment="Left" Margin="153,302,0,10" Width="98" RenderTransformOrigin="0.509,0" Click="btnAdd_Click" Grid.Column="2" Height="Auto"/>
             <TextBox x:Name="SearchTeachertextBox" Grid.Row="1" BorderBrush="Gray" BorderThickness="1" Height="28" Margin="30,13,40,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="EnterTextInTeacherslistBox"/>
             <Label x:Name="lable_Copy2" Grid.Row="1" Content="Группы:" HorizontalAlignment="Left" Margin="233,62,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.Column="1" Height="26" Width="53"/>
-            <ListBox x:Name="InfoGrouplistView" Grid.Row="1" ItemTemplate="{StaticResource GroupsTemplate}" Template="{StaticResource GroupsListBoxTemplate}" Background="{DynamicResource MaterialDesignPaper}" Margin="1,85,22,145" SelectionMode="Single" SelectionChanged="SelectGroup" Grid.Column="2">
+            <ListBox x:Name="InfoGrouplistView" Grid.Row="1" ItemTemplate="{StaticResource GroupsTemplate}" Template="{StaticResource TwoColumnsListBoxWithHeader}" Background="{DynamicResource MaterialDesignPaper}" Margin="1,85,22,145" SelectionMode="Single" SelectionChanged="SelectGroup" Grid.Column="2">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource CustomMaterialDesignListBoxItem}"></Style>
                 </ListBox.ItemContainerStyle>
             </ListBox>
-            <ListBox x:Name="ClassRoomlistView" Grid.Row="1" Height="52" ItemTemplate="{StaticResource ClassRoomsTemplate}" Template="{StaticResource ClassRoomsListBoxTemplate}" Background="{DynamicResource MaterialDesignPaper}" Margin="1,10,83,0" SelectionMode="Single" VerticalAlignment="Top" SelectionChanged="SelectClassRoom" Grid.Column="2">
+            <ListBox x:Name="ClassRoomlistView" Grid.Row="1" Height="52" ItemTemplate="{StaticResource ClassRoomsTemplate}" Template="{StaticResource TwoColumnsListBoxWithHeader}" Background="{DynamicResource MaterialDesignPaper}" Margin="1,10,83,0" SelectionMode="Single" VerticalAlignment="Top" SelectionChanged="SelectClassRoom" Grid.Column="2">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource CustomMaterialDesignListBoxItem}"></Style>
                 </ListBox.ItemContainerStyle>
