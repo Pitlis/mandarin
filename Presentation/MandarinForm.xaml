@@ -194,17 +194,12 @@
                                         <materialDesign:PackIcon Kind="Wrench" />
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                <MenuItem Header="Факультеты" Name="miFacultiesSettings" Click="miFacultiesSettings_Click">
-                                    <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="School" />
-                                    </MenuItem.Icon>
+                                    <MenuItem Header="Факультеты" Name="miFacultiesSettings" Click="miFacultiesSettings_Click">
+                                        <MenuItem.Icon>
+                                            <materialDesign:PackIcon Kind="School" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
                                 </MenuItem>
-                                <MenuItem Header="Редактор" Name="miStorageEditor" Click="miStorageEditor_Click">
-                                    <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="Archive" />
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                            </MenuItem>
                             <MenuItem Header="Генерация" Name="miCore" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miCore_Click">
                                 <MenuItem.Icon>
                                     <materialDesign:PackIcon Kind="AutoFix" />
@@ -218,7 +213,14 @@
                                 </HierarchicalDataTemplate>
                             </MenuItem.ItemTemplate>
                         </MenuItem>
-                    </Menu>
+                            <MenuItem Name="miDataBaseEditor" Header="База данных" HorizontalAlignment="Left" Width="auto" IsEnabled="False" Click="miDataBaseEditor_Click">
+                                <MenuItem.ItemTemplate>
+                                    <HierarchicalDataTemplate>
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </HierarchicalDataTemplate>
+                                </MenuItem.ItemTemplate>
+                            </MenuItem>
+                        </Menu>
                     <ToggleButton HorizontalAlignment="Right" VerticalAlignment="Center" x:Name="MenuToggleButton" IsChecked="False">
                         <ToggleButton.Template>
                             <ControlTemplate TargetType="ToggleButton">

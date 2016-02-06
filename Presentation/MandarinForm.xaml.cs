@@ -85,6 +85,7 @@ namespace Mandarin
                 LoadFactorsWithUserData();
                 miDBSettings.IsEnabled = true;
                 miSettings.IsEnabled = true;
+                miDataBaseEditor.IsEnabled = true;
                 miDBSave.IsEnabled = true;
                 miDBSaveAs.IsEnabled = true;
                 miCore.IsEnabled = true;
@@ -115,6 +116,7 @@ namespace Mandarin
                     miDBSave.IsEnabled = true;
                     miDBSaveAs.IsEnabled = true;
                     miCore.IsEnabled = true;
+                    miDataBaseEditor.IsEnabled = true;
                 }
             }
             catch (Exception ex)
@@ -287,6 +289,7 @@ namespace Mandarin
             miSheduleSaveAs.IsEnabled = false;
             miSheduleExport.IsEnabled = false;
             miDB.IsEnabled = true;
+            miDataBaseEditor.IsEnabled = true;
             if (CurrentBase.BaseIsLoaded())
             {
                 if (miSettings.Items.Count > 0)
@@ -301,7 +304,7 @@ namespace Mandarin
                 CurrentSchedule.LoadSchedule((KeyValuePair<string, Schedule>)main.scheduleListBox.SelectedItem);
             }
             miMain.Header = "Главная";
-            
+
         }
 
         private void LoadDataBaseInfo()
@@ -375,6 +378,7 @@ namespace Mandarin
             miSheduleExport.IsEnabled = true;
             miDB.IsEnabled = false;
             miSettings.IsEnabled = false;
+            miDataBaseEditor.IsEnabled = false;
             miCore.IsEnabled = false;
             miMain.Header = "Закрыть";
         }
@@ -651,23 +655,6 @@ namespace Mandarin
 
         }
 
-      async  private void miStorageEditor_Click(object sender, RoutedEventArgs e)
-        {
-            if(CurrentBase.BaseIsLoaded())
-            {
-                miMain.Header = "Закрыть";
-                contentControl.Content = new StorageEditor.StorageEditorForm();
-            }
-            else
-            {
-                var infoWindow = new InfoWindow
-                {
-                    Message = { Text = "База данных не загружена" }
-                };
-                await DialogHost.Show(infoWindow, "MandarinHost");
-            }
-        }
-
         #region About
 
         private void emailButtonN_Click(object sender, RoutedEventArgs e)
@@ -731,5 +718,21 @@ namespace Mandarin
         }
         #endregion
 
+        private void miDataBaseEditor_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentBase.BaseIsLoaded())
+            {
+                miMain.Header = "Закрыть";
+                contentControl.Content = new StorageEditor.StorageEditorForm();
+            }
+            else
+            {
+                var infoWindow = new InfoWindow
+                {
+                    Message = { Text = "База данных не загружена" }
+                };
+                DialogHost.Show(infoWindow, "MandarinHost");
+            }
+        }
     }
 }
