@@ -1027,7 +1027,7 @@ namespace Presentation.StorageEditor
             {
                 infoWindow = new InfoWindow
                 {
-                    Message = { Text = "Вы не выбрали погруппы" }
+                    Message = { Text = "Вы не выбрали подгруппы" }
                 };
                 await DialogHost.Show(infoWindow, "StorageEditorHost");
                 return;

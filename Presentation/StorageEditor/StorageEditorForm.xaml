@@ -319,10 +319,10 @@
                 </TabItem>
             </TabControl>
             <Button x:Name="btnADDClasses" Content="Добавить пару" Grid.Column="5" Margin="10,7,10,0" VerticalAlignment="Top" Click="btnADDClasses_Click"/>
-            <Button x:Name="btnClasses" Content="Пары" Grid.Column="4" Margin="10,7,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.507,0.219" Click="btnClasses_Click"/>
+            <Button x:Name="btnClasses" Content="Пары" Grid.Column="4" Margin="5,7,5,0" VerticalAlignment="Top" RenderTransformOrigin="0.507,0.219" Click="btnClasses_Click"/>
             <Button x:Name="btnGroups" Content="Группы" Grid.Column="3" Margin="10,7,10,0" VerticalAlignment="Top" Click="btnGroups_Click"/>
             <Button x:Name="btnTeacher" Content="Преподаватели" Grid.Column="2" Margin="10,7,10,0" VerticalAlignment="Top" Click="btnTeacher_Click"/>
-            <Button x:Name="btnClassrooms" Content="Аудитории" Grid.Column="1" Margin="10,7,10,0" VerticalAlignment="Top" Click="btnClassrooms_Click"/>
+            <Button x:Name="btnClassrooms" Content="Аудитории" Grid.Column="1" Margin="5,7,5,0" VerticalAlignment="Top" Click="btnClassrooms_Click"/>
             <Button x:Name="btnType" Content="Типы" Margin="10,7,10,0" VerticalAlignment="Top" Click="btnType_Click"/>
         </Grid>
     </materialDesign:DialogHost>
