@@ -7,9 +7,9 @@ using Microsoft.Office.Interop.Excel;
 using Domain;
 using Domain.Services;
 using Domain.Model;
-using Presentation.FacultyEditor;
+using Mandarin.FacultyEditor;
 
-namespace Presentation.Code
+namespace Mandarin.Code
 {
     class ScheduleExcel
     {

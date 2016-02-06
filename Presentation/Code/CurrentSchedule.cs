@@ -8,7 +8,7 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using Domain.Services;
 
-namespace Presentation.Code
+namespace Mandarin.Code
 {
    static class CurrentSchedule
     {

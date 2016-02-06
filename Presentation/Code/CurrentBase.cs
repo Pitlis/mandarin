@@ -1,6 +1,6 @@
 ﻿using Domain.DataFiles;
 using Domain.Services;
-using Presentation.Code;
+using Mandarin.Code;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,9 +8,9 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
-using Presentation.FacultyEditor;
+using Mandarin.FacultyEditor;
 
-namespace Presentation.Code
+namespace Mandarin.Code
 {
     static class CurrentBase
     {

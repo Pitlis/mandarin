@@ -15,10 +15,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
-using Presentation.Controls;
+using Mandarin.Controls;
 using System.Windows.Controls.Primitives;
 using MaterialDesignThemes.Wpf;
-namespace Presentation.BaseWizard
+namespace Mandarin.BaseWizard
 {
     /// <summary>
     /// Логика взаимодействия для BaseWizard.xaml

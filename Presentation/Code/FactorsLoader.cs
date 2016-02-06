@@ -1,7 +1,7 @@
 ﻿using Domain.FactorInterfaces;
 using Domain.Model;
 using Domain.Services;
-using Presentation.FactorsDataEditors;
+using Mandarin.FactorsDataEditors;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Presentation.Code
+namespace Mandarin.Code
 {
     static class FactorsLoader
     {

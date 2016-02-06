@@ -1,7 +1,7 @@
 ﻿using Domain.DataFiles;
 using MaterialDesignThemes.Wpf;
-using Presentation.Code;
-using Presentation.Controls;
+using Mandarin.Code;
+using Mandarin.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Presentation
+namespace Mandarin
 {
     /// <summary>
     /// Interaction logic for CoreRunnerForm.xaml

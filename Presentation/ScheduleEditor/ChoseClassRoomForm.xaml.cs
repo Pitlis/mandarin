@@ -12,10 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Domain.Model;
-using Presentation.Code;
+using Mandarin.Code;
 using Domain.Services;
 
-namespace Presentation
+namespace Mandarin
 {
     /// <summary>
     /// Логика взаимодействия для ChooseClassRoom.xaml

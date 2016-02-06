@@ -2,22 +2,22 @@
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using Presentation.Controls;
+using Mandarin.Controls;
 using MaterialDesignThemes.Wpf;
-using Presentation.Code;
+using Mandarin.Code;
 using Microsoft.Win32;
 using Domain.DataFiles;
-using Presentation.ScheduleEditor;
+using Mandarin.ScheduleEditor;
 using System.Collections.Generic;
 using System.Windows.Media;
 using System;
 using Domain.Services;
 using System.Threading.Tasks;
-using Presentation.FactorsDataEditors;
+using Mandarin.FactorsDataEditors;
 using Domain.FactorInterfaces;
 using System.Diagnostics;
 
-namespace Presentation
+namespace Mandarin
 {
     /// <summary>
     /// Interaction logic for newMandarinForm.xaml

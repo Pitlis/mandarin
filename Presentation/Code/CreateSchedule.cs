@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Presentation.Code
+namespace Mandarin.Code
 {
     static class CreateSchedule
     {

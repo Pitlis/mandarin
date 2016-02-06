@@ -1,5 +1,5 @@
 ﻿using Domain.Model;
-using Presentation.Code;
+using Mandarin.Code;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,16 +10,16 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.IO;
 using Domain.Services;
-using Presentation.FacultyEditor;
+using Mandarin.FacultyEditor;
 using Domain.DataFiles;
-using Presentation.Controls;
+using Mandarin.Controls;
 using System.Windows.Controls.Primitives;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using System.Threading;
-using Presentation.ScheduleEditor;
+using Mandarin.ScheduleEditor;
 
-namespace Presentation
+namespace Mandarin
 {
     /// <summary>
     /// Interaction logic for EditSchedule.xaml

@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using Presentation.Code;
+using Mandarin.Code;
 using Domain.Model;
 using Domain.Services;
 
-namespace Presentation.FactorsDataEditors
+namespace Mandarin.FactorsDataEditors
 {
     /// <summary>
     /// Interaction logic for TeacherClassRoomForm.xaml

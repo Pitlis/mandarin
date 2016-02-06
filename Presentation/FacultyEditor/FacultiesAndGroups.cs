@@ -8,9 +8,9 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Domain.Services;
 using System.Collections;
-using Presentation.Code;
+using Mandarin.Code;
 
-namespace Presentation.FacultyEditor
+namespace Mandarin.FacultyEditor
 {
     class FacultiesAndGroups
     {

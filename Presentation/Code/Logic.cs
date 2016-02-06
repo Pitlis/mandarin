@@ -15,7 +15,7 @@ using System.Runtime.InteropServices;
 using System.IO;
 using Domain.DataFiles;
 
-namespace Presentation.Code
+namespace Mandarin.Code
 {
     class Logic
     {

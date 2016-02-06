@@ -1,14 +1,14 @@
 ﻿using Domain.DataFiles;
 using Domain.Model;
 using Domain.Services;
-using Presentation.FacultyEditor;
+using Mandarin.FacultyEditor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Presentation.Code
+namespace Mandarin.Code
 {
     public class ScheduleForEdit : Schedule
     {

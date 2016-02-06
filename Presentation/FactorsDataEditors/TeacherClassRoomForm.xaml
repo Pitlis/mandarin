@@ -1,14 +1,14 @@
-﻿<Window x:Class="Presentation.FactorsDataEditors.TeacherClassRoomForm"
+﻿<Window x:Class="Mandarin.FactorsDataEditors.TeacherClassRoomForm"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:local="clr-namespace:Presentation"
+        xmlns:local="clr-namespace:Mandarin"
         mc:Ignorable="d" 
         Background="{DynamicResource MaterialDesignPaper}"
-        Title="Преподаватель - аудитории" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Icon="/Presentation;component/_1_pn.ico">
+        Title="Преподаватель - аудитории" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Icon="/Mandarin;component/_1_pn.ico">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>

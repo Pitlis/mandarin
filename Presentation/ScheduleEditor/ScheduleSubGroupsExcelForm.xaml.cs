@@ -2,8 +2,8 @@
 using Domain.Model;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
-using Presentation.Code;
-using Presentation.Controls;
+using Mandarin.Code;
+using Mandarin.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Presentation.ScheduleEditor
+namespace Mandarin.ScheduleEditor
 {
     /// <summary>
     /// Логика взаимодействия для ScheduleSubGroupsExcelForm.xaml

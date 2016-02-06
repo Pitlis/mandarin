@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using Domain.Model;
 using System.Collections;
 using System.Windows;
-using Presentation.Code;
+using Mandarin.Code;
 using Domain.Services;
 
-namespace Presentation.StorageEditor
+namespace Mandarin.StorageEditor
 {
     class StorageEditor
     {

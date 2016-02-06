@@ -1,6 +1,6 @@
 ﻿using Domain.Model;
 using Domain.Services;
-using Presentation.Code;
+using Mandarin.Code;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Presentation.FactorsDataEditors
+namespace Mandarin.FactorsDataEditors
 {
     /// <summary>
     /// Interaction logic for PairClassRoomForm.xaml

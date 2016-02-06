@@ -8,10 +8,10 @@ using Domain.DataFiles;
 using Domain;
 using Microsoft.Win32;
 using System.Threading;
-using Presentation.Controls;
+using Mandarin.Controls;
 using MaterialDesignThemes.Wpf;
-using Presentation.Code;
-namespace Presentation.ScheduleEditor
+using Mandarin.Code;
+namespace Mandarin.ScheduleEditor
 {
     /// <summary>
     /// Логика взаимодействия для ScheduleTeacherExcel.xaml

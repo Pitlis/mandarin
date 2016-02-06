@@ -1,4 +1,4 @@
-﻿using Presentation.Code;
+﻿using Mandarin.Code;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +14,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Domain.Model;
 using MaterialDesignThemes.Wpf;
-using Presentation.Controls;
+using Mandarin.Controls;
 using System.Data;
 
-namespace Presentation.StorageEditor
+namespace Mandarin.StorageEditor
 {
     /// <summary>
     /// Логика взаимодействия для StorageEditorForm.xaml

@@ -1,13 +1,13 @@
-﻿<Window x:Class="Presentation.ScheduleEditor.ScheduleTeacherExcel"
+﻿<Window x:Class="Mandarin.ScheduleEditor.ScheduleTeacherExcel"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:local="clr-namespace:Presentation.ScheduleEditor"
+        xmlns:local="clr-namespace:Mandarin.ScheduleEditor"
         mc:Ignorable="d"
         Background="{DynamicResource MaterialDesignPaper}"
-        Title="Расписание преподавателей в Excel" Height="387.5" Width="414" Closing="Window_Closing" MinWidth="414" MaxWidth="414.1" MinHeight="381" WindowStartupLocation="CenterScreen" Icon="/Presentation;component/_1_pn.ico">
+        Title="Расписание преподавателей в Excel" Height="387.5" Width="414" Closing="Window_Closing" MinWidth="414" MaxWidth="414.1" MinHeight="381" WindowStartupLocation="CenterScreen" Icon="/Mandarin;component/_1_pn.ico">
     <materialDesign:DialogHost Identifier="ScheduleTeacherForExcel">
         <Grid>
             <Label Content="Вы выбрали:" HorizontalAlignment="Left" Margin="0,41,0,0" VerticalAlignment="Top" Width="90" FontWeight="Bold"/>

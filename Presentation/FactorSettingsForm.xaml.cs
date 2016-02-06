@@ -12,14 +12,14 @@ using System.IO;
 using System.Xml.Serialization;
 using MandarinCore;
 using Domain.FactorInterfaces;
-using Presentation.Code;
-using Presentation.FactorsDataEditors;
+using Mandarin.Code;
+using Mandarin.FactorsDataEditors;
 using MaterialDesignThemes.Wpf;
-using Presentation.Controls;
+using Mandarin.Controls;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Presentation
+namespace Mandarin
 {
     /// <summary>
     /// Логика взаимодействия для FactorSettingsForm.xaml

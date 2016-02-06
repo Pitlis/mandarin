@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Presentation.Controls
+namespace Mandarin.Controls
 {
     /// <summary>
     /// Interaction logic for DialogListBoxWindow.xaml

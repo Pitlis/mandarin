@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:local="clr-namespace:Presentation.StorageEditor"
-        xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="Presentation.StorageEditor.StorageEditorForm"
+        xmlns:local="clr-namespace:Mandarin.StorageEditor"
+        xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="Mandarin.StorageEditor.StorageEditorForm"
         mc:Ignorable="d" x:Name="qwerty" Loaded="qwerty_Loaded">
     <materialDesign:DialogHost Identifier="StorageEditorHost">
         <Grid>

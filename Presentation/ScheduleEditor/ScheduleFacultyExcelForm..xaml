@@ -1,13 +1,13 @@
-﻿<Window x:Class="Presentation.ScheduleEditor.ScheduleFacultyExcelForm"
+﻿<Window x:Class="Mandarin.ScheduleEditor.ScheduleFacultyExcelForm"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:local="clr-namespace:Presentation.ScheduleEditor"
+        xmlns:local="clr-namespace:Mandarin.ScheduleEditor"
         Background="{DynamicResource MaterialDesignPaper}"
         mc:Ignorable="d"
-        Title="Расписания для факультета и курса в Excel" Height="202.334" Width="377" Loaded="Window_Loaded" ResizeMode="NoResize" Closing="Window_Closing" WindowStartupLocation="CenterScreen" Icon="/Presentation;component/_1_pn.ico">
+        Title="Расписания для факультета и курса в Excel" Height="202.334" Width="377" Loaded="Window_Loaded" ResizeMode="NoResize" Closing="Window_Closing" WindowStartupLocation="CenterScreen" Icon="/Mandarin;component/_1_pn.ico">
     <materialDesign:DialogHost Identifier="ScheduleForFaculty">
     <Grid Margin="0,0,0,-1">
         <Grid.ColumnDefinitions>

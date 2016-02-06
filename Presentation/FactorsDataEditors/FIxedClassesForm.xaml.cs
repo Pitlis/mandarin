@@ -2,14 +2,14 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using Presentation.Code;
+using Mandarin.Code;
 using Domain.Model;
 using Domain.Services;
-using Presentation.Controls;
+using Mandarin.Controls;
 using MaterialDesignThemes.Wpf;
-using Presentation.FactorsDataEditors;
+using Mandarin.FactorsDataEditors;
 
-namespace Presentation.FactorsDataEditors
+namespace Mandarin.FactorsDataEditors
 {
     /// <summary>
     /// Логика взаимодействия для VIP.xaml

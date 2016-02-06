@@ -3,8 +3,8 @@ using Domain.DataFiles;
 using Domain.Services;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
-using Presentation.Code;
-using Presentation.FactorsDataEditors;
+using Mandarin.Code;
+using Mandarin.FactorsDataEditors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Presentation.Controls
+namespace Mandarin.Controls
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

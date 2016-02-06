@@ -1,5 +1,5 @@
 ﻿using Domain.Model;
-using Presentation.Code;
+using Mandarin.Code;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using Domain.Services;
 using System;
 
-namespace Presentation.FactorsDataEditors
+namespace Mandarin.FactorsDataEditors
 {
     /// <summary>
     /// Interaction logic for TeacherBuildingForm.xaml

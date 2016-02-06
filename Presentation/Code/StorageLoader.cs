@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Presentation.Code
+namespace Mandarin.Code
 {
     static class StorageLoader
     {

@@ -9,13 +9,13 @@ using Domain.Services;
 using Domain;
 using Domain.Model;
 using MandarinCore;
-using Presentation.Code;
-using Presentation.FacultyEditor;
-using Presentation.Controls;
+using Mandarin.Code;
+using Mandarin.FacultyEditor;
+using Mandarin.Controls;
 using MaterialDesignThemes.Wpf;
 using System.Threading.Tasks;
 
-namespace Presentation
+namespace Mandarin
 {
     /// <summary>
     /// Логика взаимодействия для FacultyAndGroops.xaml
