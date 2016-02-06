@@ -245,7 +245,7 @@ namespace Mandarin.FactorsDataEditors
                                 existAddClassInLVIP = true;
                                 var infoWindow = new InfoWindow
                                 {
-                                    Message = { Text = "Всё ок" }
+                                    Message = { Text = "Пара зафиксирована" }
                                 };
 
                                 await DialogHost.Show(infoWindow, "VIPHost");
@@ -258,7 +258,7 @@ namespace Mandarin.FactorsDataEditors
                             settings.Add(vi);
                             var infoWindow = new InfoWindow
                             {
-                                Message = { Text = "Всё ок" }
+                                Message = { Text = "Пара зафиксирована" }
                             };
 
                             await DialogHost.Show(infoWindow, "VIPHost");
